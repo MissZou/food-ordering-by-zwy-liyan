@@ -1,0 +1,17 @@
+{
+  "name": "mongo-server",
+  "version": "0.0.1",
+  "main": "server.js",
+  "private": true,
+  "dependencies": {
+    "body-parser": "~1.0.1",
+    "express": "~4.0.0",
+    "jade": "1.11.0",
+    "kerberos": "0.0.17",
+    "mongodb": "^2.1.4",
+    "mongoose": "~4.3.0",
+    "morgan": "~1.0.0",
+    "nodemailer": "0.7.1",
+    "cookie-session":"1.2.0"
+  }
+}

@@ -1,0 +1,148 @@
+input[type="text"],
+input[type="email"],
+input[type="password"]{
+    /* font-family: "BentonSans",Helvetica,Arial,sans-serif; */
+    padding: 0px;
+    margin: 0px;
+    -webkit-appearance: none;
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: 0.5px;
+    font-size: 14px;
+    color: #42413e;
+    border: 1px solid #b9b9af;
+    background-color: #FFF;
+    min-height: 35px;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    border-radius: 2px;
+    vertical-align: top;
+}
+
+.clearfix:after {
+    content: "";
+    display: table;
+    height: 0;
+    clear: both;
+}
+
+.signup {
+    background: url(/images/signup-background.jpg);
+    background-size: cover;
+    font-family: "Microsoft Yahei", "BentonSans", Helvetica, Arial, sans-serif;
+}
+
+.signup-view {
+    width: 70%;
+    background: white;
+    background: rgba(255, 255, 255, 0.95);
+    margin: 150px auto 0;
+}
+
+.signup-view-large {
+    float: left;
+    margin-left: 10%;
+    margin-right: 9%;
+    width: 40%;
+    padding: 20px 0;
+}
+
+.signup-view input {
+    width: 100%;
+    margin-top: 15px;
+}
+
+#signup_button ,#login_button{
+    line-height: 35px;
+    min-width: 213px;
+    width: auto;
+    text-align: center;
+    display: block;
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    background-color: #f27242;
+    color: white;
+    border: 1px solid #f27242;
+    -webkit-appearance: none;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+#signup_button:hover {
+    background-color: #f15a22;
+    border-color: #f15a22;
+    color: #fff;
+}
+
+.signup-view-small {
+    float: left;
+    margin-left: 0;
+    margin-right: 9%;
+    width: 31%;
+    overflow: hidden;
+    font-size: 14px;
+}
+
+.signup-view-small a {
+    text-decoration: none;
+    color: #f15a22;
+}
+
+input {
+    outline: none;
+}
+.mask{
+    background-color: rgba(205,217,227,0.95);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+}
+
+.loginForm{
+    position: absolute;
+    z-index: 99;
+    width: 570px;
+    background: #fff;
+    display: none;
+}
+.close{
+    position: absolute;
+    top:2px;
+    right: 4px;
+    color: #f15a22;
+    cursor: pointer;
+}
+.loginForm h1{
+font-size: 22px;
+    line-height: 30px;
+    letter-spacing: 0;
+    margin-top: 40px;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 22px;
+    text-align: center;
+    color: #42413e;
+}
+#loginUser{
+    text-align: center;
+}
+#loginUser input{
+    margin-top: 15px;
+}
+.forgetPass{
+    font-size: 15px;
+    margin-top: 10px;
+    display: block;
+    color: #b9b9af;
+}
+.signuplink{
+    text-decoration: none;
+    color:#f15a22;
+    cursor: pointer;
+}
