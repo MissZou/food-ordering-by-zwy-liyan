@@ -122,7 +122,7 @@ router.route('/resetPassword')
 	
 	.get(function(req, res){
 		var accountId = req.param('account', null);
-  		res.render('resetPassword.jade', {accountId:accountId});
+  		res.render('resetPassword.jade', {accountId:accountId});// delete local.
 	})
 
 	.post(function(req, res){
