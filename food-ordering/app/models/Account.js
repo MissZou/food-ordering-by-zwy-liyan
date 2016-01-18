@@ -74,8 +74,8 @@ module.exports = function(config, mongoose, nodemailer) {
     var user = new Account({
       email: email,
       password: shaSum.digest('hex'),
-      phone: phone
-    
+      phone: phone,
+      name: name
     });
     user.save(registerCallback);
     res.send(200);

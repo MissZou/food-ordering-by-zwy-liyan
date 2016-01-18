@@ -1,0 +1,37 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "C699E2AC1E1A37E11A5FCB4136227AC86681778E",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "BB220CC020F24696EC7338F47388C596ECE2342B" : 0,
+    "E1979D1473D39E07D1A0CCE39763E444E5A1ECA6" : 0,
+    "C699E2AC1E1A37E11A5FCB4136227AC86681778E" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "E81E4D72-EF12-46A8-8111-CCB22E64611F",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "BB220CC020F24696EC7338F47388C596ECE2342B" : "",
+    "E1979D1473D39E07D1A0CCE39763E444E5A1ECA6" : "..",
+    "C699E2AC1E1A37E11A5FCB4136227AC86681778E" : "food-ordering-by-zwy-liyan\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "FoodOrderingSystem",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "ios\/FoodOrderingSystem\/FoodOrderingSystem.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Thanatos-L\/foodtong.com.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "BB220CC020F24696EC7338F47388C596ECE2342B"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Thanatos-L\/food-ordering-by-zwy-liyan.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "C699E2AC1E1A37E11A5FCB4136227AC86681778E"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Thanatos-L\/foodtong.com.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E1979D1473D39E07D1A0CCE39763E444E5A1ECA6"
+    }
+  ]
+}

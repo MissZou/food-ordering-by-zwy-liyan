@@ -10,9 +10,7 @@ import UIKit
 
 class Register: UIViewController {
 
-    @IBOutlet weak var firstName: UITextField!
-    
-    @IBOutlet weak var lastName: UITextField!
+    @IBOutlet weak var name: UITextField!
     
     @IBOutlet weak var email: UITextField!
     
@@ -26,14 +24,13 @@ class Register: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        firstName.layer.borderWidth = 1.0
-        lastName.layer.borderWidth = 1.0
+        
+        name.layer.borderWidth = 1.0
         email.layer.borderWidth = 1.0
         password.layer.borderWidth = 1.0
         phone.layer.borderWidth = 1.0
         
-        firstName.layer.borderColor = UIColor.init(red: 230/255, green: 230/255, blue: 230/255, alpha: 1).CGColor
-        lastName.layer.borderColor = UIColor.init(red: 230/255, green: 230/255, blue: 230/255, alpha: 1).CGColor
+        name.layer.borderColor = UIColor.init(red: 230/255, green: 230/255, blue: 230/255, alpha: 1).CGColor
         email.layer.borderColor = UIColor.init(red: 230/255, green: 230/255, blue: 230/255, alpha: 1).CGColor
         password.layer.borderColor = UIColor.init(red: 230/255, green: 230/255, blue: 230/255, alpha: 1).CGColor
         
@@ -49,8 +46,7 @@ class Register: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: Selector("dismissKeyboard"))
         view.addGestureRecognizer(tap)
         
-        self.firstName.delegate = self
-        self.lastName.delegate = self
+        self.name.delegate = self
         self.email.delegate = self
         self.password.delegate = self
         self.phone.delegate  = self
@@ -59,22 +55,19 @@ class Register: UIViewController {
     func dismissKeyboard(){
         email.resignFirstResponder()
         password.resignFirstResponder()
-        firstName.resignFirstResponder()
-        lastName.resignFirstResponder()
+        name.resignFirstResponder()
+        
         phone.resignFirstResponder()
     }
     
     @IBAction func register(sender: AnyObject) {
-        let name : [String : AnyObject] = [
-            "firsName" : firstName.text!,
-            "lastName" : lastName.text!
-        ]
+
         
         let params:[String : AnyObject] = [
             "email" : email.text!,
             "password" : password.text!,
             "phone" : phone.text!,
-            "name" : name
+            "name" : name.text!
         ]
         
         let networkHlep = NetworkHelp()
