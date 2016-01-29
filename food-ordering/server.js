@@ -8,12 +8,14 @@ var nodemailer = require('nodemailer');
 var mongoose = require('mongoose');
 var https = require('https');
 var http = require('http')
-//var fs = require('fs');
+var fs = require('fs');
 
-// var httpsOptions = {
-// 	key: fs.readFileSync('./key.pem'),
-// 	cert: fs.readFileSync('./cert.pem')
-// }
+var httpsOptions = {
+    key: fs.readFileSync('./https/server-key.pem'),
+    cert: fs.readFileSync('./https/server-cert.pem'),
+    requestCert: true,
+    rejectUnauthorized: false
+}
 
 app.set('view engine', 'jade');
 var mailConfig = {
@@ -36,12 +38,14 @@ app.use(morgan('dev')); // log requests to the console
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-//app.use(express.bodyParser());
 //app.use(express.cookieParser());
 //app.use(express.session({secret: "Food Ordering System", store: new MemoryStore()}));
 mongoose.connect('mongodb://localhost:27017/Server'); // connect to our database
 
-var port = process.env.PORT || 8080; // set our port
+//set server port
+var portHttp = process.env.PORT || 8080; 
+var portHttps = process.env.PORT || 8000; 
+
 var router = express.Router();
 
 
@@ -61,12 +65,11 @@ router.route('/')
 		res.render('index.jade');
 	});
 
-// on routes that end in /bears
 // ----------------------------------------------------
 router.route('/register')
 	.get(function(req,res){
 		res.render('reg', {
-        title: '注册'
+        title: 'register'
     });
 	})
 	.post(function(req, res) {
@@ -143,12 +146,8 @@ app.use('/api', router);
 
 // START THE SERVER
 // =============================================================================
-//app.listen(port);
-// var appHttps = https.createServer(httpsOptions, function (req, res) {
-//   res.writeHead(200);
-//   res.end("hello world\n");
-// }).listen(port);
-http.createServer(app).listen(port);
-//https.createServer(httpsOptions,app).listen(port);
+http.createServer(app).listen(portHttp);
+https.createServer(httpsOptions,app).listen(portHttps);
 
-console.log('http listen ' + port);
+console.log('http listen ' + portHttp);
+console.log('TSL listen ' + portHttps);

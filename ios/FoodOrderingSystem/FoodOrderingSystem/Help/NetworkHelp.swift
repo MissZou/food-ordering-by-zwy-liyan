@@ -7,11 +7,13 @@
 //
 
 import UIKit
-
+import Alamofire
 class NetworkHelp: NSObject {
     
+    let baseUrl = "http://localhost:8080/api/";
+    
     func sendPostRequest(action: String, params:[String : AnyObject]){
-        let url:NSURL = NSURL(string: "http://localhost:8080/api/\(action)")!
+        let url:NSURL = NSURL(string: "\(baseUrl)\(action)")!
         let session = NSURLSession.sharedSession()
         
         let request = NSMutableURLRequest(URL: url)
@@ -39,7 +41,7 @@ class NetworkHelp: NSObject {
             else{
                 //print("request success")
                 //print(response!)
-                let dataString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+            let dataString = NSString(data: data!, encoding: NSUTF8StringEncoding)
                 print(dataString!)
             }
         })
@@ -48,4 +50,13 @@ class NetworkHelp: NSObject {
         task.resume()
     }
     
+    func login(action: String, params:[String: AnyObject]){
+        Alamofire.request(.POST, "\(baseUrl)\(action)", parameters: params, encoding: .JSON).responseData { response in
+            let dataString = NSString(data: response.data!, encoding: NSUTF8StringEncoding)
+            print(dataString!)
+            print(NSString(data: response.request!.HTTPBody!, encoding: NSUTF8StringEncoding)!)
+        }
+
+    }
 }
+
