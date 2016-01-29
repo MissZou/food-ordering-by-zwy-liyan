@@ -59,7 +59,8 @@ class Login: UIViewController {
         ]
 
         let networkHlep = NetworkHelp()
-        networkHlep.sendPostRequest("login",params: params)
+        //networkHlep.sendPostRequest("login",params: params)
+        networkHlep.login("login",params: params)
     }
     
 }
