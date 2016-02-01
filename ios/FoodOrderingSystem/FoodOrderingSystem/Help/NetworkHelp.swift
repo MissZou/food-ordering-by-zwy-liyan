@@ -55,8 +55,19 @@ class NetworkHelp: NSObject {
             let dataString = NSString(data: response.data!, encoding: NSUTF8StringEncoding)
             print(dataString!)
             print(NSString(data: response.request!.HTTPBody!, encoding: NSUTF8StringEncoding)!)
+            if (action == "login"){
+                if (dataString! == "true"){
+                    NSNotificationCenter.defaultCenter().postNotificationName("loginSuccessed", object: nil)
+                }
+                else {
+                    NSNotificationCenter.defaultCenter().postNotificationName("loginFailed", object: nil)
+                }
+            }
+            else if (action == "register") {
+                
+            }
+            
         }
-
     }
 }
 

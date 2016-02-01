@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  FoodOrderingSystem
+//  SlideMenu
 //
-//  Created by MoonSlides on 16/1/16.
+//  Created by MoonSlides on 16/1/31.
 //  Copyright © 2016年 李龑. All rights reserved.
 //
 
@@ -16,13 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        let pageControll = UIPageControl.appearance()
-        pageControll.pageIndicatorTintColor = UIColor.lightGrayColor()
-        pageControll.currentPageIndicatorTintColor = UIColor.blackColor()
-        pageControll.backgroundColor = UIColor.whiteColor()
-        
-        //application.statusBarHidden = true
-
         return true
     }
 
@@ -48,7 +41,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-    
 
 }
 

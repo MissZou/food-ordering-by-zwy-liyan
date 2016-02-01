@@ -33,6 +33,14 @@ class Login: UIViewController {
         self.account.delegate = self
         self.password.delegate = self
         //self.setNeedsStatusBarAppearanceUpdate()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginSuccessed", name: "loginSuccessed", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginFailed", name: "loginFailed", object: nil)
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "loginSuccess", object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "loginFailed", object: nil)
     }
     
     override func prefersStatusBarHidden() -> Bool {
@@ -53,14 +61,27 @@ class Login: UIViewController {
     }
     
     @IBAction func login(sender: AnyObject) {
-        let params:[String : AnyObject] = [
-            "email" : account.text!,
-            "password" : password.text!
-        ]
+        performSegueWithIdentifier("Index", sender: nil)
 
-        let networkHlep = NetworkHelp()
-        //networkHlep.sendPostRequest("login",params: params)
-        networkHlep.login("login",params: params)
+        //        let params:[String : AnyObject] = [
+//            "email" : account.text!,
+//            "password" : password.text!
+//        ]
+//
+//        let networkHlep = NetworkHelp()
+//        //networkHlep.sendPostRequest("login",params: params)
+//        networkHlep.login("login",params: params)
+    }
+    
+    func loginSuccessed() {
+        performSegueWithIdentifier("Index", sender: nil)
+        
+    }
+    
+    func loginFailed() {
+        let alertController = UIAlertController(title: "Login Failed", message: "Wrong email or password", preferredStyle: UIAlertControllerStyle.Alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
     
 }
