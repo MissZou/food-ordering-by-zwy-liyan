@@ -97,7 +97,6 @@
                                 <state key="normal" title="Log in"/>
                                 <connections>
                                     <action selector="login:" destination="eG8-k9-KdS" eventType="touchUpInside" id="uyv-uJ-qxh"/>
-                                    <segue destination="A5y-uu-eur" kind="show" id="vcV-Sj-iAZ"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OtP-9H-4mM">
@@ -174,6 +173,7 @@
                         <outlet property="btnForgetPassword" destination="OtP-9H-4mM" id="lR6-wl-scD"/>
                         <outlet property="btnSignUp" destination="zVp-1c-Cs5" id="PwV-Wf-yxg"/>
                         <outlet property="password" destination="lPu-TL-ucd" id="jSl-EQ-PSh"/>
+                        <segue destination="aWo-gG-7dn" kind="show" identifier="Index" id="pfW-6P-UWD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="32f-Qd-Kpv" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -653,21 +653,11 @@
             </objects>
             <point key="canvasLocation" x="240" y="2678"/>
         </scene>
-        <!--Test-->
-        <scene sceneID="ABU-wN-Dab">
+        <!--SlideMenu-->
+        <scene sceneID="yEu-8y-6Ky">
             <objects>
-                <viewController id="A5y-uu-eur" customClass="test" customModule="FoodOrderingSystem" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="8gS-PL-u7N"/>
-                        <viewControllerLayoutGuide type="bottom" id="hjQ-uz-Gqy"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="wvV-YU-M1J">
-                        <rect key="frame" x="0.0" y="0.0" width="400" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ZZo-qb-OE3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewControllerPlaceholder storyboardName="SlideMenu" id="aWo-gG-7dn" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="z0F-UR-va2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="964.5" y="1879"/>
         </scene>
