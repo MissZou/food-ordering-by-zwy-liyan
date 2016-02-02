@@ -27,7 +27,7 @@ class MainMenuViewController: UIViewController {
         view.addGestureRecognizer(tapGesture)
         //view.addGestureRecognizer(swiptGesture)
         
-        slideMenuButton.setImage(self.defaultMenuImage(), forState: .Normal)
+        slideMenuButton.setImage(MainMenuViewController.defaultMenuImage(), forState: .Normal)
         
     }
     @IBAction func menu(sender: AnyObject) {
@@ -43,7 +43,7 @@ class MainMenuViewController: UIViewController {
             NSNotificationCenter.defaultCenter().postNotificationName("closeMenuViaNotification", object: nil)
     }
     
-    func defaultMenuImage() -> UIImage {
+    class func defaultMenuImage() -> UIImage {
         var defaultMenuImage = UIImage()
         
         struct Static {
@@ -80,4 +80,7 @@ class MainMenuViewController: UIViewController {
     func openOrderView(){
         self.performSegueWithIdentifier("order", sender: nil)
     }
+    
+    
+    
 }

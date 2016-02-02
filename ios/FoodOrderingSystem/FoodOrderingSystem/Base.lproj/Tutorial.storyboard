@@ -6,10 +6,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Introduction Root View Controller-->
+        <!--Tutorial Root View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="IntroductionRootViewController" customModule="FoodOrderingSystem" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="TutorialRootViewController" customModule="FoodOrderingSystem" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -32,10 +32,10 @@
             </objects>
             <point key="canvasLocation" x="-537" y="1169"/>
         </scene>
-        <!--Introduction Page-->
+        <!--Tutorial Page-->
         <scene sceneID="RkC-w2-h75">
             <objects>
-                <viewController storyboardIdentifier="PageContentViewController" id="vB3-AY-vhc" customClass="IntroductionPage" customModule="FoodOrderingSystem" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PageContentViewController" id="vB3-AY-vhc" customClass="TutorialPage" customModule="FoodOrderingSystem" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="d4d-rW-H6w"/>
                         <viewControllerLayoutGuide type="bottom" id="Olk-0s-aAo"/>
@@ -80,7 +80,7 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g1f-CL-ICf" customClass="OrangeButton" customModule="FoodOrderingSystem" customModuleProvider="target">
                                 <rect key="frame" x="151" y="544" width="300" height="35"/>
-                                <color key="backgroundColor" red="0.94901960780000005" green="0.44705882349999998" blue="0.25882352939999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.27058823529411763" green="0.32549019607843138" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="yCX-B5-nCB"/>
                                 </constraints>

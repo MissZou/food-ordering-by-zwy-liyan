@@ -8,7 +8,7 @@
 
 import UIKit
 
-class IntroductionPage: UIViewController {
+class TutorialPage: UIViewController {
 
 
     @IBOutlet weak var pageTitle: UILabel!
@@ -21,9 +21,9 @@ class IntroductionPage: UIViewController {
     var imageFile:String = ""
     var textTitle:String = ""
     var textContents: String = ""
-    let labelStringForBtn = "Already have an account? Log in"
+    let labelStringForBtn = "Log in with your account and Enjoy"
     let labelStringColor = "Log in"
-    let labelStringBlack = "Already have an account?"
+    let labelStringBlack = " with your account and Enjoy"
     //var labelStringForLogin = NSMutableAttributedString.init(string: "Already have an account? Log in")
     
 //    var range = (labelStringForBtn as NSString).rangeOfString(labelStringForLogin)
@@ -69,14 +69,18 @@ class IntroductionPage: UIViewController {
         let range = (labelStringForBtn as NSString).rangeOfString(labelStringColor)
         let rangefull = (labelStringForBtn as NSString).rangeOfString(labelStringForBtn)
         let rangeBlack = (labelStringForBtn as NSString).rangeOfString(labelStringBlack)
+        
         let attributedString = NSMutableAttributedString(string: labelStringForBtn)
-        attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.init(red: 242/255, green: 114/255, blue: 66/255, alpha: 1), range: range)
+        
+        attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.init(red: 69/255, green: 83/255, blue: 153/255, alpha: 1), range: range)
+        
         attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.init(red: 95/255, green: 94/255, blue: 95/255, alpha: 1), range: rangeBlack)
+        
         let attributedStringClicked = NSMutableAttributedString(string: labelStringForBtn)
         
         
         attributedStringClicked.addAttribute(NSForegroundColorAttributeName, value: UIColor.init(white: 0.5, alpha: 0.5), range: rangefull)
-        attributedStringClicked.addAttribute(NSForegroundColorAttributeName, value: UIColor.init(red: 242/255, green: 114/255, blue: 66/255, alpha: 0.5), range: range)
+        attributedStringClicked.addAttribute(NSForegroundColorAttributeName, value: UIColor.init(red: 69/255, green: 83/255, blue: 153/255, alpha: 0.5), range: range)
         btnLogin.setAttributedTitle(attributedString, forState: .Normal)
         btnLogin.setAttributedTitle(attributedStringClicked, forState: .Highlighted)
     }

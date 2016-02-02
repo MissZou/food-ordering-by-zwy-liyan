@@ -11,38 +11,59 @@ import UIKit
 class SlideMenu: UIViewController {
 
     @IBOutlet weak var rightView: UIView!
+    @IBOutlet weak var leftView: UIView!
     @IBOutlet weak var scrollView: UIScrollView!
     
     
-    let leftMenuWidth:CGFloat = 330
+    var leftMenuWidth:CGFloat = 100
     var mainMenuViewController: MainMenuViewController!
+//    var isMenuOpened:Bool = true
+    var swipeLeft:UISwipeGestureRecognizer?
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        //mainMenuViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("mainMenu") as! MainMenuViewController
-        //rightView.addSubview(mainMenuViewController.view)
-        rightView.layer.shadowOpacity = 0.8
-        
+        //initSlideMenu()
         dispatch_async(dispatch_get_main_queue()) {
             self.closeMenu(false)
         }
         
-        // Tab bar controller's child pages have a top-left button toggles the menu
+        //rightView.layer.shadowOpacity = 0.8
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "toggleMenu", name: "toggleMenu", object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeMenuViaNotification", name: "closeMenuViaNotification", object: nil)
-
-        //NSNotificationCenter.defaultCenter().addObserver(self, selector: "openMenu", name: "openMenu", object: nil)
-
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "openMenu", name: "openMenu", object: nil)
+
         scrollView.scrollEnabled = false
 
+        swipeLeft = UISwipeGestureRecognizer(target: self, action: Selector("closeMenuViaNotification"))
+        swipeLeft!.direction = .Left
+
+        //self.prefersStatusBarHidden()
+        self.closeMenu(false)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        //closeMenu()
     }
 
+    func initSlideMenu(){
+        let screenWith = UIScreen.mainScreen().bounds.size.width
+        leftView.frame.size.width = screenWith*0.8
+
+        leftMenuWidth = leftView.frame.size.width
+        leftView.frame.origin.x = 0
+        
+        rightView.frame.size.width = screenWith - leftMenuWidth
+        rightView.frame.origin.x = leftView.frame.origin.x + leftView.frame.size.width
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     deinit {
@@ -50,27 +71,31 @@ class SlideMenu: UIViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: "closeMenuViaNotification", object: nil)
     }
     
+//    override func prefersStatusBarHidden() -> Bool {
+//        return true
+//    }
+    
     func toggleMenu(){
-        print(scrollView
-            .contentOffset.x)
         scrollView.contentOffset.x == 0  ? closeMenu() : openMenu()
     }
     
     func closeMenuViaNotification(){
         closeMenu()
     }
-    
-    // Use scrollview content offset-x to slide the menu.
+
     func closeMenu(animated:Bool = true){
         scrollView.setContentOffset(CGPoint(x: leftMenuWidth, y: 0), animated: animated)
-        //self.mainMenuViewController.isMenuAppered = false
+        view.removeGestureRecognizer(swipeLeft!)
     }
     
     func openMenu(){
-        print("opening menu")
         scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-        //self.mainMenuViewController.isMenuAppered = true
+        view.addGestureRecognizer(swipeLeft!)
+        
     }
 
+    func openMainMenuView(){
+        performSegueWithIdentifier("mainMenu", sender: nil)
+    }
 }
 

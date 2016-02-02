@@ -8,7 +8,7 @@
 
 import UIKit
 
-class IntroductionRootViewController: UIViewController, UIPageViewControllerDataSource {
+class TutorialRootViewController: UIViewController, UIPageViewControllerDataSource {
 
     var pageViewController: UIPageViewController?
     var arrayPageTitles: NSArray?
@@ -48,11 +48,11 @@ class IntroductionRootViewController: UIViewController, UIPageViewControllerData
         return true
     }
     
-    func viewControllerAtIndex(index: UInt) -> IntroductionPage? {
+    func viewControllerAtIndex(index: UInt) -> TutorialPage? {
         if ((self.arrayPageTitles!.count == 0) || (Int(index) >= self.arrayPageTitles!.count)) {
             return nil
         }
-        let pageContentViewController = self.storyboard?.instantiateViewControllerWithIdentifier("PageContentViewController") as! IntroductionPage
+        let pageContentViewController = self.storyboard?.instantiateViewControllerWithIdentifier("PageContentViewController") as! TutorialPage
         pageContentViewController.imageFile = self.arrayImages![Int(index)] as! String
         pageContentViewController.textTitle = self.arrayPageTitles![Int(index)] as! String
         pageContentViewController.textContents = self.arrayPageTexts![Int(index)] as! String
@@ -64,7 +64,7 @@ class IntroductionRootViewController: UIViewController, UIPageViewControllerData
 
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
-        var index = (viewController as! IntroductionPage).pageIndex
+        var index = (viewController as! TutorialPage).pageIndex
         if (index == 0 || Int(index) == NSNotFound) {
             return nil;
         }
@@ -73,7 +73,7 @@ class IntroductionRootViewController: UIViewController, UIPageViewControllerData
     }
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-        var index = (viewController as! IntroductionPage).pageIndex
+        var index = (viewController as! TutorialPage).pageIndex
         
         if Int(index) == NSNotFound {
             return nil
