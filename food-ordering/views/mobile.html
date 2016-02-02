@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<title>mobile</title>
+	<style>
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	input {
+    outline: none;
+}
+input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="tel"], input[type="url"], textarea {
+    padding: 0px;
+    margin: 0px;
+    -webkit-appearance: none;
+}
+	input[type="text"], input[type="email"], input[type="password"], input[type="number"]{
+    font-family: "BentonSans",Helvetica,Arial,sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: 0.5px;
+    font-size: 14px;
+    color: #42413e;
+    border: 1px solid #b9b9af;
+    background-color: #FFF;
+    min-height: 35px;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    border-radius: 2px;
+    vertical-align: top;
+}
+	.nav-container{
+		height: 60px;
+		background: red;
+	}
+
+
+.signup-view-large {
+    width: 92%;
+    margin:0 auto;
+}
+
+.signup-view-large input {
+	box-sizing: border-box;
+    font-size: 14px;
+    line-height: 1;
+    height: 54px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 100%;
+    margin-top: 15px;
+}
+.signup-view-large .signup_button-btn {
+    line-height: 54px;
+    text-align: center;
+    display: block;
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    width: 100%;
+        background-color: #f27242;
+    border-color: #f27242;
+    color: white;
+    border: 1px solid #f27242;
+    -webkit-appearance: none;
+    border-radius: 2px;
+}
+	</style>
+</head>
+<body>
+	<div class="nav-container">
+        <nav class="nav"> </nav>
+        <a href="/" class="clickable-area"></a>
+          
+      </div>
+      <div class="signup-view-large">
+            <form action="/" id="new-user" method="post">
+                <div>
+                    <input autocomplete="off" id="user_name" name="user_name" placeholder="User name" size="30" type="text">
+                    <input autocomplete="off" id="user_email" name="user_email" placeholder="Email" size="30" type="email">
+                    <input autocomplete="off" class="strong-password" id="user_password" name="user_password" placeholder="Password" size="30" type="password">
+                    <input autocomplete="off" class="" id="user_phone" name="user_phone" placeholder="Mobile phone" size="30" type="text">
+                    <input autocomplete="off" class="" id="user_address" name="user_address" placeholder="Address" size="30" type="text">
+                </div>
+                <input class="signup_button-btn" data-disable-with="Creating Account..." id="signup_button" name="commit" type="submit" value="Sign Up">
+            </form>
+        </div>
+</body>
+</html>
