@@ -8,71 +8,59 @@
 
 import UIKit
 
-class MainMenuViewController: UIViewController {
+class MainMenuViewController: UIViewController, DropDownButtonDelegate {
 
     var isMenuAppered:Bool = false
+    var dropDownAddressButton: DropDownButton?
     
+    @IBOutlet var dropDownAddressSender: UIButton!
+    @IBOutlet weak var topView: UIView!
     @IBOutlet weak var slideMenuButton: UIButton!
+    
+    var blurEffect:UIBlurEffect
+    var blurEffectView:UIVisualEffectView
+    var tapCloseDropDownMenu: UITapGestureRecognizer
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        view.layer.shadowOpacity = 0.8
+        topView.layer.shadowOpacity = 0.8
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "openAccountView", name: "openAccountView", object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "openOrderView", name: "openOrderView", object: nil)
-
         
         let tapGesture = UITapGestureRecognizer(target: self, action: Selector("dismissMenu"))
+        
         //let swiptGesture = UISwipeGestureRecognizer(target: self, action: Selector("openMenu"))
         
         view.addGestureRecognizer(tapGesture)
         //view.addGestureRecognizer(swiptGesture)
-        
-        slideMenuButton.setImage(MainMenuViewController.defaultMenuImage(), forState: .Normal)
-        
     }
+    
+    required init?(coder aDecoder: NSCoder) {
+        blurEffect = UIBlurEffect(style: .Dark)
+        blurEffectView = UIVisualEffectView(effect: blurEffect)
+        tapCloseDropDownMenu = UITapGestureRecognizer()
+        super.init(coder: aDecoder)
+        tapCloseDropDownMenu = UITapGestureRecognizer(target: self, action: "hidDropDownMenu")
+    }
+
+    
     @IBAction func menu(sender: AnyObject) {
         NSNotificationCenter.defaultCenter().postNotificationName("toggleMenu", object: nil)
         
     }
     
     func openMenu(){
-        NSNotificationCenter.defaultCenter().postNotificationName("toggleMenu", object: nil)
+        NSNotificationCenter.defaultCenter().postNotificationName("openMenu", object: nil)
     }
     
     func dismissMenu(){
             NSNotificationCenter.defaultCenter().postNotificationName("closeMenuViaNotification", object: nil)
     }
-    
-    class func defaultMenuImage() -> UIImage {
-        var defaultMenuImage = UIImage()
-        
-        struct Static {
-            static var onceToken: dispatch_once_t = 0
-        }
-        
-        dispatch_once(&Static.onceToken, { () -> Void in
-            UIGraphicsBeginImageContextWithOptions(CGSizeMake(30, 22), false, 0.0)
-            
-            UIColor.blackColor().setFill()
-            UIBezierPath(rect: CGRectMake(0, 3, 30, 1)).fill()
-            UIBezierPath(rect: CGRectMake(0, 10, 30, 1)).fill()
-            UIBezierPath(rect: CGRectMake(0, 17, 30, 1)).fill()
-            
-            UIColor.whiteColor().setFill()
-            UIBezierPath(rect: CGRectMake(0, 4, 30, 1)).fill()
-            UIBezierPath(rect: CGRectMake(0, 11,  30, 1)).fill()
-            UIBezierPath(rect: CGRectMake(0, 18, 30, 1)).fill()
-            
-            defaultMenuImage = UIGraphicsGetImageFromCurrentImageContext()
-            
-            UIGraphicsEndImageContext()
-        })
-        
-        return defaultMenuImage;
-    }
-  
-    
-    
+
     func openAccountView(){
         self.performSegueWithIdentifier("account", sender: nil)
     }
@@ -81,6 +69,38 @@ class MainMenuViewController: UIViewController {
         self.performSegueWithIdentifier("order", sender: nil)
     }
     
+    @IBAction func chooseAddress(sender: AnyObject) {
+        let address = ["Minzu University of China", "University of Hong Kong", "Why show your weakness"]
+       
+        
+        
+        if (dropDownAddressButton == nil){
+            let cellHeight:CGFloat = 40;
+            let dropDownFrameHeight = cellHeight * CGFloat(address.count)
+            dropDownAddressButton = DropDownButton(button: dropDownAddressSender, cellHeight: cellHeight, height: dropDownFrameHeight, array: address)
+            dropDownAddressButton?.delegate = self
+           
+            view.addGestureRecognizer(tapCloseDropDownMenu)
+            blurEffectView.frame = CGRectMake(view.bounds.origin.x, view.bounds.origin.y + topView.frame.size.height, view.frame.size.width, view.frame.size.height - topView.frame.size.height)
+            view.addSubview(blurEffectView)
+        } else {
+            dropDownAddressButton?.hideDropDown(dropDownAddressSender as UIButton)
+            dropDownAddressButton = nil
+            blurEffectView.removeFromSuperview()
+            view.removeGestureRecognizer(tapCloseDropDownMenu)
+        }
+    }
     
+    func hidDropDownMenu(){
+        dropDownAddressButton?.hideDropDown(dropDownAddressSender as UIButton)
+        dropDownAddressButton = nil
+        blurEffectView.removeFromSuperview()
+        view.removeGestureRecognizer(tapCloseDropDownMenu)
+    }
     
+    func dropDownMenuClicked(sender: DropDownButton) {
+        blurEffectView.removeFromSuperview()
+        print("you choose:\(sender.choosedString)")
+        dropDownAddressButton = nil
+    }
 }

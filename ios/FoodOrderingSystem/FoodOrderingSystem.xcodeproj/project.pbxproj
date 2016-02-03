@@ -26,7 +26,12 @@
 		BA3B1AB21C5B51C200E4999F /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA3B1AB11C5B51C200E4999F /* Login.storyboard */; };
 		BA50334C1C6050BF00E0F066 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA50334B1C6050BF00E0F066 /* AccountViewController.swift */; };
 		BA50334E1C6050D100E0F066 /* OrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA50334D1C6050D100E0F066 /* OrderViewController.swift */; };
-		BA5033521C60982200E0F066 /* NavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA5033511C60982200E0F066 /* NavigationBar.xib */; };
+		BA5033581C60DAB600E0F066 /* addGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = BA5033541C60DAB600E0F066 /* addGreen.png */; };
+		BA5033591C60DAB600E0F066 /* cartGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = BA5033551C60DAB600E0F066 /* cartGreen.png */; };
+		BA50335A1C60DAB600E0F066 /* favoriteGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = BA5033561C60DAB600E0F066 /* favoriteGreen.png */; };
+		BA50335B1C60DAB600E0F066 /* listGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = BA5033571C60DAB600E0F066 /* listGreen.png */; };
+		BA50335D1C60DC6B00E0F066 /* account.png in Resources */ = {isa = PBXBuildFile; fileRef = BA50335C1C60DC6B00E0F066 /* account.png */; };
+		BA5033601C6218C200E0F066 /* DropDownButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA50335F1C6218C200E0F066 /* DropDownButton.swift */; };
 		BA9EBE021C5F401F006B85F1 /* CustomizeTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9EBDFD1C5F401F006B85F1 /* CustomizeTableCell.swift */; };
 		BA9EBE031C5F401F006B85F1 /* LeftSlideMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9EBDFE1C5F401F006B85F1 /* LeftSlideMenu.swift */; };
 		BA9EBE041C5F401F006B85F1 /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9EBDFF1C5F401F006B85F1 /* MainMenuViewController.swift */; };
@@ -80,7 +85,12 @@
 		BA3B1AB11C5B51C200E4999F /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		BA50334B1C6050BF00E0F066 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountViewController.swift; path = App/AccountViewController.swift; sourceTree = "<group>"; };
 		BA50334D1C6050D100E0F066 /* OrderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OrderViewController.swift; path = App/OrderViewController.swift; sourceTree = "<group>"; };
-		BA5033511C60982200E0F066 /* NavigationBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NavigationBar.xib; sourceTree = "<group>"; };
+		BA5033541C60DAB600E0F066 /* addGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addGreen.png; sourceTree = "<group>"; };
+		BA5033551C60DAB600E0F066 /* cartGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cartGreen.png; sourceTree = "<group>"; };
+		BA5033561C60DAB600E0F066 /* favoriteGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favoriteGreen.png; sourceTree = "<group>"; };
+		BA5033571C60DAB600E0F066 /* listGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = listGreen.png; sourceTree = "<group>"; };
+		BA50335C1C60DC6B00E0F066 /* account.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = account.png; sourceTree = "<group>"; };
+		BA50335F1C6218C200E0F066 /* DropDownButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDownButton.swift; sourceTree = "<group>"; };
 		BA9EBDFD1C5F401F006B85F1 /* CustomizeTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomizeTableCell.swift; sourceTree = "<group>"; };
 		BA9EBDFE1C5F401F006B85F1 /* LeftSlideMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftSlideMenu.swift; sourceTree = "<group>"; };
 		BA9EBDFF1C5F401F006B85F1 /* MainMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
@@ -162,6 +172,7 @@
 		BA11D80F1C49D2F500C8C830 /* FoodOrderingSystem */ = {
 			isa = PBXGroup;
 			children = (
+				BA50335E1C62187300E0F066 /* DropDownMenu */,
 				BA50334A1C60508D00E0F066 /* App */,
 				BA9EBDFC1C5F401F006B85F1 /* SlideMenu */,
 				BA1CFB821C4B354D00269862 /* TutorialAndLogin */,
@@ -234,6 +245,26 @@
 			name = App;
 			sourceTree = "<group>";
 		};
+		BA5033531C60DAB600E0F066 /* icons */ = {
+			isa = PBXGroup;
+			children = (
+				BA50335C1C60DC6B00E0F066 /* account.png */,
+				BA5033541C60DAB600E0F066 /* addGreen.png */,
+				BA5033551C60DAB600E0F066 /* cartGreen.png */,
+				BA5033561C60DAB600E0F066 /* favoriteGreen.png */,
+				BA5033571C60DAB600E0F066 /* listGreen.png */,
+			);
+			path = icons;
+			sourceTree = "<group>";
+		};
+		BA50335E1C62187300E0F066 /* DropDownMenu */ = {
+			isa = PBXGroup;
+			children = (
+				BA50335F1C6218C200E0F066 /* DropDownButton.swift */,
+			);
+			path = DropDownMenu;
+			sourceTree = "<group>";
+		};
 		BA9EBDFC1C5F401F006B85F1 /* SlideMenu */ = {
 			isa = PBXGroup;
 			children = (
@@ -243,7 +274,6 @@
 				BA9EBE001C5F401F006B85F1 /* MenuTable.swift */,
 				BA9EBE011C5F401F006B85F1 /* SlideMenu.swift */,
 				BA9EBE071C5F4070006B85F1 /* SlideMenu.storyboard */,
-				BA5033511C60982200E0F066 /* NavigationBar.xib */,
 			);
 			path = SlideMenu;
 			sourceTree = "<group>";
@@ -251,6 +281,7 @@
 		BAC90EF81C4A126C0069165C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				BA5033531C60DAB600E0F066 /* icons */,
 				BA1CFB6D1C4A704500269862 /* introduction */,
 			);
 			name = Resources;
@@ -367,7 +398,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BA5033521C60982200E0F066 /* NavigationBar.xib in Resources */,
+				BA50335B1C60DAB600E0F066 /* listGreen.png in Resources */,
+				BA50335A1C60DAB600E0F066 /* favoriteGreen.png in Resources */,
+				BA50335D1C60DC6B00E0F066 /* account.png in Resources */,
 				BA1CFB731C4A704500269862 /* introductionPic3.jpg in Resources */,
 				BA9EBE081C5F4070006B85F1 /* SlideMenu.storyboard in Resources */,
 				BA1CFB721C4A704500269862 /* introductionPic2.jpg in Resources */,
@@ -375,7 +408,9 @@
 				BA11D81B1C49D2F500C8C830 /* LaunchScreen.storyboard in Resources */,
 				BA11D8181C49D2F500C8C830 /* Assets.xcassets in Resources */,
 				BA1CFB711C4A704500269862 /* introductionPic1.jpg in Resources */,
+				BA5033591C60DAB600E0F066 /* cartGreen.png in Resources */,
 				BA11D8161C49D2F500C8C830 /* Tutorial.storyboard in Resources */,
+				BA5033581C60DAB600E0F066 /* addGreen.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,6 +485,7 @@
 			files = (
 				BA1CFB901C4BBABF00269862 /* OrangeButton.swift in Sources */,
 				BA1CFB8A1C4B967600269862 /* Register.swift in Sources */,
+				BA5033601C6218C200E0F066 /* DropDownButton.swift in Sources */,
 				BA50334C1C6050BF00E0F066 /* AccountViewController.swift in Sources */,
 				BA50334E1C6050D100E0F066 /* OrderViewController.swift in Sources */,
 				BA9EBE041C5F401F006B85F1 /* MainMenuViewController.swift in Sources */,

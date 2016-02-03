@@ -24,9 +24,9 @@ class SlideMenu: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //initSlideMenu()
-        dispatch_async(dispatch_get_main_queue()) {
-            self.closeMenu(false)
-        }
+//        dispatch_async(dispatch_get_main_queue()) {
+//            self.closeMenu(false)
+//        }
         
         //rightView.layer.shadowOpacity = 0.8
 
@@ -40,14 +40,14 @@ class SlideMenu: UIViewController {
 
         swipeLeft = UISwipeGestureRecognizer(target: self, action: Selector("closeMenuViaNotification"))
         swipeLeft!.direction = .Left
-
-        //self.prefersStatusBarHidden()
+        
         self.closeMenu(false)
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        //closeMenu()
+        //closeMenu(false)
+        view.addGestureRecognizer(swipeLeft!)
     }
 
     func initSlideMenu(){
@@ -71,9 +71,9 @@ class SlideMenu: UIViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: "closeMenuViaNotification", object: nil)
     }
     
-//    override func prefersStatusBarHidden() -> Bool {
-//        return true
-//    }
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
     
     func toggleMenu(){
         scrollView.contentOffset.x == 0  ? closeMenu() : openMenu()

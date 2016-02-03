@@ -10,7 +10,7 @@ import UIKit
 
 class CustomizeTableCell: UITableViewCell {
 
-    @IBOutlet weak var tableIcon: UIImageView!
+    //@IBOutlet weak var tableIcon: UIImageView!
     @IBOutlet weak var tableLabel: UILabel!
     
 }
