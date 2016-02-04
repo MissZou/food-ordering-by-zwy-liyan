@@ -9,9 +9,18 @@
 import UIKit
 
 class MenuTable: UITableViewController {
-    let menuOptions = ["Open Modal", "Open Push", "Account"]
+    let menuOptions = ["Account", "Menu", "Schedule", "Favorite"]
     
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.prefersStatusBarHidden()
+        self.setNeedsStatusBarAppearanceUpdate()
+    }
     
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
 }
 
 extension MenuTable {
@@ -20,20 +29,18 @@ extension MenuTable {
         
         switch indexPath.row {
         case 0:
-            // ContainerVC.swift listens for this
             NSNotificationCenter.defaultCenter().postNotificationName("openAccountView", object: nil)
         case 1:
             // Both FirstViewController and SecondViewController listen for this
-            NSNotificationCenter.defaultCenter().postNotificationName("openOrderView", object: nil)
+            NSNotificationCenter.defaultCenter().postNotificationName("openMenu", object: nil)
         case 2:
-            //performSegueWithIdentifier("account", sender: nil)
-           break
+            NSNotificationCenter.defaultCenter().postNotificationName("openOrderView", object: nil)
         default:
             print("indexPath.row:: \(indexPath.row)")
         }
         
         // also close the menu
-        NSNotificationCenter.defaultCenter().postNotificationName("closeMenuViaNotification", object: nil)
+        //NSNotificationCenter.defaultCenter().postNotificationName("closeMenuViaNotification", object: nil)
         
     }
     
@@ -44,7 +51,13 @@ extension MenuTable {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! CustomizeTableCell
         cell.tableLabel.text = menuOptions[indexPath.row]
+        //cell.tableIcon.image = UIImage(named: menuOptionsIcons[indexPath.row])
         return cell
     }
 
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell")
+        
+        return (cell?.bounds.size.height)! 
+    }
 }

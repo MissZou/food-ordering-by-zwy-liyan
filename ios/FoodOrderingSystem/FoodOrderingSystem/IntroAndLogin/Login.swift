@@ -75,7 +75,13 @@ class Login: UIViewController {
     
     func loginSuccessed() {
         performSegueWithIdentifier("Index", sender: nil)
-        
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "Index" {
+            let slideMenu = segue.destinationViewController as! SlideMenu
+            //slideMenu.scrollView.setContentOffset(CGPoint(x:slideMenu.leftMenuWidth, y: 0), animated: false)
+        }
     }
     
     func loginFailed() {
