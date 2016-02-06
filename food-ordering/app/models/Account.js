@@ -7,7 +7,7 @@ module.exports = function(config, mongoose, nodemailer) {
     email:     { type: String, unique: true },
     password:  { type: String},
     phone:     { type: String},
-    name:       {type: String},
+    name:      {type: String},
     photoUrl:  { type: String},
     address: {type: String}
   });
@@ -66,6 +66,12 @@ module.exports = function(config, mongoose, nodemailer) {
         });
     };
 
+  var foundAccount = function(email, callback) {
+    Account.findOne({email:email}, function(err,doc){
+        callback(null != doc);
+    })
+  }
+
   var register = function(email, password, phone, name, res) {
     var shaSum = crypto.createHash('sha256');
     shaSum.update(password);
@@ -87,6 +93,7 @@ module.exports = function(config, mongoose, nodemailer) {
     forgotPassword: forgotPassword,
     changePassword: changePassword,
     login: login,
-    Account: Account
+    Account: Account,
+    foundAccount: foundAccount
   }
 }

@@ -73,10 +73,26 @@ router.route('/register')
     });
 	})
 	.post(function(req, res) {
-		console.log(req);	
-		console.log(req.body.name);
-		
-		Account.register(req.body.email, req.body.password, req.body.phone, req.body.name, res);	
+
+		var email = req.param('email', null);
+  		var password = req.param('password', null);
+  		var name = req.param('name', null);
+  		var phone = req.param('phone', null);
+		if (null == email || email.length < 1 || null == password || password.length < 1 || 
+			null == name || name.length < 1 || null==phone || phone.length < 1) { 
+  			res.send(400);
+  			return;
+  		}
+  		else {
+	  			Account.foundAccount(email, function(doc){
+	  			if (doc == true) {
+	  				res.send("Account has been used");
+	  			}
+	  			else{
+	  				Account.register(email, password, phone, name, res);
+	  			}
+	  		})
+  		}
 	});
 
 

@@ -22,6 +22,9 @@
 		BA1CFB881C4B357800269862 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1CFB871C4B357800269862 /* Login.swift */; };
 		BA1CFB8A1C4B967600269862 /* Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1CFB891C4B967600269862 /* Register.swift */; };
 		BA1CFB901C4BBABF00269862 /* OrangeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1CFB8F1C4BBABF00269862 /* OrangeButton.swift */; };
+		BA2AAE2E1C63542F00DB6131 /* CustomizedSegueLeftToRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2AAE2D1C63542F00DB6131 /* CustomizedSegueLeftToRight.swift */; };
+		BA2AAE541C64869E00DB6131 /* FoodPersistantLayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA2AAE531C64869E00DB6131 /* FoodPersistantLayer.framework */; };
+		BA2AAE7C1C648A5F00DB6131 /* FoodBusinessLogicalLayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA2AAE7B1C648A5F00DB6131 /* FoodBusinessLogicalLayer.framework */; };
 		BA3B1A761C5A066300E4999F /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA3B1A751C5A066300E4999F /* Alamofire.framework */; };
 		BA3B1AB21C5B51C200E4999F /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA3B1AB11C5B51C200E4999F /* Login.storyboard */; };
 		BA50334C1C6050BF00E0F066 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA50334B1C6050BF00E0F066 /* AccountViewController.swift */; };
@@ -32,7 +35,8 @@
 		BA50335B1C60DAB600E0F066 /* listGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = BA5033571C60DAB600E0F066 /* listGreen.png */; };
 		BA50335D1C60DC6B00E0F066 /* account.png in Resources */ = {isa = PBXBuildFile; fileRef = BA50335C1C60DC6B00E0F066 /* account.png */; };
 		BA5033601C6218C200E0F066 /* DropDownButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA50335F1C6218C200E0F066 /* DropDownButton.swift */; };
-		BA9EBE021C5F401F006B85F1 /* CustomizeTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9EBDFD1C5F401F006B85F1 /* CustomizeTableCell.swift */; };
+		BA5033641C633B5700E0F066 /* RestaurantCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5033631C633B5700E0F066 /* RestaurantCell.swift */; };
+		BA9EBE021C5F401F006B85F1 /* LeftMenuTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9EBDFD1C5F401F006B85F1 /* LeftMenuTableCell.swift */; };
 		BA9EBE031C5F401F006B85F1 /* LeftSlideMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9EBDFE1C5F401F006B85F1 /* LeftSlideMenu.swift */; };
 		BA9EBE041C5F401F006B85F1 /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9EBDFF1C5F401F006B85F1 /* MainMenuViewController.swift */; };
 		BA9EBE051C5F401F006B85F1 /* MenuTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9EBE001C5F401F006B85F1 /* MenuTable.swift */; };
@@ -81,6 +85,9 @@
 		BA1CFB871C4B357800269862 /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		BA1CFB891C4B967600269862 /* Register.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Register.swift; sourceTree = "<group>"; };
 		BA1CFB8F1C4BBABF00269862 /* OrangeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrangeButton.swift; sourceTree = "<group>"; };
+		BA2AAE2D1C63542F00DB6131 /* CustomizedSegueLeftToRight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomizedSegueLeftToRight.swift; sourceTree = "<group>"; };
+		BA2AAE531C64869E00DB6131 /* FoodPersistantLayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FoodPersistantLayer.framework; path = "FoodPersistantLayer/build/Debug-iphoneos/FoodPersistantLayer.framework"; sourceTree = "<group>"; };
+		BA2AAE7B1C648A5F00DB6131 /* FoodBusinessLogicalLayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FoodBusinessLogicalLayer.framework; path = "FoodBusinessLogicalLayer/build/Debug-iphoneos/FoodBusinessLogicalLayer.framework"; sourceTree = "<group>"; };
 		BA3B1A751C5A066300E4999F /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-iphoneos/Alamofire.framework"; sourceTree = "<group>"; };
 		BA3B1AB11C5B51C200E4999F /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		BA50334B1C6050BF00E0F066 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountViewController.swift; path = App/AccountViewController.swift; sourceTree = "<group>"; };
@@ -91,7 +98,8 @@
 		BA5033571C60DAB600E0F066 /* listGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = listGreen.png; sourceTree = "<group>"; };
 		BA50335C1C60DC6B00E0F066 /* account.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = account.png; sourceTree = "<group>"; };
 		BA50335F1C6218C200E0F066 /* DropDownButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDownButton.swift; sourceTree = "<group>"; };
-		BA9EBDFD1C5F401F006B85F1 /* CustomizeTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomizeTableCell.swift; sourceTree = "<group>"; };
+		BA5033631C633B5700E0F066 /* RestaurantCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RestaurantCell.swift; path = App/RestaurantCell.swift; sourceTree = "<group>"; };
+		BA9EBDFD1C5F401F006B85F1 /* LeftMenuTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuTableCell.swift; sourceTree = "<group>"; };
 		BA9EBDFE1C5F401F006B85F1 /* LeftSlideMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftSlideMenu.swift; sourceTree = "<group>"; };
 		BA9EBDFF1C5F401F006B85F1 /* MainMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
 		BA9EBE001C5F401F006B85F1 /* MenuTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTable.swift; sourceTree = "<group>"; };
@@ -106,6 +114,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA2AAE7C1C648A5F00DB6131 /* FoodBusinessLogicalLayer.framework in Frameworks */,
+				BA2AAE541C64869E00DB6131 /* FoodPersistantLayer.framework in Frameworks */,
 				BA3B1A761C5A066300E4999F /* Alamofire.framework in Frameworks */,
 				A67274A8BA8B8AC2992EC4EA /* Pods_FoodOrderingSystem.framework in Frameworks */,
 			);
@@ -140,6 +150,8 @@
 		5F3131AB749042C2D81CD835 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BA2AAE7B1C648A5F00DB6131 /* FoodBusinessLogicalLayer.framework */,
+				BA2AAE531C64869E00DB6131 /* FoodPersistantLayer.framework */,
 				BA3B1A751C5A066300E4999F /* Alamofire.framework */,
 				361C516EE285A3055AB5961E /* Pods_FoodOrderingSystem.framework */,
 			);
@@ -232,6 +244,7 @@
 			children = (
 				BA1CFB8F1C4BBABF00269862 /* OrangeButton.swift */,
 				BAE01B901C4BBB7C0045D4C8 /* NetworkHelp.swift */,
+				BA2AAE2D1C63542F00DB6131 /* CustomizedSegueLeftToRight.swift */,
 			);
 			path = Help;
 			sourceTree = "<group>";
@@ -241,6 +254,7 @@
 			children = (
 				BA50334B1C6050BF00E0F066 /* AccountViewController.swift */,
 				BA50334D1C6050D100E0F066 /* OrderViewController.swift */,
+				BA5033631C633B5700E0F066 /* RestaurantCell.swift */,
 			);
 			name = App;
 			sourceTree = "<group>";
@@ -268,7 +282,7 @@
 		BA9EBDFC1C5F401F006B85F1 /* SlideMenu */ = {
 			isa = PBXGroup;
 			children = (
-				BA9EBDFD1C5F401F006B85F1 /* CustomizeTableCell.swift */,
+				BA9EBDFD1C5F401F006B85F1 /* LeftMenuTableCell.swift */,
 				BA9EBDFE1C5F401F006B85F1 /* LeftSlideMenu.swift */,
 				BA9EBDFF1C5F401F006B85F1 /* MainMenuViewController.swift */,
 				BA9EBE001C5F401F006B85F1 /* MenuTable.swift */,
@@ -486,14 +500,16 @@
 				BA1CFB901C4BBABF00269862 /* OrangeButton.swift in Sources */,
 				BA1CFB8A1C4B967600269862 /* Register.swift in Sources */,
 				BA5033601C6218C200E0F066 /* DropDownButton.swift in Sources */,
+				BA2AAE2E1C63542F00DB6131 /* CustomizedSegueLeftToRight.swift in Sources */,
 				BA50334C1C6050BF00E0F066 /* AccountViewController.swift in Sources */,
 				BA50334E1C6050D100E0F066 /* OrderViewController.swift in Sources */,
 				BA9EBE041C5F401F006B85F1 /* MainMenuViewController.swift in Sources */,
 				BA1CFB861C4B354D00269862 /* TutorialRootViewController.swift in Sources */,
 				BA1CFB881C4B357800269862 /* Login.swift in Sources */,
+				BA5033641C633B5700E0F066 /* RestaurantCell.swift in Sources */,
 				BA9EBE061C5F401F006B85F1 /* SlideMenu.swift in Sources */,
 				BA1CFB851C4B354D00269862 /* TutorialPage.swift in Sources */,
-				BA9EBE021C5F401F006B85F1 /* CustomizeTableCell.swift in Sources */,
+				BA9EBE021C5F401F006B85F1 /* LeftMenuTableCell.swift in Sources */,
 				BA11D8111C49D2F500C8C830 /* AppDelegate.swift in Sources */,
 				BAE01B911C4BBB7C0045D4C8 /* NetworkHelp.swift in Sources */,
 				BA9EBE031C5F401F006B85F1 /* LeftSlideMenu.swift in Sources */,
@@ -643,6 +659,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/FoodPersistantLayer/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/FoodBusinessLogicalLayer/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = FoodOrderingSystem/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -659,6 +677,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/FoodPersistantLayer/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/FoodBusinessLogicalLayer/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = FoodOrderingSystem/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -32,7 +32,7 @@ extension MenuTable {
             NSNotificationCenter.defaultCenter().postNotificationName("openAccountView", object: nil)
         case 1:
             // Both FirstViewController and SecondViewController listen for this
-            NSNotificationCenter.defaultCenter().postNotificationName("openMenu", object: nil)
+            NSNotificationCenter.defaultCenter().postNotificationName("closeMenuViaNotification", object: nil)
         case 2:
             NSNotificationCenter.defaultCenter().postNotificationName("openOrderView", object: nil)
         default:
@@ -49,7 +49,7 @@ extension MenuTable {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! CustomizeTableCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! LeftMenuTableCell
         cell.tableLabel.text = menuOptions[indexPath.row]
         //cell.tableIcon.image = UIImage(named: menuOptionsIcons[indexPath.row])
         return cell

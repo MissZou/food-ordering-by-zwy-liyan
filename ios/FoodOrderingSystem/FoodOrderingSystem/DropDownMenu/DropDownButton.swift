@@ -33,6 +33,9 @@ class DropDownButton: UIView, UITableViewDelegate, UITableViewDataSource {
     convenience init(button:UIButton, cellHeight: CGFloat,height:CGFloat,array:Array<String>) {
         self.init()
         tableViewCellHeigh = cellHeight
+        self.dropDownList = array
+        self.dropDownList?.insert("New Location", atIndex: 0)
+
         self.showDropDown(button, height: height, buttonArray: array)
     }
 
@@ -47,7 +50,7 @@ class DropDownButton: UIView, UITableViewDelegate, UITableViewDataSource {
         
         let btn: CGRect = (senderButton.superview?.frame)!
         self.frame = CGRectMake(btn.origin.x, btn.origin.y+btn.size.height, btn.size.width, 0)
-        self.dropDownList = buttonArray
+        
         self.layer.masksToBounds = false
         //self.layer.cornerRadius = 8
         //self.layer.shadowOffset = CGSizeMake(-5, 5)
@@ -97,10 +100,21 @@ class DropDownButton: UIView, UITableViewDelegate, UITableViewDataSource {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView .dequeueReusableCellWithIdentifier("dropDownCell", forIndexPath: indexPath) as UITableViewCell
-        cell.textLabel?.text = dropDownList![indexPath.row] as String
-        cell.textLabel?.font = UIFont.systemFontOfSize(12)
-        cell.textLabel?.textAlignment = .Center
-        
+        if (indexPath.row != 0){
+            cell.textLabel?.text = dropDownList![indexPath.row] as String
+            cell.textLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 13)
+            cell.textLabel?.textColor = UIColor(red: 102/255, green: 102/255, blue: 102/255, alpha: 1)
+            cell.textLabel?.textAlignment = .Center
+        }
+        else {
+            cell.textLabel?.text = dropDownList![indexPath.row] as String
+            cell.textLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 13)
+            cell.textLabel?.textColor = UIColor.whiteColor()
+            cell.textLabel?.textAlignment = .Center
+            cell.layer.backgroundColor = UIColor(red: 32/255, green: 197/255, blue: 174/255, alpha: 1).CGColor
+            cell.backgroundColor = UIColor(red: 32/255, green: 197/255, blue: 174/255, alpha: 1)
+            
+        }
         
         return cell
     }

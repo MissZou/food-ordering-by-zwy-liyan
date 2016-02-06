@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FoodBusinessLogicalLayer
 
 class Register: UIViewController {
 
@@ -60,6 +61,10 @@ class Register: UIViewController {
         phone.resignFirstResponder()
     }
     
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
+    
     @IBAction func register(sender: AnyObject) {
 
         
@@ -72,6 +77,7 @@ class Register: UIViewController {
         
         let networkHlep = NetworkHelp()
         networkHlep.sendPostRequest("register",params: params)
+        //var accountbl = AccountBL()
     }
     
     @IBAction func viewPrivacy(sender: AnyObject) {

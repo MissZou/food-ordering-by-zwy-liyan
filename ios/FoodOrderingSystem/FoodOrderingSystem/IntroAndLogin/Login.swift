@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class Login: UIViewController {
 
     @IBOutlet weak var account: UITextField!
@@ -71,18 +72,19 @@ class Login: UIViewController {
 //        let networkHlep = NetworkHelp()
 //        //networkHlep.sendPostRequest("login",params: params)
 //        networkHlep.login("login",params: params)
+     //   var account = Account()
     }
     
     func loginSuccessed() {
         performSegueWithIdentifier("Index", sender: nil)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "Index" {
-            let slideMenu = segue.destinationViewController as! SlideMenu
-            //slideMenu.scrollView.setContentOffset(CGPoint(x:slideMenu.leftMenuWidth, y: 0), animated: false)
-        }
-    }
+//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+//        if segue.identifier == "Index" {
+//            let slideMenu = segue.destinationViewController as! SlideMenu
+//            //slideMenu.scrollView.setContentOffset(CGPoint(x:slideMenu.leftMenuWidth, y: 0), animated: false)
+//        }
+//    }
     
     func loginFailed() {
         let alertController = UIAlertController(title: "Login Failed", message: "Wrong email or password", preferredStyle: UIAlertControllerStyle.Alert)
