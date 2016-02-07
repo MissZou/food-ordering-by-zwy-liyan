@@ -12,6 +12,6 @@ import FoodPersistantLayer
 class AccountBL: NSObject {
 
     func createAccount(email:String, password:String, name:String, phone:String){
-        //var account = Account()
+        var account = Account()
     }
 }

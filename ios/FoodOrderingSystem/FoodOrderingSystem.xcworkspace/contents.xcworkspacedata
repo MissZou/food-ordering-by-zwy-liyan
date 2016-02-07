@@ -2,12 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:FoodBusinessLogicalLayer/FoodBusinessLogicalLayer.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:FoodPersistantLayer/FoodPersistantLayer.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:FoodOrderingSystem.xcodeproj">
    </FileRef>
    <FileRef
