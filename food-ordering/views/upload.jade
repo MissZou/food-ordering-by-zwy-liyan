@@ -1,0 +1,15 @@
+doctype html
+html
+	head
+		meta(charset='UTF-8')   
+		title 注册   
+		link(rel='stylesheet', href='/stylesheets/upload.css')
+	body
+		form#frmUploadFile(enctype='multipart/form-data',method='post',action='javascript:;')
+			label(for='shopName') Shop Name
+			input#shopName(type='text')
+			input#file(type='file', name='files', value='upload')
+			input#upload(type='submit', value='上传文件')
+			img#list
+script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
+script(src='/javascripts/upload.js')
