@@ -7,21 +7,27 @@
 //
 
 import UIKit
-import FoodBusinessLogicalLayer
 
-class Register: UIViewController {
+protocol RegisterDelegate{
+    func finishRegisterAndLogin(account:Account)
+}
+
+
+class Register: UIViewController, AccountBLDelegate {
 
     @IBOutlet weak var name: UITextField!
-    
     @IBOutlet weak var email: UITextField!
-    
     @IBOutlet weak var password: UITextField!
-    
     @IBOutlet weak var phone: UITextField!
     @IBOutlet weak var btnsignUp: OrangeButton!
     
     @IBOutlet weak var privacy: UIButton!
     @IBOutlet weak var termsOfService: UIButton!
+    
+    
+    var newAccount:Account?
+    var accountBL: AccountBL?
+    var delegate: RegisterDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,18 +72,38 @@ class Register: UIViewController {
     }
     
     @IBAction func register(sender: AnyObject) {
+        newAccount = Account()
+        accountBL = AccountBL()
+        
+        newAccount?.name = name.text!
+        newAccount?.phone = phone.text!
+        newAccount?.email = email.text!
+        newAccount?.password = password.text!
+        
+        accountBL?.delegate = self
+        accountBL?.createAccount(newAccount!)
+        
 
-        
-        let params:[String : AnyObject] = [
-            "email" : email.text!,
-            "password" : password.text!,
-            "phone" : phone.text!,
-            "name" : name.text!
-        ]
-        
-        let networkHlep = NetworkHelp()
-        networkHlep.sendPostRequest("register",params: params)
-        //var accountbl = AccountBL()
+    }
+    
+    func blFinishCreateAccount(status: String, account: Account) {
+        if status == "OK" {
+            let alertController = UIAlertController(title: "Register Success!", message: "Login Now", preferredStyle: UIAlertControllerStyle.Alert)
+            alertController.addAction(UIAlertAction(title: "Enjoy", style: UIAlertActionStyle.Default, handler: {
+                (action:UIAlertAction!) in
+                self.dismissViewControllerAnimated(true, completion: {
+                    NSNotificationCenter.defaultCenter().postNotificationName("loginSuccessed", object: nil)
+                })
+
+            }))
+            self.presentViewController(alertController, animated: true, completion: nil)
+        }
+        else if status == "Account has been used" {
+            print(status)
+        }
+        else {
+            print(status)
+        }
     }
     
     @IBAction func viewPrivacy(sender: AnyObject) {

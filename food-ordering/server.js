@@ -17,7 +17,6 @@ var httpsOptions = {
     rejectUnauthorized: false
 }
 
-app.set('view engine', 'jade');
 var mailConfig = {
 		host : 'smtp.gmail.com',
 		secureConnection : true,
@@ -29,9 +28,15 @@ var mailConfig = {
 }
 
 var cookieSession = require('cookie-session');
-
-
 var Account = require('./app/models/Account')(mailConfig, mongoose, nodemailer);
+
+var portHttp = process.env.PORT || 8080; 
+var portHttps = process.env.PORT || 8000; 
+
+app.set('view engine', 'jade');
+
+
+
 app.use(express.static(__dirname + '/public'));
 //app.set('views', path.join(__dirname, 'views'));
 app.use(morgan('dev')); // log requests to the console 
@@ -42,18 +47,12 @@ app.use(bodyParser.json());
 //app.use(express.session({secret: "Food Ordering System", store: new MemoryStore()}));
 mongoose.connect('mongodb://localhost:27017/Server'); // connect to our database
 
+
 //set server port
-var portHttp = process.env.PORT || 8080; 
-var portHttps = process.env.PORT || 8000; 
+
 
 var router = express.Router();
 
-
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-// router.get('/', function(req, res) {
-// 	//res.json({ message: 'hooray! welcome to our api!' });	
-	
-// });
 
 router.route('/')
 
@@ -67,13 +66,13 @@ router.route('/')
 
 // ----------------------------------------------------
 router.route('/register')
+	
 	.get(function(req,res){
 		res.render('reg', {
         title: 'register'
     });
 	})
 	.post(function(req, res) {
-
 		var email = req.param('email', null);
   		var password = req.param('password', null);
   		var name = req.param('name', null);
@@ -97,7 +96,7 @@ router.route('/register')
 
 
 router.route('/login')
-
+	
 	.post(function(req, res){
 		console.log('login request');
   		var email = req.param('email', null);

@@ -9,8 +9,8 @@
 import Alamofire
 
 protocol AccountDelegate {
-    func finishCreateAccount(status:String)
-    func finishLogin(status:String)
+    func finishCreateAccount(status:String, account: Account)
+    func finishLogin(status:String, account: Account)
 }
 
 class Account: NSObject {
@@ -44,42 +44,62 @@ class Account: NSObject {
         return Static.sharedManager!
     }
     
-    func createAccount(account: Account){
+    func createAccount(model: Account){
         
         let params:[String : AnyObject] = [
-            "email" : account.email,
-            "password" : account.password,
-            "phone" : account.phone,
-            "name" : account.name
+            "email" : model.email,
+            "password" : model.password,
+            "phone" : model.phone,
+            "name" : model.name
         ]
         
-        Alamofire.request(.POST, "\(baseUrl) + register", parameters: params, encoding: .JSON).responseData { response in
+        Alamofire.request(.POST, "\(baseUrl)"+"register", parameters: params, encoding: .JSON).responseData { response in
             let dataString = NSString(data: response.data!, encoding: NSUTF8StringEncoding)
             print(dataString!)
             print(NSString(data: response.request!.HTTPBody!, encoding: NSUTF8StringEncoding)!)
             if (dataString! == "ok"){
-                self.delegate?.finishCreateAccount("ok")
+                self.delegate?.finishCreateAccount("ok", account: model)
             }
             else {
-                self.delegate?.finishCreateAccount(dataString! as String)
+                self.delegate?.finishCreateAccount(dataString! as String, account: model)
             }
         }
     }
     
-    func login(email:String, password:String){
+    func login(model:Account){
         let params:[String : AnyObject] = [
-            "email" : email,
-            "password" : password
+            "email" : model.email,
+            "password" : model.password
             ]
-        Alamofire.request(.POST, "\(baseUrl) + login", parameters: params, encoding: .JSON).responseData { response in
+        Alamofire.request(.POST, "\(baseUrl)"+"login", parameters: params, encoding: .JSON).responseData { response in
             let dataString = NSString(data: response.data!, encoding: NSUTF8StringEncoding)
             print(dataString!)
             print(NSString(data: response.request!.HTTPBody!, encoding: NSUTF8StringEncoding)!)
             if (dataString! == "true"){
-                self.delegate?.finishLogin("ok")
+                self.delegate?.finishLogin("ok", account: model)
             }
             else {
-                self.delegate?.finishLogin(dataString! as String)
+                self.delegate?.finishLogin(dataString! as String, account: model)
+            }
+        }
+
+    }
+
+    func loginTest(email:String, password:String) {
+        let params:[String : AnyObject] = [
+            "email" : email,
+            "password" : password
+            ]
+        print("\(baseUrl)"+"login")
+        Alamofire.request(.POST, "\(baseUrl)"+"login", parameters: params, encoding: .JSON).responseData { response in
+            let dataString = NSString(data: response.data!, encoding: NSUTF8StringEncoding)
+            print(dataString!)
+            print(NSString(data: response.request!.HTTPBody!, encoding: NSUTF8StringEncoding)!)
+            if (dataString! == "true"){
+                self.delegate?.finishLogin("ok", account: Account())
+            }
+            else {
+                self.delegate?.finishLogin(dataString! as String, account: Account())
             }
         }
 

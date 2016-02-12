@@ -169,10 +169,10 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="AbstractSizeClassScreen[widthClass=compact]"/>
                     <connections>
-                        <outlet property="account" destination="dO5-c4-J8f" id="eOY-3g-5EW"/>
                         <outlet property="btnForgetPassword" destination="OtP-9H-4mM" id="lR6-wl-scD"/>
                         <outlet property="btnSignUp" destination="zVp-1c-Cs5" id="PwV-Wf-yxg"/>
                         <outlet property="password" destination="lPu-TL-ucd" id="jSl-EQ-PSh"/>
+                        <outlet property="userName" destination="dO5-c4-J8f" id="NIr-wk-sGA"/>
                         <segue destination="aWo-gG-7dn" kind="show" identifier="Index" id="pfW-6P-UWD"/>
                     </connections>
                 </viewController>
