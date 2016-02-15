@@ -60,12 +60,6 @@ var portHttps = process.env.PORT || 8000;
 var router = express.Router();
 var routerRestuarant = express.Router();
 
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-// router.get('/', function(req, res) {
-// 	//res.json({ message: 'hooray! welcome to our api!' });	
-
-// });
-
 router.route('/')
 
 .get(function(req, res) {
@@ -100,7 +94,7 @@ router.route('/postupload').post(multipart(), function(req, res) {
     var tmp_path = req.files.files.path;
     fs.rename(tmp_path, targetPath, function(err) {
         if (err) throw err;
-        // 删除临时文件夹文件, 
+        // delete temp file directory
         fs.unlink(tmp_path, function() {
             if (err) throw err;
             //res.send('File uploaded to: ' + targetPath + ' - ' + req.files.files.size + ' bytes');
@@ -117,29 +111,6 @@ router.route('/postupload').post(multipart(), function(req, res) {
     upload.uploadUrl(url);
 });
 
-
-//console.log(req.body.image)
-//upload.upload(req.body.image, res);
-//upload.uploadUrl(req,res);
-/*		var tmp_path = req.files.thumbnail.path;
-    // 指定文件上传后的目录 - 示例为"images"目录。 
-    var target_path = './public/upload/' + req.files.thumbnail.name;
-    // 移动文件*/
-
-
-
-
-
-/*router.route('/out')
-	.get(function(req,res){
-		upload.getImage(req.body.image, res);
-		res.render('out',{
-			dbimage:"address"
-		});
-    })*/
-
-
-// ----------------------------------------------------
 router.route('/register')
     .get(function(req, res) {
         res.render('reg', {
@@ -232,7 +203,7 @@ router.route('/resetPassword')
 })
 
 .post(function(req, res) {
-    console.log('resetPassword post');
+    //console.log('resetPassword post');
     var accountId = req.param('accountId', null);
     var password = req.param('password', null);
     if (null != accountId && null != password) {
@@ -242,7 +213,21 @@ router.route('/resetPassword')
     }
     res.render('resetPasswordSuccess.jade');
 });
-// Restuarant --------------------------
+
+router.route('/address')
+
+.post(function(req, res){
+    var accountId = req.param('accountId', null);
+    var operation = req.param('operation', null);
+    var newAddress = req.param("newAddress", null);
+    if (operation == "add"){
+        Account.addAddress(accountId, newAddress, function(doc) {
+            res.send(doc);
+        });
+    }
+    
+});
+// Restuarant api =================================================================
 
 routerRestuarant.route('/')
 .get(function(req, res) {
@@ -253,11 +238,10 @@ routerRestuarant.route('/')
     res.send('routerRestuarant');
 });
 
-// REGISTER OUR ROUTES -------------------------------
+// REGISTER OUR ROUTES =================================================================
 app.use('/user', router);
 app.use('/shop', routerRestuarant);
 // START THE SERVER
-// =============================================================================
 http.createServer(app).listen(portHttp);
 https.createServer(httpsOptions, app).listen(portHttps);
 

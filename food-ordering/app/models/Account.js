@@ -9,7 +9,7 @@ module.exports = function(config, mongoose, nodemailer) {
     phone:     { type: String},
     name:      {type: String},
     photoUrl:  { type: String},
-    address:   {type: String}
+    address:   [String]
   });
 
   var Account = mongoose.model('Account', AccountSchema);
@@ -63,8 +63,6 @@ module.exports = function(config, mongoose, nodemailer) {
         shaSum.update(password);
         Account.findOne({email:email,password:shaSum.digest('hex')},function(err,doc){
             callback(doc);
-            //console.log(doc);
-            //return doc._id;
         });
 
     };
@@ -91,7 +89,15 @@ module.exports = function(config, mongoose, nodemailer) {
     console.log('Save command was sent');
   }
 
+  var addAddress = function(accountId, newAddress, callback) {
+       var user = Account.findOne({_id:accountId}, function(err,doc){
+        user.address.push(newAddress);
+        callback(doc);
+    });
+  }
+
   return {
+    addAddress: addAddress,
     register: register,
     forgotPassword: forgotPassword,
     changePassword: changePassword,

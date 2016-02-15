@@ -15,7 +15,7 @@ protocol AccountDelegate {
 
 class Account: NSObject {
     
-    let baseUrl = "http://localhost:8080/api/";
+    let baseUrl = "http://localhost:8080/user/";
     var delegate:AccountDelegate?
     
     var email:String
@@ -23,7 +23,8 @@ class Account: NSObject {
     var phone:String
     var password:String
     var photoUrl:String?
-    var deliveryAddress:String?
+    var deliveryAddress:[String]?
+    var accountId:String?
     //static var sharedManager: Account
     override init() {
         email = ""
@@ -91,8 +92,16 @@ class Account: NSObject {
             if let json = response.result.value
             {
                 if let code = json.objectForKey("code") {
-                    print(code)
+                    if code as! Int  == 200 {
+                        self.delegate?.finishLogin(json as! NSDictionary, account: model)
+                    }
+                    else {
+                        print("wrong email or password")
+                    }
                 }
+//                if let accountId = json.objectForKey("accountId"){
+//                    print(accountId)
+//                }
             }
             
 
