@@ -1,0 +1,50 @@
+//- extends layout
+//- block content
+//-     include header.jade
+//-     form#registerForm(method="post")
+//-         input#userName(type='text', placeholder='Username',name="Username")
+//-         br
+//-         input#password(type='password', placeholder='password',name="password")
+//-         br
+//-         确认密码：
+//-         input#repeatPassword(type='password', placeholder='password',name="repeatPassword")
+//-         br
+//-         邮箱：
+//-         input#email(type="email",name="email")
+//-         input#register(type="submit",value="注册")
+
+doctype html
+html
+	head
+		meta(charset='UTF-8')   
+		title 注册   
+		link(rel='stylesheet', href='/stylesheets/signup.css')
+	body.signup
+		.loginForm
+			a.close X
+			h1 Log In To Your Account
+			form#loginUser(method='post')
+				input#user_loginemail(autocomplete='off', name='user_email', placeholder='Email', size='30', type='email')
+				br
+				input#user_loginpassword.strong-password(autocomplete='off', name='user_password', placeholder='Password', size='30', type='password')
+				br
+				input#login_button.signup_button-btn(, name='commit', type='submit', value='Log in') 
+				a(href="/",class="forgetPass") 忘记密码
+				p Don't have an account? 
+					a.signuplink(href="/reg") Sign up for free
+		.mask
+		.signup-view.clearfix
+			.signup-view-large
+				form#new-user(method='post')
+					div
+						input#user_name(autocomplete='off', name='user_name', placeholder='User name', size='30', type='text')        
+						input#user_email(autocomplete='off', name='user_email', placeholder='Email', size='30', type='email')
+						input#user_password.strong-password(autocomplete='off', name='user_password', placeholder='Password', size='30', type='password')       
+						input#user_phone(autocomplete='off', name='user_phone', placeholder='Mobile phone', size='30', type='text')
+						input#user_address(autocomplete='off', name='user_address', placeholder='Address', size='30', type='text')    
+					input#signup_button.signup_button-btn(data-disable-with='Creating Account...', name='commit', type='submit', value='Sign Up')       
+			.signup-view-small 写点啥XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+			a(href='javascript:;',id='loginForm') log in
+	script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
+	script(src='/javascripts/login.js')
+
