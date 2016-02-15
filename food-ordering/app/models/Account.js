@@ -93,13 +93,19 @@ module.exports = function(config, mongoose, nodemailer) {
     res.send(200);
     console.log('Save command was sent');
   }
-
+var addAddress = function(accountId, newAddress, callback) {
+       var user = Account.findOne({_id:accountId}, function(err,doc){
+        user.address.push(newAddress);
+        callback(doc);
+   });
+   };
   return {
     register: register,
     forgotPassword: forgotPassword,
     changePassword: changePassword,
     login: login,
     Account: Account,
-    foundAccount: foundAccount
+    foundAccount: foundAccount,
+    addAddress: addAddress
   }
 }

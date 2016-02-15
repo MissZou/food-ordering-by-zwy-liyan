@@ -232,7 +232,19 @@ router.route('/resetPassword')
     }
     res.render('resetPasswordSuccess.jade');
 });
-// Restuarant --------------------------
+router.route('/address')
+ .post(function(req, res){
+     var accountId = req.param('accountId', null);
+     var operation = req.param('operation', null);
+     var newAddress = req.param("newAddress", null);
+     if (operation == "add"){
+        Account.addAddress(accountId, newAddress, function(doc) {
+             res.send(doc);
+         });
+     }
+     
+ });
+ // Restuarant api =================================================================
 
 routerRestuarant.route('/')
     .get(function(req, res) {
