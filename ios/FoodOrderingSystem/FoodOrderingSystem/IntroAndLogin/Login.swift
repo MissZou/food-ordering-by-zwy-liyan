@@ -68,7 +68,7 @@ class Login: UIViewController {
     }
     
     @IBAction func login(sender: AnyObject) {
-        account = Account()
+        account = Account.sharedManager
         accountBL = AccountBL()
         account?.email = userName.text!
         account?.password = password.text!
@@ -108,6 +108,15 @@ extension Login: AccountBLDelegate {
 //            //loginFailed()
 //            NSNotificationCenter.defaultCenter().postNotificationName("loginFailed", object: nil)
 //        }
+        if let code = result.objectForKey("code") {
+            if code as! Int == 200 {
+//                if let obj_Id = result.objectForKey("accountId") {
+//                    account.accountId = obj_Id as? String
+//                }
+                performSegueWithIdentifier("Index", sender: account)
+            }
+        }
+
     }
     
 }

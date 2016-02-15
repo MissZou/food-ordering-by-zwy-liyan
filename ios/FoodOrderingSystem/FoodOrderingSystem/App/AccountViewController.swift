@@ -9,10 +9,17 @@
 import UIKit
 
 class AccountViewController: UIViewController {
+    
+    
     @IBOutlet weak var Menu: UIButton!
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        let account = Account.sharedManager
+        print(account.accountId!)
     }
     
     func openMenu(){
