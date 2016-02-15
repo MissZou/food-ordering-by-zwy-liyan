@@ -34,6 +34,11 @@ class AccountBL: NSObject, AccountDelegate {
 
 extension AccountBL {
     func finishCreateAccount(result:NSDictionary, account: Account) {
+        if let obj_Id = result.objectForKey("accountId") {
+            account.accountId = obj_Id as? String
+        }
+        
+
         self.delegate?.blFinishCreateAccount!(result, account: account)
     }
     
