@@ -98,16 +98,16 @@ extension Login: UITextFieldDelegate {
 }
 
 extension Login: AccountBLDelegate {
-    func blFinishLogin(status: String, account: Account) {
-        if (status == "ok"){
-            //NSNotificationCenter.defaultCenter().postNotificationName("loginSuccessed", object: nil)
-            performSegueWithIdentifier("Index", sender: account)
-        }
-        else {
-            print(status)
-            //loginFailed()
-            NSNotificationCenter.defaultCenter().postNotificationName("loginFailed", object: nil)
-        }
+    func blFinishLogin(result:NSDictionary, account: Account) {
+//        if (status == "ok"){
+//            //NSNotificationCenter.defaultCenter().postNotificationName("loginSuccessed", object: nil)
+//            performSegueWithIdentifier("Index", sender: account)
+//        }
+//        else {
+//            print(status)
+//            //loginFailed()
+//            NSNotificationCenter.defaultCenter().postNotificationName("loginFailed", object: nil)
+//        }
     }
     
 }

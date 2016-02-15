@@ -9,7 +9,7 @@ module.exports = function(config, mongoose, nodemailer) {
     phone:     { type: String},
     name:      {type: String},
     photoUrl:  { type: String},
-    address: {type: String}
+    address:   {type: String}
   });
 
   var Account = mongoose.model('Account', AccountSchema);
@@ -40,7 +40,7 @@ module.exports = function(config, mongoose, nodemailer) {
       } else {
         var smtpTransport = nodemailer.createTransport('SMTP', config);
         resetPasswordUrl += '?account=' + doc._id;
-        console.log('sendmail');
+        //console.log('sendmail');
         smtpTransport.sendMail({
           from: 'thisapp@example.com',
           to: doc.email,
@@ -62,8 +62,11 @@ module.exports = function(config, mongoose, nodemailer) {
         var shaSum = crypto.createHash('sha256');
         shaSum.update(password);
         Account.findOne({email:email,password:shaSum.digest('hex')},function(err,doc){
-            callback(null!=doc);
+            callback(doc);
+            //console.log(doc);
+            //return doc._id;
         });
+
     };
 
   var foundAccount = function(email, callback) {

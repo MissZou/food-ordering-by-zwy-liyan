@@ -86,24 +86,24 @@ class Register: UIViewController, AccountBLDelegate {
 
     }
     
-    func blFinishCreateAccount(status: String, account: Account) {
-        if status == "OK" {
-            let alertController = UIAlertController(title: "Register Success!", message: "Login Now", preferredStyle: UIAlertControllerStyle.Alert)
-            alertController.addAction(UIAlertAction(title: "Enjoy", style: UIAlertActionStyle.Default, handler: {
-                (action:UIAlertAction!) in
-                self.dismissViewControllerAnimated(true, completion: {
-                    NSNotificationCenter.defaultCenter().postNotificationName("loginSuccessed", object: nil)
-                })
-
-            }))
-            self.presentViewController(alertController, animated: true, completion: nil)
-        }
-        else if status == "Account has been used" {
-            print(status)
-        }
-        else {
-            print(status)
-        }
+    func blFinishCreateAccount(result:NSDictionary, account: Account) {
+//        if status == "OK" {
+//            let alertController = UIAlertController(title: "Register Success!", message: "Login Now", preferredStyle: UIAlertControllerStyle.Alert)
+//            alertController.addAction(UIAlertAction(title: "Enjoy", style: UIAlertActionStyle.Default, handler: {
+//                (action:UIAlertAction!) in
+//                self.dismissViewControllerAnimated(true, completion: {
+//                    NSNotificationCenter.defaultCenter().postNotificationName("loginSuccessed", object: nil)
+//                })
+//
+//            }))
+//            self.presentViewController(alertController, animated: true, completion: nil)
+//        }
+//        else if status == "Account has been used" {
+//            print(status)
+//        }
+//        else {
+//            print(status)
+//        }
     }
     
     @IBAction func viewPrivacy(sender: AnyObject) {

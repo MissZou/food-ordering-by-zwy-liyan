@@ -9,8 +9,8 @@
 import Alamofire
 
 protocol AccountDelegate {
-    func finishCreateAccount(status:String, account: Account)
-    func finishLogin(status:String, account: Account)
+    func finishCreateAccount(result:NSDictionary, account: Account)
+    func finishLogin(result:NSDictionary, account: Account)
 }
 
 class Account: NSObject {
@@ -53,15 +53,17 @@ class Account: NSObject {
             "name" : model.name
         ]
         
-        Alamofire.request(.POST, "\(baseUrl)"+"register", parameters: params, encoding: .JSON).responseData { response in
+        Alamofire.request(.POST, "\(baseUrl)"+"register", parameters: params, encoding: .JSON).responseJSON { response in
             let dataString = NSString(data: response.data!, encoding: NSUTF8StringEncoding)
             print(dataString!)
             print(NSString(data: response.request!.HTTPBody!, encoding: NSUTF8StringEncoding)!)
-            if (dataString! == "ok"){
-                self.delegate?.finishCreateAccount("ok", account: model)
-            }
-            else {
-                self.delegate?.finishCreateAccount(dataString! as String, account: model)
+            if let json = response.result.value {
+                if (dataString! == "ok"){
+                    self.delegate?.finishCreateAccount(json as! NSDictionary, account: model)
+                }
+                else {
+                    self.delegate?.finishCreateAccount(json as! NSDictionary, account: model)
+                }
             }
         }
     }
@@ -71,37 +73,50 @@ class Account: NSObject {
             "email" : model.email,
             "password" : model.password
             ]
-        Alamofire.request(.POST, "\(baseUrl)"+"login", parameters: params, encoding: .JSON).responseData { response in
-            let dataString = NSString(data: response.data!, encoding: NSUTF8StringEncoding)
-            print(dataString!)
-            print(NSString(data: response.request!.HTTPBody!, encoding: NSUTF8StringEncoding)!)
-            if (dataString! == "true"){
-                self.delegate?.finishLogin("ok", account: model)
+        Alamofire.request(.POST, "\(baseUrl)"+"login", parameters: params, encoding: .JSON).responseJSON { response in
+//            let dataString = NSString(data: response.data!, encoding: NSUTF8StringEncoding)
+//            print(dataString!)
+//            print(NSString(data: response.request!.HTTPBody!, encoding: NSUTF8StringEncoding)!)
+//            if (dataString! == "true"){
+//                self.delegate?.finishLogin("ok", account: model)
+//            }
+//            else {
+//                self.delegate?.finishLogin(dataString! as String, account: model)
+//            }
+            
+//            if ((response.result.value) != nil){
+//                self.delegate?.finishLogin("ok", account: model)
+//            }
+            //print(response.result.value!)
+            if let json = response.result.value
+            {
+                if let code = json.objectForKey("code") {
+                    print(code)
+                }
             }
-            else {
-                self.delegate?.finishLogin(dataString! as String, account: model)
-            }
+            
+
         }
 
     }
 
-    func loginTest(email:String, password:String) {
-        let params:[String : AnyObject] = [
-            "email" : email,
-            "password" : password
-            ]
-        print("\(baseUrl)"+"login")
-        Alamofire.request(.POST, "\(baseUrl)"+"login", parameters: params, encoding: .JSON).responseData { response in
-            let dataString = NSString(data: response.data!, encoding: NSUTF8StringEncoding)
-            print(dataString!)
-            print(NSString(data: response.request!.HTTPBody!, encoding: NSUTF8StringEncoding)!)
-            if (dataString! == "true"){
-                self.delegate?.finishLogin("ok", account: Account())
-            }
-            else {
-                self.delegate?.finishLogin(dataString! as String, account: Account())
-            }
-        }
-
-    }
+//    func loginTest(email:String, password:String) {
+//        let params:[String : AnyObject] = [
+//            "email" : email,
+//            "password" : password
+//            ]
+//        print("\(baseUrl)"+"login")
+//        Alamofire.request(.POST, "\(baseUrl)"+"login", parameters: params, encoding: .JSON).responseData { response in
+//            let dataString = NSString(data: response.data!, encoding: NSUTF8StringEncoding)
+//            print(dataString!)
+//            print(NSString(data: response.request!.HTTPBody!, encoding: NSUTF8StringEncoding)!)
+//            if (dataString! == "true"){
+//                self.delegate?.finishLogin("ok", account: Account())
+//            }
+//            else {
+//                self.delegate?.finishLogin(dataString! as String, account: Account())
+//            }
+//        }
+//
+//    }
 }
