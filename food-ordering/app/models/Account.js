@@ -58,12 +58,14 @@ module.exports = function(config, mongoose, nodemailer) {
     });
   };
 
-  var login = function(email, password, callback) {
+  var login = function(email, password,req, callback) {
         var shaSum = crypto.createHash('sha256');
         shaSum.update(password);
         Account.findOne({email:email,password:shaSum.digest('hex')},function(err,doc){
+            req.session.user = doc;
             callback(doc);
-            //console.log(doc);
+            console.log(doc);
+
             //return doc._id;
         });
 
@@ -84,7 +86,8 @@ module.exports = function(config, mongoose, nodemailer) {
       email: email,
       password: shaSum.digest('hex'),
       phone: phone,
-      name: name
+      name: name,
+      address:"default address"   //无效 不知道为啥暂时
     });
     user.save(registerCallback);
     res.send(200);

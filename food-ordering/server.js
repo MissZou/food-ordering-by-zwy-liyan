@@ -9,11 +9,8 @@ var mongoose = require('mongoose');
 var https = require('https');
 var http = require('http')
 var fs = require('fs');
-
-
+var session = require('express-session');
 var multipart = require('connect-multiparty');
-
-
 
 var httpsOptions = {
     key: fs.readFileSync('./https/server-key.pem'),
@@ -49,6 +46,25 @@ app.use(bodyParser({
     uploadDir: './public/upload'
 }));
 
+app.use(session({
+    secret: 'secret',
+    cookie: {
+        path: '/',
+        maxAge: 1000 * 60 * 30
+    }
+}));
+
+app.use(function(req, res, next) {
+    res.locals.user = req.session.user; // 从session 获取 user对象
+    var err = req.session.error; //获取错误信息
+    delete req.session.error;
+    res.locals.message = ""; // 展示的信息 message
+    if (err) {
+        res.locals.message = '<div class="alert alert-danger" style="margin-bottom:20px;color:red;">' + err + '</div>';
+    }
+    next(); //中间件传递
+});
+
 //app.use(express.cookieParser());
 //app.use(express.session({secret: "Food Ordering System", store: new MemoryStore()}));
 mongoose.connect('mongodb://localhost:27017/Server'); // connect to our database
@@ -59,12 +75,6 @@ var portHttps = process.env.PORT || 8000;
 
 var router = express.Router();
 var routerRestuarant = express.Router();
-
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-// router.get('/', function(req, res) {
-// 	//res.json({ message: 'hooray! welcome to our api!' });	
-
-// });
 
 router.route('/')
 
@@ -79,21 +89,29 @@ router.route('/')
 
 router.route('/upload')
     .get(function(req, res) {
-        res.render('upload.jade');
+        if (req.session.user) {
+            res.render('upload', {
+                username: req.session.user.name
+            });
+        } else {
+            res.render('upload', {
+                username: "请先登录"
+            });
+        }
     });
+
 
 router.route('/postupload').post(multipart(), function(req, res) {
     console.log(req.files)
     var date = new Date()
-    var dateString = date.toISOString().slice(0,19).replace(/-/g,"");
+    var dateString = date.toISOString().slice(0, 19).replace(/-/g, "");
     if (req.files.files.originalFilename != undefined) {
-         var filename = dateString.concat(req.files.files.originalFilename);
-     }
-   else {
+        var filename = dateString.concat(req.files.files.originalFilename);
+    } else {
         var filename = date;
-   }
+    }
     //copy file to a public directory
-    var targetPath = './public/upload/' + filename;
+    var targetPath = './public/upload/' + req.session.user._id+'.jpg';
     //copy file
     // fs.createReadStream(req.files.files.ws.path).pipe(fs.createWriteStream(targetPath));
     //return file url
@@ -103,41 +121,18 @@ router.route('/postupload').post(multipart(), function(req, res) {
         // 删除临时文件夹文件, 
         fs.unlink(tmp_path, function() {
             if (err) throw err;
-            //res.send('File uploaded to: ' + targetPath + ' - ' + req.files.files.size + ' bytes');
         });
     });
 
     res.json({
         code: 200,
         msg: {
-            url: 'http://' + req.headers.host + '/upload/' + filename
+            url: 'http://' + req.headers.host + '/upload/'+ req.session.user._id+'.jpg'
         }
     });
-    var url='http://' + req.headers.host + '/upload/' + filename;
+    var url = 'http://' + req.headers.host + '/upload/'  + req.session.user._id+'.jpg';
     upload.uploadUrl(url);
 });
-
-
-//console.log(req.body.image)
-//upload.upload(req.body.image, res);
-//upload.uploadUrl(req,res);
-/*		var tmp_path = req.files.thumbnail.path;
-    // 指定文件上传后的目录 - 示例为"images"目录。 
-    var target_path = './public/upload/' + req.files.thumbnail.name;
-    // 移动文件*/
-
-
-
-
-
-/*router.route('/out')
-	.get(function(req,res){
-		upload.getImage(req.body.image, res);
-		res.render('out',{
-			dbimage:"address"
-		});
-    })*/
-
 
 // ----------------------------------------------------
 router.route('/register')
@@ -151,17 +146,15 @@ router.route('/register')
         var password = req.param('password', null);
         var name = req.param('name', null);
         var phone = req.param('phone', null);
-        if (null == email || email.length < 1 || null == password || password.length < 1 || 
-            null == name || name.length < 1 || null==phone || phone.length < 1) { 
+        if (null == email || email.length < 1 || null == password || password.length < 1 ||
+            null == name || name.length < 1 || null == phone || phone.length < 1) {
             res.send(400);
             return;
-        }
-        else {
-                Account.foundAccount(email, function(doc){
+        } else {
+            Account.foundAccount(email, function(doc) {
                 if (doc == true) {
                     res.send("Account has been used");
-                }
-                else{
+                } else {
                     Account.register(email, password, phone, name, res);
                 }
             })
@@ -182,21 +175,18 @@ router.route('/login')
         return;
     };
 
-    Account.login(email, password, function(doc) {
-        if (doc != null)
-        {
+    Account.login(email, password, req,function(doc) {
+        if (doc != null) {
             res.json({
-                code:200,
+                code: 200,
                 accountId: doc._id
 
-            });   
-        }
-        else {
-            res.json({
-                code:400
-            })
+            });
+        } else {
+            res.status(400).send({ code: 400 });
         }
     });
+
 
 });
 
@@ -204,7 +194,7 @@ router.route('/forgetpassword')
 
 .post(function(req, res) {
     var hostname = req.headers.host;
-    var resetPasswordUrl = 'http://' + hostname + '/api/resetPassword';
+    var resetPasswordUrl = 'http://' + hostname + '/user/resetPassword';
     var email = req.param('email', null);
     if (null == email || email.length < 1) {
         res.send(400);
@@ -245,9 +235,9 @@ router.route('/resetPassword')
 // Restuarant --------------------------
 
 routerRestuarant.route('/')
-.get(function(req, res) {
-    res.send('routerRestuarant');
-})
+    .get(function(req, res) {
+        res.send('routerRestuarant');
+    })
 
 .post(function(req, res) {
     res.send('routerRestuarant');

@@ -5,6 +5,7 @@ html
 		title 注册   
 		link(rel='stylesheet', href='/stylesheets/upload.css')
 	body
+		h1= username
 		form#frmUploadFile(enctype='multipart/form-data',method='post',action='javascript:;')
 			label(for='shopName') Shop Name
 			input#shopName(type='text')

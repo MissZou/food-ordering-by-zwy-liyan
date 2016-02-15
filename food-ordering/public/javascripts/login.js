@@ -36,13 +36,14 @@ function login(e) {
         "password": loginpassword
     };
     $.ajax({
-        url: '/api/login',
+        url: '/user/login',
         type: 'post',
         data: data,
         success: function(data, status) {
             if (status == 'success') {
                 alert("登录成功");
-                window.location="/index";
+               /* window.location="/index";*/
+               window.location="/user/upload";
             }
         },
         error: function(data, status) {
@@ -78,7 +79,7 @@ function addUser(e) {
         $.ajax({
             type: "POST",
             data: newUser,
-            url: "/api/register",
+            url: "/user/register",
             success: function(data, status) {
                 if (status == "success") {
                     alert("注册成功、。。。")

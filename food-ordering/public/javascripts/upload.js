@@ -15,19 +15,12 @@ function readFile(file){
 
 $("#upload").on("click",upload);
 function upload(){
-	/*var data = {
-        "image": $("#list").attr("src")
-    };*/
-   /* var form = new FormData();  
-        form.append("file", $("#file")[0].files[0]);  
-*/
  var formData = new FormData($("#frmUploadFile")[0]);
 
-//alert(data)
 console.log(formData);
 
     $.ajax({
-        url: '/api/postupload',
+        url: '/user/postupload',
         type: 'POST',
         data: formData,
         async: false,
@@ -36,14 +29,14 @@ console.log(formData);
     processData: false,
         success: function(data, status) {
             if (data.code == 200) {
-                alert("登录成功");
+                alert("上传成功");
                 console.log(data.msg.url)
                 
             }
         },
         error: function(data, status) {
             if (status == 'error') {
-                alert("登录失败");
+                alert("上传失败");
             }
         }
     });
