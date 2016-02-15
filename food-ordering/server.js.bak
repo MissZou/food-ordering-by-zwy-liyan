@@ -22,7 +22,6 @@ var httpsOptions = {
     rejectUnauthorized: false
 }
 
-app.set('view engine', 'jade');
 var mailConfig = {
     host: 'smtp.gmail.com',
     secureConnection: true,
@@ -34,6 +33,12 @@ var mailConfig = {
 }
 
 var cookieSession = require('cookie-session');
+var Account = require('./app/models/Account')(mailConfig, mongoose, nodemailer);
+
+var portHttp = process.env.PORT || 8080; 
+var portHttps = process.env.PORT || 8000; 
+
+app.set('view engine', 'jade');
 
 
 var Account = require('./app/models/Account')(mailConfig, mongoose, nodemailer);
@@ -53,18 +58,13 @@ app.use(bodyParser({
 //app.use(express.session({secret: "Food Ordering System", store: new MemoryStore()}));
 mongoose.connect('mongodb://localhost:27017/Server'); // connect to our database
 
+
 //set server port
 var portHttp = process.env.PORT || 8080;
 var portHttps = process.env.PORT || 8000;
 
+
 var router = express.Router();
-var routerRestuarant = express.Router();
-
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-// router.get('/', function(req, res) {
-// 	//res.json({ message: 'hooray! welcome to our api!' });	
-
-// });
 
 router.route('/')
 
@@ -83,15 +83,9 @@ router.route('/upload')
     });
 
 router.route('/postupload').post(multipart(), function(req, res) {
+    //get filename
     console.log(req.files)
-    var date = new Date()
-    var dateString = date.toISOString().slice(0,19).replace(/-/g,"");
-    if (req.files.files.originalFilename != undefined) {
-         var filename = dateString.concat(req.files.files.originalFilename);
-     }
-   else {
-        var filename = date;
-   }
+    var filename = req.files.files.originalFilename;
     //copy file to a public directory
     var targetPath = './public/upload/' + filename;
     //copy file
@@ -117,56 +111,54 @@ router.route('/postupload').post(multipart(), function(req, res) {
     upload.uploadUrl(url);
 });
 
-
-//console.log(req.body.image)
-//upload.upload(req.body.image, res);
-//upload.uploadUrl(req,res);
-/*		var tmp_path = req.files.thumbnail.path;
-    // 指定文件上传后的目录 - 示例为"images"目录。 
-    var target_path = './public/upload/' + req.files.thumbnail.name;
-    // 移动文件*/
-
-
-
-
-
-/*router.route('/out')
+router.route('/register')	
 	.get(function(req,res){
-		upload.getImage(req.body.image, res);
-		res.render('out',{
-			dbimage:"address"
-		});
-    })*/
+		res.render('reg', {
+        title: 'register'
+    });
+	})
+	.post(function(req, res) {
+		var email = req.param('email', null);
+  		var password = req.param('password', null);
+  		var name = req.param('name', null);
+  		var phone = req.param('phone', null);
+		if (null == email || email.length < 1 || null == password || password.length < 1 || 
+			null == name || name.length < 1 || null==phone || phone.length < 1) { 
+  			res.send(400);
+  			return;
+  		}
+  		else {
+	  			Account.foundAccount(email, function(doc){
+	  			if (doc == true) {
+	  				res.send("Account has been used");
+	  			}
+	  			else{
+	  				Account.register(email, password, phone, name, res);
+	  			}
+	  		})
+  		}
+	});
 
 
-// ----------------------------------------------------
-router.route('/register')
+router.route('/login')
+	
+	.post(function(req, res){
+		console.log('login request');
+  		var email = req.param('email', null);
+  		var password = req.param('password', null);
+  		console.log(req);
+  		
+  		if (null == email || email.length < 1 || null == password || password.length < 1) { 
+  			res.send(400);
+  			return;
+  		}
+    }
+
     .get(function(req, res) {
         res.render('reg', {
             title: 'register'
         });
     })
-    .post(function(req, res) {
-        var email = req.param('email', null);
-        var password = req.param('password', null);
-        var name = req.param('name', null);
-        var phone = req.param('phone', null);
-        if (null == email || email.length < 1 || null == password || password.length < 1 || 
-            null == name || name.length < 1 || null==phone || phone.length < 1) { 
-            res.send(400);
-            return;
-        }
-        else {
-                Account.foundAccount(email, function(doc){
-                if (doc == true) {
-                    res.send("Account has been used");
-                }
-                else{
-                    Account.register(email, password, phone, name, res);
-                }
-            })
-        }
-    });
 
 
 router.route('/login')
@@ -175,7 +167,7 @@ router.route('/login')
     console.log('login request');
     var email = req.param('email', null);
     var password = req.param('password', null);
-    //console.log(req);
+    console.log(req);
 
     if (null == email || email.length < 1 || null == password || password.length < 1) {
         res.send(400);
@@ -183,19 +175,7 @@ router.route('/login')
     };
 
     Account.login(email, password, function(doc) {
-        if (doc != null)
-        {
-            res.json({
-                code:200,
-                accountId: doc._id
-
-            });   
-        }
-        else {
-            res.json({
-                code:400
-            })
-        }
+        res.send(doc);
     });
 
 });
@@ -242,20 +222,10 @@ router.route('/resetPassword')
     }
     res.render('resetPasswordSuccess.jade');
 });
-// Restuarant --------------------------
-
-routerRestuarant.route('/')
-.get(function(req, res) {
-    res.send('routerRestuarant');
-})
-
-.post(function(req, res) {
-    res.send('routerRestuarant');
-});
 
 // REGISTER OUR ROUTES -------------------------------
-app.use('/user', router);
-app.use('/shop', routerRestuarant);
+app.use('/api', router);
+
 // START THE SERVER
 // =============================================================================
 http.createServer(app).listen(portHttp);

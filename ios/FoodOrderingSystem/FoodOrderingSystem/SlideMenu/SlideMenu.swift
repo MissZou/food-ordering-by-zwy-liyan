@@ -17,19 +17,31 @@ class SlideMenu: UIViewController {
     
     var leftMenuWidth:CGFloat = 100
     var mainMenuViewController: MainMenuViewController!
-//    var isMenuOpened:Bool = true
-    var swipeLeft:UISwipeGestureRecognizer?
 
+    var swipeLeftGesture:UISwipeGestureRecognizer?
+    var tapToCloseMenuGesture: UITapGestureRecognizer?
+    var blurEffect: UIBlurEffect?
+    var blurEffectView: UIVisualEffectView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //initSlideMenu()
+
 //        dispatch_async(dispatch_get_main_queue()) {
 //            self.closeMenu(false)
 //        }
         
-        //rightView.layer.shadowOpacity = 0.8
+        swipeLeftGesture = UISwipeGestureRecognizer(target: self, action: Selector("closeMenuViaNotification"))
+        swipeLeftGesture!.direction = .Left
+        
+        tapToCloseMenuGesture = UITapGestureRecognizer(target: self, action: "closeMenuViaNotification")
 
+        blurEffect = UIBlurEffect(style: .Dark)
+        blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView?.frame = CGRectMake(rightView.frame.origin.x - leftMenuWidth, rightView.frame.origin.y, rightView.frame.size.width, rightView.frame.size.height)
+        blurEffectView?.addGestureRecognizer(tapToCloseMenuGesture!)
+        rightView.addSubview(blurEffectView!)
+        
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "toggleMenu", name: "toggleMenu", object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeMenuViaNotification", name: "closeMenuViaNotification", object: nil)
@@ -37,17 +49,11 @@ class SlideMenu: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "openMenu", name: "openMenu", object: nil)
 
         scrollView.scrollEnabled = false
-
-        swipeLeft = UISwipeGestureRecognizer(target: self, action: Selector("closeMenuViaNotification"))
-        swipeLeft!.direction = .Left
-        
-        self.closeMenu(false)
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        //closeMenu(false)
-        view.addGestureRecognizer(swipeLeft!)
+        view.addGestureRecognizer(swipeLeftGesture!)
     }
 
     func initSlideMenu(){
@@ -85,13 +91,16 @@ class SlideMenu: UIViewController {
 
     func closeMenu(animated:Bool = true){
         scrollView.setContentOffset(CGPoint(x: leftMenuWidth, y: 0), animated: animated)
-        view.removeGestureRecognizer(swipeLeft!)
+        blurEffectView?.removeFromSuperview()
+        view.removeGestureRecognizer(swipeLeftGesture!)
+        blurEffectView?.removeGestureRecognizer(tapToCloseMenuGesture!)
     }
     
     func openMenu(){
         scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-        view.addGestureRecognizer(swipeLeft!)
-        
+        rightView.addSubview(blurEffectView!)
+        blurEffectView!.addGestureRecognizer(tapToCloseMenuGesture!)
+        view.addGestureRecognizer(swipeLeftGesture!)
     }
 
     func openMainMenuView(){

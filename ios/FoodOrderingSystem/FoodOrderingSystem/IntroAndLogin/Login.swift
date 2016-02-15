@@ -8,19 +8,24 @@
 
 import UIKit
 
+
+
 class Login: UIViewController {
 
-    @IBOutlet weak var account: UITextField!
+    @IBOutlet weak var userName: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var btnForgetPassword: UIButton!
     @IBOutlet weak var btnSignUp: UIButton!
 
+    var accountBL: AccountBL?
+    var account: Account?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        account.layer.borderWidth = 1.0
+        userName.layer.borderWidth = 1.0
         password.layer.borderWidth = 1.0
-        account.layer.borderColor = UIColor.init(red: 230/255, green: 230/255, blue: 230/255, alpha: 1).CGColor
+        userName.layer.borderColor = UIColor.init(red: 230/255, green: 230/255, blue: 230/255, alpha: 1).CGColor
         password.layer.borderColor = UIColor.init(red: 230/255, green: 230/255, blue: 230/255, alpha: 1).CGColor
         
         btnSignUp.layer.borderColor = UIColor.init(red: 76/255, green: 76/255, blue: 76/255, alpha: 1).CGColor
@@ -30,17 +35,19 @@ class Login: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: Selector("dismissKeyboard"))
         view.addGestureRecognizer(tap)
 
-        self.account.delegate = self
+        self.userName.delegate = self
         self.password.delegate = self
         //self.setNeedsStatusBarAppearanceUpdate()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginSuccessed", name: "loginSuccessed", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginFailed", name: "loginFailed", object: nil)
+        
+
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: "loginSuccess", object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: "loginFailed", object: nil)
+        //NSNotificationCenter.defaultCenter().removeObserver(self, name: "loginSuccess", object: nil)
+        //NSNotificationCenter.defaultCenter().removeObserver(self, name: "loginFailed", object: nil)
     }
     
     override func prefersStatusBarHidden() -> Bool {
@@ -48,7 +55,7 @@ class Login: UIViewController {
     }
     
     func dismissKeyboard(){
-        account.resignFirstResponder()
+        userName.resignFirstResponder()
         password.resignFirstResponder()
     }
     
@@ -61,28 +68,18 @@ class Login: UIViewController {
     }
     
     @IBAction func login(sender: AnyObject) {
-        performSegueWithIdentifier("Index", sender: nil)
-
-        //        let params:[String : AnyObject] = [
-//            "email" : account.text!,
-//            "password" : password.text!
-//        ]
-//
-//        let networkHlep = NetworkHelp()
-//        //networkHlep.sendPostRequest("login",params: params)
-//        networkHlep.login("login",params: params)
+        account = Account()
+        accountBL = AccountBL()
+        account?.email = userName.text!
+        account?.password = password.text!
+        accountBL?.delegate = self
+        accountBL?.login(account!)
     }
     
     func loginSuccessed() {
         performSegueWithIdentifier("Index", sender: nil)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "Index" {
-            let slideMenu = segue.destinationViewController as! SlideMenu
-            //slideMenu.scrollView.setContentOffset(CGPoint(x:slideMenu.leftMenuWidth, y: 0), animated: false)
-        }
-    }
     
     func loginFailed() {
         let alertController = UIAlertController(title: "Login Failed", message: "Wrong email or password", preferredStyle: UIAlertControllerStyle.Alert)
@@ -90,6 +87,7 @@ class Login: UIViewController {
         self.presentViewController(alertController, animated: true, completion: nil)
     }
     
+
 }
 
 extension Login: UITextFieldDelegate {
@@ -97,4 +95,19 @@ extension Login: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+}
+
+extension Login: AccountBLDelegate {
+    func blFinishLogin(result:NSDictionary, account: Account) {
+//        if (status == "ok"){
+//            //NSNotificationCenter.defaultCenter().postNotificationName("loginSuccessed", object: nil)
+//            performSegueWithIdentifier("Index", sender: account)
+//        }
+//        else {
+//            print(status)
+//            //loginFailed()
+//            NSNotificationCenter.defaultCenter().postNotificationName("loginFailed", object: nil)
+//        }
+    }
+    
 }

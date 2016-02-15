@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CustomizeTableCell: UITableViewCell {
+class LeftMenuTableCell: UITableViewCell {
 
     //@IBOutlet weak var tableIcon: UIImageView!
     @IBOutlet weak var tableLabel: UILabel!
