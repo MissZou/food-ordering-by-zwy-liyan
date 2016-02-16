@@ -478,7 +478,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UserName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3hK-Lf-XFp">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UserName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3hK-Lf-XFp" userLabel="User">
                                 <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="3mQ-sl-158"/>
@@ -730,6 +730,10 @@
                     </view>
                     <connections>
                         <outlet property="Menu" destination="sG7-TQ-Ngo" id="jHt-dW-RdL"/>
+                        <outlet property="avatar" destination="zDR-qs-YAt" id="ISy-e1-g9f"/>
+                        <outlet property="email" destination="DXx-eq-ejl" id="0pd-xD-uax"/>
+                        <outlet property="name" destination="3hK-Lf-XFp" id="p4P-H0-e67"/>
+                        <outlet property="nameIndicator" destination="Yuj-mv-Uj3" id="9ng-bh-sj0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sk0-q1-zz1" userLabel="First Responder" sceneMemberID="firstResponder"/>

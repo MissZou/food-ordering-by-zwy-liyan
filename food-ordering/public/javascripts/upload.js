@@ -20,7 +20,7 @@ function upload(){
 console.log(formData);
 
     $.ajax({
-        url: '/user/postupload',
+        url: '/user/avatar',
         type: 'POST',
         data: formData,
         async: false,

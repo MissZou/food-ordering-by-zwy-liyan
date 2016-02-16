@@ -11,6 +11,7 @@ var http = require('http')
 var fs = require('fs');
 var session = require('express-session');
 var multipart = require('connect-multiparty');
+var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 
 var httpsOptions = {
     key: fs.readFileSync('./https/server-key.pem'),
@@ -20,6 +21,7 @@ var httpsOptions = {
 }
 
 app.set('view engine', 'jade');
+
 var mailConfig = {
     host: 'smtp.gmail.com',
     secureConnection: true,
@@ -30,6 +32,12 @@ var mailConfig = {
     }
 }
 
+var tokenConfig = {
+    'secret': 'wochengrenwokanbudongzhegetokenshiTMzmlaide',
+    'database': 'mongodb://localhost:27017/Server'
+}
+app.set('tokenScrete', tokenConfig.secret);
+
 var cookieSession = require('cookie-session');
 
 
@@ -38,10 +46,13 @@ var upload = require('./app/models/upload')(mongoose);
 app.use(express.static(__dirname + '/public'));
 //app.set('views', path.join(__dirname, 'views'));
 app.use(morgan('dev')); // log requests to the console 
+
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+
 app.use(bodyParser.json());
+
 app.use(bodyParser({
     uploadDir: './public/upload'
 }));
@@ -65,8 +76,6 @@ app.use(function(req, res, next) {
     next(); //中间件传递
 });
 
-//app.use(express.cookieParser());
-//app.use(express.session({secret: "Food Ordering System", store: new MemoryStore()}));
 mongoose.connect('mongodb://localhost:27017/Server'); // connect to our database
 
 //set server port
@@ -135,6 +144,7 @@ router.route('/postupload').post(multipart(), function(req, res) {
 });
 
 // ----------------------------------------------------
+
 router.route('/register')
     .get(function(req, res) {
         res.render('reg', {
@@ -151,16 +161,79 @@ router.route('/register')
             res.send(400);
             return;
         } else {
-            Account.foundAccount(email, function(doc) {
+            Account.findAccount(email, function(doc) {
                 if (doc == true) {
                     res.send("Account has been used");
                 } else {
                     Account.register(email, password, phone, name, res);
+                    
+                    Account.findAccount(email, function(doc){
+                    console.log(doc)
+                    var inToken = {"_id":doc._id}
+                    var token = jwt.sign(inToken, app.get('tokenScrete'), {
+                    expiresIn: 1440*60*7 // expires in 24*7 hours
+                });
+                        res.json({
+                            code: 200,
+                            accountId: doc._id,
+                            email:doc.email,
+                            name:doc.name,
+                            address:doc.address,
+                            success: true,
+                            token:token
+                        })
+                    })
                 }
             })
         }
     });
 
+router.route('/avatar')
+        .get(function(req, res) {
+        if (req.session.user) {
+            res.render('upload', {
+                username: req.session.user.name
+            });
+        } else {
+            res.render('upload', {
+                username: "请先登录"
+            });
+        }
+    })
+    
+    .post(multipart(),function(req, res){ //create avatar
+    //copy file to a public directory
+    console.log("avatar");
+    console.log(req.files);
+    var targetPath = './public/resources/avatar/' + req.session.user._id+'.jpg';
+    //copy file
+    // fs.createReadStream(req.files.files.ws.path).pipe(fs.createWriteStream(targetPath));
+    //return file url
+    var tmp_path = req.files.files.path;
+    fs.rename(tmp_path, targetPath, function(err) {
+        if (err) throw err;
+        // 删除临时文件夹文件, 
+        fs.unlink(tmp_path, function() {
+            if (err) throw err;
+        });
+    });
+    var url = 'http://' + req.headers.host + '/resources/avatar/'  + req.session.user._id+'.jpg';
+   
+    
+    var accountId = req.session.user._id;
+    console.log(accountId);
+    Account.uploadAvatar(accountId, url, function(err) {
+          //console.log("save image");
+         if (null == err) 
+         res.json({
+            code: 200,
+            msg: {
+                url:url
+            }
+        });
+    })
+
+    });
 
 router.route('/login')
 
@@ -177,10 +250,20 @@ router.route('/login')
 
     Account.login(email, password, req,function(doc) {
         if (doc != null) {
+            var inToken = {"_id":doc._id}
+
+            var token = jwt.sign(inToken, app.get('tokenScrete'), {
+                    expiresIn: 1440*60*7 // expires in 24*7 hours
+                });
+            
             res.json({
                 code: 200,
-                accountId: doc._id
-
+                accountId: doc._id,
+                email:doc.email,
+                address:doc.address,
+                success: true,
+                photoUrl:doc.photoUrl,
+                token:token
             });
         } else {
             res.status(400).send({ code: 400 });
@@ -189,6 +272,60 @@ router.route('/login')
 
 
 });
+
+router.use(function(req, res, next) {
+
+    // check header or url parameters or post parameters for token
+    var token = req.body.token || req.param('token') || req.headers['x-access-token'];
+
+    // decode token
+    if (token) {
+
+        // verifies secret and checks exp
+        jwt.verify(token, app.get('tokenScrete'), function(err, decoded) {          
+            if (err) {
+                return res.json({ success: false, message: 'Failed to authenticate token.' });      
+            } else {
+                // if everything is good, save to request for use in other routes
+                req.decoded = decoded;  
+                //console.log("decoded");
+                //console.log(decoded);
+                next();
+            }
+        });
+
+    } else {
+
+        // if there is no token
+        // return an error
+        return res.status(403).send({ 
+            success: false, 
+            message: 'No token provided.'
+        });
+        
+    }
+    
+});
+
+router.route('/accounts')
+    .post(function(req, res) {
+        //console.log(req.decoded);
+    Account.findAccountById(req.decoded._id, function(doc) { 
+        if (null!=doc)
+        res.json({
+            accountId: doc._id,
+            email:doc.email,
+            address:doc.address,
+            success:true
+        })
+        else{
+            res.json({
+                success:false
+            })
+        }
+    })
+});
+
 
 router.route('/forgetpassword')
 
@@ -232,18 +369,73 @@ router.route('/resetPassword')
     }
     res.render('resetPasswordSuccess.jade');
 });
+
+
 router.route('/address')
- .post(function(req, res){
-     var accountId = req.param('accountId', null);
-     var operation = req.param('operation', null);
-     var newAddress = req.param("newAddress", null);
-     if (operation == "add"){
-        Account.addAddress(accountId, newAddress, function(doc) {
-             res.send(doc);
-         });
-     }
+ .put(function(req, res){
+     var accountId = req.decoded._id;
+     var address = req.param("address", null);
+     Account.addAddress(accountId, address, function(doc) {
+         //res.send(doc);
+     });
+     Account.findAccountById(accountId, function(doc){
+        res.json({
+            accountId:doc._id,
+            address:doc.address
+        });
+     })
      
+ })
+
+ .delete(function(req, res){
+    var accountId = req.decoded._id;
+    var address = req.param("address", null);
+     Account.deleteAddress(accountId, address, function(doc) {
+         //res.send(doc);
+     });
+     Account.findAccountById(accountId, function(doc){
+        res.json({
+            accountId:doc._id,
+            address:doc.address
+        });
+     })
  });
+
+router.route('/location')
+ .put(function(req, res){
+     var accountId = req.decoded._id;
+     var location = req.param("location", null);
+     Account.addLocation(accountId, location, function(doc) {
+         //res.send(doc);
+     });
+     Account.findAccountById(accountId, function(doc){
+         console.log(doc);
+        res.json({
+            accountId:doc._id,
+            location:doc.location,
+            address:doc.address,
+            phone:doc.phone
+        });
+        //res.send(doc)
+     })
+     
+ })
+
+ .delete(function(req, res){
+    var accountId = req.decoded._id;
+    var location = req.param("location", null);
+     Account.deleteLocation(accountId, location, function(doc) {
+         //res.send(doc);
+     });
+     Account.findAccountById(accountId, function(doc){
+       
+        res.json({
+            accountId:doc._id,
+            location:doc.location
+        });
+     })
+ });
+
  // Restuarant api =================================================================
 
 routerRestuarant.route('/')

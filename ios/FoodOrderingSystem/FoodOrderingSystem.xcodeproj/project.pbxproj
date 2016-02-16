@@ -44,6 +44,7 @@
 		BA9EBE051C5F401F006B85F1 /* MenuTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9EBE001C5F401F006B85F1 /* MenuTable.swift */; };
 		BA9EBE061C5F401F006B85F1 /* SlideMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9EBE011C5F401F006B85F1 /* SlideMenu.swift */; };
 		BA9EBE081C5F4070006B85F1 /* SlideMenu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA9EBE071C5F4070006B85F1 /* SlideMenu.storyboard */; };
+		BAA800D41C73649800F503A4 /* nameIndicator.png in Resources */ = {isa = PBXBuildFile; fileRef = BAA800D31C73649800F503A4 /* nameIndicator.png */; };
 		BAE01B911C4BBB7C0045D4C8 /* NetworkHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE01B901C4BBB7C0045D4C8 /* NetworkHelp.swift */; };
 /* End PBXBuildFile section */
 
@@ -109,6 +110,7 @@
 		BA9EBE001C5F401F006B85F1 /* MenuTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTable.swift; sourceTree = "<group>"; };
 		BA9EBE011C5F401F006B85F1 /* SlideMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideMenu.swift; sourceTree = "<group>"; };
 		BA9EBE071C5F4070006B85F1 /* SlideMenu.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SlideMenu.storyboard; path = FoodOrderingSystem/SlideMenu/SlideMenu.storyboard; sourceTree = SOURCE_ROOT; };
+		BAA800D31C73649800F503A4 /* nameIndicator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nameIndicator.png; sourceTree = "<group>"; };
 		BAE01B901C4BBB7C0045D4C8 /* NetworkHelp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkHelp.swift; sourceTree = "<group>"; };
 		E6FCED26F58214B57FCAC3B5 /* Pods-FoodOrderingSystem.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FoodOrderingSystem.release.xcconfig"; path = "Pods/Target Support Files/Pods-FoodOrderingSystem/Pods-FoodOrderingSystem.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -285,6 +287,7 @@
 			isa = PBXGroup;
 			children = (
 				BA50335C1C60DC6B00E0F066 /* account.png */,
+				BAA800D31C73649800F503A4 /* nameIndicator.png */,
 				BA5033541C60DAB600E0F066 /* addGreen.png */,
 				BA5033551C60DAB600E0F066 /* cartGreen.png */,
 				BA5033561C60DAB600E0F066 /* favoriteGreen.png */,
@@ -442,6 +445,7 @@
 				BA1CFB721C4A704500269862 /* introductionPic2.jpg in Resources */,
 				BA3B1AB21C5B51C200E4999F /* Login.storyboard in Resources */,
 				BA11D81B1C49D2F500C8C830 /* LaunchScreen.storyboard in Resources */,
+				BAA800D41C73649800F503A4 /* nameIndicator.png in Resources */,
 				BA11D8181C49D2F500C8C830 /* Assets.xcassets in Resources */,
 				BA1CFB711C4A704500269862 /* introductionPic1.jpg in Resources */,
 				BA5033591C60DAB600E0F066 /* cartGreen.png in Resources */,
