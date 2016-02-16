@@ -62,28 +62,23 @@ class MainMenuViewController: UIViewController, DropDownButtonDelegate {
     func openOrderView(){
         self.performSegueWithIdentifier("order", sender: nil)
     }
-//    
-//    override func presentModalViewController(modalViewController: UIViewController, animated: Bool) {
-//        let transition = CATransition()
-//        transition.duration = 0.3
-//        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-//        transition.type = kCATransitionMoveIn
-//        transition.subtype = kCATransitionFromRight
-//        
-//        let container = self.view.window
-//        container?.layer.addAnimation(transition, forKey: nil)
-//        self.presentModalViewController(modalViewController, animated: true)
-//    }
 
     
     
     @IBAction func chooseAddress(sender: AnyObject) {
-        let address = ["Minzu University of China", "University of Hong Kong", "Why show your weakness"]
+        //let address = ["Minzu University of China", "University of Hong Kong", "Why show your weakness"]
+        var locations:[String]
+        if let location = Account.sharedManager.location {
+            locations = location
+        }
+        else{
+            locations = ["No used location"]
+        }
         
         if (dropDownAddressButton == nil){
             let cellHeight:CGFloat = 40;
-            let dropDownFrameHeight = cellHeight * CGFloat(address.count)
-            dropDownAddressButton = DropDownButton(button: dropDownAddressSender, cellHeight: cellHeight, height: dropDownFrameHeight, array: address)
+            let dropDownFrameHeight = cellHeight * CGFloat(locations.count)
+            dropDownAddressButton = DropDownButton(button: dropDownAddressSender, cellHeight: cellHeight, height: dropDownFrameHeight, array: locations)
             dropDownAddressButton?.delegate = self
             view.addSubview(blurEffectView)
             view.addGestureRecognizer(tapCloseDropDownMenu)

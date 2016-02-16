@@ -9,7 +9,8 @@ module.exports = function(config, mongoose, nodemailer) {
     phone:     { type: String},
     name:      {type: String},
     photoUrl:  { type: String},
-    address:   {type: String}
+    address:   {type: [String]},
+    location: {type: [String]}
   });
 
   var Account = mongoose.model('Account', AccountSchema);
@@ -64,16 +65,22 @@ module.exports = function(config, mongoose, nodemailer) {
         Account.findOne({email:email,password:shaSum.digest('hex')},function(err,doc){
             req.session.user = doc;
             callback(doc);
-            console.log(doc);
+            //console.log(doc);
 
             //return doc._id;
         });
 
     };
 
-  var foundAccount = function(email, callback) {
+  var findAccount = function(email, callback) {
     Account.findOne({email:email}, function(err,doc){
-        callback(null != doc);
+        callback(doc);
+    })
+  }
+
+  var findAccountById = function(id, callback) {
+    Account.findOne({_id:id}, function(err, doc){
+      callback(doc);
     })
   }
 
@@ -90,22 +97,56 @@ module.exports = function(config, mongoose, nodemailer) {
       address:"default address"   //无效 不知道为啥暂时
     });
     user.save(registerCallback);
-    res.send(200);
-    console.log('Save command was sent');
+    //res.send(200);
+   
   }
+
+var uploadAvatar = function(accountId, photoUrl, callback) {
+    Account.update({_id:accountId}, {$set:{photoUrl:photoUrl}},{upsert:false},
+      function(err){
+        callback(err);
+      });
+} 
+
 var addAddress = function(accountId, newAddress, callback) {
-       var user = Account.findOne({_id:accountId}, function(err,doc){
-        user.address.push(newAddress);
-        callback(doc);
-   });
-   };
+        Account.update({_id:accountId}, {$push: {address:newAddress}},{upsert:true},
+      function (err) {
+        callback(err);
+    });
+}
+
+var deleteAddress = function(accountId, address, callback) {
+        Account.update({_id:accountId}, {$pull: {address:address}},{upsert:true},
+      function (err) {
+        callback(err);
+    });
+}
+var addLocation = function(accountId, location, callback) {
+        Account.update({_id:accountId}, {$push: {location:location}},{upsert:true},
+      function (err) {
+        callback(err);
+    });
+}
+
+var deleteLocation = function(accountId, location, callback) {
+        Account.update({_id:accountId}, {$pull: {location:location}},{upsert:true},
+      function (err) {
+        callback(err);
+    });
+};
+
   return {
     register: register,
     forgotPassword: forgotPassword,
     changePassword: changePassword,
     login: login,
     Account: Account,
-    foundAccount: foundAccount,
-    addAddress: addAddress
+    findAccount: findAccount,
+    uploadAvatar:uploadAvatar,
+    addAddress: addAddress,
+    findAccountById: findAccountById,
+    deleteAddress: deleteAddress,
+    addLocation:addLocation,
+    deleteLocation:deleteLocation
   }
 }

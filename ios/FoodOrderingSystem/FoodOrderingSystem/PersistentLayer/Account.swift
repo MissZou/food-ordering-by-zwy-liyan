@@ -25,6 +25,8 @@ class Account: NSObject {
     var photoUrl:String?
     var deliveryAddress:[String]?
     var accountId:String?
+    var location:[String]?
+    var token:String?
     //static var sharedManager: Account
     override init() {
         email = ""
@@ -55,15 +57,23 @@ class Account: NSObject {
         ]
         
         Alamofire.request(.POST, "\(baseUrl)"+"register", parameters: params, encoding: .JSON).responseJSON { response in
-            let dataString = NSString(data: response.data!, encoding: NSUTF8StringEncoding)
-            print(dataString!)
-            print(NSString(data: response.request!.HTTPBody!, encoding: NSUTF8StringEncoding)!)
+//            let dataString = NSString(data: response.data!, encoding: NSUTF8StringEncoding)
+//            print(dataString!)
+//            print(NSString(data: response.request!.HTTPBody!, encoding: NSUTF8StringEncoding)!)
+            
             if let json = response.result.value {
-                if (dataString! == "ok"){
-                    self.delegate?.finishCreateAccount(json as! NSDictionary, account: model)
-                }
-                else {
-                    self.delegate?.finishCreateAccount(json as! NSDictionary, account: model)
+                if let json = response.result.value
+                {
+                    if let code = json.objectForKey("code") {
+                        if code as! Int  == 200 {
+                            self.delegate?.finishCreateAccount(json as! NSDictionary, account: model)
+                        }
+                        else {
+                            print("Account has been used")
+                            self.delegate?.finishCreateAccount(json as! NSDictionary, account: model)
+                        }
+                    }
+                    
                 }
             }
         }
@@ -75,20 +85,7 @@ class Account: NSObject {
             "password" : model.password
             ]
         Alamofire.request(.POST, "\(baseUrl)"+"login", parameters: params, encoding: .JSON).responseJSON { response in
-//            let dataString = NSString(data: response.data!, encoding: NSUTF8StringEncoding)
-//            print(dataString!)
-//            print(NSString(data: response.request!.HTTPBody!, encoding: NSUTF8StringEncoding)!)
-//            if (dataString! == "true"){
-//                self.delegate?.finishLogin("ok", account: model)
-//            }
-//            else {
-//                self.delegate?.finishLogin(dataString! as String, account: model)
-//            }
-            
-//            if ((response.result.value) != nil){
-//                self.delegate?.finishLogin("ok", account: model)
-//            }
-            //print(response.result.value!)
+
             if let json = response.result.value
             {
                 if let code = json.objectForKey("code") {
@@ -97,35 +94,46 @@ class Account: NSObject {
                     }
                     else {
                         print("wrong email or password")
+                        self.delegate?.finishLogin(json as! NSDictionary, account: model)
                     }
                 }
-//                if let accountId = json.objectForKey("accountId"){
-//                    print(accountId)
-//                }
+
             }
-            
-
         }
-
     }
 
-//    func loginTest(email:String, password:String) {
-//        let params:[String : AnyObject] = [
-//            "email" : email,
-//            "password" : password
-//            ]
-//        print("\(baseUrl)"+"login")
-//        Alamofire.request(.POST, "\(baseUrl)"+"login", parameters: params, encoding: .JSON).responseData { response in
-//            let dataString = NSString(data: response.data!, encoding: NSUTF8StringEncoding)
-//            print(dataString!)
-//            print(NSString(data: response.request!.HTTPBody!, encoding: NSUTF8StringEncoding)!)
-//            if (dataString! == "true"){
-//                self.delegate?.finishLogin("ok", account: Account())
-//            }
-//            else {
-//                self.delegate?.finishLogin(dataString! as String, account: Account())
-//            }
-//        }
-//
-//    }
+    func updateAccountData(data:NSDictionary){
+        if let token = data.objectForKey("token"){
+            self.token = token as? String
+        }
+        
+        if let accountId = data.objectForKey("accountId"){
+            self.accountId = accountId as? String
+        }
+        
+        if let email = data.objectForKey("email"){
+            self.email = email as! String
+        }
+        
+        if let phone = data.objectForKey("phone"){
+            self.phone = phone as! String
+        }
+        
+        if let name = data.objectForKey("name"){
+            self.name = name as! String
+        }
+        
+        if let photoUrl = data.objectForKey("photoUrl") {
+            self.photoUrl = photoUrl as? String
+        }
+        
+        if let deliveryAddress = data.objectForKey("address") {
+            print(deliveryAddress)
+            self.deliveryAddress = deliveryAddress as? [String]
+        }
+        
+        if let location = data.objectForKey("location") {
+            self.location = location as? [String]
+        }
+    }
 }

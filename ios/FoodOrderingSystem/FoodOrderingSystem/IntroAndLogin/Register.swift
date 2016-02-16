@@ -72,7 +72,7 @@ class Register: UIViewController, AccountBLDelegate {
     }
     
     @IBAction func register(sender: AnyObject) {
-        newAccount = Account()
+        newAccount = Account.sharedManager
         accountBL = AccountBL()
         
         newAccount?.name = name.text!
@@ -87,23 +87,24 @@ class Register: UIViewController, AccountBLDelegate {
     }
     
     func blFinishCreateAccount(result:NSDictionary, account: Account) {
-//        if status == "OK" {
-//            let alertController = UIAlertController(title: "Register Success!", message: "Login Now", preferredStyle: UIAlertControllerStyle.Alert)
-//            alertController.addAction(UIAlertAction(title: "Enjoy", style: UIAlertActionStyle.Default, handler: {
-//                (action:UIAlertAction!) in
-//                self.dismissViewControllerAnimated(true, completion: {
-//                    NSNotificationCenter.defaultCenter().postNotificationName("loginSuccessed", object: nil)
-//                })
-//
-//            }))
-//            self.presentViewController(alertController, animated: true, completion: nil)
-//        }
-//        else if status == "Account has been used" {
-//            print(status)
-//        }
-//        else {
-//            print(status)
-//        }
+        if let code = result.objectForKey("code") {
+            if code as! Int == 200 {
+                newAccount?.updateAccountData(result)
+            let alertController = UIAlertController(title: "Register Success!", message: "Login Now", preferredStyle: UIAlertControllerStyle.Alert)
+            alertController.addAction(UIAlertAction(title: "Enjoy", style: UIAlertActionStyle.Default, handler: {
+                (action:UIAlertAction!) in
+                self.dismissViewControllerAnimated(true, completion: {
+                    NSNotificationCenter.defaultCenter().postNotificationName("loginSuccessed", object: nil)
+                })
+
+            }))
+            self.presentViewController(alertController, animated: true, completion: nil)
+
+            }
+            else {
+                //NSNotificationCenter.defaultCenter().postNotificationName("loginFailed", object: nil)
+            }
+        }
     }
     
     @IBAction func viewPrivacy(sender: AnyObject) {

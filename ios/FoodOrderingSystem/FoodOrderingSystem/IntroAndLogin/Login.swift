@@ -99,21 +99,14 @@ extension Login: UITextFieldDelegate {
 
 extension Login: AccountBLDelegate {
     func blFinishLogin(result:NSDictionary, account: Account) {
-//        if (status == "ok"){
-//            //NSNotificationCenter.defaultCenter().postNotificationName("loginSuccessed", object: nil)
-//            performSegueWithIdentifier("Index", sender: account)
-//        }
-//        else {
-//            print(status)
-//            //loginFailed()
-//            NSNotificationCenter.defaultCenter().postNotificationName("loginFailed", object: nil)
-//        }
         if let code = result.objectForKey("code") {
             if code as! Int == 200 {
-//                if let obj_Id = result.objectForKey("accountId") {
-//                    account.accountId = obj_Id as? String
-//                }
+                account.updateAccountData(result)
+                //print(account)
                 performSegueWithIdentifier("Index", sender: account)
+            }
+            else {
+                NSNotificationCenter.defaultCenter().postNotificationName("loginFailed", object: nil)
             }
         }
 
