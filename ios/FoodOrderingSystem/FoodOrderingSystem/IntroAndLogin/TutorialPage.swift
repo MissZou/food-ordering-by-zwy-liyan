@@ -51,6 +51,7 @@ class TutorialPage: UIViewController {
             btnLogin.hidden = true
         }
         self.prefersStatusBarHidden()
+        //performSegueWithIdentifier("login", sender: nil)
     }
 
     
@@ -62,7 +63,6 @@ class TutorialPage: UIViewController {
 
     
     @IBAction func login(sender: AnyObject) {
-       
     }
 
     func setAttributedString() {

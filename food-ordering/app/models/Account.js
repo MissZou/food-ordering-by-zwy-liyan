@@ -87,8 +87,6 @@ module.exports = function(config, mongoose, nodemailer) {
   var register = function(email, password, phone, name, res) {
     var shaSum = crypto.createHash('sha256');
     shaSum.update(password);
-
-    console.log('Registering ' + email);
     var user = new Account({
       email: email,
       password: shaSum.digest('hex'),
