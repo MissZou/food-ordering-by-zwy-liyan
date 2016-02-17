@@ -9,7 +9,7 @@
 import UIKit
 
 class MenuTable: UITableViewController {
-    let menuOptions = ["Account", "Menu", "Schedule", "Favorite"]
+    let menuOptions = ["Account", "Menu", "Schedule", "Favorite", "Log Out"]
     
 
     override func viewDidAppear(animated: Bool) {
@@ -35,6 +35,10 @@ extension MenuTable {
             NSNotificationCenter.defaultCenter().postNotificationName("closeMenuViaNotification", object: nil)
         case 2:
             NSNotificationCenter.defaultCenter().postNotificationName("openOrderView", object: nil)
+        case 3:
+            print("favorite + \(indexPath.row)")
+        case 4:
+            print("logout")
         default:
             print("indexPath.row:: \(indexPath.row)")
         }

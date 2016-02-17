@@ -162,8 +162,9 @@ router.route('/register')
             return;
         } else {
             Account.findAccount(email, function(doc) {
-                if (doc == true) {
+                if (doc != null) {
                     res.send("Account has been used");
+                    return
                 } else {
                     Account.register(email, password, phone, name, res);
                     
@@ -235,98 +236,6 @@ router.route('/avatar')
 
     });
 
-router.route('/login')
-
-.post(function(req, res) {
-    console.log('login request');
-    var email = req.param('email', null);
-    var password = req.param('password', null);
-    //console.log(req);
-
-    if (null == email || email.length < 1 || null == password || password.length < 1) {
-        res.send(400);
-        return;
-    };
-
-    Account.login(email, password, req,function(doc) {
-        if (doc != null) {
-            var inToken = {"_id":doc._id}
-
-            var token = jwt.sign(inToken, app.get('tokenScrete'), {
-                    expiresIn: 1440*60*7 // expires in 24*7 hours
-                });
-            
-            res.json({
-                code: 200,
-                accountId: doc._id,
-                email:doc.email,
-                address:doc.address,
-                success: true,
-                photoUrl:doc.photoUrl,
-                token:token
-            });
-        } else {
-            res.status(400).send({ code: 400 });
-        }
-    });
-
-
-});
-
-router.use(function(req, res, next) {
-
-    // check header or url parameters or post parameters for token
-    var token = req.body.token || req.param('token') || req.headers['x-access-token'];
-
-    // decode token
-    if (token) {
-
-        // verifies secret and checks exp
-        jwt.verify(token, app.get('tokenScrete'), function(err, decoded) {          
-            if (err) {
-                return res.json({ success: false, message: 'Failed to authenticate token.' });      
-            } else {
-                // if everything is good, save to request for use in other routes
-                req.decoded = decoded;  
-                //console.log("decoded");
-                //console.log(decoded);
-                next();
-            }
-        });
-
-    } else {
-
-        // if there is no token
-        // return an error
-        return res.status(403).send({ 
-            success: false, 
-            message: 'No token provided.'
-        });
-        
-    }
-    
-});
-
-router.route('/accounts')
-    .post(function(req, res) {
-        //console.log(req.decoded);
-    Account.findAccountById(req.decoded._id, function(doc) { 
-        if (null!=doc)
-        res.json({
-            accountId: doc._id,
-            email:doc.email,
-            address:doc.address,
-            success:true
-        })
-        else{
-            res.json({
-                success:false
-            })
-        }
-    })
-});
-
-
 router.route('/forgetpassword')
 
 .post(function(req, res) {
@@ -370,8 +279,108 @@ router.route('/resetPassword')
     res.render('resetPasswordSuccess.jade');
 });
 
+router.route('/login')
 
-router.route('/address')
+.post(function(req, res) {
+    console.log('login request');
+    var email = req.param('email', null);
+    var password = req.param('password', null);
+    //console.log(req);
+
+    if (null == email || email.length < 1 || null == password || password.length < 1) {
+        res.send(400);
+        return;
+    };
+
+    Account.login(email, password, req,function(doc) {
+        if (doc != null) {
+            var inToken = {"_id":doc._id}
+
+            var token = jwt.sign(inToken, app.get('tokenScrete'), {
+                    expiresIn: 1440*60*7 // expires in 24*7 hours
+                });
+            
+            res.json({
+                code: 200,
+                accountId: doc._id,
+                email:doc.email,
+                address:doc.address,
+                name:doc.name,
+                phone:doc.phone,
+                location:doc.location,
+                photoUrl:doc.photoUrl,
+                success:true
+            });
+        } else {
+            res.status(400).send({ code: 400 });
+        }
+    });
+
+
+});
+
+router.use("/account",function(req, res, next) {
+
+    // check header or url parameters or post parameters for token
+    var token = req.body.token || req.param('token') || req.headers['x-access-token'];
+
+    // decode token
+    if (token) {
+
+        // verifies secret and checks exp
+        jwt.verify(token, app.get('tokenScrete'), function(err, decoded) {          
+            if (err) {
+                return res.json({ success: false, message: 'Failed to authenticate token.' });      
+            } else {
+                // if everything is good, save to request for use in other routes
+                req.decoded = decoded;  
+                //console.log("decoded");
+                //console.log(decoded);
+                next();
+            }
+        });
+
+    } else {
+
+        // if there is no token
+        // return an error
+        return res.status(403).send({ 
+            success: false, 
+            message: 'No token provided.'
+        });
+        
+    }
+    
+});
+
+router.route('/account')
+    .post(function(req, res) {
+        //console.log(req.decoded);
+    Account.findAccountById(req.decoded._id, function(doc) { 
+        if (null!=doc)
+        res.json({
+            accountId: doc._id,
+            email:doc.email,
+            address:doc.address,
+            name:doc.name,
+            phone:doc.phone,
+            location:doc.location,
+            photoUrl:doc.photoUrl,
+            success:true
+        })
+        else{
+            res.json({
+                success:false
+            })
+        }
+    })
+});
+
+
+
+
+
+router.route('/account/address')
  .put(function(req, res){
      var accountId = req.decoded._id;
      var address = req.param("address", null);
@@ -401,7 +410,7 @@ router.route('/address')
      })
  });
 
-router.route('/location')
+router.route('/account/location')
  .put(function(req, res){
      var accountId = req.decoded._id;
      var location = req.param("location", null);
@@ -412,9 +421,7 @@ router.route('/location')
          console.log(doc);
         res.json({
             accountId:doc._id,
-            location:doc.location,
-            address:doc.address,
-            phone:doc.phone
+            location:doc.location
         });
         //res.send(doc)
      })
@@ -435,7 +442,6 @@ router.route('/location')
         });
      })
  });
-
  // Restuarant api =================================================================
 
 routerRestuarant.route('/')

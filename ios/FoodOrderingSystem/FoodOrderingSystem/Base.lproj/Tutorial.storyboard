@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -52,7 +52,7 @@
                                 </state>
                                 <connections>
                                     <action selector="login:" destination="vB3-AY-vhc" eventType="touchUpInside" id="pcN-FO-CyS"/>
-                                    <segue destination="D5F-6K-NNF" kind="show" id="cgI-1k-KgS"/>
+                                    <segue destination="D5F-6K-NNF" kind="show" identifier="login" id="cgI-1k-KgS"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YRa-tj-SC7">
@@ -249,13 +249,13 @@
         <!--Login-->
         <scene sceneID="Jmw-eZ-dIC">
             <objects>
-                <viewControllerPlaceholder storyboardName="Login" id="D5F-6K-NNF" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardIdentifier="loginView" storyboardName="Login" id="D5F-6K-NNF" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lrR-ib-hkl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="241" y="1879"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="vTw-le-aag"/>
+        <segue reference="cgI-1k-KgS"/>
     </inferredMetricsTieBreakers>
 </document>

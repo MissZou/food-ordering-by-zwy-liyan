@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="eG8-k9-KdS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="eG8-k9-KdS">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -10,7 +10,7 @@
         <!--Login-->
         <scene sceneID="khL-mS-4U7">
             <objects>
-                <viewController id="eG8-k9-KdS" customClass="Login" customModule="FoodOrderingSystem" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginViewController" id="eG8-k9-KdS" customClass="Login" customModule="FoodOrderingSystem" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Owo-p5-rBQ"/>
                         <viewControllerLayoutGuide type="bottom" id="dOD-R1-W9P"/>
@@ -173,7 +173,7 @@
                         <outlet property="btnSignUp" destination="zVp-1c-Cs5" id="PwV-Wf-yxg"/>
                         <outlet property="password" destination="lPu-TL-ucd" id="jSl-EQ-PSh"/>
                         <outlet property="userName" destination="dO5-c4-J8f" id="NIr-wk-sGA"/>
-                        <segue destination="aWo-gG-7dn" kind="show" identifier="Index" id="pfW-6P-UWD"/>
+                        <segue destination="aWo-gG-7dn" kind="show" identifier="MainMenu" id="pfW-6P-UWD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="32f-Qd-Kpv" userLabel="First Responder" sceneMemberID="firstResponder"/>

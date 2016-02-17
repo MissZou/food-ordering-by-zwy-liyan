@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TutorialRootViewController: UIViewController, UIPageViewControllerDataSource {
+class TutorialRootViewController: UIViewController, UIPageViewControllerDataSource, AccountDelegate {
 
     var pageViewController: UIPageViewController?
     var arrayPageTitles: NSArray?
@@ -22,6 +22,13 @@ class TutorialRootViewController: UIViewController, UIPageViewControllerDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        if let token = NSUserDefaults.standardUserDefaults().stringForKey("token") {
+            let account = Account.sharedManager
+            account.token = token
+            account.delegate = self
+            account.checkLoginStatus()
+        }
+        
         arrayPageTitles = ["DINNER MADE EASY", "DELIVERED ANYWHERE", "DINNERS YOU WANT"]
         arrayImages = ["introductionPic1.jpg", "introductionPic2.jpg", "introductionPic3.jpg"]
         arrayPageTexts = [introText1, introText2, introText3]
@@ -35,8 +42,12 @@ class TutorialRootViewController: UIViewController, UIPageViewControllerDataSour
         self.addChildViewController(pageViewController!)
         self.view.addSubview(pageViewController!.view)
         self.pageViewController?.didMoveToParentViewController(self)
+        //performSegueWithIdentifier("login", sender: nil)
         
-
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
     }
     
     override func didReceiveMemoryWarning() {
@@ -97,3 +108,17 @@ class TutorialRootViewController: UIViewController, UIPageViewControllerDataSour
     }
 }
 
+extension TutorialRootViewController {
+
+
+    func finishLogin(result: NSDictionary, account: Account) {
+        if let success = result.objectForKey("success") {
+            if success as! NSObject == true {
+//                let storyboard = UIStoryboard(name: "SlideMenu", bundle: nil)
+//                let mainMenu = storyboard.instantiateViewControllerWithIdentifier("slideMenu")
+//                presentViewController(mainMenu, animated: true, completion: nil)
+                
+            }
+        }
+    }
+}
