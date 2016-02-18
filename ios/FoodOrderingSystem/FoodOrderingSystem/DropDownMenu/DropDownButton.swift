@@ -11,7 +11,7 @@ import UIKit
 protocol DropDownButtonDelegate {
     
     func dropDownMenuClicked(sender: DropDownButton)
-    
+    func dropDownMenuDelete(sender:DropDownButton, string:String)
 }
 
 class DropDownButton: UIView, UITableViewDelegate, UITableViewDataSource {
@@ -20,9 +20,9 @@ class DropDownButton: UIView, UITableViewDelegate, UITableViewDataSource {
     var choosedString:String?
     
     private var tableViewCellHeigh: CGFloat!
-    private var dropDownTableView: UITableView?
+    var dropDownTableView: UITableView?
     private var senderBtn: UIButton?
-    private var dropDownList: Array<String>?
+    var dropDownList: Array<String>?
     
     
     
@@ -34,9 +34,11 @@ class DropDownButton: UIView, UITableViewDelegate, UITableViewDataSource {
         self.init()
         tableViewCellHeigh = cellHeight
         self.dropDownList = array
-        self.dropDownList?.insert("New Location", atIndex: 0)
-
+        //self.dropDownList?.insert("New Location", atIndex: 0)
+        senderBtn = button
         self.showDropDown(button, height: height, buttonArray: array)
+        print(array)
+        print(dropDownList)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -126,5 +128,27 @@ class DropDownButton: UIView, UITableViewDelegate, UITableViewDataSource {
         senderBtn!.setTitle(buttonTitle, forState: UIControlState.Normal)
         self.choosedString = dropDownList![indexPath.row]
         self.delegate?.dropDownMenuClicked(self)
+    }
+    
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        if indexPath.row == 0{
+            return false
+        }
+        return true
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            print("delete")
+            //Account.sharedManager.address(Account.requestMethod.DELETE, add: self.dropDownList![indexPath.row])
+            let deleteString = self.dropDownList![indexPath.row]
+            self.dropDownList?.removeAtIndex(indexPath.row)
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+            print(indexPath.row)
+            print(self.dropDownList!)
+            self.delegate?.dropDownMenuDelete(self, string: deleteString)
+           
+            //tableView.reloadData()
+        }
     }
 }

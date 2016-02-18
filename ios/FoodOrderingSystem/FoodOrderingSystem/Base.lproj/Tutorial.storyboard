@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="OJ6-fn-6QM">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Tutorial Root View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="TutorialRootViewController" customModule="FoodOrderingSystem" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="tutorialRoot" id="BYZ-38-t0r" customClass="TutorialRootViewController" customModule="FoodOrderingSystem" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -245,6 +246,89 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s0l-Mp-O6X" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="240" y="1169"/>
+        </scene>
+        <!--Launch Screen View Controller-->
+        <scene sceneID="4TT-N9-zPE">
+            <objects>
+                <viewController storyboardIdentifier="launchScreen" id="OJ6-fn-6QM" customClass="LaunchScreenViewController" customModule="FoodOrderingSystem" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gaZ-Ap-X6G"/>
+                        <viewControllerLayoutGuide type="bottom" id="p2p-8z-T3A"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Oh2-tV-tTQ">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Geu-7a-zfF">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="JFK-9W-mrs"/>
+                                    <constraint firstAttribute="width" constant="100" id="UgU-Yc-fnG"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="JFK-9W-mrs"/>
+                                        <exclude reference="UgU-Yc-fnG"/>
+                                    </mask>
+                                </variation>
+                                <variation key="widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="JFK-9W-mrs"/>
+                                        <include reference="UgU-Yc-fnG"/>
+                                    </mask>
+                                </variation>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcom Back!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hkX-3X-gbZ">
+                                <rect key="frame" x="-42" y="-21" width="42" height="21"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="hkX-3X-gbZ" firstAttribute="top" secondItem="Geu-7a-zfF" secondAttribute="bottom" constant="17" id="KiQ-PV-5e4">
+                                <variation key="widthClass=compact" constant="57"/>
+                            </constraint>
+                            <constraint firstItem="Geu-7a-zfF" firstAttribute="centerX" secondItem="Oh2-tV-tTQ" secondAttribute="centerX" id="bCI-Va-bdK"/>
+                            <constraint firstItem="Geu-7a-zfF" firstAttribute="centerX" secondItem="hkX-3X-gbZ" secondAttribute="centerX" id="zik-fs-bGm"/>
+                            <constraint firstItem="Geu-7a-zfF" firstAttribute="top" secondItem="gaZ-Ap-X6G" secondAttribute="bottom" multiplier="8.6" id="zpn-FA-Zop">
+                                <variation key="widthClass=compact" constant="-19"/>
+                            </constraint>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="Geu-7a-zfF"/>
+                                <exclude reference="hkX-3X-gbZ"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="bCI-Va-bdK"/>
+                                <exclude reference="zik-fs-bGm"/>
+                                <exclude reference="zpn-FA-Zop"/>
+                                <exclude reference="KiQ-PV-5e4"/>
+                            </mask>
+                        </variation>
+                        <variation key="widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="Geu-7a-zfF"/>
+                                <include reference="hkX-3X-gbZ"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="bCI-Va-bdK"/>
+                                <include reference="zik-fs-bGm"/>
+                                <include reference="zpn-FA-Zop"/>
+                                <include reference="KiQ-PV-5e4"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="avatar" destination="Geu-7a-zfF" id="9cf-HV-Yke"/>
+                        <outlet property="label" destination="hkX-3X-gbZ" id="25u-H3-DIm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nOG-Xm-U2d" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-537" y="1834"/>
         </scene>
         <!--Login-->
         <scene sceneID="Jmw-eZ-dIC">

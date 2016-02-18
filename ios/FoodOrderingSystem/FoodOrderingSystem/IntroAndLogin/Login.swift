@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import KeychainAccess
 
 
 class Login: UIViewController {
@@ -17,7 +17,8 @@ class Login: UIViewController {
     @IBOutlet weak var btnForgetPassword: UIButton!
     @IBOutlet weak var btnSignUp: UIButton!
     
-    let MyKeychainWrapper = KeychainWrapper()
+    //let myKeychainItemWrapper = KeychainItemWrapper()
+    var myKeychain: Keychain?
     let loginButtonTag = 0
     let hasLoginButtonTag = 1
     
@@ -31,6 +32,7 @@ class Login: UIViewController {
         account = Account.sharedManager
         accountBL = AccountBL()
         accountBL?.delegate = self
+        myKeychain = account?.myKeychain
         
         let tap = UITapGestureRecognizer(target: self, action: Selector("dismissKeyboard"))
         view.addGestureRecognizer(tap)
@@ -88,38 +90,20 @@ class Login: UIViewController {
             alertView.addAction(okAction)
             return
         }
-        
-        
-        let hasLoginKey = NSUserDefaults.standardUserDefaults().boolForKey("hasLoginKey")
-        
-//        if hasLoginKey == false {
-//            print("hasLoginKye false")
-//            NSUserDefaults.standardUserDefaults().setValue(self.userName.text!, forKey: "username")
-//        }
 
         account?.email = userName.text!
         account?.password = password.text!
         accountBL?.login(account!)
     }
     
-    func checkLoginStatus(){
-        if let token = account?.token {
-            account?.checkLoginStatus()
-        }
-    }
-    
-    
     func loginSuccessed() {
-
-        //NSUserDefaults.standardUserDefaults().setBool(true, forKey: "hasLoginKey")
         if let token = account?.token {
-            NSUserDefaults.standardUserDefaults().setObject(token, forKey: "token")
-            NSUserDefaults.standardUserDefaults().setValue(userName.text!, forKey: "email")
-            MyKeychainWrapper.mySetObject(password.text!, forKey:kSecValueData)
-            MyKeychainWrapper.writeToKeychain()
+            //NSUserDefaults.standardUserDefaults().setObject(token, forKey: "token")
+            //NSUserDefaults.standardUserDefaults().synchronize()
+            myKeychain!["fosPassword"] = password.text!
+            myKeychain!["fosAccount"] = userName.text!
+            myKeychain!["fosToken"] = token
         }
-        NSUserDefaults.standardUserDefaults().synchronize()
-        //print(NSUserDefaults.standardUserDefaults().dictionaryRepresentation())
         performSegueWithIdentifier("MainMenu", sender: nil)
     }
     
@@ -144,10 +128,8 @@ extension Login: AccountBLDelegate {
     func blFinishLogin(result:NSDictionary, account: Account) {
         if let code = result.objectForKey("code") {
             if code as! Int == 200 {
-                
-                account.testKeyChain()
+                //account.testKeyChain()
                 loginSuccessed()
-                
             }
             else {
                 NSNotificationCenter.defaultCenter().postNotificationName("loginFailed", object: nil)

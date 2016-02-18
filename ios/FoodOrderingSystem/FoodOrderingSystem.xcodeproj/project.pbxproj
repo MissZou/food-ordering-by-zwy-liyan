@@ -14,6 +14,7 @@
 		BA11D81B1C49D2F500C8C830 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA11D8191C49D2F500C8C830 /* LaunchScreen.storyboard */; };
 		BA11D8261C49D2F500C8C830 /* FoodOrderingSystemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA11D8251C49D2F500C8C830 /* FoodOrderingSystemTests.swift */; };
 		BA11D8311C49D2F500C8C830 /* FoodOrderingSystemUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA11D8301C49D2F500C8C830 /* FoodOrderingSystemUITests.swift */; };
+		BA12249F1C75526A00057081 /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12249E1C75526A00057081 /* LaunchScreenViewController.swift */; };
 		BA1CFB711C4A704500269862 /* introductionPic1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BA1CFB6E1C4A704500269862 /* introductionPic1.jpg */; };
 		BA1CFB721C4A704500269862 /* introductionPic2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BA1CFB6F1C4A704500269862 /* introductionPic2.jpg */; };
 		BA1CFB731C4A704500269862 /* introductionPic3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BA1CFB701C4A704500269862 /* introductionPic3.jpg */; };
@@ -36,7 +37,6 @@
 		BA50335D1C60DC6B00E0F066 /* account.png in Resources */ = {isa = PBXBuildFile; fileRef = BA50335C1C60DC6B00E0F066 /* account.png */; };
 		BA5033601C6218C200E0F066 /* DropDownButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA50335F1C6218C200E0F066 /* DropDownButton.swift */; };
 		BA5033641C633B5700E0F066 /* RestaurantCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5033631C633B5700E0F066 /* RestaurantCell.swift */; };
-		BA6B24ED1C74165700584848 /* KeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6B24EC1C74165700584848 /* KeychainWrapper.m */; };
 		BA9EBE021C5F401F006B85F1 /* LeftMenuTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9EBDFD1C5F401F006B85F1 /* LeftMenuTableCell.swift */; };
 		BA9EBE031C5F401F006B85F1 /* LeftSlideMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9EBDFE1C5F401F006B85F1 /* LeftSlideMenu.swift */; };
 		BA9EBE041C5F401F006B85F1 /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9EBDFF1C5F401F006B85F1 /* MainMenuViewController.swift */; };
@@ -79,6 +79,7 @@
 		BA11D82C1C49D2F500C8C830 /* FoodOrderingSystemUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FoodOrderingSystemUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA11D8301C49D2F500C8C830 /* FoodOrderingSystemUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodOrderingSystemUITests.swift; sourceTree = "<group>"; };
 		BA11D8321C49D2F500C8C830 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA12249E1C75526A00057081 /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
 		BA1CFB6E1C4A704500269862 /* introductionPic1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = introductionPic1.jpg; sourceTree = "<group>"; };
 		BA1CFB6F1C4A704500269862 /* introductionPic2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = introductionPic2.jpg; sourceTree = "<group>"; };
 		BA1CFB701C4A704500269862 /* introductionPic3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = introductionPic3.jpg; sourceTree = "<group>"; };
@@ -104,8 +105,6 @@
 		BA50335F1C6218C200E0F066 /* DropDownButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDownButton.swift; sourceTree = "<group>"; };
 		BA5033631C633B5700E0F066 /* RestaurantCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RestaurantCell.swift; path = App/RestaurantCell.swift; sourceTree = "<group>"; };
 		BA6B24EA1C74165600584848 /* FoodOrderingSystem-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FoodOrderingSystem-Bridging-Header.h"; sourceTree = "<group>"; };
-		BA6B24EB1C74165700584848 /* KeychainWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainWrapper.h; sourceTree = "<group>"; };
-		BA6B24EC1C74165700584848 /* KeychainWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainWrapper.m; sourceTree = "<group>"; };
 		BA9EBDFD1C5F401F006B85F1 /* LeftMenuTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuTableCell.swift; sourceTree = "<group>"; };
 		BA9EBDFE1C5F401F006B85F1 /* LeftSlideMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftSlideMenu.swift; sourceTree = "<group>"; };
 		BA9EBDFF1C5F401F006B85F1 /* MainMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
@@ -242,6 +241,7 @@
 				BA1CFB841C4B354D00269862 /* TutorialRootViewController.swift */,
 				BA1CFB871C4B357800269862 /* Login.swift */,
 				BA1CFB891C4B967600269862 /* Register.swift */,
+				BA12249E1C75526A00057081 /* LaunchScreenViewController.swift */,
 			);
 			name = TutorialAndLogin;
 			path = IntroAndLogin;
@@ -253,8 +253,6 @@
 				BA1CFB8F1C4BBABF00269862 /* OrangeButton.swift */,
 				BAE01B901C4BBB7C0045D4C8 /* NetworkHelp.swift */,
 				BA2AAE2D1C63542F00DB6131 /* CustomizedSegueLeftToRight.swift */,
-				BA6B24EB1C74165700584848 /* KeychainWrapper.h */,
-				BA6B24EC1C74165700584848 /* KeychainWrapper.m */,
 				BA6B24EA1C74165600584848 /* FoodOrderingSystem-Bridging-Header.h */,
 			);
 			path = Help;
@@ -535,10 +533,10 @@
 				BA50334E1C6050D100E0F066 /* OrderViewController.swift in Sources */,
 				BA9EBE041C5F401F006B85F1 /* MainMenuViewController.swift in Sources */,
 				BA1CFB861C4B354D00269862 /* TutorialRootViewController.swift in Sources */,
-				BA6B24ED1C74165700584848 /* KeychainWrapper.m in Sources */,
 				BA1CFB881C4B357800269862 /* Login.swift in Sources */,
 				BA5033641C633B5700E0F066 /* RestaurantCell.swift in Sources */,
 				BA9EBE061C5F401F006B85F1 /* SlideMenu.swift in Sources */,
+				BA12249F1C75526A00057081 /* LaunchScreenViewController.swift in Sources */,
 				BA2AAE8F1C664E3E00DB6131 /* AccountBL.swift in Sources */,
 				BA1CFB851C4B354D00269862 /* TutorialPage.swift in Sources */,
 				BA9EBE021C5F401F006B85F1 /* LeftMenuTableCell.swift in Sources */,

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TutorialRootViewController: UIViewController, UIPageViewControllerDataSource, AccountDelegate {
+class TutorialRootViewController: UIViewController, UIPageViewControllerDataSource {
 
     var pageViewController: UIPageViewController?
     var arrayPageTitles: NSArray?
@@ -17,17 +17,12 @@ class TutorialRootViewController: UIViewController, UIPageViewControllerDataSour
     let introText1 = "Meals arrive on-demand or you can schedule delivery up to a week in advance for beyond-easy meal-planning."
     let introText2 = "Our friendly delivery folk arrive with your food, still chilled so it stays fresh. We’ll bring it right to your front door. Or your desk. Or your friend's place."
     let introText3 = "Mealtimes are more than food. They’re time to relax. Sometimes that means recharging all by yourself, other times it’s about connecting with friends and family. However you eat dinner, we’re here to make it as easy as it is delicious."
-    
+    //var isLogged:Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        if let token = NSUserDefaults.standardUserDefaults().stringForKey("token") {
-            let account = Account.sharedManager
-            account.token = token
-            account.delegate = self
-            account.checkLoginStatus()
-        }
+
         
         arrayPageTitles = ["DINNER MADE EASY", "DELIVERED ANYWHERE", "DINNERS YOU WANT"]
         arrayImages = ["introductionPic1.jpg", "introductionPic2.jpg", "introductionPic3.jpg"]
@@ -48,6 +43,12 @@ class TutorialRootViewController: UIViewController, UIPageViewControllerDataSour
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+//        if (isLogged) {
+//            let storyboard = UIStoryboard(name: "Tutorial", bundle: nil)
+//            let mainMenu = storyboard.instantiateViewControllerWithIdentifier("launchScreen")
+//            presentViewController(mainMenu, animated: false, completion: nil)
+//            isLogged = false
+//        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -108,17 +109,3 @@ class TutorialRootViewController: UIViewController, UIPageViewControllerDataSour
     }
 }
 
-extension TutorialRootViewController {
-
-
-    func finishLogin(result: NSDictionary, account: Account) {
-        if let success = result.objectForKey("success") {
-            if success as! NSObject == true {
-//                let storyboard = UIStoryboard(name: "SlideMenu", bundle: nil)
-//                let mainMenu = storyboard.instantiateViewControllerWithIdentifier("slideMenu")
-//                presentViewController(mainMenu, animated: true, completion: nil)
-                
-            }
-        }
-    }
-}

@@ -309,6 +309,7 @@ router.route('/login')
                 phone:doc.phone,
                 location:doc.location,
                 photoUrl:doc.photoUrl,
+                token:token,
                 success:true
             });
         } else {
@@ -384,13 +385,17 @@ router.route('/account/address')
  .put(function(req, res){
      var accountId = req.decoded._id;
      var address = req.param("address", null);
-     Account.addAddress(accountId, address, function(doc) {
-         //res.send(doc);
-     });
+     if (location != null && location != "") {
+             Account.addAddress(accountId, address, function(doc) {
+             //res.send(doc);
+         });
+     }
+    
      Account.findAccountById(accountId, function(doc){
         res.json({
             accountId:doc._id,
-            address:doc.address
+            address:doc.address,
+            success:true
         });
      })
      
@@ -399,13 +404,16 @@ router.route('/account/address')
  .delete(function(req, res){
     var accountId = req.decoded._id;
     var address = req.param("address", null);
-     Account.deleteAddress(accountId, address, function(doc) {
-         //res.send(doc);
-     });
+    if (address != null && address != null) {
+         Account.deleteAddress(accountId, address, function(doc) {
+             //res.send(doc);
+         });
+     }
      Account.findAccountById(accountId, function(doc){
         res.json({
             accountId:doc._id,
-            address:doc.address
+            address:doc.address,
+            success:true
         });
      })
  });
@@ -414,14 +422,17 @@ router.route('/account/location')
  .put(function(req, res){
      var accountId = req.decoded._id;
      var location = req.param("location", null);
-     Account.addLocation(accountId, location, function(doc) {
-         //res.send(doc);
-     });
+      if (location != null && location != "") {
+         Account.addLocation(accountId, location, function(doc) {
+             //res.send(doc);
+         });
+    }
      Account.findAccountById(accountId, function(doc){
-         console.log(doc);
+         //console.log(doc);
         res.json({
             accountId:doc._id,
-            location:doc.location
+            location:doc.location,
+            success:true
         });
         //res.send(doc)
      })
@@ -429,16 +440,20 @@ router.route('/account/location')
  })
 
  .delete(function(req, res){
+    console.log(req);
     var accountId = req.decoded._id;
     var location = req.param("location", null);
-     Account.deleteLocation(accountId, location, function(doc) {
-         //res.send(doc);
-     });
+     if (location != null && location != "") {
+         Account.deleteLocation(accountId, location, function(doc) {
+             //res.send(doc);
+         });
+    }  
      Account.findAccountById(accountId, function(doc){
        
         res.json({
             accountId:doc._id,
-            location:doc.location
+            location:doc.location,
+            success:true
         });
      })
  });
