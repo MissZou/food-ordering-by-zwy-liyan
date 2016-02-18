@@ -7,6 +7,7 @@
 //
 
 import Alamofire
+import KeychainAccess
 
 @objc protocol AccountDelegate {
    optional func finishCreateAccount(result:NSDictionary, account: Account)
@@ -15,10 +16,11 @@ import Alamofire
 
 class Account: NSObject {
     
-//    let baseUrl = "http://localhost:8080/user/";
-    let baseUrl = "http://175.159.182.249:8080/user/"
+    let baseUrl = "http://localhost:8080/user/";
+//    let baseUrl = "http://175.159.182.249:8080/user/"
     var delegate:AccountDelegate?
-    let MyKeychainWrapper = KeychainWrapper()
+    //let myKeychainItemWrapper = KeychainItemWrapper()
+    var myKeychain:Keychain
     
     var email:String
     var name:String
@@ -29,12 +31,21 @@ class Account: NSObject {
     var accountId:String?
     var location:[String]?
     var token:String?
+    
+    enum requestMethod {
+        case DELETE
+        case POST
+        case PUT
+        case GET
+    }
+    
     //static var sharedManager: Account
     override init() {
         email = ""
         password = ""
         name = ""
         phone = ""
+        myKeychain = Keychain(service: "FoodOrderingSystem")
     }
     
     class var sharedManager:Account {
@@ -64,7 +75,7 @@ class Account: NSObject {
 //            print(dataString!)
 //            print(NSString(data: response.request!.HTTPBody!, encoding: NSUTF8StringEncoding)!)
             
-            if let json = response.result.value {
+
                 if let json = response.result.value
                 {
                     if let code = json.objectForKey("code") {
@@ -79,11 +90,13 @@ class Account: NSObject {
                     }
                     
                 }
-            }
+            
         }
             .response { response in
                 if response.3 != nil {
                     print(response.3)
+                    let falseInfo = NSDictionary(object: false, forKey: "success")
+                    self.delegate?.finishLogin!(falseInfo, account: Account.sharedManager)
                 }
         }
 
@@ -99,15 +112,16 @@ class Account: NSObject {
             
             if let json = response.result.value
             {
-                if let code = json.objectForKey("code") {
-                    if code as! Int  == 200 {
+                if let success = json.objectForKey("success") {
+                    if success as! NSObject  == true {
                         self.updateAccountData(json as! NSDictionary)
                         self.delegate?.finishLogin!(json as! NSDictionary, account: model)
                         
                     }
                     else {
                         print("wrong email or password")
-                        self.delegate?.finishLogin!(json as! NSDictionary, account: model)
+                        let falseInfo = NSDictionary(object: false, forKey: "success")
+                        self.delegate?.finishLogin!(falseInfo, account: model)
                     }
                 }
 
@@ -116,6 +130,8 @@ class Account: NSObject {
             .response { response in
                 if response.3 != nil {
                     print(response.3)
+                    let falseInfo = NSDictionary(object: false, forKey: "success")
+                    self.delegate?.finishLogin!(falseInfo, account: Account.sharedManager)
                 }
         }
 
@@ -174,11 +190,23 @@ class Account: NSObject {
                         }
                         else {
                             print("token problem")
-                            let email = NSUserDefaults.standardUserDefaults().stringForKey("email")
-                            let password = self.MyKeychainWrapper.myObjectForKey("v_Data") as? String
-                            self.email = email!
-                            self.password = password!
-                            self.login(self)
+
+                            
+                            do {
+                                let email = try self.myKeychain.getString("fosAccount")
+                                let password = try self.myKeychain.getString("fosPassword")
+                                if (email != nil && password != nil){
+                                    self.email = email!
+                                    self.password = password!
+                                    self.login(self)
+                                }
+                                else{
+                                    let falseInfo = NSDictionary(object: false, forKey: "success")
+                                    self.delegate?.finishLogin!(falseInfo, account: Account.sharedManager)
+                                }
+                            } catch let error{
+                                print(error)
+                            }
                         }
                     }
                     
@@ -187,18 +215,141 @@ class Account: NSObject {
                 .response { response in
                     if response.3 != nil {
                         print(response.3)
+                        let falseInfo = NSDictionary(object: false, forKey: "success")
+                        self.delegate?.finishLogin!(falseInfo, account: Account.sharedManager)
                     }
             }
+            
+        }
+        else{
+            do {
+                let email = try self.myKeychain.getString("fosAccount")
+                let password = try self.myKeychain.getString("fosPassword")
+                if (email != nil && password != nil){
+                    self.email = email!
+                    self.password = password!
+                    self.login(self)
+                }
+                else{
+                    let falseInfo = NSDictionary(object: false, forKey: "success")
+                    self.delegate?.finishLogin!(falseInfo, account: Account.sharedManager)
+                }
+            } catch let error{
+                print(error)
+            }
+           
             
         }
     }
     
     
-    func testKeyChain(){
-        let password = self.MyKeychainWrapper.myObjectForKey(kSecValueData) as? String
-        print("test key chain")
-        print(password)
+    func address(operation: requestMethod, address:String){
+        if(operation == .PUT) { //add address
+            if let token = self.token {
+                let params:[String : AnyObject] = [
+                    "token":token,
+                    "address" : address
+                ]
+            Alamofire.request(.PUT, "\(baseUrl)"+"account/address", parameters: params, encoding: .JSON)
+                .responseJSON { response in
+                    
+                    
+                    if let json = response.result.value
+                    {
+                        if let success = json.objectForKey("success") {
+                            if success as! NSObject == true {
+                                self.updateAccountData(json as! NSDictionary)
+                            }
+                        }
+                        
+                    }
+                }
+                .response { response in
+                    if response.3 != nil {
+                        print(response.3)
+                    }
+                }
+            }
+        }
+        else if (operation == .DELETE){
+            if let token = self.token {
+                let params:[String : AnyObject] = [
+                    "token":token,
+                    "address" : address
+                ]
+                Alamofire.request(.DELETE, "\(baseUrl)"+"account/address", parameters: params, encoding: .JSON)
+                    .responseJSON { response in
+                        
+                        
+                        if let json = response.result.value
+                        {
+                            if let success = json.objectForKey("success") {
+                                if success as! NSObject == true {
+                                    self.updateAccountData(json as! NSDictionary)
+                                }
+                            }
+                        }
+                    }
+                    .response { response in
+                        if response.3 != nil {
+                            print(response.3)
+                        }
+                }
+            }
+        }
     }
     
-    //=====end
+    func location(operation: requestMethod, location:String){
+        if(operation == .PUT) { //add address
+            if let token = self.token {
+                let params:[String : AnyObject] = [
+                    "token":token,
+                    "location" : location
+                ]
+                Alamofire.request(.PUT, "\(baseUrl)"+"account/location", parameters: params, encoding: .JSON)
+                    .responseJSON { response in
+                        if let json = response.result.value
+                        {
+                            if let success = json.objectForKey("success") {
+                                if success as! NSObject == true {
+                                    self.updateAccountData(json as! NSDictionary)
+                                }
+                            }
+                            
+                        }
+                    }
+                    .response { response in
+                        if response.3 != nil {
+                            print(response.3)
+                        }
+                }
+            }
+        }
+        else if (operation == .DELETE){
+            if let token = self.token {
+                let params:[String : AnyObject] = [
+                    "token":token,
+                    "location" : location
+                ]
+                Alamofire.request(.DELETE, "\(baseUrl)"+"account/location", parameters: params, encoding: .JSON)
+                    .responseJSON { response in
+                        if let json = response.result.value
+                        {
+                            if let success = json.objectForKey("success") {
+                                if success as! NSObject == true {
+                                    self.updateAccountData(json as! NSDictionary)
+                                }
+                            }
+                        }
+                    }
+                    .response { response in
+                        if response.3 != nil {
+                            print(response.3)
+                        }
+                }
+            }
+        }
+    }
+
+
 }

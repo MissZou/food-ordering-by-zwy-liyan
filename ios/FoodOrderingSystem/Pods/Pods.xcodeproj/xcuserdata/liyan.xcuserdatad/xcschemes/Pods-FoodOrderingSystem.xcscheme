@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '35A6C34BCA22039B8A99D40A'
+               BlueprintIdentifier = 'B3DE8FE30F590939BFE50657'
                BlueprintName = 'Pods-FoodOrderingSystem'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'Pods_FoodOrderingSystem.framework'>

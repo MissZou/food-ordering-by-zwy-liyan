@@ -10,7 +10,6 @@ import UIKit
 
 class MenuTable: UITableViewController {
     let menuOptions = ["Account", "Menu", "Schedule", "Favorite", "Log Out"]
-    
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
@@ -21,6 +20,31 @@ class MenuTable: UITableViewController {
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
+    
+    func logout(){
+        let myKeyChain = Account.sharedManager.myKeychain
+        do {
+            let email = try myKeyChain.getString("fosAccount")
+            let password = try myKeyChain.getString("fosPassword")
+            let token = try myKeyChain.getString("fosToken")
+            if(email != nil && password != nil && token != nil) {
+                 print(email! + password! + token!)
+            }
+        } catch let error {
+            print(error)
+        }
+        
+        do {
+            try myKeyChain.remove("fosAccount")
+            try myKeyChain.remove("fosPassword")
+            try myKeyChain.remove("fosToken")
+        } catch let error {
+            print("error: \(error)")
+        }
+     
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
 }
 
 extension MenuTable {
@@ -31,20 +55,17 @@ extension MenuTable {
         case 0:
             NSNotificationCenter.defaultCenter().postNotificationName("openAccountView", object: nil)
         case 1:
-            // Both FirstViewController and SecondViewController listen for this
             NSNotificationCenter.defaultCenter().postNotificationName("closeMenuViaNotification", object: nil)
         case 2:
             NSNotificationCenter.defaultCenter().postNotificationName("openOrderView", object: nil)
         case 3:
             print("favorite + \(indexPath.row)")
         case 4:
+            logout()
             print("logout")
         default:
             print("indexPath.row:: \(indexPath.row)")
         }
-        
-        // also close the menu
-        //NSNotificationCenter.defaultCenter().postNotificationName("closeMenuViaNotification", object: nil)
         
     }
     
@@ -64,4 +85,5 @@ extension MenuTable {
         
         return (cell?.bounds.size.height)! 
     }
+
 }

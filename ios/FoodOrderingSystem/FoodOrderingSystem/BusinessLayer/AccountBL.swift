@@ -6,6 +6,7 @@
 //  Copyright © 2016年  - -!!!. All rights reserved.
 //
 //import Account//Can not import account, can not build
+import Foundation
 
 @objc protocol AccountBLDelegate {
     optional func blFinishCreateAccount(result:NSDictionary, account: Account)

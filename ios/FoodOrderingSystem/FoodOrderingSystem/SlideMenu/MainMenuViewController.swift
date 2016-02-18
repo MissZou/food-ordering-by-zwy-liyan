@@ -70,6 +70,7 @@ class MainMenuViewController: UIViewController, DropDownButtonDelegate {
         var locations:[String]
         if let location = Account.sharedManager.location {
             locations = location
+            locations.insert("New Location", atIndex: 0)
         }
         else{
             locations = ["No used location"]
@@ -103,5 +104,10 @@ class MainMenuViewController: UIViewController, DropDownButtonDelegate {
         blurEffectView.removeFromSuperview()
         print("you choose:\(sender.choosedString)")
         dropDownAddressButton = nil
+    }
+    
+    func dropDownMenuDelete(sender: DropDownButton, string:String) {
+        Account.sharedManager.location(Account.requestMethod.DELETE, location: string)
+
     }
 }
