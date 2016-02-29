@@ -256,6 +256,7 @@
                         <viewControllerLayoutGuide type="bottom" id="p2p-8z-T3A"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Oh2-tV-tTQ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Geu-7a-zfF">
@@ -302,10 +303,10 @@
                                 <exclude reference="hkX-3X-gbZ"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="KiQ-PV-5e4"/>
                                 <exclude reference="bCI-Va-bdK"/>
                                 <exclude reference="zik-fs-bGm"/>
                                 <exclude reference="zpn-FA-Zop"/>
-                                <exclude reference="KiQ-PV-5e4"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -314,10 +315,10 @@
                                 <include reference="hkX-3X-gbZ"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="KiQ-PV-5e4"/>
                                 <include reference="bCI-Va-bdK"/>
                                 <include reference="zik-fs-bGm"/>
                                 <include reference="zpn-FA-Zop"/>
-                                <include reference="KiQ-PV-5e4"/>
                             </mask>
                         </variation>
                     </view>

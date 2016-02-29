@@ -313,7 +313,10 @@ router.route('/login')
                 success:true
             });
         } else {
-            res.status(400).send({ code: 400 });
+            res.json({
+                code: 200,
+                success:false
+            });
         }
     });
 
@@ -385,7 +388,8 @@ router.route('/account/address')
  .put(function(req, res){
      var accountId = req.decoded._id;
      var address = req.param("address", null);
-     if (location != null && location != "") {
+     //console.log(req);
+     if (address != null && address != "") {
              Account.addAddress(accountId, address, function(doc) {
              //res.send(doc);
          });
@@ -395,6 +399,7 @@ router.route('/account/address')
         res.json({
             accountId:doc._id,
             address:doc.address,
+            doc:doc,
             success:true
         });
      })
@@ -425,22 +430,22 @@ router.route('/account/location')
       if (location != null && location != "") {
          Account.addLocation(accountId, location, function(doc) {
              //res.send(doc);
+
          });
     }
-     Account.findAccountById(accountId, function(doc){
-         //console.log(doc);
-        res.json({
-            accountId:doc._id,
-            location:doc.location,
-            success:true
-        });
-        //res.send(doc)
-     })
+                Account.findAccountById(accountId, function(doc){
+                res.json({
+                    accountId:doc._id,
+                    location:doc.location,
+                    success:true
+                });
+             })
+
      
  })
 
  .delete(function(req, res){
-    console.log(req);
+    //console.log(req);
     var accountId = req.decoded._id;
     var location = req.param("location", null);
      if (location != null && location != "") {

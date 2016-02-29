@@ -57,22 +57,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "FoodOrderingSystem/SlideMenu/MainMenuViewController.swift"
-            timestampString = "477476636.959892"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
-            landmarkName = "chooseAddress(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "FoodOrderingSystem/IntroAndLogin/LaunchScreenViewController.swift"
             timestampString = "477477021.520598"
             startingColumnNumber = "9223372036854775807"
@@ -90,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FoodOrderingSystem/PersistentLayer/Account.swift"
-            timestampString = "477501228.842257"
+            timestampString = "478420266.5847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "193"
-            endingLineNumber = "193"
+            startingLineNumber = "236"
+            endingLineNumber = "236"
             landmarkName = "checkLoginStatus()"
             landmarkType = "5">
          </BreakpointContent>
@@ -106,12 +90,38 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FoodOrderingSystem/PersistentLayer/Account.swift"
-            timestampString = "477501228.842257"
+            timestampString = "478420266.5847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
             landmarkName = "login(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            scope = "0"
+            stopOnStyle = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FoodOrderingSystem/App/AccountViewController.swift"
+            timestampString = "478420266.5847"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "dismissLeftToRight()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

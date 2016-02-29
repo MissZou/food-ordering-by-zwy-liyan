@@ -9,7 +9,12 @@ module.exports = function(config, mongoose, nodemailer) {
     phone:     { type: String},
     name:      {type: String},
     photoUrl:  { type: String},
-    address:   {type: [String]},
+    address:   {type: [{
+      name: String,
+      phone: String,
+      class: String,
+      address: String
+    }]},
     location: {type: [String]}
   });
 

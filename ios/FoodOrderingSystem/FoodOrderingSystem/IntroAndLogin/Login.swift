@@ -82,6 +82,7 @@ class Login: UIViewController {
     
     @IBAction func login(sender: AnyObject) {
         //print(NSUserDefaults.standardUserDefaults().dictionaryRepresentation())
+        //performSegueWithIdentifier("MainMenu", sender: nil)
         if (userName.text! == "" || password.text! == ""){
         let alertView = UIAlertController(title: "Login Problem",
             message: "Wrong username or password." as String, preferredStyle:.Alert)
