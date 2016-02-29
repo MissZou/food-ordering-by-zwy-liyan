@@ -300,6 +300,7 @@ router.route('/login')
             var token = jwt.sign(inToken, app.get('tokenScrete'), {
                     expiresIn: 1440*60*7 // expires in 24*7 hours
                 });
+            req.session.userToken = token;
             
             res.json({
                 code: 200,
@@ -328,7 +329,7 @@ router.route('/login')
 router.use("/account",function(req, res, next) {
 
     // check header or url parameters or post parameters for token
-    var token = req.body.token || req.param('token') || req.headers['x-access-token'];
+    var token = req.body.token || req.param('token') || req.headers['x-access-token']||req.session.userToken;
 
     // decode token
     if (token) {
