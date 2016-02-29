@@ -71,10 +71,6 @@ class Account: NSObject {
         
         Alamofire.request(.POST, "\(baseUrl)"+"register", parameters: params, encoding: .JSON)
             .responseJSON { response in
-//            let dataString = NSString(data: response.data!, encoding: NSUTF8StringEncoding)
-//            print(dataString!)
-//            print(NSString(data: response.request!.HTTPBody!, encoding: NSUTF8StringEncoding)!)
-            
 
                 if let json = response.result.value
                 {
@@ -137,6 +133,53 @@ class Account: NSObject {
 
     }
 
+    func refreshAccountData(){
+        if let token = self.token {
+            let params:[String : AnyObject] = [
+                "token" : token
+            ]
+        Alamofire.request(.POST, "\(baseUrl)"+"account", parameters: params, encoding: .JSON)
+            .responseJSON { response in
+                if let json = response.result.value
+                {
+                    if let success = json.objectForKey("success") {
+                        if success as! NSObject == true {
+                            self.updateAccountData(json as! NSDictionary)
+                            //print("token verify success")
+                        }
+                        else {
+                            
+                            print("token problem")
+                            do {
+                                let email = try self.myKeychain.getString("fosAccount")
+                                let password = try self.myKeychain.getString("fosPassword")
+                                if (email != nil && password != nil){
+                                    
+                                    let params:[String : AnyObject] = [
+                                        "email" : email!,
+                                        "password" : password!
+                                    ]
+                    Alamofire.request(.POST, "\(self.baseUrl)"+"login", parameters: params, encoding: .JSON).responseJSON { response in
+                                            
+                        if let json = response.result.value
+                            {
+                            if let success = json.objectForKey("success") {
+                                if success as! NSObject  == true                                        {self.updateAccountData(json as! NSDictionary)}
+                            }
+                        }
+                    }
+                                }
+                            } catch let error{
+                                print(error)
+                            }
+                        }
+                    }
+                    
+                }
+            }
+        }
+    }
+    
     func updateAccountData(data:NSDictionary){
         if let token = data.objectForKey("token"){
             self.token = token as? String

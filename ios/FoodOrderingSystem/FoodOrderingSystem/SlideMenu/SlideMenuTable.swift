@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MenuTable: UITableViewController {
+class SlideMenuTable: UITableViewController {
     let menuOptions = ["Account", "Menu", "Schedule", "Favorite", "Log Out"]
 
     override func viewDidAppear(animated: Bool) {
@@ -47,7 +47,7 @@ class MenuTable: UITableViewController {
     
 }
 
-extension MenuTable {
+extension SlideMenuTable {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         

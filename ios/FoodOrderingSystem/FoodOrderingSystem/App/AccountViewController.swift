@@ -23,6 +23,7 @@ class AccountViewController: UIViewController {
         super.viewDidLoad()
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         let account = Account.sharedManager
+        account.checkLoginStatus()
         avatar.backgroundColor = UIColor(red: 63/255, green: 72/255, blue: 104/255, alpha: 0.5)
         if let imageUrl = account.photoUrl {
             avatar.image = UIImage(data: NSData(contentsOfURL: NSURL(string: imageUrl)!)!)
@@ -31,7 +32,7 @@ class AccountViewController: UIViewController {
         email.text = account.email
         name.text = account.name
         nameIndicator.image = UIImage(named: "nameIndicator.png")
-        
+        //navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     
@@ -51,7 +52,7 @@ class AccountViewController: UIViewController {
         
         let containerView = self.view.window
         containerView?.layer.addAnimation(transition, forKey: nil)
-        self.dismissViewControllerAnimated(false, completion: nil)
+        dismissViewControllerAnimated(false, completion: nil)
     }
     
 }
