@@ -1,0 +1,24 @@
+doctype html
+html
+	head
+		meta(charset='UTF-8')   
+		title updateInfo   
+	body
+		div#updateInfo
+			label(for='location') update location
+			input#location(type='text')
+			button submit
+
+		div#updateAddress
+			label(for='username') name
+			input#username(type="text")
+			label(for='phone') phone
+			input#phone(type="text")
+			label(for='type') type
+			input#type(type="text")
+			label(for='address') address
+			input#address(type="text")
+			button submit
+
+	script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
+	script(src='/javascripts/updateInfo.js')

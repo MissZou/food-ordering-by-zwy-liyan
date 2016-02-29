@@ -10,10 +10,10 @@ module.exports = function(config, mongoose, nodemailer) {
     name:      {type: String},
     photoUrl:  { type: String},
     address:   {type: [{
-      name: String,
-      phone: String,
-      class: String,
-      address: String
+      name: { type: String},
+      phone: { type: String},
+      type: { type: String},
+      addr: { type: String}
     }]},
     location: {type: [String]}
   });
@@ -112,7 +112,11 @@ var uploadAvatar = function(accountId, photoUrl, callback) {
 } 
 
 var addAddress = function(accountId, newAddress, callback) {
-        Account.update({_id:accountId}, {$push: {address:newAddress}},{upsert:true},
+        Account.update({_id:accountId}, {$push: {address:{"name":newAddress.name,
+          "phone":newAddress.phone,
+          "type":newAddress.type,
+          "addr":newAddress.address
+        }}},{upsert:true},
       function (err) {
         callback(err);
     });
