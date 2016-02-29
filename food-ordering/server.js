@@ -286,6 +286,7 @@ router.route('/login')
     var email = req.param('email', null);
     var password = req.param('password', null);
     //console.log(req);
+    console.log(email,password)
 
     if (null == email || email.length < 1 || null == password || password.length < 1) {
         res.send(400);
@@ -313,10 +314,11 @@ router.route('/login')
                 success:true
             });
         } else {
-            res.json({
+            /*res.json({
                 code: 200,
                 success:false
-            });
+            });*/
+    res.send(400);
         }
     });
 
