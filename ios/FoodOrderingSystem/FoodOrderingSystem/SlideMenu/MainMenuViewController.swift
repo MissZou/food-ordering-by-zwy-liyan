@@ -15,6 +15,7 @@ class MainMenuViewController: UIViewController, DropDownButtonDelegate {
 
     @IBOutlet var dropDownAddressSender: UIButton!
     @IBOutlet weak var topView: UIView!
+    @IBOutlet weak var buttonView: UIView!
     @IBOutlet weak var slideMenuButton: UIButton!
     
     var blurEffect:UIBlurEffect
@@ -37,7 +38,8 @@ class MainMenuViewController: UIViewController, DropDownButtonDelegate {
         view.layer.shadowOpacity = 0.8
         topView.layer.shadowOffset = CGSize(width: 2, height: 0)
         topView.layer.shadowOpacity = 0.8
-        
+//        buttonView.layer.shadowOpacity = 0.8
+//        buttonView.layer.shadowOffset = CGSize(width: 2, height: 0)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "openAccountView", name: "openAccountView", object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "openOrderView", name: "openOrderView", object: nil)
@@ -95,6 +97,7 @@ class MainMenuViewController: UIViewController, DropDownButtonDelegate {
         //let address = ["Minzu University of China", "University of Hong Kong", "Why show your weakness"]
         var locations:[String]
         Account.sharedManager.refreshAccountData()
+        Account.sharedManager.delegate = nil
         if let location = Account.sharedManager.location {
             locations = location
             locations.insert("New Location", atIndex: 0)

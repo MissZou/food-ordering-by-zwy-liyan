@@ -23,6 +23,7 @@ class AccountViewController: UIViewController {
         super.viewDidLoad()
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         let account = Account.sharedManager
+        account.delegate = nil
         account.checkLoginStatus()
         avatar.backgroundColor = UIColor(red: 63/255, green: 72/255, blue: 104/255, alpha: 0.5)
         if let imageUrl = account.photoUrl {
