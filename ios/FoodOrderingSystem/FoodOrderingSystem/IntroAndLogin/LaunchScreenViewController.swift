@@ -14,14 +14,21 @@ class LaunchScreenViewController: UIViewController, AccountDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        avatar.layer.masksToBounds = true
         avatar.layer.cornerRadius = 5
         avatar.layer.borderColor = UIColor(red: 83/255, green: 98/255, blue: 178/255, alpha: 1).CGColor
         avatar.layer.borderWidth = 2
         
         label.hidden = true
         avatar.hidden = true
-        
-        // Do any additional setup after loading the view.
+        let account = Account.sharedManager
+        let myKeyChain = account.myKeychain
+        let token = try? myKeyChain.getString("fosToken")
+        if ((token)! != nil) {
+            account.token = token!
+            account.delegate = self
+            account.checkLoginStatus()
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -29,21 +36,10 @@ class LaunchScreenViewController: UIViewController, AccountDelegate {
         let account = Account.sharedManager
         let myKeyChain = account.myKeychain
         let token = try? myKeyChain.getString("fosToken")
-        if token != nil {
-            account.token = token!
-            account.delegate = self
-            account.checkLoginStatus()
+         if ((token)! != nil) {
         }
         else{
-//            dismissViewControllerAnimated(false, completion: {
-//                
-//            })
-            let storyboard = UIStoryboard(name: "Tutorial", bundle: nil)
-            let mainMenu = storyboard.instantiateViewControllerWithIdentifier("tutorialRoot")
-            self.presentViewController(mainMenu, animated: true, completion: {
-                
-            })
-
+            performSegueWithIdentifier("tutorial", sender: nil)
         }
     }
     
@@ -66,6 +62,9 @@ extension LaunchScreenViewController {
         if let success = result.objectForKey("success") {
             if success as! NSObject == true {
                 label.text = "Welcome back, \(account.name)"
+                if let imageUrl = account.photoUrl {
+                    avatar.image = UIImage(data: NSData(contentsOfURL: NSURL(string: imageUrl)!)!)
+                }
                 
                 self.avatar.hidden = false
                 UIView.animateWithDuration(1.0, animations: {
@@ -85,14 +84,7 @@ extension LaunchScreenViewController {
                 
             }
             else {
-//                dismissViewControllerAnimated(false, completion: {
-//                    
-//                })
-                let storyboard = UIStoryboard(name: "Tutorial", bundle: nil)
-                let mainMenu = storyboard.instantiateViewControllerWithIdentifier("tutorialRoot")
-                self.presentViewController(mainMenu, animated: true, completion: {
-                    
-                })
+                performSegueWithIdentifier("tutorial", sender: nil)
             }
         }
     }

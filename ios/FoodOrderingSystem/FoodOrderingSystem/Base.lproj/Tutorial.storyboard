@@ -31,7 +31,7 @@
                 <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="qCV-Wd-HoF" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bA2-Nz-c8v" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-537" y="1169"/>
+            <point key="canvasLocation" x="-765" y="1169"/>
         </scene>
         <!--Tutorial Page-->
         <scene sceneID="RkC-w2-h75">
@@ -325,11 +325,12 @@
                     <connections>
                         <outlet property="avatar" destination="Geu-7a-zfF" id="9cf-HV-Yke"/>
                         <outlet property="label" destination="hkX-3X-gbZ" id="25u-H3-DIm"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="tutorial" id="erX-my-bO1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nOG-Xm-U2d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-537" y="1834"/>
+            <point key="canvasLocation" x="-657" y="339"/>
         </scene>
         <!--Login-->
         <scene sceneID="Jmw-eZ-dIC">

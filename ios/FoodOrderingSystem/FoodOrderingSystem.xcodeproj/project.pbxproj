@@ -26,6 +26,11 @@
 		BA2AAE2E1C63542F00DB6131 /* CustomizedSegueLeftToRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2AAE2D1C63542F00DB6131 /* CustomizedSegueLeftToRight.swift */; };
 		BA2AAE8D1C664E3600DB6131 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2AAE8C1C664E3600DB6131 /* Account.swift */; };
 		BA2AAE8F1C664E3E00DB6131 /* AccountBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2AAE8E1C664E3E00DB6131 /* AccountBL.swift */; };
+		BA3970ED1C85C03900D4C78C /* AccountAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3970EC1C85C03900D4C78C /* AccountAddress.swift */; };
+		BA3970EF1C85C29F00D4C78C /* AddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3970EE1C85C29F00D4C78C /* AddressCell.swift */; };
+		BA3970F11C868CDF00D4C78C /* fakedata.json in Resources */ = {isa = PBXBuildFile; fileRef = BA3970F01C868CDF00D4C78C /* fakedata.json */; };
+		BA3970F51C86CF6C00D4C78C /* tickWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = BA3970F41C86CF6C00D4C78C /* tickWhite.png */; };
+		BA3970F71C86D10600D4C78C /* AddAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3970F61C86D10600D4C78C /* AddAddressViewController.swift */; };
 		BA3B1A761C5A066300E4999F /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA3B1A751C5A066300E4999F /* Alamofire.framework */; };
 		BA3B1AB21C5B51C200E4999F /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA3B1AB11C5B51C200E4999F /* Login.storyboard */; };
 		BA50334C1C6050BF00E0F066 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA50334B1C6050BF00E0F066 /* AccountViewController.swift */; };
@@ -95,6 +100,11 @@
 		BA2AAE7B1C648A5F00DB6131 /* FoodBusinessLogicalLayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FoodBusinessLogicalLayer.framework; path = "FoodBusinessLogicalLayer/build/Debug-iphoneos/FoodBusinessLogicalLayer.framework"; sourceTree = "<group>"; };
 		BA2AAE8C1C664E3600DB6131 /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		BA2AAE8E1C664E3E00DB6131 /* AccountBL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountBL.swift; sourceTree = "<group>"; };
+		BA3970EC1C85C03900D4C78C /* AccountAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountAddress.swift; path = App/AccountAddress.swift; sourceTree = "<group>"; };
+		BA3970EE1C85C29F00D4C78C /* AddressCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressCell.swift; path = App/AddressCell.swift; sourceTree = "<group>"; };
+		BA3970F01C868CDF00D4C78C /* fakedata.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fakedata.json; sourceTree = "<group>"; };
+		BA3970F41C86CF6C00D4C78C /* tickWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tickWhite.png; sourceTree = "<group>"; };
+		BA3970F61C86D10600D4C78C /* AddAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddAddressViewController.swift; path = App/AddAddressViewController.swift; sourceTree = "<group>"; };
 		BA3B1A751C5A066300E4999F /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-iphoneos/Alamofire.framework"; sourceTree = "<group>"; };
 		BA3B1AB11C5B51C200E4999F /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		BA50334B1C6050BF00E0F066 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountViewController.swift; path = App/AccountViewController.swift; sourceTree = "<group>"; };
@@ -285,6 +295,9 @@
 				BA50334B1C6050BF00E0F066 /* AccountViewController.swift */,
 				BA50334D1C6050D100E0F066 /* OrderViewController.swift */,
 				BA5033631C633B5700E0F066 /* RestaurantCell.swift */,
+				BA3970EE1C85C29F00D4C78C /* AddressCell.swift */,
+				BA3970EC1C85C03900D4C78C /* AccountAddress.swift */,
+				BA3970F61C86D10600D4C78C /* AddAddressViewController.swift */,
 			);
 			name = App;
 			sourceTree = "<group>";
@@ -298,6 +311,7 @@
 				BA5033551C60DAB600E0F066 /* cartGreen.png */,
 				BA5033561C60DAB600E0F066 /* favoriteGreen.png */,
 				BA5033571C60DAB600E0F066 /* listGreen.png */,
+				BA3970F41C86CF6C00D4C78C /* tickWhite.png */,
 			);
 			path = icons;
 			sourceTree = "<group>";
@@ -329,6 +343,7 @@
 			children = (
 				BA5033531C60DAB600E0F066 /* icons */,
 				BA1CFB6D1C4A704500269862 /* introduction */,
+				BA3970F01C868CDF00D4C78C /* fakedata.json */,
 			);
 			name = Resources;
 			path = FoodOrderingSystem/Resources;
@@ -448,6 +463,7 @@
 				BA50335A1C60DAB600E0F066 /* favoriteGreen.png in Resources */,
 				BA50335D1C60DC6B00E0F066 /* account.png in Resources */,
 				BA1CFB731C4A704500269862 /* introductionPic3.jpg in Resources */,
+				BA3970F11C868CDF00D4C78C /* fakedata.json in Resources */,
 				BA9EBE081C5F4070006B85F1 /* SlideMenu.storyboard in Resources */,
 				BA1CFB721C4A704500269862 /* introductionPic2.jpg in Resources */,
 				BA3B1AB21C5B51C200E4999F /* Login.storyboard in Resources */,
@@ -455,6 +471,7 @@
 				BAA800D41C73649800F503A4 /* nameIndicator.png in Resources */,
 				BA11D8181C49D2F500C8C830 /* Assets.xcassets in Resources */,
 				BA1CFB711C4A704500269862 /* introductionPic1.jpg in Resources */,
+				BA3970F51C86CF6C00D4C78C /* tickWhite.png in Resources */,
 				BA5033591C60DAB600E0F066 /* cartGreen.png in Resources */,
 				BA11D8161C49D2F500C8C830 /* Tutorial.storyboard in Resources */,
 				BA5033581C60DAB600E0F066 /* addGreen.png in Resources */,
@@ -534,11 +551,13 @@
 				BA1CFB8A1C4B967600269862 /* Register.swift in Sources */,
 				BA5033601C6218C200E0F066 /* DropDownButton.swift in Sources */,
 				BA545DBC1C7854F90097709D /* ScrollViewWithTableView.swift in Sources */,
+				BA3970ED1C85C03900D4C78C /* AccountAddress.swift in Sources */,
 				BA2AAE2E1C63542F00DB6131 /* CustomizedSegueLeftToRight.swift in Sources */,
 				BA50334C1C6050BF00E0F066 /* AccountViewController.swift in Sources */,
 				BA2AAE8D1C664E3600DB6131 /* Account.swift in Sources */,
 				BA50334E1C6050D100E0F066 /* OrderViewController.swift in Sources */,
 				BA9EBE041C5F401F006B85F1 /* MainMenuViewController.swift in Sources */,
+				BA3970EF1C85C29F00D4C78C /* AddressCell.swift in Sources */,
 				BA1CFB861C4B354D00269862 /* TutorialRootViewController.swift in Sources */,
 				BA1CFB881C4B357800269862 /* Login.swift in Sources */,
 				BA5033641C633B5700E0F066 /* RestaurantCell.swift in Sources */,
@@ -546,6 +565,7 @@
 				BA12249F1C75526A00057081 /* LaunchScreenViewController.swift in Sources */,
 				BA2AAE8F1C664E3E00DB6131 /* AccountBL.swift in Sources */,
 				BA1CFB851C4B354D00269862 /* TutorialPage.swift in Sources */,
+				BA3970F71C86D10600D4C78C /* AddAddressViewController.swift in Sources */,
 				BA545DBA1C770ECD0097709D /* MainMenuTable.swift in Sources */,
 				BA9EBE021C5F401F006B85F1 /* LeftMenuTableCell.swift in Sources */,
 				BA11D8111C49D2F500C8C830 /* AppDelegate.swift in Sources */,

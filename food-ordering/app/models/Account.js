@@ -89,17 +89,20 @@ module.exports = function(config, mongoose, nodemailer) {
     })
   }
 
-  var register = function(email, password, phone, name, res) {
+  var register = function(email, password, phone, name, res, callback) {
     var shaSum = crypto.createHash('sha256');
     shaSum.update(password);
     var user = new Account({
       email: email,
       password: shaSum.digest('hex'),
       phone: phone,
-      name: name,
-      address:"default address"   //无效 不知道为啥暂时
+      name: name
+      //address:"default address"   //无效 不知道为啥暂时
     });
-    user.save(registerCallback);
+    user.save(function(err){
+      callback(err);
+    });
+    
     //res.send(200);
    
   }
@@ -112,19 +115,37 @@ var uploadAvatar = function(accountId, photoUrl, callback) {
 } 
 
 var addAddress = function(accountId, newAddress, callback) {
-        Account.update({_id:accountId}, {$push: {address:{"name":newAddress.name,
+        Account.update({_id:accountId}, {$push: {address:{
+          "name":newAddress.name,
           "phone":newAddress.phone,
           "type":newAddress.type,
           "addr":newAddress.address
         }}},{upsert:true},
       function (err) {
+        console.log(err)
         callback(err);
     });
 }
 
-var deleteAddress = function(accountId, address, callback) {
-        Account.update({_id:accountId}, {$pull: {address:address}},{upsert:true},
+var updateAddress = function(accountId, newAddress, addrId, callback) {
+            Account.update({_id:accountId}, {$set: {address:{
+          "name":newAddress.name,
+          "phone":newAddress.phone,
+          "type":newAddress.type,
+          "addr":newAddress.address
+        }}},{upsert:true},
       function (err) {
+        console.log(err)
+        callback(err);
+
+    });
+}
+
+var deleteAddress = function(accountId, address, callback) {
+        Account.update({_id:accountId}, {$pull: {address:{"name":address.name,
+          "addr":address.address}}},{upsert:true},
+      function (err) {
+        console.log(err)
         callback(err);
     });
 }
@@ -149,9 +170,10 @@ var deleteLocation = function(accountId, location, callback) {
     login: login,
     Account: Account,
     findAccount: findAccount,
+    findAccountById: findAccountById,
     uploadAvatar:uploadAvatar,
     addAddress: addAddress,
-    findAccountById: findAccountById,
+    updateAddress: updateAddress,
     deleteAddress: deleteAddress,
     addLocation:addLocation,
     deleteLocation:deleteLocation

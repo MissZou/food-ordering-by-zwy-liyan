@@ -10,8 +10,9 @@ import Alamofire
 import KeychainAccess
 
 @objc protocol AccountDelegate {
-   optional func finishCreateAccount(result:NSDictionary, account: Account)
-   optional func finishLogin(result:NSDictionary, account: Account)
+    optional func finishCreateAccount(result:NSDictionary, account: Account)
+    optional func finishLogin(result:NSDictionary, account: Account)
+    optional func finishRefresh()
 }
 
 class Account: NSObject {
@@ -27,7 +28,7 @@ class Account: NSObject {
     var phone:String
     var password:String
     var photoUrl:String?
-    var deliveryAddress:[String]?
+    var deliveryAddress:[[String:AnyObject]]?
     var accountId:String?
     var location:[String]?
     var token:String?
@@ -146,6 +147,7 @@ class Account: NSObject {
                         if success as! NSObject == true {
                             self.updateAccountData(json as! NSDictionary)
                             //print("token verify success")
+                            self.delegate?.finishRefresh!()
                         }
                         else {
                             
@@ -164,7 +166,9 @@ class Account: NSObject {
                         if let json = response.result.value
                             {
                             if let success = json.objectForKey("success") {
-                                if success as! NSObject  == true                                        {self.updateAccountData(json as! NSDictionary)}
+                                if success as! NSObject  == true                                        {
+                                    self.updateAccountData(json as! NSDictionary)
+                                }
                             }
                         }
                     }
@@ -180,9 +184,13 @@ class Account: NSObject {
         }
     }
     
+    
+    
     func updateAccountData(data:NSDictionary){
+        
         if let token = data.objectForKey("token"){
             self.token = token as? String
+
         }
         
         if let accountId = data.objectForKey("accountId"){
@@ -205,14 +213,78 @@ class Account: NSObject {
             self.photoUrl = photoUrl as? String
         }
         
-        if let deliveryAddress = data.objectForKey("address") {
-            //print(deliveryAddress)
-            self.deliveryAddress = deliveryAddress as? [String]
+
+        if let addresses = data["address"] as? [[String:AnyObject]] { // let the default address, type == 1 to be the first address in deliveryAddress array
+            self.deliveryAddress = addresses
+            if let addresses = self.deliveryAddress {
+                var count = 0
+                for addr in addresses{
+                    
+                    if let type = addr["type"]{
+                        print(type)
+                        if (type as! NSObject == "1") {
+                            print("default address")
+                            self.deliveryAddress?.removeAtIndex(count)
+                            self.deliveryAddress?.insert(addr, atIndex: 0)
+                    
+                            if let address = addr["addr"] {
+                                print(address)
+                            }
+                        }
+                    }
+                count++
+                }
+            }
         }
         
         if let location = data.objectForKey("location") {
             self.location = location as? [String]
         }
+    }
+    
+    func printAccount(data:NSDictionary) {
+        if let token = data.objectForKey("token"){
+            self.token = token as? String
+            print(token)
+        }
+        
+        if let accountId = data.objectForKey("accountId"){
+            self.accountId = accountId as? String
+            print(accountId)
+        }
+        
+        if let email = data.objectForKey("email"){
+            self.email = email as! String
+            print(email)
+        }
+        
+        if let phone = data.objectForKey("phone"){
+            self.phone = phone as! String
+            print(phone)
+        }
+        
+        if let name = data.objectForKey("name"){
+            self.name = name as! String
+            print(name)
+        }
+        
+        if let photoUrl = data.objectForKey("photoUrl") {
+            self.photoUrl = photoUrl as? String
+            print(photoUrl)
+        }
+        
+        if let deliveryAddress = data.objectForKey("address") {
+            //print(deliveryAddress)
+            
+            print(deliveryAddress)
+
+        }
+        
+        if let location = data.objectForKey("location") {
+            self.location = location as? [String]
+            print(location)
+        }
+
     }
     
     func checkLoginStatus(){
@@ -223,37 +295,43 @@ class Account: NSObject {
             
             Alamofire.request(.POST, "\(baseUrl)"+"account", parameters: params, encoding: .JSON)
                 .responseJSON { response in
-                if let json = response.result.value
-                {
-                    if let success = json.objectForKey("success") {
-                        if success as! NSObject == true {
-                            self.updateAccountData(json as! NSDictionary)
-                            self.delegate?.finishLogin!(json as! NSDictionary, account: Account.sharedManager)
-                            //print("token verify success")
-                        }
-                        else {
-                            print("token problem")
-
-                            
-                            do {
-                                let email = try self.myKeychain.getString("fosAccount")
-                                let password = try self.myKeychain.getString("fosPassword")
-                                if (email != nil && password != nil){
-                                    self.email = email!
-                                    self.password = password!
-                                    self.login(self)
-                                }
-                                else{
-                                    let falseInfo = NSDictionary(object: false, forKey: "success")
-                                    self.delegate?.finishLogin!(falseInfo, account: Account.sharedManager)
-                                }
-                            } catch let error{
-                                print(error)
-                            }
-                        }
-                    }
                     
+            var json:NSDictionary?
+            do {
+                json = try NSJSONSerialization.JSONObjectWithData(response.data!, options: .AllowFragments) as? NSDictionary
+            } catch {
+                print(error)
+            }
+            
+            if let success = json!.objectForKey("success") {
+                if success as! NSObject == true {
+                    self.updateAccountData(json!)
+                   // self.printAccount(json as! NSDictionary)
+                    self.delegate?.finishLogin!(json!, account: Account.sharedManager)
                 }
+                else {
+                    print("token problem")
+
+                    
+                    do {
+                        let email = try self.myKeychain.getString("fosAccount")
+                        let password = try self.myKeychain.getString("fosPassword")
+                        if (email != nil && password != nil){
+                            self.email = email!
+                            self.password = password!
+                            self.login(self)
+                        }
+                        else{
+                            let falseInfo = NSDictionary(object: false, forKey: "success")
+                            self.delegate?.finishLogin!(falseInfo, account: Account.sharedManager)
+                        }
+                    } catch let error{
+                        print(error)
+                    }
+                }
+            }
+                    
+                
             }
                 .response { response in
                     if response.3 != nil {
@@ -286,12 +364,15 @@ class Account: NSObject {
     }
     
     
-    func address(operation: requestMethod, address:String){
+    func address(operation: requestMethod, address:NSDictionary){
         if(operation == .PUT) { //add address
             if let token = self.token {
                 let params:[String : AnyObject] = [
                     "token":token,
-                    "address" : address
+                    "address" : address.objectForKey("address")!,
+                    "name" : address.objectForKey("name")!,
+                    "phone": address.objectForKey("phone")!,
+                    "type":address.objectForKey("type")!
                 ]
             Alamofire.request(.PUT, "\(baseUrl)"+"account/address", parameters: params, encoding: .JSON)
                 .responseJSON { response in
@@ -318,8 +399,39 @@ class Account: NSObject {
             if let token = self.token {
                 let params:[String : AnyObject] = [
                     "token":token,
-                    "address" : address
+                    "address" : address.objectForKey("address")!,
+                    "name":address.objectForKey("name")!
                 ]
+                Alamofire.request(.DELETE, "\(baseUrl)"+"account/address", parameters: params, encoding: .JSON)
+                    .responseJSON { response in
+                        
+                        
+                        if let json = response.result.value
+                        {
+                            if let success = json.objectForKey("success") {
+                                if success as! NSObject == true {
+                                    self.updateAccountData(json as! NSDictionary)
+                                }
+                            }
+                        }
+                    }
+                    .response { response in
+                        if response.3 != nil {
+                            print(response.3)
+                        }
+                }
+            }
+        }
+        else if (operation == .POST) {
+            if let token = self.token {
+                let params:[String : AnyObject] = [
+                    "token":token,
+                    "addressId" : address.objectForKey("_id")!,
+                    "address" : address.objectForKey("address")!,
+                    "name" : address.objectForKey("name")!,
+                    "phone": address.objectForKey("phone")!,
+                    "type":address.objectForKey("type")!
+                    ]
                 Alamofire.request(.DELETE, "\(baseUrl)"+"account/address", parameters: params, encoding: .JSON)
                     .responseJSON { response in
                         

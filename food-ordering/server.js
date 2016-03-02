@@ -166,10 +166,10 @@ router.route('/register')
                     res.send("Account has been used");
                     return
                 } else {
-                    Account.register(email, password, phone, name, res);
-
-                    Account.findAccount(email, function(doc) {
-                        console.log(doc)
+                    Account.register(email, password, phone, name, res, function(doc){
+                        if (doc == null) {
+                        Account.findAccount(email, function(doc) {
+                        //console.log(doc)
                         var inToken = { "_id": doc._id }
                         var token = jwt.sign(inToken, app.get('tokenScrete'), {
                             expiresIn: 1440 * 60 * 7 // expires in 24*7 hours
@@ -184,6 +184,10 @@ router.route('/register')
                             token: token
                         })
                     })
+                        }
+                    });
+
+
                 }
             })
         }
@@ -282,11 +286,11 @@ router.route('/resetPassword')
 router.route('/login')
 
 .post(function(req, res) {
-    console.log('login request');
+    //console.log('login request');
     var email = req.param('email', null);
     var password = req.param('password', null);
     //console.log(req);
-    console.log(email, password)
+    //console.log(email, password)
 
     if (null == email || email.length < 1 || null == password || password.length < 1) {
         res.send(400);
@@ -315,11 +319,11 @@ router.route('/login')
                 success: true
             });
         } else {
-            /*res.json({
-                code: 200,
+            res.json({
+                code: 400,
                 success:false
-            });*/
-            res.send(400);
+            });
+            // res.send(400);
         }
     });
 
@@ -389,7 +393,8 @@ router.route('/account')
 
 router.route('/account/address')
     .put(function(req, res) {
-        var accountId = req.session.user._id;
+        var accountId = req.decoded._id;
+        //var accountId = req.session.user._id;
         var address = req.param("address", null),
         name= req.param("name", null),
         phone= req.param("phone", null),
@@ -402,39 +407,88 @@ router.route('/account/address')
             "type":type
         };
 
-        //console.log(req);
+        console.log(totalAddress);
         if (address != null && address != "") {
             Account.addAddress(accountId, totalAddress, function(doc) {
-                //res.send(doc);
+                if (doc == null) {
+                        Account.findAccountById(accountId, function(doc) {
+                        res.json({
+                            accountId: doc._id,
+                            address: doc.address,
+                            success: true
+                        });
+                    })
+                }
             });
         }
-
-        Account.findAccountById(accountId, function(doc) {
-            res.json({
-                accountId: doc._id,
-                address: doc.address.name,
-                doc: doc,
-                success: true
-            });
-        })
-
     })
+
+    .post(function(req, res) {
+        var accountId = req.decoded._id;
+        //var accountId = req.session.user._id;
+        var address = req.param("address", null),
+        name= req.param("name", null),
+        phone= req.param("phone", null),
+        type= req.param("type", null),
+        addrId = req.param("addrId", null);
+        var totalAddress={
+            "address":address,
+            "name":name,
+            "phone":phone,
+            "type":type
+        };
+        console.log(totalAddress);
+        if (addrId != null && addrId != "") {
+            Account.updateAddress(accountId, totalAddress, addrId, function(doc) {
+                if (doc == null) {
+                        Account.findAccountById(accountId, function(doc) {
+                        res.json({
+                            accountId: doc._id,
+                            address: doc.address,
+                            success: true
+                        });
+                    })
+                }
+                else {
+                    res.json({
+                        code:400,
+                        success: false
+                    })
+                }
+            });
+        }
+    })
+
 
 .delete(function(req, res) {
-    var accountId = req.session.user._id;
-    var address = req.param("address", null);
+    var accountId = req.decoded._id;
+    //var accountId = req.session.user._id;
+
+    var address = req.param("address", null),
+        name= req.param("name", null),
+        phone= req.param("phone", null),
+        type= req.param("type", null);
+
+        var totalAddress={
+            "address":address,
+            "name":name,
+            "phone":phone,
+            "type":type
+        };
     if (address != null && address != null) {
-        Account.deleteAddress(accountId, address, function(doc) {
-            //res.send(doc);
+        Account.deleteAddress(accountId, totalAddress, function(doc) {
+                if (doc == null) {
+                        Account.findAccountById(accountId, function(doc) {
+                        res.json({
+                            accountId: doc._id,
+                            address: doc.address,
+                            success: true
+                        });
+                    })
+                }
         });
     }
-    Account.findAccountById(accountId, function(doc) {
-        res.json({
-            accountId: doc._id,
-            address: doc.address.name,
-            success: true
-        });
-    })
+
 });
 
 router.route('/account/location')
@@ -442,21 +496,23 @@ router.route('/account/location')
         res.render('updateInfo.jade');
     })
     .put(function(req, res) {
-        //var accountId = req.decoded._id;
-        var accountId = req.session.user._id;
+        var accountId = req.decoded._id;
+        //var accountId = req.session.user._id;
         var location = req.param("location", null);
         if (location != null && location != "") {
             Account.addLocation(accountId, location, function(doc) {
-                //res.send(doc);
+                if (doc == null) {
+                        Account.findAccountById(accountId, function(doc) {
+                        res.json({
+                            accountId: doc._id,
+                            location: doc.location,
+                            success: true
+                        });
+                    })
+                }
             });
         }
-        Account.findAccountById(accountId, function(doc) {
-            res.json({
-                accountId: doc._id,
-                location: doc.location,
-                success: true
-            });
-        })
+
     })
 
 .delete(function(req, res) {
@@ -465,17 +521,17 @@ router.route('/account/location')
     var location = req.param("location", null);
     if (location != null && location != "") {
         Account.deleteLocation(accountId, location, function(doc) {
-            //res.send(doc);
+            if (doc == null) {
+                    Account.findAccountById(accountId, function(doc) {
+                    res.json({
+                        accountId: doc._id,
+                        location: doc.location,
+                        success: true
+                    });
+                })
+            }
         });
     }
-    Account.findAccountById(accountId, function(doc) {
-
-        res.json({
-            accountId: doc._id,
-            location: doc.location,
-            success: true
-        });
-    })
 });
 // Restuarant api =================================================================
 
