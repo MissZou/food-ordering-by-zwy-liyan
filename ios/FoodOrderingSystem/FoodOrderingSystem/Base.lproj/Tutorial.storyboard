@@ -326,11 +326,20 @@
                         <outlet property="avatar" destination="Geu-7a-zfF" id="9cf-HV-Yke"/>
                         <outlet property="label" destination="hkX-3X-gbZ" id="25u-H3-DIm"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="tutorial" id="erX-my-bO1"/>
+                        <segue destination="RHx-YA-JiM" kind="show" identifier="login" id="SiE-Nj-Be8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nOG-Xm-U2d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-657" y="339"/>
+        </scene>
+        <!--SlideMenu-->
+        <scene sceneID="kem-XU-PZG">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SlideMenu" id="RHx-YA-JiM" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0l7-Z6-4Cd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-115.5" y="-134"/>
         </scene>
         <!--Login-->
         <scene sceneID="Jmw-eZ-dIC">

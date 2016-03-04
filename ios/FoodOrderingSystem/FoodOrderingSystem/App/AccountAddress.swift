@@ -30,12 +30,14 @@ class AccountAddress: UIViewController, UITableViewDelegate, UITableViewDataSour
         myAccount.delegate = self
         backButton1.addTarget(self, action: "holdDown", forControlEvents: UIControlEvents.TouchDown)
         backButton2.addTarget(self, action: "holdDown", forControlEvents: UIControlEvents.TouchDown)
+        
+        
     }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        myAccount.refreshAccountData()
-
+        tableView.reloadData()
+        //print(myAccount.deliveryAddress)
     }
     
     override func didReceiveMemoryWarning() {
@@ -104,9 +106,13 @@ class AccountAddress: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.reloadData()
     }
  
-    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        performSegueWithIdentifier("addressCell", sender: tableView)
-    }
+//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+//        performSegueWithIdentifier("addressCell", sender: tableView)
+//    }
+//
+//    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+//        performSegueWithIdentifier("addressCell", sender: tableView)
+//    }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "addressCell" {

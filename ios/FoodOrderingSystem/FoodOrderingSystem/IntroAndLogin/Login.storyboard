@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -622,15 +623,15 @@
                                 <exclude reference="G3g-NX-C93"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="otr-wf-9nN"/>
+                                <exclude reference="Rfm-vu-fIu"/>
+                                <exclude reference="fAp-H6-v6R"/>
                                 <exclude reference="IEX-5j-1XB"/>
                                 <exclude reference="TzO-Kr-zlv"/>
                                 <exclude reference="q0q-UO-3HH"/>
-                                <exclude reference="Rfm-vu-fIu"/>
-                                <exclude reference="fAp-H6-v6R"/>
                                 <exclude reference="0UX-Ma-QjU"/>
                                 <exclude reference="7xW-gr-lNX"/>
                                 <exclude reference="uyN-oY-AjY"/>
-                                <exclude reference="otr-wf-9nN"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -640,15 +641,15 @@
                                 <include reference="G3g-NX-C93"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="otr-wf-9nN"/>
+                                <include reference="Rfm-vu-fIu"/>
+                                <include reference="fAp-H6-v6R"/>
                                 <include reference="IEX-5j-1XB"/>
                                 <include reference="TzO-Kr-zlv"/>
                                 <include reference="q0q-UO-3HH"/>
-                                <include reference="Rfm-vu-fIu"/>
-                                <include reference="fAp-H6-v6R"/>
                                 <include reference="0UX-Ma-QjU"/>
                                 <include reference="7xW-gr-lNX"/>
                                 <include reference="uyN-oY-AjY"/>
-                                <include reference="otr-wf-9nN"/>
                             </mask>
                         </variation>
                     </view>

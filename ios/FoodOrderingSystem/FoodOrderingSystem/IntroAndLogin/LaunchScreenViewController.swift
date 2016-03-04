@@ -22,11 +22,12 @@ class LaunchScreenViewController: UIViewController, AccountDelegate {
         label.hidden = true
         avatar.hidden = true
         let account = Account.sharedManager
+        account.delegate = self
         let myKeyChain = account.myKeychain
         let token = try? myKeyChain.getString("fosToken")
         if ((token)! != nil) {
             account.token = token!
-            account.delegate = self
+            //account.delegate = self
             account.checkLoginStatus()
         }
     }
@@ -74,9 +75,11 @@ extension LaunchScreenViewController {
                         UIView.animateWithDuration(2.0, animations: {
                             self.label.frame = CGRectMake(self.label.frame.origin.x, self.label.frame.origin.y - 40, self.label.frame.size.width, self.label.frame.size.height)
                             }, completion: { finished in
-                                let storyboard = UIStoryboard(name: "SlideMenu", bundle: nil)
-                                let mainMenu = storyboard.instantiateViewControllerWithIdentifier("slideMenu")
-                                self.presentViewController(mainMenu, animated: true, completion: nil)
+//                                let storyboard = UIStoryboard(name: "SlideMenu", bundle: nil)
+//                                let mainMenu = storyboard.instantiateViewControllerWithIdentifier("slideMenu")
+//                                
+//                                self.presentViewController(mainMenu, animated: true, completion: nil)
+                                self.performSegueWithIdentifier("login", sender: nil)
                         })
                 })
                 
@@ -87,5 +90,9 @@ extension LaunchScreenViewController {
                 performSegueWithIdentifier("tutorial", sender: nil)
             }
         }
+    }
+    
+    func finishRefresh() {
+        
     }
 }

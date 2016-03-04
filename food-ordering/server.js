@@ -437,7 +437,8 @@ router.route('/account/address')
             "phone":phone,
             "type":type
         };
-        console.log(totalAddress);
+        //console.log(totalAddress);
+        console.log(addrId);
         if (addrId != null && addrId != "") {
             Account.updateAddress(accountId, totalAddress, addrId, function(doc) {
                 if (doc == null) {
@@ -456,6 +457,12 @@ router.route('/account/address')
                     })
                 }
             });
+        }
+        else {
+             res.json({
+                        code:400,
+                        success: false
+                    })
         }
     })
 

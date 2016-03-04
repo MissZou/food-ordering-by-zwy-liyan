@@ -221,15 +221,11 @@ class Account: NSObject {
                 for addr in addresses{
                     
                     if let type = addr["type"]{
-                        print(type)
+                        //print(type)
                         if (type as! NSObject == "1") {
-                            print("default address")
+                            //print("default address")
                             self.deliveryAddress?.removeAtIndex(count)
                             self.deliveryAddress?.insert(addr, atIndex: 0)
-                    
-                            if let address = addr["addr"] {
-                                print(address)
-                            }
                         }
                     }
                 count++
@@ -240,6 +236,7 @@ class Account: NSObject {
         if let location = data.objectForKey("location") {
             self.location = location as? [String]
         }
+        self.delegate?.finishRefresh!()
     }
     
     func printAccount(data:NSDictionary) {
@@ -374,6 +371,7 @@ class Account: NSObject {
                     "phone": address.objectForKey("phone")!,
                     "type":address.objectForKey("type")!
                 ]
+                
             Alamofire.request(.PUT, "\(baseUrl)"+"account/address", parameters: params, encoding: .JSON)
                 .responseJSON { response in
                     
@@ -399,8 +397,11 @@ class Account: NSObject {
             if let token = self.token {
                 let params:[String : AnyObject] = [
                     "token":token,
+                    "addrId" : address.objectForKey("addrId")!,
                     "address" : address.objectForKey("address")!,
-                    "name":address.objectForKey("name")!
+                    "name" : address.objectForKey("name")!,
+                    "phone": address.objectForKey("phone")!,
+                    "type":address.objectForKey("type")!
                 ]
                 Alamofire.request(.DELETE, "\(baseUrl)"+"account/address", parameters: params, encoding: .JSON)
                     .responseJSON { response in
@@ -426,13 +427,14 @@ class Account: NSObject {
             if let token = self.token {
                 let params:[String : AnyObject] = [
                     "token":token,
-                    "addressId" : address.objectForKey("_id")!,
+                    "addrId" : address.objectForKey("addrId")!,
                     "address" : address.objectForKey("address")!,
                     "name" : address.objectForKey("name")!,
                     "phone": address.objectForKey("phone")!,
                     "type":address.objectForKey("type")!
                     ]
-                Alamofire.request(.DELETE, "\(baseUrl)"+"account/address", parameters: params, encoding: .JSON)
+                print(params)
+                Alamofire.request(.POST, "\(baseUrl)"+"account/address", parameters: params, encoding: .JSON)
                     .responseJSON { response in
                         
                         
