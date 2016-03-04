@@ -50,7 +50,7 @@ module.exports = function(config, mongoose, nodemailer) {
         smtpTransport.sendMail({
           from: 'thisapp@example.com',
           to: doc.email,
-          subject: 'SocialNet Password Request',
+          subject: 'FoodTong Password Request',
           text: 'Click here to reset your password: ' + resetPasswordUrl
         }, function forgotPasswordResult(err) {
           if (err) {
@@ -128,22 +128,31 @@ var addAddress = function(accountId, newAddress, callback) {
 }
 
 var updateAddress = function(accountId, newAddress, addrId, callback) {
-            Account.update({_id:accountId}, {$set: {address:{
-          "name":newAddress.name,
-          "phone":newAddress.phone,
-          "type":newAddress.type,
-          "addr":newAddress.address
-        }}},{upsert:true},
-      function (err) {
-        console.log(err)
-        callback(err);
+  Account.findOne({_id:accountId}, function(err, account){
+        
+        if (!err){
+          //console.log(doc);
+          //console.log(doc.address);
+          account.address.forEach(function(addr){
+            
+            if(addr._id == addrId){
+              addr.name = newAddress.name,
+              addr.phone = newAddress.phone,
+              addr.addr = newAddress.address,
+              addr.type = newAddress.type
+            }
 
-    });
+          })
+          account.save(function(err){
+            callback(err);
+          });
+        }
+    })
 }
 
 var deleteAddress = function(accountId, address, callback) {
         Account.update({_id:accountId}, {$pull: {address:{"name":address.name,
-          "addr":address.address}}},{upsert:true},
+          "phone":address.phone}}},{upsert:true},
       function (err) {
         console.log(err)
         callback(err);

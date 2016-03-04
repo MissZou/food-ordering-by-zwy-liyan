@@ -161,8 +161,8 @@ class SlideMenu: UIViewController {
         currentLoaction = sender.locationInView(self.view)
         let distance = startLocation!.x - currentLoaction!.x
         
-        print(distance)
-        print(sender.enabled)
+        //print(distance)
+        //print(sender.enabled)
         
         if distance < 0 {
             //sender.enabled = true

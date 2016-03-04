@@ -44,4 +44,8 @@ extension AccountBL {
     func finishLogin(result:NSDictionary, account:Account) {
         self.delegate?.blFinishLogin!(result, account: account)
     }
+    
+    func finishRefresh() {
+        
+    }
 }
