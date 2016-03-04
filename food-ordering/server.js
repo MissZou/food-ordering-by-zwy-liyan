@@ -394,6 +394,7 @@ router.route('/account')
 router.route('/account/address')
     .put(function(req, res) {
         var accountId = req.decoded._id;
+        console.log(accountId)
         //var accountId = req.session.user._id;
         var address = req.param("address", null),
         name= req.param("name", null),

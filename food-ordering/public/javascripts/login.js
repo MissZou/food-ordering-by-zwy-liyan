@@ -40,14 +40,10 @@ function login(e) {
         type: 'post',
         data: data,
         success: function(data, status) {
-            if (status == 'success') {
+            if (data.code==200) {
                 alert("登录成功");
-               /* window.location="/index";*/
                window.location="/user/upload";
-            }
-        },
-        error: function(data, status) {
-            if (status == 'error') {
+            }else if (data.code==400){
                 alert("登录失败");
             }
         }
