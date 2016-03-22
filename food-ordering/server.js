@@ -12,6 +12,18 @@ var fs = require('fs');
 var session = require('express-session');
 var multipart = require('connect-multiparty');
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
+var path = require('path');
+
+
+
+var server = http.createServer(app);
+var io = require('socket.io').listen(server);
+
+server.listen(8080);
+
+
+
+
 
 var httpsOptions = {
     key: fs.readFileSync('./https/server-key.pem'),
@@ -142,6 +154,58 @@ router.route('/postupload').post(multipart(), function(req, res) {
     var url = 'http://' + req.headers.host + '/upload/' + req.session.user._id + '.jpg';
     upload.uploadUrl(url);
 });
+
+/*
+    socket
+    confirm order
+*/
+
+
+var onlineUser={};
+io.on('connection', function(socket){
+  socket.on('chat message', function(msg){
+    console.log('message: ' + msg);
+  });
+
+  socket.on('say to someone', function(id, to,msg){
+    //all[username] = socket.id;
+var online=Object.keys(io.sockets.adapter.rooms); //connected socket id array
+
+onlineUser[id]=socket.id;
+
+    console.log(socket.id)  //from socket id 
+    console.log(id);
+    console.log(to)
+    console.log(online)
+    //socket.emit('my message',msg,online[1],online[0]);
+     //socket.broadcast.to(online[1]).emit('my message', msg);
+     console.log("online1",online[0])
+     console.log("online2",online[1])
+
+     console.log(onlineUser)
+
+     console.log(onlineUser[to])
+     if(onlineUser[to]){
+        
+     io.sockets.connected[onlineUser[to]].emit("my message",msg)
+     }
+
+  });
+
+
+  socket.on('chat message', function(msg){
+    io.emit('chat message', msg);
+  });
+
+
+});
+
+
+router.route('/confirm')
+
+.get(function(req, res) {
+    res.sendfile(path.join(__dirname, './views', 'confirm.html'));
+})
 
 // ----------------------------------------------------
 
@@ -557,8 +621,9 @@ app.use('/user', router);
 app.use('/shop', routerRestuarant);
 // START THE SERVER
 // =============================================================================
-http.createServer(app).listen(portHttp);
+//http.createServer(app).listen(portHttp);
 https.createServer(httpsOptions, app).listen(portHttps);
 
 console.log('http listen ' + portHttp);
 console.log('TSL listen ' + portHttps);
+
