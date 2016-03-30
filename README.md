@@ -1,2 +1,3 @@
 # food-ordering-by-zwy-liyan
-毕设
+
+Dissertation in HKU. Developing a food ordering system wtih iOS app, web and Node.js.
