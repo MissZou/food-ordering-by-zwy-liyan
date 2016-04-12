@@ -1,0 +1,6 @@
+framework module Pods_FOSinOC {
+  umbrella header "Pods-FOSinOC-umbrella.h"
+
+  export *
+  module * { export * }
+}

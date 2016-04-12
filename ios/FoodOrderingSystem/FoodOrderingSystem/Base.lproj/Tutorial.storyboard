@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="OJ6-fn-6QM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="OJ6-fn-6QM">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -104,29 +104,6 @@
                                     <segue destination="D5F-6K-NNF" kind="show" id="vTw-le-aag"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="RBG-J0-QlD">
-                                <rect key="frame" x="18" y="415" width="565" height="107"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="107" id="G33-XT-kse">
-                                        <variation key="widthClass=compact" constant="160"/>
-                                    </constraint>
-                                </constraints>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </string>
-                                <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" name="HiraginoSans-W3" family="Hiragino Sans" pointSize="13"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="G33-XT-kse"/>
-                                    </mask>
-                                </variation>
-                                <variation key="widthClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="G33-XT-kse"/>
-                                    </mask>
-                                </variation>
-                            </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yZc-Fv-vgw">
                                 <rect key="frame" x="267" y="334" width="67" height="32"/>
                                 <constraints>
@@ -155,7 +132,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="300"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="Wfu-Dw-Wcz">
-                                        <variation key="widthClass=compact" constant="200"/>
+                                        <variation key="widthClass=compact" constant="250"/>
                                     </constraint>
                                 </constraints>
                                 <variation key="default">
@@ -169,6 +146,29 @@
                                     </mask>
                                 </variation>
                             </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="RBG-J0-QlD">
+                                <rect key="frame" x="18" y="415" width="565" height="107"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="107" id="G33-XT-kse">
+                                        <variation key="widthClass=compact" constant="134"/>
+                                    </constraint>
+                                </constraints>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </string>
+                                <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="HiraginoSans-W3" family="Hiragino Sans" pointSize="13"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="G33-XT-kse"/>
+                                    </mask>
+                                </variation>
+                                <variation key="widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="G33-XT-kse"/>
+                                    </mask>
+                                </variation>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -176,8 +176,9 @@
                             <constraint firstItem="g1f-CL-ICf" firstAttribute="centerX" secondItem="yZc-Fv-vgw" secondAttribute="centerX" id="3bd-yL-Pgs">
                                 <variation key="widthClass=compact" constant="1"/>
                             </constraint>
-                            <constraint firstItem="yZc-Fv-vgw" firstAttribute="top" secondItem="mkg-hF-XlF" secondAttribute="bottom" constant="26" id="9FX-KW-Q91">
-                                <variation key="widthClass=compact" constant="52"/>
+                            <constraint firstItem="yZc-Fv-vgw" firstAttribute="top" secondItem="mkg-hF-XlF" secondAttribute="bottom" constant="52" id="9FX-KW-Q91">
+                                <variation key="heightClass=regular" constant="100"/>
+                                <variation key="widthClass=compact" constant="27"/>
                             </constraint>
                             <constraint firstItem="mkg-hF-XlF" firstAttribute="top" secondItem="Rhs-8z-Knh" secondAttribute="top" id="AgQ-ky-IiN"/>
                             <constraint firstItem="YRa-tj-SC7" firstAttribute="centerX" secondItem="nxl-sO-h2H" secondAttribute="centerX" id="Fck-Dq-bIR"/>
@@ -192,7 +193,7 @@
                             <constraint firstItem="RBG-J0-QlD" firstAttribute="trailing" secondItem="Rhs-8z-Knh" secondAttribute="trailingMargin" id="mIZ-4R-qZp"/>
                             <constraint firstItem="Olk-0s-aAo" firstAttribute="top" secondItem="nxl-sO-h2H" secondAttribute="bottom" constant="24" id="nVT-m1-IyI"/>
                             <constraint firstItem="RBG-J0-QlD" firstAttribute="top" secondItem="YRa-tj-SC7" secondAttribute="bottom" constant="8" symbolic="YES" id="p0q-36-QzE">
-                                <variation key="widthClass=compact" constant="7"/>
+                                <variation key="widthClass=compact" constant="8"/>
                             </constraint>
                             <constraint firstItem="RBG-J0-QlD" firstAttribute="leading" secondItem="Rhs-8z-Knh" secondAttribute="leadingMargin" constant="-5" id="vKr-v3-yyE"/>
                         </constraints>

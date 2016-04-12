@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "C699E2AC1E1A37E11A5FCB4136227AC86681778E",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "E1979D1473D39E07D1A0CCE39763E444E5A1ECA6" : 0,
+    "C699E2AC1E1A37E11A5FCB4136227AC86681778E" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "8589291E-E46F-45EB-9E40-C5909A5DE913",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "E1979D1473D39E07D1A0CCE39763E444E5A1ECA6" : "",
+    "C699E2AC1E1A37E11A5FCB4136227AC86681778E" : "food-ordering-by-zwy-liyan\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "FOSinOC",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "ios\/FOSinOC\/FOSinOC.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Thanatos-L\/food-ordering-by-zwy-liyan.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "C699E2AC1E1A37E11A5FCB4136227AC86681778E"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Thanatos-L\/foodtong.com.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E1979D1473D39E07D1A0CCE39763E444E5A1ECA6"
+    }
+  ]
+}

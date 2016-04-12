@@ -30,6 +30,7 @@ class TutorialRootViewController: UIViewController, UIPageViewControllerDataSour
         self.pageViewController = self.storyboard?.instantiateViewControllerWithIdentifier("PageViewController") as? UIPageViewController
         self.pageViewController?.dataSource = self
         let startingViewController = self.viewControllerAtIndex(0)
+        
         let viewControllers: NSArray = [startingViewController!]
         self.pageViewController?.setViewControllers(viewControllers as? [UIViewController], direction: .Forward, animated: false, completion: nil)
         
@@ -80,7 +81,7 @@ class TutorialRootViewController: UIViewController, UIPageViewControllerDataSour
         if (index == 0 || Int(index) == NSNotFound) {
             return nil;
         }
-        index--
+        index -= 1
         return self.viewControllerAtIndex(index)
     }
     
@@ -91,7 +92,7 @@ class TutorialRootViewController: UIViewController, UIPageViewControllerDataSour
             return nil
         }
         
-        index++
+        index += 1
         
         if Int(index) == arrayPageTitles!.count {
             return nil

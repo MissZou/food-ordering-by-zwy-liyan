@@ -222,13 +222,13 @@ class Account: NSObject {
                     
                     if let type = addr["type"]{
                         //print(type)
-                        if (type as! NSObject == "1") {
+                        if (type as! NSObject == "0") {
                             //print("default address")
                             self.deliveryAddress?.removeAtIndex(count)
                             self.deliveryAddress?.insert(addr, atIndex: 0)
                         }
                     }
-                count++
+                count += 1
                 }
             }
         }

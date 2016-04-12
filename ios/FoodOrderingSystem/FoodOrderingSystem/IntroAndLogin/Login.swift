@@ -127,13 +127,16 @@ extension Login: UITextFieldDelegate {
 
 extension Login: AccountBLDelegate {
     func blFinishLogin(result:NSDictionary, account: Account) {
-        if let code = result.objectForKey("code") {
-            if code as! Int == 200 {
+        if let success = result.objectForKey("success") {
+            if success as! NSObject == true {
                 //account.testKeyChain()
                 loginSuccessed()
             }
             else {
                 NSNotificationCenter.defaultCenter().postNotificationName("loginFailed", object: nil)
+//                let alertController = UIAlertController(title: "Login Failed", message: "Wrong email or password", preferredStyle: UIAlertControllerStyle.Alert)
+//                alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
+//                self.presentViewController(alertController, animated: true, completion: nil)
             }
         }
 
