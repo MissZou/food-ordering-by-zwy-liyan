@@ -163,7 +163,10 @@ router.route('/register')
         } else {
             Account.findAccount(email, function(doc) {
                 if (doc != null) {
-                    res.send("Account has been used");
+                    res.json({
+                        success:false,
+                        msg:"Account has been used"
+                    });
                     return
                 } else {
                     Account.register(email, password, phone, name, res, function(doc){
