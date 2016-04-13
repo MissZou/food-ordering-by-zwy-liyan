@@ -53,19 +53,19 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    NSLog(@"section");
+    
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    //NSLog(@"%lu",(unsigned long)self.menuOptions.count);
+   
     return self.menuOptions.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     LeftMenuCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    NSLog(@"%@",self.menuOptions[indexPath.row]);
+    
     cell.tableLabel.text = self.menuOptions[indexPath.row];
     return cell;
 }

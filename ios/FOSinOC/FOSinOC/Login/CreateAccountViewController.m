@@ -93,15 +93,15 @@
         
         
         if ([result valueForKey:@"token"] != nil){
-            NSLog(@"%@",[result valueForKey:@"token"]);
+            //NSLog(@"%@",[result valueForKey:@"token"]);
             [SSKeychain setPassword:[result valueForKey:@"token"] forService:self.myAccount.serviceName account:self.myAccount.serviceToken];
         }
         
         
-        NSLog(@"%@",result);
+        //NSLog(@"%@",result);
         [self performSegueWithIdentifier:@"mainview" sender:nil];
     }else{
-        NSLog(@"create account failed");
+        //NSLog(@"create account failed");
         
         dispatch_async(dispatch_get_main_queue(), ^{
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Login failed!" message:@"Email or password error!" preferredStyle:UIAlertControllerStyleAlert];

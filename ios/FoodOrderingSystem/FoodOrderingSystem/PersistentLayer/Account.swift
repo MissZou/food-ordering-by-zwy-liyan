@@ -299,12 +299,14 @@ class Account: NSObject {
             } catch {
                 print(error)
             }
+            if let jsonData = json{
+                
             
-            if let success = json!.objectForKey("success") {
+            if let success = jsonData.objectForKey("success") {
                 if success as! NSObject == true {
-                    self.updateAccountData(json!)
+                    self.updateAccountData(jsonData)
                    // self.printAccount(json as! NSDictionary)
-                    self.delegate?.finishLogin!(json!, account: Account.sharedManager)
+                    self.delegate?.finishLogin!(jsonData, account: Account.sharedManager)
                 }
                 else {
                     print("token problem")
@@ -327,7 +329,7 @@ class Account: NSObject {
                     }
                 }
             }
-                    
+            }
                 
             }
                 .response { response in

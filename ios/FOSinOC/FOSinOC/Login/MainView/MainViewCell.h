@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface MainViewCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UIView *shopImage;
+@property (weak, nonatomic) IBOutlet UIImageView *shopImage;
+
 @property (weak, nonatomic) IBOutlet UILabel *heatLabel;
 @property (weak, nonatomic) IBOutlet UILabel *category;
 @property (weak, nonatomic) IBOutlet UILabel *shopName;

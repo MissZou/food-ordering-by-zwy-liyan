@@ -39,9 +39,16 @@
 
 @property(weak)id <AccountDelegate> delegate;
 
+typedef NS_ENUM(NSUInteger, httpMethod){
+    GET = 0,
+    POST,
+    PUT,
+    DELETE
+};
+
 +(Account *) sharedManager;
 -(void) login:(Account *)model;
 -(void)createAccount:(Account *)model;
 -(void) checkLogin;
-
+-(void) location:(enum httpMethod)httpMethod withLocation:(NSString *)location;
 @end

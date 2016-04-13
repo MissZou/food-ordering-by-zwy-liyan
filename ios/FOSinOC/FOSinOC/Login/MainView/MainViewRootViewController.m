@@ -32,31 +32,33 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.leftMenuWidth = 100.0;
-    self.mainView.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height);
     self.leftMenu.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.leftMenuWidth, self.view.frame.size.height);
+    self.mainView.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height);
     self.swipLeftGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(closeMenu)];
     self.swipLeftGesture.direction = UISwipeGestureRecognizerDirectionLeft;
-    self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeMenu)];
+    self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToCloseMenu)];
     self.panGesture = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureDo:)];
     self.panGesture.delegate = self;
     self.panGesture.edges = UIRectEdgeLeft;
     [self.view addGestureRecognizer:self.panGesture];
     self.blurEffet = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     self.blurEffectView = [[UIVisualEffectView alloc] initWithEffect:self.blurEffet];
-    //self.blurEffectView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+
 
     self.blurEffectView.frame = CGRectMake(self.mainView.frame.origin.x, self.mainView.frame.origin.y, self.mainView.frame.size.width, self.mainView.frame.size.height);
     [self.blurEffectView addGestureRecognizer:self.tapGesture];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toggleMenu) name:@"toggleMenu" object:nil];
+
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [self.view addGestureRecognizer:self.swipLeftGesture];
-//    self.leftMenu.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, 0, self.view.frame.size.height); //important bug I do not understand
-    [self.blurEffectView removeFromSuperview];
-
+    self.leftMenu.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, 0, self.view.frame.size.height); //important bug I do not understand
+    //[self.blurEffectView removeFromSuperview];
+    //[self testOperation];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -66,6 +68,31 @@
 
 -(BOOL)prefersStatusBarHidden{
     return YES;
+}
+-(void)testOperation{
+    [self.mainView addSubview:self.blurEffectView];
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:0];
+    
+    self.leftMenu.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.leftMenuWidth, self.view.frame.size.height);
+    self.mainView.frame = CGRectMake(self.view.frame.origin.x + self.leftMenuWidth, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height);
+    
+    self.blurEffectView.alpha = 0;
+    //[self.mainView addSubview:self.blurEffectView];
+    self.blurEffectView.alpha = 1;
+    
+    [UIView commitAnimations];
+
+    
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:0];
+    self.blurEffectView.alpha = 1;
+    self.leftMenu.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.leftMenuWidth, self.view.frame.size.height);
+    self.mainView.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height);
+    self.blurEffectView.alpha = 0;
+    [UIView commitAnimations];
+    [self.blurEffectView removeFromSuperview];
+
 }
 
 -(void)closeMenu{
@@ -78,18 +105,24 @@
     [UIView commitAnimations];
     [self.view removeGestureRecognizer:self.swipLeftGesture];
     [self.blurEffectView removeGestureRecognizer:self.tapGesture];
+    [self.blurEffectView removeFromSuperview];
 }
 
 
 -(void)openMenu{
+//    self.blurEffectView.alpha = 0;
+//    if (![self. self.mainView.subviews containsObject:self.blurEffectView]) {
+//        [self.mainView addSubview:self.blurEffectView];
+//    }
+    [self.mainView addSubview:self.blurEffectView];
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.3];
     
     self.leftMenu.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.leftMenuWidth, self.view.frame.size.height);
     self.mainView.frame = CGRectMake(self.view.frame.origin.x + self.leftMenuWidth, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height);
-    
+
     self.blurEffectView.alpha = 0;
-    [self.mainView addSubview:self.blurEffectView];
+    //[self.mainView addSubview:self.blurEffectView];
     self.blurEffectView.alpha = 1;
 
     [UIView commitAnimations];
@@ -118,7 +151,7 @@
     [UIView commitAnimations];
     [self.view removeGestureRecognizer:self.swipLeftGesture];
     [self.blurEffectView removeGestureRecognizer:self.tapGesture];
-
+    [self.blurEffectView removeFromSuperview];
 }
 
 
@@ -137,6 +170,14 @@
     [self.view addGestureRecognizer:self.swipLeftGesture];
 }
 
+-(void)tapToCloseMenu{
+    if (self.mainView.frame.origin.x != 0) {
+        [self closeMenuHalfAnimation];
+    }
+    else{
+        [self closeMenu];
+    }
+}
 
 -(void)panGestureDo:(UIScreenEdgePanGestureRecognizer *)sender{
     sender.enabled = true;

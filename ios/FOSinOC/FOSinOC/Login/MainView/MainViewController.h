@@ -7,7 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DropDownView.h"
+#import "SearchViewHelpController.h"
+#import "MainViewCell.h"
+@class MainViewController;
+@protocol MainViewSearchControllerDelegate <NSObject>
 
-@interface MainViewController : UIViewController
+@optional
+-(void)finishSearchLocation:(NSString *)location;
+
+@end
+@interface MainViewController : UIViewController<DropDownViewDelegate, UITableViewDelegate, UISearchResultsUpdating, UITableViewDelegate, UITableViewDataSource,SearchViewHelpControllerDelegate>
 
 @end

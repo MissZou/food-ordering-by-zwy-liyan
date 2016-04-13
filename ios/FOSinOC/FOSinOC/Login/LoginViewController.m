@@ -93,24 +93,22 @@
 }
 
 -(void)finishFetchAccountData:(NSDictionary *)result withAccount:(Account *)myAccount{
-    NSLog(@"finish login ");
+   
     //BOOL success = [result valueForKey:@"success"];
     //NSLog([[[result valueForKey:@"success"] class] description]);
     
     if ([[result valueForKey:@"success"]boolValue] == YES) {
-        NSLog(@"login success");
+        
         [SSKeychain setPassword:self.password.text forService:self.myAccount.serviceName account:self.myAccount.servicePassword];
         [SSKeychain setPassword:self.userName.text forService:self.myAccount.serviceName account:self.myAccount.serviceAccount];
         
         if ([result valueForKey:@"token"] != nil){
-            NSLog(@"%@",[result valueForKey:@"token"]);
+           // NSLog(@"%@",[result valueForKey:@"token"]);
             [SSKeychain setPassword:[result valueForKey:@"token"] forService:self.myAccount.serviceName account:self.myAccount.serviceToken];
         }
 
         [self performSegueWithIdentifier:@"mainview" sender:nil];
     }else{
-        NSLog(@"login failed");
-
         dispatch_async(dispatch_get_main_queue(), ^{
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Login failed!" message:@"Email or password error!" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
