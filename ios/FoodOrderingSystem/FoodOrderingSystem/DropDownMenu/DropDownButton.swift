@@ -47,7 +47,7 @@ class DropDownButton: UIView, UITableViewDelegate, UITableViewDataSource {
     
     func showDropDown(senderButton: UIButton, height: CGFloat , buttonArray: Array<String>)
     {
-        senderBtn = senderButton
+        //senderBtn = senderButton
         
         
         let btn: CGRect = (senderButton.superview?.frame)!

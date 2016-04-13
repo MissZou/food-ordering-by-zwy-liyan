@@ -36,10 +36,12 @@
     if([SSKeychain passwordForService:self.myAccount.serviceName account:self.myAccount.serviceToken]!=nil){
         self.myAccount.token = [SSKeychain passwordForService:self.myAccount.serviceName account:self.myAccount.serviceToken];
         [self.myAccount checkLogin];
+    }else if([SSKeychain passwordForService:self.myAccount.serviceName account:self.myAccount.serviceAccount] != nil && [SSKeychain passwordForService:self.myAccount.serviceName account:self.myAccount.servicePassword] != nil){
+        [self.myAccount checkLogin];
     }
-    NSString *email = [SSKeychain passwordForService:self.myAccount.serviceName account:self.myAccount.serviceAccount];
-    NSString *password = [SSKeychain passwordForService:self.myAccount.serviceName account:self.myAccount.servicePassword];
-    NSLog(@"%@,%@",email,password);
+//    NSString *email = [SSKeychain passwordForService:self.myAccount.serviceName account:self.myAccount.serviceAccount];
+//    NSString *password = [SSKeychain passwordForService:self.myAccount.serviceName account:self.myAccount.servicePassword];
+    //NSLog(@"%@,%@",email,password);
 }
 
 -(void)viewDidAppear:(BOOL)animated {

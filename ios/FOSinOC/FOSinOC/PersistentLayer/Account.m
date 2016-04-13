@@ -17,12 +17,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
 @interface Account ()
 
 @property(strong,nonatomic) NSURL *baseUrl;
-typedef NS_ENUM(NSUInteger, httpMethod){
-    GET = 0,
-    POST,
-    PUT,
-    DELETE
-};
+
 
 
 @end
@@ -159,18 +154,60 @@ typedef NS_ENUM(NSUInteger, httpMethod){
             NSLog(@"%@", error);
         }];
     }
-    else{
+    else {
         NSURL *url = [NSURL URLWithString:@"login" relativeToURL:self.baseUrl];
         
         NSString *email = [SSKeychain passwordForService:self.serviceName account:self.serviceAccount];
         NSString *password = [SSKeychain passwordForService:self.serviceName account:self.servicePassword];
-        NSDictionary *parameters = @{@"email": email, @"password": password};
+            if(email !=nil && password !=nil){
+            NSDictionary *parameters = @{@"email": email, @"password": password};
 
+            AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+            manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
+            
+            [manager POST:[url absoluteString] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                
+                if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                    
+                    [self updateAccount:responseObject];
+                    [self.delegate finishFetchAccountData:responseObject withAccount:Account.sharedManager];
+                } else {
+                    NSLog(@"%@", responseObject);
+                }
+                
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                NSLog(@"%@", error);
+            }];
+
+        }
+    }
+
+}
+
+-(void) location:(httpMethod)httpMethod withLocation:(NSString *)location{
+    
+        NSString *token = self.token;
+        NSDictionary *parameters = @{@"token": token, @"location": location};
+        NSURL *url = [NSURL URLWithString:@"account/location" relativeToURL:self.baseUrl];
+        
         AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
         manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
-        
-        [manager POST:[url absoluteString] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            
+        if (httpMethod == PUT) {
+        [manager PUT:[url absoluteString] parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject){
+            if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                
+                [self updateAccount:responseObject];
+                [self.delegate finishFetchAccountData:responseObject withAccount:Account.sharedManager];
+            } else {
+                NSLog(@"%@", responseObject);
+            }
+
+        }failure:^(NSURLSessionDataTask * _Nonnull task, NSError *error){
+            NSLog(@"%@", error);
+        }];
+    }
+    else if (httpMethod == DELETE){
+        [manager DELETE:[url absoluteString] parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject){
             if ([responseObject isKindOfClass:[NSDictionary class]]) {
                 
                 [self updateAccount:responseObject];
@@ -179,11 +216,11 @@ typedef NS_ENUM(NSUInteger, httpMethod){
                 NSLog(@"%@", responseObject);
             }
             
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        }failure:^(NSURLSessionDataTask * _Nonnull task, NSError *error){
             NSLog(@"%@", error);
         }];
-
     }
 }
+
 
 @end

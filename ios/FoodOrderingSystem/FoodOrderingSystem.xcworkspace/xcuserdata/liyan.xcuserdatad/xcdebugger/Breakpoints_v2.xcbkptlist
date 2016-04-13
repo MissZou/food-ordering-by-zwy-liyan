@@ -212,11 +212,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FoodOrderingSystem/PersistentLayer/Account.swift"
-            timestampString = "482118869.987147"
+            timestampString = "482210741.165861"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "303"
-            endingLineNumber = "303"
+            startingLineNumber = "305"
+            endingLineNumber = "305"
             landmarkName = "checkLoginStatus()"
             landmarkType = "5">
          </BreakpointContent>
