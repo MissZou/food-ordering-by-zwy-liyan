@@ -16,6 +16,9 @@
 		BA174A461CBE496E00419E3B /* nameIndicator.png in Resources */ = {isa = PBXBuildFile; fileRef = BA174A3F1CBE496E00419E3B /* nameIndicator.png */; };
 		BA174A471CBE496E00419E3B /* tickWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = BA174A401CBE496E00419E3B /* tickWhite.png */; };
 		BA174A4A1CBE7B7B00419E3B /* SearchViewHelpController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA174A491CBE7B7B00419E3B /* SearchViewHelpController.m */; };
+		BA174A4D1CBF7A9600419E3B /* AccountView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA174A4C1CBF7A9600419E3B /* AccountView.storyboard */; };
+		BA174A501CBF7B8D00419E3B /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA174A4F1CBF7B8D00419E3B /* AccountViewController.m */; };
+		BA174A531CBF802100419E3B /* CustomizedSegueLeftToRight.m in Sources */ = {isa = PBXBuildFile; fileRef = BA174A521CBF802100419E3B /* CustomizedSegueLeftToRight.m */; };
 		BA1DAE431CB657BE00CDD6E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BA1DAE421CB657BE00CDD6E0 /* main.m */; };
 		BA1DAE461CB657BE00CDD6E0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BA1DAE451CB657BE00CDD6E0 /* AppDelegate.m */; };
 		BA1DAE4E1CB657BE00CDD6E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA1DAE4D1CB657BE00CDD6E0 /* Assets.xcassets */; };
@@ -36,7 +39,6 @@
 		BA6046E81CBCCB8E00A8FD34 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046E71CBCCB8E00A8FD34 /* MainViewController.m */; };
 		BA6046EB1CBCD35700A8FD34 /* LeftViewTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046EA1CBCD35700A8FD34 /* LeftViewTableController.m */; };
 		BA6046EE1CBCD3C300A8FD34 /* LeftMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046ED1CBCD3C300A8FD34 /* LeftMenuCell.m */; };
-		BA6046F11CBD258D00A8FD34 /* MainViewTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046F01CBD258D00A8FD34 /* MainViewTableViewController.m */; };
 		BA6046F41CBD28CF00A8FD34 /* MainViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046F31CBD28CF00A8FD34 /* MainViewCell.m */; };
 		BA6046F71CBDE44500A8FD34 /* DropDownView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046F61CBDE44500A8FD34 /* DropDownView.m */; };
 		BA81F6421CB668CB007A8832 /* introductionPic1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BA81F63F1CB668CB007A8832 /* introductionPic1.jpg */; };
@@ -73,6 +75,11 @@
 		BA174A401CBE496E00419E3B /* tickWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tickWhite.png; sourceTree = "<group>"; };
 		BA174A481CBE7B7B00419E3B /* SearchViewHelpController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewHelpController.h; sourceTree = "<group>"; };
 		BA174A491CBE7B7B00419E3B /* SearchViewHelpController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewHelpController.m; sourceTree = "<group>"; };
+		BA174A4C1CBF7A9600419E3B /* AccountView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = AccountView.storyboard; path = FOSinOC/AccountView/AccountView.storyboard; sourceTree = SOURCE_ROOT; };
+		BA174A4E1CBF7B8D00419E3B /* AccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AccountViewController.h; path = FOSinOC/AccountView/AccountViewController.h; sourceTree = SOURCE_ROOT; };
+		BA174A4F1CBF7B8D00419E3B /* AccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AccountViewController.m; path = FOSinOC/AccountView/AccountViewController.m; sourceTree = SOURCE_ROOT; };
+		BA174A511CBF802100419E3B /* CustomizedSegueLeftToRight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomizedSegueLeftToRight.h; sourceTree = "<group>"; };
+		BA174A521CBF802100419E3B /* CustomizedSegueLeftToRight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomizedSegueLeftToRight.m; sourceTree = "<group>"; };
 		BA1DAE3E1CB657BE00CDD6E0 /* FOSinOC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FOSinOC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA1DAE421CB657BE00CDD6E0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BA1DAE441CB657BE00CDD6E0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -112,8 +119,6 @@
 		BA6046EA1CBCD35700A8FD34 /* LeftViewTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftViewTableController.m; sourceTree = "<group>"; };
 		BA6046EC1CBCD3C300A8FD34 /* LeftMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftMenuCell.h; sourceTree = "<group>"; };
 		BA6046ED1CBCD3C300A8FD34 /* LeftMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftMenuCell.m; sourceTree = "<group>"; };
-		BA6046EF1CBD258D00A8FD34 /* MainViewTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewTableViewController.h; sourceTree = "<group>"; };
-		BA6046F01CBD258D00A8FD34 /* MainViewTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewTableViewController.m; sourceTree = "<group>"; };
 		BA6046F21CBD28CF00A8FD34 /* MainViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewCell.h; sourceTree = "<group>"; };
 		BA6046F31CBD28CF00A8FD34 /* MainViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewCell.m; sourceTree = "<group>"; };
 		BA6046F51CBDE44500A8FD34 /* DropDownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropDownView.h; sourceTree = "<group>"; };
@@ -164,11 +169,23 @@
 			path = icons;
 			sourceTree = "<group>";
 		};
+		BA174A4B1CBF7A5800419E3B /* AccountView */ = {
+			isa = PBXGroup;
+			children = (
+				BA174A4C1CBF7A9600419E3B /* AccountView.storyboard */,
+				BA174A4E1CBF7B8D00419E3B /* AccountViewController.h */,
+				BA174A4F1CBF7B8D00419E3B /* AccountViewController.m */,
+			);
+			name = AccountView;
+			path = FOSinOC/PersistentLayer/AccountView;
+			sourceTree = "<group>";
+		};
 		BA1DAE351CB657BE00CDD6E0 = {
 			isa = PBXGroup;
 			children = (
 				BA6046D21CB8E5B800A8FD34 /* BusinessLayer */,
 				BA6046D31CB8E5B800A8FD34 /* PersistentLayer */,
+				BA174A4B1CBF7A5800419E3B /* AccountView */,
 				BA6046DA1CBB8E1600A8FD34 /* MainView */,
 				BA1DAE741CB65BB000CDD6E0 /* Login */,
 				BA1DAE401CB657BE00CDD6E0 /* FOSinOC */,
@@ -259,6 +276,8 @@
 				BA6046F61CBDE44500A8FD34 /* DropDownView.m */,
 				BA174A481CBE7B7B00419E3B /* SearchViewHelpController.h */,
 				BA174A491CBE7B7B00419E3B /* SearchViewHelpController.m */,
+				BA174A511CBF802100419E3B /* CustomizedSegueLeftToRight.h */,
+				BA174A521CBF802100419E3B /* CustomizedSegueLeftToRight.m */,
 			);
 			name = help;
 			path = FOSinOC/help;
@@ -288,8 +307,6 @@
 				BA6046DB1CBB8E4A00A8FD34 /* MainView.storyboard */,
 				BA6046E61CBCCB8E00A8FD34 /* MainViewController.h */,
 				BA6046E71CBCCB8E00A8FD34 /* MainViewController.m */,
-				BA6046EF1CBD258D00A8FD34 /* MainViewTableViewController.h */,
-				BA6046F01CBD258D00A8FD34 /* MainViewTableViewController.m */,
 				BA6046F21CBD28CF00A8FD34 /* MainViewCell.h */,
 				BA6046F31CBD28CF00A8FD34 /* MainViewCell.m */,
 				BA6046E01CBCA0A100A8FD34 /* MainViewRootViewController.h */,
@@ -457,6 +474,7 @@
 				BA6046DC1CBB8E4A00A8FD34 /* MainView.storyboard in Resources */,
 				BA174A411CBE496E00419E3B /* account.png in Resources */,
 				BA1DAE511CB657BE00CDD6E0 /* LaunchScreen.storyboard in Resources */,
+				BA174A4D1CBF7A9600419E3B /* AccountView.storyboard in Resources */,
 				BA174A461CBE496E00419E3B /* nameIndicator.png in Resources */,
 				BA174A431CBE496E00419E3B /* cartGreen.png in Resources */,
 				BA81F6441CB668CB007A8832 /* introductionPic3.jpg in Resources */,
@@ -541,17 +559,18 @@
 				BA6046EE1CBCD3C300A8FD34 /* LeftMenuCell.m in Sources */,
 				BA6046F71CBDE44500A8FD34 /* DropDownView.m in Sources */,
 				BA174A4A1CBE7B7B00419E3B /* SearchViewHelpController.m in Sources */,
+				BA174A501CBF7B8D00419E3B /* AccountViewController.m in Sources */,
 				BA6046EB1CBCD35700A8FD34 /* LeftViewTableController.m in Sources */,
 				BA6046D61CB8E5CF00A8FD34 /* Account.m in Sources */,
 				BA1DAE7F1CB6635500CDD6E0 /* TutorialPageViewController.m in Sources */,
 				BA1DAE791CB65CF100CDD6E0 /* LaunchScreenViewController.m in Sources */,
-				BA6046F11CBD258D00A8FD34 /* MainViewTableViewController.m in Sources */,
 				BA6046E21CBCA0A100A8FD34 /* MainViewRootViewController.m in Sources */,
 				BA21783D1CB67830003402E1 /* CustomizationButton.m in Sources */,
 				BA6046F41CBD28CF00A8FD34 /* MainViewCell.m in Sources */,
 				BA6046D01CB8D70400A8FD34 /* LoginViewController.m in Sources */,
 				BA6046E81CBCCB8E00A8FD34 /* MainViewController.m in Sources */,
 				BA1DAE461CB657BE00CDD6E0 /* AppDelegate.m in Sources */,
+				BA174A531CBF802100419E3B /* CustomizedSegueLeftToRight.m in Sources */,
 				BA1DAE431CB657BE00CDD6E0 /* main.m in Sources */,
 				BA6046D91CBB8B1200A8FD34 /* CreateAccountViewController.m in Sources */,
 				BA6046E51CBCCA2700A8FD34 /* LeftMenuViewController.m in Sources */,

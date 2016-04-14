@@ -56,8 +56,14 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
     NSArray *locations = self.myAccount.location;
     [self.delegate finishSearchWithResult:locations[indexPath.row]];
     //NSLog(@"delegate %@",locations[indexPath.row]);
 }
+
+//-(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+//    return nil;
+//}
+
 @end

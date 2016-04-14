@@ -17,6 +17,6 @@
 -(void)finishSearchLocation:(NSString *)location;
 
 @end
-@interface MainViewController : UIViewController<DropDownViewDelegate, UITableViewDelegate, UISearchResultsUpdating, UITableViewDelegate, UITableViewDataSource,SearchViewHelpControllerDelegate>
+@interface MainViewController : UIViewController<DropDownViewDelegate, UITableViewDelegate,UITableViewDataSource,UISearchResultsUpdating,UISearchBarDelegate,SearchViewHelpControllerDelegate>
 
 @end

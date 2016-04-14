@@ -129,7 +129,7 @@ class SlideMenu: UIViewController {
         rightView.frame = CGRectMake(view.frame.origin.x, view.frame.origin.y, view.frame.size.width, view.frame.size.height)
         
         blurEffectView?.alpha = 0
-        //blurEffectView?.removeFromSuperview()
+        blurEffectView?.removeFromSuperview()
         UIView.commitAnimations()
         
         //blurEffectView?.removeFromSuperview()
@@ -149,7 +149,6 @@ class SlideMenu: UIViewController {
         blurEffectView?.alpha = 1
         UIView.commitAnimations()
         blurEffectView!.addGestureRecognizer(tapToCloseMenuGesture!)
-
         view.addGestureRecognizer(swipeLeftGesture!)
     }
     
