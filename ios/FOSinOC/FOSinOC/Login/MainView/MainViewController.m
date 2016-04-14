@@ -57,10 +57,10 @@
     self.cellHeight = 40;
     
     self.view.layer.shadowOpacity = 0.8;
-    self.topView.layer.shadowOpacity = 0.8;
-    self.topView.layer.shadowOffset = CGSizeMake(2.0, 0.0);
+//    self.topView.layer.shadowOpacity = 0.8;
+//    self.topView.layer.shadowOffset = CGSizeMake(2.0, 0.0);
     self.bottomView.layer.shadowOpacity = 0.8;
-    self.bottomView.layer.shadowOffset = CGSizeMake(2.0, 0.0);
+    self.bottomView.layer.shadowOffset = CGSizeMake(0.0, 0.0);
     
     //init for dropDownView
     self.blurEffet = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
@@ -71,24 +71,32 @@
     //init for searchController
     self.searchController = [[UISearchController alloc]initWithSearchResultsController:nil];
     self.searchController.searchResultsUpdater = self;
-    //self.searchController.searchBar.delegate = self;
+    self.searchController.searchBar.delegate = self;
+    
     self.definesPresentationContext = true;
     self.searchController.dimsBackgroundDuringPresentation = false;
     self.blurEffectViewForSearch = [[UIVisualEffectView alloc] initWithEffect:self.blurEffet];
-    self.tapToCloseSearchController = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(searchBarCancelButtonClicked:)];
+    self.tapToCloseSearchController = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(searchBarCancelButtonClicked)];
 }
+
+//-(id)init{
+//    if(self = [super init]){
+//
+//    }
+//    return self;
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
--(id)initWithCoder:(NSCoder *)aDecoder{
-    if(self = [super initWithCoder:aDecoder]){
-
-    }
-    return self;
-}
+//-(id)initWithCoder:(NSCoder *)aDecoder{
+//    if(self = [super initWithCoder:aDecoder]){
+//
+//    }
+//    return self;
+//}
 
 
 - (IBAction)menuButton:(id)sender {
@@ -150,7 +158,14 @@
 
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
     [self.searchTableView removeFromSuperview];
-    self.searchTableView = nil;
+    [self.blurEffectViewForSearch removeFromSuperview];
+    [self.searchController.searchBar removeFromSuperview];
+    
+    
+}
+
+-(void)searchBarCancelButtonClicked{
+    [self.searchTableView removeFromSuperview];
     [self.blurEffectViewForSearch removeFromSuperview];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -163,16 +178,20 @@
 
 -(void)initSearchTableView{
     
-    self.searchTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, self.topView.frame.size.height, self.view.frame.size.width, 2*self.cellHeight*1.5)];// 2 is results number
+    self.searchTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, self.topView.frame.size.height+20, self.view.frame.size.width, 2*self.cellHeight*1.5)];// 2 is results number
     self.blurEffectViewForSearch.frame = CGRectMake(self.view.bounds.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height);
+    //self.blurEffectViewForSearch.userInteractionEnabled = NO;
     [self.blurEffectViewForSearch addGestureRecognizer:self.tapToCloseSearchController];
     [self.searchTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"searchTableCell"];
     self.searchTableView.delegate = self.searchViewHelpController;
     self.searchTableView.dataSource = self.searchViewHelpController;
 
+    //self.searchTableView.allowsSelection = YES;
+    
+    
     [self presentViewController:self.searchController animated:YES completion:^{
         [self.view addSubview:self.blurEffectViewForSearch];
-        [self.view addSubview:self.searchTableView];
+        [self.searchController.view addSubview:self.searchTableView];
     }];
     
 }
@@ -236,6 +255,7 @@
     NSLog(@"search result %@",result);
     self.textLabel = result;
     [self.mainViewTableView reloadData];
+    [self searchBarCancelButtonClicked];
 }
 
 @end

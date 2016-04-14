@@ -60,7 +60,8 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (IBAction)loginButtonClicked:(id)sender {
-    
+    // test
+    //[self performSegueWithIdentifier:@"mainview" sender:nil];
     if(![self.userName.text  isEqual: @""] && ![self.password.text  isEqual: @""]){
         self.myAccount.email = self.userName.text;
         self.myAccount.password = self.password.text;

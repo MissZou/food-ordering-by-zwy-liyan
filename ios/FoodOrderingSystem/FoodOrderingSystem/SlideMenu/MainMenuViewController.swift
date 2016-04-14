@@ -40,9 +40,9 @@ class MainMenuViewController: UIViewController, DropDownButtonDelegate {
         topView.layer.shadowOpacity = 0.8
 //        buttonView.layer.shadowOpacity = 0.8
 //        buttonView.layer.shadowOffset = CGSize(width: 2, height: 0)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "openAccountView", name: "openAccountView", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainMenuViewController.openAccountView), name: "openAccountView", object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "openOrderView", name: "openOrderView", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainMenuViewController.openOrderView), name: "openOrderView", object: nil)
         
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
@@ -181,8 +181,6 @@ extension MainMenuViewController: UISearchBarDelegate {
         searchTableView?.removeFromSuperview()
         blurEffectForTable.removeFromSuperview()
         //blurEffectForTable.removeGestureRecognizer(tapCloseSearchBar)
-        
-
         dismissViewControllerAnimated(true, completion: nil)
         
     }
@@ -209,7 +207,8 @@ extension MainMenuViewController:UITableViewDelegate, UITableViewDataSource { //
        
         presentViewController(searchController, animated: true, completion: {
             self.view.addSubview(self.blurEffectForTable)
-            self.view.addSubview(self.searchTableView!)
+            //self.view.addSubview(self.searchTableView!)
+            self.searchController.view.addSubview(self.searchTableView!)
         })
         searchTableView!.delegate = self
         searchTableView!.dataSource = self

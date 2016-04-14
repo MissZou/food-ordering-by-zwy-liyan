@@ -39,9 +39,9 @@
     // Dispose of any resources that can be recreated.
 }
 
--(BOOL)prefersStatusBarHidden{
-    return YES;
-}
+//-(BOOL)prefersStatusBarHidden{
+//    return YES;
+//}
 
 -(void)logout{
     [SSKeychain deletePasswordForService:self.myAccount.serviceName account:self.myAccount.serviceToken];
@@ -79,14 +79,18 @@
     switch (indexPath.row) {
         case 0:
             NSLog(@"account");
+            [self performSegueWithIdentifier:@"accountView" sender:nil];
             break;
         case 1:
             NSLog(@"Schedule");
+            break;
         case 2:
             NSLog(@"favorite");
+            break;
         case 3:
             [self logout];
             NSLog(@"log out");
+            break;
         default:
             break;
     }
