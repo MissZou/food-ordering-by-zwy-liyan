@@ -7,15 +7,29 @@
 //
 
 #import "AccountViewController.h"
+#import "Account.h"
 
 @interface AccountViewController ()
-
+@property (weak, nonatomic) IBOutlet UIImageView *avatar;
+@property (weak, nonatomic) IBOutlet UILabel *name;
+@property (weak, nonatomic) IBOutlet UILabel *email;
+@property (strong,nonatomic) Account *myAccount;
 @end
 
 @implementation AccountViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.myAccount = [Account sharedManager];
+    if (self.myAccount.photoUrl != nil) {
+        self.avatar.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.myAccount.photoUrl]]];
+    }
+    if (self.myAccount.name != nil) {
+        self.name.text = self.myAccount.name;
+    }
+    self.email.text = self.myAccount.email;
+    
+    NSLog(@"%@",self.myAccount.deliverAddress);
     // Do any additional setup after loading the view.
 }
 

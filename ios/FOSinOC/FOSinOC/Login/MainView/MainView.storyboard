@@ -578,25 +578,44 @@
                                     <action selector="greenButtonClicked:" destination="MwC-kf-4uh" eventType="touchUpInside" id="RPP-Tr-dGQ"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nc9-Pf-7SB">
+                                <rect key="frame" x="-42" y="-21" width="42" height="21"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                <color key="textColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Qzu-lI-NTz" firstAttribute="top" secondItem="Nc9-Pf-7SB" secondAttribute="bottom" id="Dhg-B2-0Af"/>
                             <constraint firstItem="i2o-jQ-gn5" firstAttribute="top" secondItem="Qzu-lI-NTz" secondAttribute="bottom" id="I5X-kV-c3u"/>
                             <constraint firstAttribute="trailing" secondItem="i2o-jQ-gn5" secondAttribute="trailing" id="Mfr-A9-uOb"/>
                             <constraint firstItem="Qzu-lI-NTz" firstAttribute="top" secondItem="rsi-0W-EZI" secondAttribute="bottom" constant="20" id="S7Q-Jy-aaq">
-                                <variation key="widthClass=compact" constant="0.0"/>
+                                <variation key="widthClass=compact" constant="40"/>
+                            </constraint>
+                            <constraint firstItem="Nc9-Pf-7SB" firstAttribute="leading" secondItem="ntt-G3-3pj" secondAttribute="leading" id="Sa6-Ms-6SP">
+                                <variation key="widthClass=compact" constant="10"/>
                             </constraint>
                             <constraint firstAttribute="trailing" secondItem="Qzu-lI-NTz" secondAttribute="trailing" id="aN1-RR-49Q"/>
                             <constraint firstItem="qk5-OA-LCc" firstAttribute="top" secondItem="i2o-jQ-gn5" secondAttribute="bottom" id="cbZ-9c-A70"/>
                             <constraint firstItem="Qzu-lI-NTz" firstAttribute="leading" secondItem="ntt-G3-3pj" secondAttribute="leading" id="qld-1F-Q2i"/>
+                            <constraint firstAttribute="trailing" secondItem="Nc9-Pf-7SB" secondAttribute="trailing" id="tTk-Mj-lOk">
+                                <variation key="widthClass=compact" constant="10"/>
+                            </constraint>
                             <constraint firstItem="i2o-jQ-gn5" firstAttribute="leading" secondItem="ntt-G3-3pj" secondAttribute="leading" id="tls-Qd-1k4"/>
+                            <constraint firstItem="Nc9-Pf-7SB" firstAttribute="top" secondItem="rsi-0W-EZI" secondAttribute="bottom" constant="20" id="uAE-tK-goK"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="Qzu-lI-NTz"/>
                                 <exclude reference="i2o-jQ-gn5"/>
+                                <exclude reference="Nc9-Pf-7SB"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="Sa6-Ms-6SP"/>
+                                <exclude reference="tTk-Mj-lOk"/>
+                                <exclude reference="uAE-tK-goK"/>
+                                <exclude reference="Dhg-B2-0Af"/>
                                 <exclude reference="S7Q-Jy-aaq"/>
                                 <exclude reference="aN1-RR-49Q"/>
                                 <exclude reference="qld-1F-Q2i"/>
@@ -610,8 +629,13 @@
                             <mask key="subviews">
                                 <include reference="Qzu-lI-NTz"/>
                                 <include reference="i2o-jQ-gn5"/>
+                                <include reference="Nc9-Pf-7SB"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="Sa6-Ms-6SP"/>
+                                <include reference="tTk-Mj-lOk"/>
+                                <include reference="uAE-tK-goK"/>
+                                <include reference="Dhg-B2-0Af"/>
                                 <include reference="S7Q-Jy-aaq"/>
                                 <include reference="aN1-RR-49Q"/>
                                 <include reference="qld-1F-Q2i"/>
@@ -624,6 +648,7 @@
                     </view>
                     <connections>
                         <outlet property="greenButton" destination="i2o-jQ-gn5" id="WuB-Lq-Hla"/>
+                        <outlet property="nameLabel" destination="Nc9-Pf-7SB" id="kl9-aV-hJy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F6N-7y-gL7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -646,7 +671,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="240" height="75"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fim-n7-ddO" userLabel="menu">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fim-n7-ddO" userLabel="menu">
                                             <rect key="frame" x="0.0" y="0.0" width="100" height="75"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                             <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -654,8 +679,12 @@
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="fim-n7-ddO" secondAttribute="trailing" id="4vh-Ij-5hh"/>
-                                        <constraint firstItem="fim-n7-ddO" firstAttribute="leading" secondItem="teJ-ig-YHr" secondAttribute="leading" id="N8L-nJ-7Ry"/>
+                                        <constraint firstAttribute="trailing" secondItem="fim-n7-ddO" secondAttribute="trailing" id="4vh-Ij-5hh">
+                                            <variation key="widthClass=compact" constant="10"/>
+                                        </constraint>
+                                        <constraint firstItem="fim-n7-ddO" firstAttribute="leading" secondItem="teJ-ig-YHr" secondAttribute="leading" id="N8L-nJ-7Ry">
+                                            <variation key="widthClass=compact" constant="10"/>
+                                        </constraint>
                                         <constraint firstAttribute="bottom" secondItem="fim-n7-ddO" secondAttribute="bottom" id="cWj-L5-4Nz"/>
                                         <constraint firstItem="fim-n7-ddO" firstAttribute="top" secondItem="teJ-ig-YHr" secondAttribute="top" id="d2e-gY-pGn"/>
                                     </constraints>

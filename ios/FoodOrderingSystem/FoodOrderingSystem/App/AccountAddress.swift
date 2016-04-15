@@ -26,7 +26,7 @@ class AccountAddress: UIViewController, UITableViewDelegate, UITableViewDataSour
         buttonView.layer.shadowOpacity = 0.3
         buttonView.layer.shadowOffset = CGSize(width: 2, height: -3)
         tableView.delegate = self
-        tableView.dataSource = self
+        tableView.dataSource = self 
         myAccount.delegate = self
         backButton1.addTarget(self, action: "holdDown", forControlEvents: UIControlEvents.TouchDown)
         backButton2.addTarget(self, action: "holdDown", forControlEvents: UIControlEvents.TouchDown)
