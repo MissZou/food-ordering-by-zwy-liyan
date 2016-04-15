@@ -19,6 +19,8 @@
 		BA174A4D1CBF7A9600419E3B /* AccountView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA174A4C1CBF7A9600419E3B /* AccountView.storyboard */; };
 		BA174A501CBF7B8D00419E3B /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA174A4F1CBF7B8D00419E3B /* AccountViewController.m */; };
 		BA174A531CBF802100419E3B /* CustomizedSegueLeftToRight.m in Sources */ = {isa = PBXBuildFile; fileRef = BA174A521CBF802100419E3B /* CustomizedSegueLeftToRight.m */; };
+		BA174A561CC0E07200419E3B /* AccountAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA174A551CC0E07200419E3B /* AccountAddressViewController.m */; };
+		BA174A591CC0E09D00419E3B /* AddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BA174A581CC0E09D00419E3B /* AddressCell.m */; };
 		BA1DAE431CB657BE00CDD6E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BA1DAE421CB657BE00CDD6E0 /* main.m */; };
 		BA1DAE461CB657BE00CDD6E0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BA1DAE451CB657BE00CDD6E0 /* AppDelegate.m */; };
 		BA1DAE4E1CB657BE00CDD6E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA1DAE4D1CB657BE00CDD6E0 /* Assets.xcassets */; };
@@ -80,6 +82,10 @@
 		BA174A4F1CBF7B8D00419E3B /* AccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AccountViewController.m; path = FOSinOC/AccountView/AccountViewController.m; sourceTree = SOURCE_ROOT; };
 		BA174A511CBF802100419E3B /* CustomizedSegueLeftToRight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomizedSegueLeftToRight.h; sourceTree = "<group>"; };
 		BA174A521CBF802100419E3B /* CustomizedSegueLeftToRight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomizedSegueLeftToRight.m; sourceTree = "<group>"; };
+		BA174A541CC0E07200419E3B /* AccountAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AccountAddressViewController.h; path = FOSinOC/help/AccountAddressViewController.h; sourceTree = SOURCE_ROOT; };
+		BA174A551CC0E07200419E3B /* AccountAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AccountAddressViewController.m; path = FOSinOC/help/AccountAddressViewController.m; sourceTree = SOURCE_ROOT; };
+		BA174A571CC0E09D00419E3B /* AddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddressCell.h; path = FOSinOC/help/AddressCell.h; sourceTree = SOURCE_ROOT; };
+		BA174A581CC0E09D00419E3B /* AddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddressCell.m; path = FOSinOC/help/AddressCell.m; sourceTree = SOURCE_ROOT; };
 		BA1DAE3E1CB657BE00CDD6E0 /* FOSinOC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FOSinOC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA1DAE421CB657BE00CDD6E0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BA1DAE441CB657BE00CDD6E0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -175,6 +181,10 @@
 				BA174A4C1CBF7A9600419E3B /* AccountView.storyboard */,
 				BA174A4E1CBF7B8D00419E3B /* AccountViewController.h */,
 				BA174A4F1CBF7B8D00419E3B /* AccountViewController.m */,
+				BA174A541CC0E07200419E3B /* AccountAddressViewController.h */,
+				BA174A551CC0E07200419E3B /* AccountAddressViewController.m */,
+				BA174A571CC0E09D00419E3B /* AddressCell.h */,
+				BA174A581CC0E09D00419E3B /* AddressCell.m */,
 			);
 			name = AccountView;
 			path = FOSinOC/PersistentLayer/AccountView;
@@ -567,9 +577,11 @@
 				BA6046E21CBCA0A100A8FD34 /* MainViewRootViewController.m in Sources */,
 				BA21783D1CB67830003402E1 /* CustomizationButton.m in Sources */,
 				BA6046F41CBD28CF00A8FD34 /* MainViewCell.m in Sources */,
+				BA174A591CC0E09D00419E3B /* AddressCell.m in Sources */,
 				BA6046D01CB8D70400A8FD34 /* LoginViewController.m in Sources */,
 				BA6046E81CBCCB8E00A8FD34 /* MainViewController.m in Sources */,
 				BA1DAE461CB657BE00CDD6E0 /* AppDelegate.m in Sources */,
+				BA174A561CC0E07200419E3B /* AccountAddressViewController.m in Sources */,
 				BA174A531CBF802100419E3B /* CustomizedSegueLeftToRight.m in Sources */,
 				BA1DAE431CB657BE00CDD6E0 /* main.m in Sources */,
 				BA6046D91CBB8B1200A8FD34 /* CreateAccountViewController.m in Sources */,

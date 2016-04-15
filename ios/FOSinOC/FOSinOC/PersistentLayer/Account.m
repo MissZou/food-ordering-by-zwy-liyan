@@ -51,6 +51,8 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
 //    NSLog([[[result valueForKey:@"phone"] class] description]);
 //    NSLog([[[result valueForKey:@"accountId"] class] description]);
 //    NSLog([[[result valueForKey:@"photoUrl"] class] description]);
+    
+    
     if([result valueForKey:@"token"] != nil){
         self.token = [result valueForKey:@"token"];
     }
@@ -69,7 +71,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     if([result valueForKey:@"photoUrl"] != nil){
         self.photoUrl = [result valueForKey:@"photoUrl"];
     }
-    if([result valueForKey:@"address"] != nil){
+    if([[result valueForKey:@"address"] count]){
         self.deliverAddress = [[result valueForKey:@"address"] mutableCopy];
         NSUInteger count = 0;
 //        NSLog(@"%@",self.deliverAddress);
@@ -87,7 +89,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
         [self.deliverAddress removeObjectAtIndex:count+1];
    //     NSLog(@"%@",self.deliverAddress);
     }
-    if([result valueForKey:@"location"] != nil){
+    if([[result valueForKey:@"location"] count]){
         self.location = [result valueForKey:@"location"];
     }
 }

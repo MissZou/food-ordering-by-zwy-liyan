@@ -881,8 +881,7 @@
                                                             <exclude reference="tfU-mT-FvG"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="102" y="5" width="130" height="20"/>
+                                                    <variation key="widthClass=compact">
                                                         <mask key="constraints">
                                                             <include reference="L7V-Hh-GKQ"/>
                                                             <include reference="tfU-mT-FvG"/>
@@ -924,8 +923,7 @@
                                                             <exclude reference="lIk-uH-eTE"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="180" y="25" width="30" height="30"/>
+                                                    <variation key="widthClass=compact">
                                                         <mask key="constraints">
                                                             <include reference="C8J-gl-euc"/>
                                                             <include reference="lIk-uH-eTE"/>
@@ -1875,6 +1873,6 @@
         <image name="tickWhite.png" width="400" height="400"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="UAx-qg-Plg"/>
+        <segue reference="Bt5-gT-M7P"/>
     </inferredMetricsTieBreakers>
 </document>

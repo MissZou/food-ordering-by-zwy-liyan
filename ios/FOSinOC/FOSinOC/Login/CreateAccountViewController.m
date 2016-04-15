@@ -33,10 +33,13 @@
     [self.view addGestureRecognizer:tap];
     self.myAccount = [Account sharedManager];
     self.myAccount.delegate = self;
-    
+    self.name.layer.borderWidth = 1.0;
     self.name.layer.borderColor = [[UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1]CGColor];
+    self.email.layer.borderWidth = 1.0;
     self.email.layer.borderColor = [[UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1]CGColor];
+    self.phone.layer.borderWidth = 1.0;
     self.phone.layer.borderColor = [[UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1]CGColor];
+    self.password.layer.borderWidth = 1.0;
     self.password.layer.borderColor = [[UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1]CGColor];
     self.termsofService.titleLabel.attributedText = [[NSAttributedString alloc]initWithString:self.termsofService.currentTitle attributes:@{NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle)}];
     self.privacyPolicy.titleLabel.attributedText = [[NSAttributedString alloc]initWithString:self.privacyPolicy.currentTitle attributes:@{NSUnderlineStyleAttributeName:@(NSUnderlineStyleSingle)}];

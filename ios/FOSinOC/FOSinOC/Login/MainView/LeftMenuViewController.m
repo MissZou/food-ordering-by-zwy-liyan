@@ -7,10 +7,11 @@
 //
 
 #import "LeftMenuViewController.h"
-
+#import "Account.h"
 @interface LeftMenuViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *greenButton;
-
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property(strong,nonatomic) Account *myAccount;
 @end
 
 @implementation LeftMenuViewController
@@ -18,7 +19,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.greenButton.layer.shadowOpacity = 0.2;
-    
+    self.myAccount = [Account sharedManager];
+//    self.nameLabel.layer.shadowOpacity = 1;
+//    //self.nameLabel.layer.shadowOffset = CGSizeMake(-2.0, 0.0);
+    self.nameLabel.text = self.myAccount.name;
 }
 
 - (void)didReceiveMemoryWarning {

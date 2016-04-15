@@ -60,7 +60,7 @@
 //    self.topView.layer.shadowOpacity = 0.8;
 //    self.topView.layer.shadowOffset = CGSizeMake(2.0, 0.0);
     self.bottomView.layer.shadowOpacity = 0.8;
-    self.bottomView.layer.shadowOffset = CGSizeMake(0.0, 0.0);
+    self.bottomView.layer.shadowOffset = CGSizeMake(2.0, 0.0);
     
     //init for dropDownView
     self.blurEffet = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
@@ -79,24 +79,10 @@
     self.tapToCloseSearchController = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(searchBarCancelButtonClicked)];
 }
 
-//-(id)init{
-//    if(self = [super init]){
-//
-//    }
-//    return self;
-//}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-//-(id)initWithCoder:(NSCoder *)aDecoder{
-//    if(self = [super initWithCoder:aDecoder]){
-//
-//    }
-//    return self;
-//}
 
 
 - (IBAction)menuButton:(id)sender {
