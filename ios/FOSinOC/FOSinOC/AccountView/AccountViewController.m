@@ -13,7 +13,12 @@
 @property (weak, nonatomic) IBOutlet UIImageView *avatar;
 @property (weak, nonatomic) IBOutlet UILabel *name;
 @property (weak, nonatomic) IBOutlet UILabel *email;
+@property (weak, nonatomic) IBOutlet UIView *topView;
+@property (weak, nonatomic) IBOutlet UIButton *addressButton;
+
+
 @property (strong,nonatomic) Account *myAccount;
+
 @end
 
 @implementation AccountViewController
@@ -21,6 +26,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.myAccount = [Account sharedManager];
+    self.topView.layer.shadowOpacity = 0.3;
+    self.avatar.layer.masksToBounds = true;
+    self.avatar.layer.cornerRadius = 10.0;
+    
+    self.addressButton.layer.cornerRadius = 5.0;
+    self.addressButton.layer.borderColor = [UIColor grayColor].CGColor;
+    self.addressButton.layer.borderWidth = 1.0;
+    
     if (self.myAccount.photoUrl != nil) {
         self.avatar.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.myAccount.photoUrl]]];
     }
@@ -29,7 +42,7 @@
     }
     self.email.text = self.myAccount.email;
     
-    NSLog(@"%@",self.myAccount.deliverAddress);
+    //NSLog(@"%@",self.myAccount.deliverAddress);
     // Do any additional setup after loading the view.
 }
 

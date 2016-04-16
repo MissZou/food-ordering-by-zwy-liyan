@@ -198,7 +198,9 @@
     }
     else
     cell.shopName.text = @"muc fooooood";
-    
+    UIView *bgColorView = [UIView new];
+    bgColorView.backgroundColor = [UIColor colorWithRed:121/255.0 green:146/255.0 blue:199/255.0 alpha:1];
+    [cell setSelectedBackgroundView:bgColorView];
     
     return cell;
 }

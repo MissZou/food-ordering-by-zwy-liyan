@@ -78,18 +78,14 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     switch (indexPath.row) {
         case 0:
-            NSLog(@"account");
             [self performSegueWithIdentifier:@"accountView" sender:nil];
             break;
         case 1:
-            NSLog(@"Schedule");
             break;
         case 2:
-            NSLog(@"favorite");
             break;
         case 3:
             [self logout];
-            NSLog(@"log out");
             break;
         default:
             break;

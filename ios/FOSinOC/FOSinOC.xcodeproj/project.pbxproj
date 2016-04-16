@@ -19,8 +19,6 @@
 		BA174A4D1CBF7A9600419E3B /* AccountView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA174A4C1CBF7A9600419E3B /* AccountView.storyboard */; };
 		BA174A501CBF7B8D00419E3B /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA174A4F1CBF7B8D00419E3B /* AccountViewController.m */; };
 		BA174A531CBF802100419E3B /* CustomizedSegueLeftToRight.m in Sources */ = {isa = PBXBuildFile; fileRef = BA174A521CBF802100419E3B /* CustomizedSegueLeftToRight.m */; };
-		BA174A561CC0E07200419E3B /* AccountAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA174A551CC0E07200419E3B /* AccountAddressViewController.m */; };
-		BA174A591CC0E09D00419E3B /* AddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BA174A581CC0E09D00419E3B /* AddressCell.m */; };
 		BA1DAE431CB657BE00CDD6E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BA1DAE421CB657BE00CDD6E0 /* main.m */; };
 		BA1DAE461CB657BE00CDD6E0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BA1DAE451CB657BE00CDD6E0 /* AppDelegate.m */; };
 		BA1DAE4E1CB657BE00CDD6E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA1DAE4D1CB657BE00CDD6E0 /* Assets.xcassets */; };
@@ -46,6 +44,10 @@
 		BA81F6421CB668CB007A8832 /* introductionPic1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BA81F63F1CB668CB007A8832 /* introductionPic1.jpg */; };
 		BA81F6431CB668CB007A8832 /* introductionPic2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BA81F6401CB668CB007A8832 /* introductionPic2.jpg */; };
 		BA81F6441CB668CB007A8832 /* introductionPic3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BA81F6411CB668CB007A8832 /* introductionPic3.jpg */; };
+		BAD808361CC200DC00A79DE2 /* AddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD808351CC200DC00A79DE2 /* AddressCell.m */; };
+		BAD8083B1CC200E500A79DE2 /* AccountAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD808381CC200E500A79DE2 /* AccountAddressViewController.m */; };
+		BAD8083F1CC201C000A79DE2 /* EditAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD8083E1CC201C000A79DE2 /* EditAddressViewController.m */; };
+		BAD808411CC23ED200A79DE2 /* heatBar.png in Resources */ = {isa = PBXBuildFile; fileRef = BAD808401CC23ED200A79DE2 /* heatBar.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,10 +84,6 @@
 		BA174A4F1CBF7B8D00419E3B /* AccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AccountViewController.m; path = FOSinOC/AccountView/AccountViewController.m; sourceTree = SOURCE_ROOT; };
 		BA174A511CBF802100419E3B /* CustomizedSegueLeftToRight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomizedSegueLeftToRight.h; sourceTree = "<group>"; };
 		BA174A521CBF802100419E3B /* CustomizedSegueLeftToRight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomizedSegueLeftToRight.m; sourceTree = "<group>"; };
-		BA174A541CC0E07200419E3B /* AccountAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AccountAddressViewController.h; path = FOSinOC/help/AccountAddressViewController.h; sourceTree = SOURCE_ROOT; };
-		BA174A551CC0E07200419E3B /* AccountAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AccountAddressViewController.m; path = FOSinOC/help/AccountAddressViewController.m; sourceTree = SOURCE_ROOT; };
-		BA174A571CC0E09D00419E3B /* AddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddressCell.h; path = FOSinOC/help/AddressCell.h; sourceTree = SOURCE_ROOT; };
-		BA174A581CC0E09D00419E3B /* AddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddressCell.m; path = FOSinOC/help/AddressCell.m; sourceTree = SOURCE_ROOT; };
 		BA1DAE3E1CB657BE00CDD6E0 /* FOSinOC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FOSinOC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA1DAE421CB657BE00CDD6E0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BA1DAE441CB657BE00CDD6E0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -132,6 +130,13 @@
 		BA81F63F1CB668CB007A8832 /* introductionPic1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = introductionPic1.jpg; sourceTree = "<group>"; };
 		BA81F6401CB668CB007A8832 /* introductionPic2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = introductionPic2.jpg; sourceTree = "<group>"; };
 		BA81F6411CB668CB007A8832 /* introductionPic3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = introductionPic3.jpg; sourceTree = "<group>"; };
+		BAD808341CC200DC00A79DE2 /* AddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddressCell.h; path = FOSinOC/AccountView/AddressCell.h; sourceTree = SOURCE_ROOT; };
+		BAD808351CC200DC00A79DE2 /* AddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddressCell.m; path = FOSinOC/AccountView/AddressCell.m; sourceTree = SOURCE_ROOT; };
+		BAD808371CC200E500A79DE2 /* AccountAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AccountAddressViewController.h; path = FOSinOC/AccountView/AccountAddressViewController.h; sourceTree = SOURCE_ROOT; };
+		BAD808381CC200E500A79DE2 /* AccountAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AccountAddressViewController.m; path = FOSinOC/AccountView/AccountAddressViewController.m; sourceTree = SOURCE_ROOT; };
+		BAD8083D1CC201C000A79DE2 /* EditAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditAddressViewController.h; path = FOSinOC/AccountView/EditAddressViewController.h; sourceTree = SOURCE_ROOT; };
+		BAD8083E1CC201C000A79DE2 /* EditAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EditAddressViewController.m; path = FOSinOC/AccountView/EditAddressViewController.m; sourceTree = SOURCE_ROOT; };
+		BAD808401CC23ED200A79DE2 /* heatBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heatBar.png; sourceTree = "<group>"; };
 		EFB03458865CE718FD0ADEBA /* Pods-FOSinOC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FOSinOC.release.xcconfig"; path = "Pods/Target Support Files/Pods-FOSinOC/Pods-FOSinOC.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -171,6 +176,7 @@
 				BA174A3E1CBE496E00419E3B /* listGreen.png */,
 				BA174A3F1CBE496E00419E3B /* nameIndicator.png */,
 				BA174A401CBE496E00419E3B /* tickWhite.png */,
+				BAD808401CC23ED200A79DE2 /* heatBar.png */,
 			);
 			path = icons;
 			sourceTree = "<group>";
@@ -181,10 +187,12 @@
 				BA174A4C1CBF7A9600419E3B /* AccountView.storyboard */,
 				BA174A4E1CBF7B8D00419E3B /* AccountViewController.h */,
 				BA174A4F1CBF7B8D00419E3B /* AccountViewController.m */,
-				BA174A541CC0E07200419E3B /* AccountAddressViewController.h */,
-				BA174A551CC0E07200419E3B /* AccountAddressViewController.m */,
-				BA174A571CC0E09D00419E3B /* AddressCell.h */,
-				BA174A581CC0E09D00419E3B /* AddressCell.m */,
+				BAD808341CC200DC00A79DE2 /* AddressCell.h */,
+				BAD808351CC200DC00A79DE2 /* AddressCell.m */,
+				BAD808371CC200E500A79DE2 /* AccountAddressViewController.h */,
+				BAD808381CC200E500A79DE2 /* AccountAddressViewController.m */,
+				BAD8083D1CC201C000A79DE2 /* EditAddressViewController.h */,
+				BAD8083E1CC201C000A79DE2 /* EditAddressViewController.m */,
 			);
 			name = AccountView;
 			path = FOSinOC/PersistentLayer/AccountView;
@@ -483,6 +491,7 @@
 				BA1DAE761CB65BEE00CDD6E0 /* Login.storyboard in Resources */,
 				BA6046DC1CBB8E4A00A8FD34 /* MainView.storyboard in Resources */,
 				BA174A411CBE496E00419E3B /* account.png in Resources */,
+				BAD808411CC23ED200A79DE2 /* heatBar.png in Resources */,
 				BA1DAE511CB657BE00CDD6E0 /* LaunchScreen.storyboard in Resources */,
 				BA174A4D1CBF7A9600419E3B /* AccountView.storyboard in Resources */,
 				BA174A461CBE496E00419E3B /* nameIndicator.png in Resources */,
@@ -567,8 +576,10 @@
 			files = (
 				BA1DAE7C1CB662E400CDD6E0 /* TutorialRootViewController.m in Sources */,
 				BA6046EE1CBCD3C300A8FD34 /* LeftMenuCell.m in Sources */,
+				BAD808361CC200DC00A79DE2 /* AddressCell.m in Sources */,
 				BA6046F71CBDE44500A8FD34 /* DropDownView.m in Sources */,
 				BA174A4A1CBE7B7B00419E3B /* SearchViewHelpController.m in Sources */,
+				BAD8083B1CC200E500A79DE2 /* AccountAddressViewController.m in Sources */,
 				BA174A501CBF7B8D00419E3B /* AccountViewController.m in Sources */,
 				BA6046EB1CBCD35700A8FD34 /* LeftViewTableController.m in Sources */,
 				BA6046D61CB8E5CF00A8FD34 /* Account.m in Sources */,
@@ -577,11 +588,10 @@
 				BA6046E21CBCA0A100A8FD34 /* MainViewRootViewController.m in Sources */,
 				BA21783D1CB67830003402E1 /* CustomizationButton.m in Sources */,
 				BA6046F41CBD28CF00A8FD34 /* MainViewCell.m in Sources */,
-				BA174A591CC0E09D00419E3B /* AddressCell.m in Sources */,
 				BA6046D01CB8D70400A8FD34 /* LoginViewController.m in Sources */,
 				BA6046E81CBCCB8E00A8FD34 /* MainViewController.m in Sources */,
 				BA1DAE461CB657BE00CDD6E0 /* AppDelegate.m in Sources */,
-				BA174A561CC0E07200419E3B /* AccountAddressViewController.m in Sources */,
+				BAD8083F1CC201C000A79DE2 /* EditAddressViewController.m in Sources */,
 				BA174A531CBF802100419E3B /* CustomizedSegueLeftToRight.m in Sources */,
 				BA1DAE431CB657BE00CDD6E0 /* main.m in Sources */,
 				BA6046D91CBB8B1200A8FD34 /* CreateAccountViewController.m in Sources */,

@@ -131,7 +131,7 @@
         NSString *deleteString = self.dropDownList[indexPath.row];
         [self.dropDownList removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        
+        //[tableView deleteRowsAtIndexPaths:[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         [self.delegate dropDownMenuDelete:self withString:deleteString];
     }
 }

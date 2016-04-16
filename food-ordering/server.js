@@ -404,6 +404,10 @@ router.route('/account/address')
         phone= req.param("phone", null),
         type= req.param("type", null);
 
+        if (type == null) {
+            type = 1;
+        }
+
         var totalAddress={
             "address":address,
             "name":name,
@@ -441,6 +445,9 @@ router.route('/account/address')
             "phone":phone,
             "type":type
         };
+        if (type == null) {
+            type = 1;
+        }
         //console.log(totalAddress);
         console.log(addrId);
         if (addrId != null && addrId != "") {
@@ -486,6 +493,9 @@ router.route('/account/address')
             "phone":phone,
             "type":type
         };
+        if (type == null) {
+            type = 1;
+        }
     if (address != null && address != null) {
         Account.deleteAddress(accountId, totalAddress, function(doc) {
                 if (doc == null) {

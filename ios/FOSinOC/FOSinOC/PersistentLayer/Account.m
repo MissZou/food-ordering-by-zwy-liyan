@@ -72,22 +72,35 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
         self.photoUrl = [result valueForKey:@"photoUrl"];
     }
     if([[result valueForKey:@"address"] count]){
+        BOOL isFoundDefault = false;
         self.deliverAddress = [[result valueForKey:@"address"] mutableCopy];
         NSUInteger count = 0;
-//        NSLog(@"%@",self.deliverAddress);
+        //NSLog(@"%lu",(unsigned long)[self.deliverAddress count]);
+        //NSLog(@"%@",self.deliverAddress);
         for(NSDictionary *addr in self.deliverAddress){
             
             if([[addr valueForKey:@"type"]integerValue] == 0){
+                isFoundDefault = true;
                 break;
             }else{
-                count +=1;
+                if(count < [self.deliverAddress count]){
+                    count +=1;
+                }
+                else{
+                    //isFoundDefault = true;
+                    break;
+                }
+                
             }
             
         }
         //NSLog(@"%d",count);
-        [self.deliverAddress insertObject:self.deliverAddress[count] atIndex:0];
-        [self.deliverAddress removeObjectAtIndex:count+1];
-   //     NSLog(@"%@",self.deliverAddress);
+        if (isFoundDefault) {
+            [self.deliverAddress insertObject:self.deliverAddress[count] atIndex:0];
+            [self.deliverAddress removeObjectAtIndex:count+1];
+        }
+        
+   
     }
     if([[result valueForKey:@"location"] count]){
         self.location = [result valueForKey:@"location"];
@@ -219,6 +232,67 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
             }
             
         }failure:^(NSURLSessionDataTask * _Nonnull task, NSError *error){
+            NSLog(@"%@", error);
+        }];
+    }
+}
+
+-(void)address:(httpMethod)httpMethod withAddress:(NSDictionary *)address{
+    NSString *token = self.token;
+    NSDictionary *parameters;
+    if (httpMethod == POST) {
+         parameters = @{@"token": token, @"address": [address valueForKey:@"address"],@"phone":
+                                         [address valueForKey:@"phone"],@"name":[address valueForKey:@"name"],@"type":[address valueForKey:@"type"],@"addrId":[address valueForKey:@"_id"]};
+    }else{
+        parameters = @{@"token": token, @"address": [address valueForKey:@"address"],@"phone":
+                                         [address valueForKey:@"phone"],@"name":[address valueForKey:@"name"],@"type":[address valueForKey:@"type"]};
+    }
+    
+    
+    NSURL *url = [NSURL URLWithString:@"account/address" relativeToURL:self.baseUrl];
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
+    if (httpMethod == PUT) {
+        [manager PUT:[url absoluteString] parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject){
+            if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                
+                [self updateAccount:responseObject];
+                [self.delegate finishFetchAccountData:responseObject withAccount:Account.sharedManager];
+            } else {
+                NSLog(@"%@", responseObject);
+            }
+            
+        }failure:^(NSURLSessionDataTask * _Nonnull task, NSError *error){
+            NSLog(@"%@", error);
+        }];
+    }
+    else if (httpMethod == DELETE){
+        [manager DELETE:[url absoluteString] parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject){
+            if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                
+                [self updateAccount:responseObject];
+                [self.delegate finishFetchAccountData:responseObject withAccount:Account.sharedManager];
+            } else {
+                NSLog(@"%@", responseObject);
+            }
+            
+        }failure:^(NSURLSessionDataTask * _Nonnull task, NSError *error){
+            NSLog(@"%@", error);
+        }];
+    }
+    else if(httpMethod == POST){
+        [manager POST:[url absoluteString] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                
+                [self updateAccount:responseObject];
+                [self.delegate finishFetchAccountData:responseObject withAccount:Account.sharedManager];
+            } else {
+                NSLog(@"%@", responseObject);
+            }
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             NSLog(@"%@", error);
         }];
     }
