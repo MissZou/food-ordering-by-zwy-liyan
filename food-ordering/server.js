@@ -161,41 +161,41 @@ router.route('/postupload').post(multipart(), function(req, res) {
 */
 
 
-var onlineUser={};
-io.on('connection', function(socket){
-  socket.on('chat message', function(msg){
-    console.log('message: ' + msg);
-  });
+var onlineUser = {};
+io.on('connection', function(socket) {
+    socket.on('chat message', function(msg) {
+        console.log('message: ' + msg);
+    });
 
-  socket.on('say to someone', function(id, to,msg){
-    //all[username] = socket.id;
-var online=Object.keys(io.sockets.adapter.rooms); //connected socket id array
+    socket.on('say to someone', function(id, to, msg) {
+        //all[username] = socket.id;
+        var online = Object.keys(io.sockets.adapter.rooms); //connected socket id array
 
-onlineUser[id]=socket.id;
+        onlineUser[id] = socket.id;
 
-    console.log(socket.id)  //from socket id 
-    console.log(id);
-    console.log(to)
-    console.log(online)
-    //socket.emit('my message',msg,online[1],online[0]);
-     //socket.broadcast.to(online[1]).emit('my message', msg);
-     console.log("online1",online[0])
-     console.log("online2",online[1])
+        console.log(socket.id) //from socket id 
+        console.log(id);
+        console.log(to)
+        console.log(online)
+            //socket.emit('my message',msg,online[1],online[0]);
+            //socket.broadcast.to(online[1]).emit('my message', msg);
+        console.log("online1", online[0])
+        console.log("online2", online[1])
 
-     console.log(onlineUser)
+        console.log(onlineUser)
 
-     console.log(onlineUser[to])
-     if(onlineUser[to]){
-        
-     io.sockets.connected[onlineUser[to]].emit("my message",msg)
-     }
+        console.log(onlineUser[to])
+        if (onlineUser[to]) {
 
-  });
+            io.sockets.connected[onlineUser[to]].emit("my message", msg)
+        }
+
+    });
 
 
-  socket.on('chat message', function(msg){
-    io.emit('chat message', msg);
-  });
+    socket.on('chat message', function(msg) {
+        io.emit('chat message', msg);
+    });
 
 
 });
@@ -228,29 +228,29 @@ router.route('/register')
             Account.findAccount(email, function(doc) {
                 if (doc != null) {
                     res.json({
-                        success:false,
-                        msg:"Account has been used"
+                        success: false,
+                        msg: "Account has been used"
                     });
                     return
                 } else {
-                    Account.register(email, password, phone, name, res, function(doc){
+                    Account.register(email, password, phone, name, res, function(doc) {
                         if (doc == null) {
-                        Account.findAccount(email, function(doc) {
-                        //console.log(doc)
-                        var inToken = { "_id": doc._id }
-                        var token = jwt.sign(inToken, app.get('tokenScrete'), {
-                            expiresIn: 1440 * 60 * 7 // expires in 24*7 hours
-                        });
-                        res.json({
-                            code: 200,
-                            accountId: doc._id,
-                            email: doc.email,
-                            name: doc.name,
-                            address: doc.address,
-                            success: true,
-                            token: token
-                        })
-                    })
+                            Account.findAccount(email, function(doc) {
+                                //console.log(doc)
+                                var inToken = { "_id": doc._id }
+                                var token = jwt.sign(inToken, app.get('tokenScrete'), {
+                                    expiresIn: 1440 * 60 * 7 // expires in 24*7 hours
+                                });
+                                res.json({
+                                    code: 200,
+                                    accountId: doc._id,
+                                    email: doc.email,
+                                    name: doc.name,
+                                    address: doc.address,
+                                    success: true,
+                                    token: token
+                                })
+                            })
                         }
                     });
 
@@ -388,7 +388,7 @@ router.route('/login')
         } else {
             res.json({
                 code: 400,
-                success:false
+                success: false
             });
             // res.send(400);
         }
@@ -432,107 +432,114 @@ router.use("/account", function(req, res, next) {
 });
 
 router.route('/account')
-    .post(function(req, res) {
-        //console.log(req.decoded);
-        Account.findAccountById(req.decoded._id, function(doc) {
-            if (null != doc)
-                res.json({
-                    accountId: doc._id,
-                    email: doc.email,
-                    address: doc.address,
-                    name: doc.name,
-                    phone: doc.phone,
-                    location: doc.location,
-                    photoUrl: doc.photoUrl,
-                    success: true
-                })
-            else {
-                res.json({
-                    success: false
-                })
-            }
-        })
-    });
 
-
-
+.post(function(req, res) {
+    //console.log(req.decoded);
+    Account.findAccountById(req.decoded._id, function(doc) {
+        if (null != doc)
+            res.json({
+                accountId: doc._id,
+                email: doc.email,
+                address: doc.address,
+                name: doc.name,
+                phone: doc.phone,
+                location: doc.location,
+                photoUrl: doc.photoUrl,
+                success: true
+            })
+        else {
+            res.json({
+                success: false
+            })
+        }
+    })
+});
 
 
 router.route('/account/address')
-    .put(function(req, res) {
+    .get(function(req, res) {
+        // var accountId = req.param('account', null);
         var accountId = req.decoded._id;
-        console.log(accountId)
-        //var accountId = req.session.user._id;
-        var address = req.param("address", null),
-        name= req.param("name", null),
-        phone= req.param("phone", null),
-        type= req.param("type", null);
-
-        var totalAddress={
-            "address":address,
-            "name":name,
-            "phone":phone,
-            "type":type
-        };
-
-        console.log(totalAddress);
-        if (address != null && address != "") {
-            Account.addAddress(accountId, totalAddress, function(doc) {
-                if (doc == null) {
-                        Account.findAccountById(accountId, function(doc) {
-                        res.json({
-                            accountId: doc._id,
-                            address: doc.address,
-                            success: true
-                        });
-                    })
-                }
+        Account.findAccountById(accountId, function(doc) {
+            res.render('updateInfo.jade', {
+                items: doc.address
             });
-        }
+        })
+
     })
 
-    .post(function(req, res) {
-        var accountId = req.decoded._id;
+.put(function(req, res) {
+    var accountId = req.decoded._id;
+    //console.log(accountId)
         //var accountId = req.session.user._id;
-        var address = req.param("address", null),
-        name= req.param("name", null),
-        phone= req.param("phone", null),
-        type= req.param("type", null),
-        addrId = req.param("addrId", null);
-        var totalAddress={
-            "address":address,
-            "name":name,
-            "phone":phone,
-            "type":type
-        };
-        //console.log(totalAddress);
-        console.log(addrId);
-        if (addrId != null && addrId != "") {
-            Account.updateAddress(accountId, totalAddress, addrId, function(doc) {
-                if (doc == null) {
-                        Account.findAccountById(accountId, function(doc) {
-                        res.json({
-                            accountId: doc._id,
-                            address: doc.address,
-                            success: true
-                        });
-                    })
-                }
-                else {
+    var address = req.param("address", null),
+        name = req.param("name", null),
+        phone = req.param("phone", null),
+        type = req.param("type", null);
+
+    var totalAddress = {
+        "address": address,
+        "name": name,
+        "phone": phone,
+        "type": type
+    };
+
+   // console.log(totalAddress);
+    if (address != null && address != "") {
+        Account.addAddress(accountId, totalAddress, function(doc) {
+            if (doc == null) {
+                Account.findAccountById(accountId, function(doc) {
                     res.json({
-                        code:400,
-                        success: false
-                    })
-                }
-            });
-        }
-        else {
-             res.json({
-                        code:400,
-                        success: false
-                    })
-        }
-    })
+                        accountId: doc._id,
+                        address: doc.address,
+                        success: true
+                    });
+                })
+            }
+        });
+    }
+})
+
+.post(function(req, res) {
+    var accountId = req.decoded._id;
+    //var accountId = req.session.user._id;
+    var address = req.param("address", null),
+        name = req.param("name", null),
+        phone = req.param("phone", null),
+        type = req.param("type", null),
+        addrId = req.param("addrId", null);
+    var totalAddress = {
+        "address": address,
+        "name": name,
+        "phone": phone,
+        "type": type
+    };
+    //console.log(totalAddress);
+   // console.log(addrId);
+    if (addrId != null && addrId != "") {
+        Account.updateAddress(accountId, totalAddress, addrId, function(doc) {
+            if (doc == null) {
+                Account.findAccountById(accountId, function(doc) {
+                    res.json({
+                        accountId: doc._id,
+                        address: doc.address,
+                        success: true
+                    });
+                })
+            } else {
+                res.json({
+                    code: 400,
+                    success: false
+                })
+            }
+        });
+    } else {
+        res.json({
+            code: 400,
+            success: false
+        })
+    }
+})
 
 
 .delete(function(req, res) {
@@ -540,27 +547,27 @@ router.route('/account/address')
     //var accountId = req.session.user._id;
 
     var address = req.param("address", null),
-        name= req.param("name", null),
-        phone= req.param("phone", null),
-        type= req.param("type", null);
+        name = req.param("name", null),
+        phone = req.param("phone", null),
+        type = req.param("type", null);
 
-        var totalAddress={
-            "address":address,
-            "name":name,
-            "phone":phone,
-            "type":type
-        };
+    var totalAddress = {
+        "address": address,
+        "name": name,
+        "phone": phone,
+        "type": type
+    };
     if (address != null && address != null) {
         Account.deleteAddress(accountId, totalAddress, function(doc) {
-                if (doc == null) {
-                        Account.findAccountById(accountId, function(doc) {
-                        res.json({
-                            accountId: doc._id,
-                            address: doc.address,
-                            success: true
-                        });
-                    })
-                }
+            if (doc == null) {
+                Account.findAccountById(accountId, function(doc) {
+                    res.json({
+                        accountId: doc._id,
+                        address: doc.address,
+                        success: true
+                    });
+                })
+            }
         });
     }
 
@@ -577,7 +584,7 @@ router.route('/account/location')
         if (location != null && location != "") {
             Account.addLocation(accountId, location, function(doc) {
                 if (doc == null) {
-                        Account.findAccountById(accountId, function(doc) {
+                    Account.findAccountById(accountId, function(doc) {
                         res.json({
                             accountId: doc._id,
                             location: doc.location,
@@ -597,7 +604,7 @@ router.route('/account/location')
     if (location != null && location != "") {
         Account.deleteLocation(accountId, location, function(doc) {
             if (doc == null) {
-                    Account.findAccountById(accountId, function(doc) {
+                Account.findAccountById(accountId, function(doc) {
                     res.json({
                         accountId: doc._id,
                         location: doc.location,
@@ -629,4 +636,3 @@ https.createServer(httpsOptions, app).listen(portHttps);
 
 console.log('http listen ' + portHttp);
 console.log('TSL listen ' + portHttps);
-
