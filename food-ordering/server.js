@@ -52,8 +52,8 @@ app.set('tokenScrete', tokenConfig.secret);
 
 var cookieSession = require('cookie-session');
 
-
 var Account = require('./app/models/Account')(mailConfig, mongoose, nodemailer);
+var Shop = require('./app/models/Shop')(mongoose);
 var upload = require('./app/models/upload')(mongoose);
 app.use(express.static(__dirname + '/public'));
 //app.set('views', path.join(__dirname, 'views'));
@@ -471,7 +471,7 @@ router.route('/account/address')
 .put(function(req, res) {
     var accountId = req.decoded._id;
     //console.log(accountId)
-        //var accountId = req.session.user._id;
+    //var accountId = req.session.user._id;
     var address = req.param("address", null),
         name = req.param("name", null),
         phone = req.param("phone", null),
@@ -484,7 +484,7 @@ router.route('/account/address')
         "type": type
     };
 
-   // console.log(totalAddress);
+    // console.log(totalAddress);
     if (address != null && address != "") {
         Account.addAddress(accountId, totalAddress, function(doc) {
             if (doc == null) {
@@ -515,7 +515,7 @@ router.route('/account/address')
         "type": type
     };
     //console.log(totalAddress);
-   // console.log(addrId);
+    // console.log(addrId);
     if (addrId != null && addrId != "") {
         Account.updateAddress(accountId, totalAddress, addrId, function(doc) {
             if (doc == null) {
@@ -625,6 +625,30 @@ routerRestuarant.route('/')
 .post(function(req, res) {
     res.send('routerRestuarant');
 });
+
+routerRestuarant.route('/create')
+    .get(function(req, res) {
+        res.sendfile(path.join(__dirname, './views', 'restaurant-post.html'));
+    })
+    .post(function(req, res) {
+        var shopName = req.param('shopName', null);
+        var location = req.param('location', null);
+        var shopPicUrl = req.param('shopPicUrl', null);
+        var open = req.param('open', null);
+
+        Shop.createShop(shopName, location, shopPicUrl, open, res, function(doc) {
+            if (doc == null) {
+                Shop.findShop(shopName, function(doc) {
+                    res.json({
+                        code: 200,
+                        shopName: doc.shopName,
+                        success: true
+                    })
+                })
+            }
+        });
+    })
+
 
 // REGISTER OUR ROUTES -------------------------------
 app.use('/user', router);

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>post</title>
+	<link rel="stylesheet" href="/stylesheets/normalize.css">
+	<link rel="stylesheet" href="/stylesheets/post.css">
+</head>
+<body>
+
+	<div class="wrapper">
+		<h1>Create a travel idea</h1>
+		
+		<form action="/message/post" id="post" method="POST" enctype="multipart/form-data">
+		<div class="editor-title">
+			<input type="text" id="shopName" autocomplete="off" placeholder="Write down your shop name here..." name="shopName" required >
+		</div>
+			<textarea id="location" placeholder="location" class="editor-content" name="location" required ></textarea>
+			<label for="destination">shopPicUrl</label><input type="text" id="shopPicUrl" name="shopPicUrl" required >
+			<label for="destination">open</label><input type="text" id="open" name="open" required >
+			<label>Update Pictures(at most 9)</label>
+			<input type="file" class="uploadPic" multiple accept="image/*" name="upload[]">
+			<div class="uploadPicBtn">+</div>
+			<div class="preview"></div>
+			<div class="commit" id="articlePostBtn">Submit</div>
+		
+		</form>
+	
+	</div>
+</body>
+<script src="/javascripts/jquery-1.7.1.min.js"></script>
+<script src="/javascripts/post.js"></script>
+</html>
