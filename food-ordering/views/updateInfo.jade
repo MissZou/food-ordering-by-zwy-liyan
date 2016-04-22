@@ -4,6 +4,20 @@ html
 		meta(charset='UTF-8')   
 		title updateInfo   
 	body
+		if (items)
+			ul
+				each val in items
+					li.address
+						div.delete delete
+						div.update update
+						p.name= val.name
+						p.type= val.type
+						p.phone= val.phone
+						p.addr= val.addr
+						input.addr_id(type="hidden",value= val._id )
+		else
+			p woshishui
+
 		div#updateInfo
 			label(for='location') update location
 			input#location(type='text')
@@ -20,5 +34,17 @@ html
 			input#address(type="text")
 			button submit
 
-	script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
+		div#updExistingAddr
+			label(for='username') name
+			input#usernamee(type="text")
+			label(for='phone') phone
+			input#phonee(type="text")
+			label(for='type') type
+			input#typee(type="text")
+			label(for='address') address
+			input#addresse(type="text")
+			input#addr_id(type="hidden")
+			button submit
+
+	script(src='/javascripts/jquery-1.7.1.min.js')
 	script(src='/javascripts/updateInfo.js')
