@@ -18,6 +18,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *dropDownLocatonSender;
 
 @property (weak, nonatomic) IBOutlet UITableView *mainViewTableView;
+@property (weak, nonatomic) IBOutlet UIView *scrollHeadView;
+
 
 
 //property for dropDownView
@@ -38,8 +40,11 @@
 //delegate and datasource in other controller
 @property (strong,nonatomic) SearchViewHelpController *searchViewHelpController;
 
-//mainViewTalbeView data
+//mainViewTalbeView
 @property (copy,nonatomic) NSString *textLabel;
+@property(strong,nonatomic) NSArray *catagory;
+@property(weak,nonatomic) UIScrollView *catagoryScrollView;
+
 @end
 
 @implementation MainViewController
@@ -77,6 +82,19 @@
     self.searchController.dimsBackgroundDuringPresentation = false;
     self.blurEffectViewForSearch = [[UIVisualEffectView alloc] initWithEffect:self.blurEffet];
     self.tapToCloseSearchController = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(searchBarCancelButtonClicked)];
+    
+    //slide button
+    self.catagory = @[@"MAIN DISHES",@"SIDS",@"DESSERTS",@"BRESKFAST",@"DRINKS",@"EXTRAS"];
+
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    SlideButtonView *slideButtonView = [[SlideButtonView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
+    [slideButtonView addTitle:self.catagory];
+    //[self.view addSubview:slideButtonView];
+    [self.scrollHeadView addSubview:slideButtonView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -182,8 +200,17 @@
     
 }
 
+#pragma mark - searchTableView delegate & datasource
+
+-(void)finishSearchWithResult:(NSString *)result{
+    NSLog(@"search result %@",result);
+    self.textLabel = result;
+    [self.mainViewTableView reloadData];
+    [self searchBarCancelButtonClicked];
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -227,11 +254,19 @@
 -(NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewRowAction *button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Favorite" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath)
                                     {
+                                        indexPath = [NSIndexPath indexPathForRow:0 inSection:2];
+                                        [tableView scrollToRowAtIndexPath:indexPath
+                                                              atScrollPosition:UITableViewScrollPositionTop
+                                                                      animated:YES];
                                         NSLog(@"Favorite");
                                     }];
     button.backgroundColor = [UIColor redColor]; //arbitrary color
     UITableViewRowAction *button2 = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Button 2" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath)
                                      {
+                                         indexPath = [NSIndexPath indexPathForRow:0 inSection:4];
+                                         [tableView scrollToRowAtIndexPath:indexPath
+                                                          atScrollPosition:UITableViewScrollPositionTop
+                                                                  animated:YES];
                                          NSLog(@"Action to perform with Button2!");
                                      }];
     button2.backgroundColor = [UIColor grayColor]; //arbitrary color
@@ -239,11 +274,28 @@
     return @[button, button2]; //array with all the buttons you want. 1,2,3, etc...
 }
 
--(void)finishSearchWithResult:(NSString *)result{
-    NSLog(@"search result %@",result);
-    self.textLabel = result;
-    [self.mainViewTableView reloadData];
-    [self searchBarCancelButtonClicked];
+
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
+    /* Create custom view to display section header... */
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, tableView.frame.size.width, 18)];
+    label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
+    //[label setFont:[UIFont boldSystemFontOfSize:12]];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = [UIColor whiteColor];
+    NSString *string =[self.catagory objectAtIndex:section];
+    /* Section header is in 0th index... */
+    [label setText:string];
+    [view addSubview:label];
+    //[view setBackgroundColor:[UIColor colorWithRed:166/255.0 green:177/255.0 blue:186/255.0 alpha:1.0]];
+    [view setBackgroundColor:[UIColor grayColor]];
+    return view;
 }
+
+#pragma mark -- scroll button for table view
+
+
 
 @end

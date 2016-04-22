@@ -10,6 +10,7 @@
 #import "DropDownView.h"
 #import "SearchViewHelpController.h"
 #import "MainViewCell.h"
+#import "SlideButtonView.h"
 @class MainViewController;
 @protocol MainViewSearchControllerDelegate <NSObject>
 

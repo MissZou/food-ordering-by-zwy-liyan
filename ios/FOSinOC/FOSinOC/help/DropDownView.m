@@ -45,7 +45,6 @@
 
 -(void)showDropDownView:(CGFloat)viewHeight withArray:(NSMutableArray *)array{
     
-    
     CGRect rect = self.senderBtn.superview.frame;
     self.frame = CGRectMake(rect.origin.x, rect.origin.y+rect.size.height, rect.size.width, 0);
     self.layer.masksToBounds = false;

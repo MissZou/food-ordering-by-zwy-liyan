@@ -48,6 +48,7 @@
 		BAD8083B1CC200E500A79DE2 /* AccountAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD808381CC200E500A79DE2 /* AccountAddressViewController.m */; };
 		BAD8083F1CC201C000A79DE2 /* EditAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD8083E1CC201C000A79DE2 /* EditAddressViewController.m */; };
 		BAD808411CC23ED200A79DE2 /* heatBar.png in Resources */ = {isa = PBXBuildFile; fileRef = BAD808401CC23ED200A79DE2 /* heatBar.png */; };
+		BAD808471CC76E2600A79DE2 /* SlideButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD808461CC76E2600A79DE2 /* SlideButtonView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,6 +138,8 @@
 		BAD8083D1CC201C000A79DE2 /* EditAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditAddressViewController.h; path = FOSinOC/AccountView/EditAddressViewController.h; sourceTree = SOURCE_ROOT; };
 		BAD8083E1CC201C000A79DE2 /* EditAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EditAddressViewController.m; path = FOSinOC/AccountView/EditAddressViewController.m; sourceTree = SOURCE_ROOT; };
 		BAD808401CC23ED200A79DE2 /* heatBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heatBar.png; sourceTree = "<group>"; };
+		BAD808451CC76E2600A79DE2 /* SlideButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideButtonView.h; sourceTree = "<group>"; };
+		BAD808461CC76E2600A79DE2 /* SlideButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideButtonView.m; sourceTree = "<group>"; };
 		EFB03458865CE718FD0ADEBA /* Pods-FOSinOC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FOSinOC.release.xcconfig"; path = "Pods/Target Support Files/Pods-FOSinOC/Pods-FOSinOC.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -296,6 +299,8 @@
 				BA174A491CBE7B7B00419E3B /* SearchViewHelpController.m */,
 				BA174A511CBF802100419E3B /* CustomizedSegueLeftToRight.h */,
 				BA174A521CBF802100419E3B /* CustomizedSegueLeftToRight.m */,
+				BAD808451CC76E2600A79DE2 /* SlideButtonView.h */,
+				BAD808461CC76E2600A79DE2 /* SlideButtonView.m */,
 			);
 			name = help;
 			path = FOSinOC/help;
@@ -596,6 +601,7 @@
 				BA1DAE431CB657BE00CDD6E0 /* main.m in Sources */,
 				BA6046D91CBB8B1200A8FD34 /* CreateAccountViewController.m in Sources */,
 				BA6046E51CBCCA2700A8FD34 /* LeftMenuViewController.m in Sources */,
+				BAD808471CC76E2600A79DE2 /* SlideButtonView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

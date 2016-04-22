@@ -11,7 +11,7 @@
 @interface MainViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *shopImage;
 
-@property (weak, nonatomic) IBOutlet UIView *hearBarImage;
+@property (weak, nonatomic) IBOutlet UIView *heatBarImage;
 
 @property (weak, nonatomic) IBOutlet UILabel *category;
 @property (weak, nonatomic) IBOutlet UILabel *shopName;
