@@ -51,4 +51,5 @@ typedef NS_ENUM(NSUInteger, httpMethod){
 -(void)createAccount:(Account *)model;
 -(void) checkLogin;
 -(void) location:(enum httpMethod)httpMethod withLocation:(NSString *)location;
+-(void)address:(httpMethod)httpMethod withAddress:(NSDictionary *)address;
 @end

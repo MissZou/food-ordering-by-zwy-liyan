@@ -213,21 +213,21 @@
     }
 }
 
--(void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    NSLog(@"touches end");
-}
-
--(void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    NSLog(@"touches canceled");
-}
-
--(void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    NSLog(@"touches moved");
-}
-
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    NSLog(@"touches begin");
-}
+//-(void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+//    NSLog(@"touches end");
+//}
+//
+//-(void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+//    NSLog(@"touches canceled");
+//}
+//
+//-(void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+//    NSLog(@"touches moved");
+//}
+//
+//-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+//    NSLog(@"touches begin");
+//}
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
     return true;

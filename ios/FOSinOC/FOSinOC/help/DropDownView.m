@@ -45,7 +45,6 @@
 
 -(void)showDropDownView:(CGFloat)viewHeight withArray:(NSMutableArray *)array{
     
-    
     CGRect rect = self.senderBtn.superview.frame;
     self.frame = CGRectMake(rect.origin.x, rect.origin.y+rect.size.height, rect.size.width, 0);
     self.layer.masksToBounds = false;
@@ -131,7 +130,7 @@
         NSString *deleteString = self.dropDownList[indexPath.row];
         [self.dropDownList removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        
+        //[tableView deleteRowsAtIndexPaths:[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         [self.delegate dropDownMenuDelete:self withString:deleteString];
     }
 }
