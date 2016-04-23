@@ -45,6 +45,10 @@
 @property(strong,nonatomic) NSArray *catagory;
 @property(weak,nonatomic) UIScrollView *catagoryScrollView;
 
+@property (strong,nonatomic)UIView *coverView;
+@property (strong,nonatomic)CatagoryView *catagoryView;
+@property (strong,nonatomic)UITapGestureRecognizer *tapToCloseMainViewMenu;
+//@property(strong,nonatomic) SlideButtonView *slideButtonView;
 @end
 
 @implementation MainViewController
@@ -62,8 +66,7 @@
     self.cellHeight = 40;
     
     self.view.layer.shadowOpacity = 0.8;
-//    self.topView.layer.shadowOpacity = 0.8;
-//    self.topView.layer.shadowOffset = CGSizeMake(2.0, 0.0);
+
     self.bottomView.layer.shadowOpacity = 0.8;
     self.bottomView.layer.shadowOffset = CGSizeMake(2.0, 0.0);
     
@@ -84,17 +87,26 @@
     self.tapToCloseSearchController = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(searchBarCancelButtonClicked)];
     
     //slide button
-    self.catagory = @[@"MAIN DISHES",@"SIDS",@"DESSERTS",@"BRESKFAST",@"DRINKS",@"EXTRAS"];
 
+    self.catagory = @[@"MAIN DISHES",@"SIDS",@"DESSERTS",@"BRESKFAST",@"DRINKS",@"EXTRAS"];
+    //self.slideButtonView = [[SlideButtonView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
+    //    [self.slideButtonView addTitle:self.catagory];
+    //    self.slideButtonView.delegate = self;
+
+    self.tapToCloseMainViewMenu = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideMainViewMenu)];
+    
     
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    SlideButtonView *slideButtonView = [[SlideButtonView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
-    [slideButtonView addTitle:self.catagory];
-    //[self.view addSubview:slideButtonView];
-    [self.scrollHeadView addSubview:slideButtonView];
+    CGFloat dummyViewHeight = 40;
+    UIView *dummyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.mainViewTableView.bounds.size.width, dummyViewHeight)];
+    self.mainViewTableView.tableHeaderView = dummyView;
+    self.mainViewTableView.contentInset = UIEdgeInsetsMake(-dummyViewHeight, 0, 0, 0);
+    
+
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -210,7 +222,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 5;
+    return self.catagory.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -225,10 +237,11 @@
     }
     else
     cell.shopName.text = @"muc fooooood";
+    
     UIView *bgColorView = [UIView new];
     bgColorView.backgroundColor = [UIColor colorWithRed:121/255.0 green:146/255.0 blue:199/255.0 alpha:1];
     [cell setSelectedBackgroundView:bgColorView];
-    
+    cell.backgroundColor = [UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:1];
     return cell;
 }
 
@@ -254,19 +267,13 @@
 -(NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewRowAction *button = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Favorite" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath)
                                     {
-                                        indexPath = [NSIndexPath indexPathForRow:0 inSection:2];
-                                        [tableView scrollToRowAtIndexPath:indexPath
-                                                              atScrollPosition:UITableViewScrollPositionTop
-                                                                      animated:YES];
+    
                                         NSLog(@"Favorite");
                                     }];
     button.backgroundColor = [UIColor redColor]; //arbitrary color
     UITableViewRowAction *button2 = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Button 2" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath)
                                      {
-                                         indexPath = [NSIndexPath indexPathForRow:0 inSection:4];
-                                         [tableView scrollToRowAtIndexPath:indexPath
-                                                          atScrollPosition:UITableViewScrollPositionTop
-                                                                  animated:YES];
+                                         
                                          NSLog(@"Action to perform with Button2!");
                                      }];
     button2.backgroundColor = [UIColor grayColor]; //arbitrary color
@@ -275,27 +282,81 @@
 }
 
 
-
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
+    //self.mainViewTableView.tableHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 0.1)];
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
     /* Create custom view to display section header... */
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, tableView.frame.size.width, 18)];
-    label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
+    label.font = [UIFont fontWithName:@"HelveticaNeue-Regular" size:18];
     //[label setFont:[UIFont boldSystemFontOfSize:12]];
     label.textAlignment = NSTextAlignmentCenter;
-    label.textColor = [UIColor whiteColor];
+    label.textColor = [UIColor colorWithRed:80/255.0 green:80/255.0 blue:80/255.0 alpha:1];
     NSString *string =[self.catagory objectAtIndex:section];
     /* Section header is in 0th index... */
     [label setText:string];
     [view addSubview:label];
-    //[view setBackgroundColor:[UIColor colorWithRed:166/255.0 green:177/255.0 blue:186/255.0 alpha:1.0]];
-    [view setBackgroundColor:[UIColor grayColor]];
+    
+    [view setBackgroundColor:[UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:1]];
     return view;
 }
 
 #pragma mark -- scroll button for table view
 
+//-(void)slideButtionClicked:(NSString *)title{
+//    NSInteger setcion = [self.catagory indexOfObject:title];
+//   NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:setcion];
+//    [self.mainViewTableView scrollToRowAtIndexPath:indexPath
+//                     atScrollPosition:UITableViewScrollPositionTop
+//                             animated:YES];
+//}
 
+#pragma mark -- scroll button for table view change button marked when scrolling
+
+//-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+//    NSIndexPath *firstVisibleIndexPath = [[self.mainViewTableView indexPathsForVisibleRows] objectAtIndex:0];
+//    NSInteger section = firstVisibleIndexPath.section;
+//    [self.slideButtonView markButtonSelected:section];
+//}
+- (IBAction)catagoryClicked:(id)sender {
+    NSLog(@"catagory clicked");
+    NSDictionary *fastFood = @{@"All":@246,@"Famous Brand":@128,@"Over Rice":@115,@"Noodes":@27,@"Pot Food":@24,@"Dumplings":@12};
+    NSDictionary *feature = @{@"All":@138,@"Sea Food":@58,@"Sichuan":@37,@"Toast Fish":@27,@"Guangdong":@14,@"Muslim":@12};
+    NSDictionary *foreigner = @{@"All":@43,@"Korea":@25,@"Japan":@13,@"West":@8,@"Spaghetti":@1};
+    NSDictionary *dessert = @{@"All":@172,@"Local":@53,@"Barbeque":@44,@"Sids":@43};
+    NSDictionary *drink = @{@"All":@84,@"Juice":@53,@"Cafee":@31};
+    NSDictionary *catagory2 = @{@"All Shop":@500,@"fastFood":fastFood,@"feature":feature,@"foreigner":foreigner,@"dessert":dessert,@"drink":drink};
+    
+    NSLog(@"%@",catagory2);
+    
+    
+    
+    if (self.coverView == nil && self.catagoryView == nil) {
+        self.coverView = [[UIView alloc]initWithFrame:CGRectMake(0, self.scrollHeadView.frame.size.height + self.scrollHeadView.frame.origin.y, self.view.frame.size.width, self.mainViewTableView.frame.size.height)];
+        CatagoryView *catagoryView = [[CatagoryView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.coverView.frame.size.height*0.6)];
+        self.catagoryView = catagoryView;
+        [self.catagoryView initCatagoryView:catagory2];
+        
+        [self.view addSubview:self.coverView];
+        [self.coverView addSubview:self.catagoryView];
+        [self.coverView addGestureRecognizer:self.tapToCloseMainViewMenu];
+    }
+}
+- (IBAction)SortClicked:(id)sender {
+    
+}
+- (IBAction)filterClicked:(id)sender {
+}
+
+-(void)hideMainViewMenu{
+    [self.coverView removeFromSuperview];
+    self.coverView = nil;
+    self.catagoryView = nil;
+    
+}
+
+//-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
+//    return true;
+//}
 
 @end

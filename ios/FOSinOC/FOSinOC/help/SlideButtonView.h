@@ -9,14 +9,17 @@
 #import <UIKit/UIKit.h>
 @class SlideButtonView;
 @protocol SlideButtonDelegate <NSObject>
--(void)slideButtionClicked;
+-(void)slideButtionClicked:(NSString *)title;
 
 @end
 
 @interface SlideButtonView : UIView
-
 @property(assign,nonatomic) CGFloat buttonWidth;
 
+@property(weak) id<SlideButtonDelegate> delegate;
+
 +(id)initSlideButton:(NSArray *)buttonTitle;
--(void)addTitle:(NSArray *)buttonTitle;
+-(void)initSlideButtonAddTitle:(NSArray *)buttonTitle;
+-(void)markButtonSelected:(NSInteger)tag;
+
 @end
