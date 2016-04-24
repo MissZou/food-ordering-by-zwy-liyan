@@ -635,13 +635,14 @@ routerRestuarant.route('/create')
         var location = req.param('location', null);
         var shopPicUrl = req.param('shopPicUrl', null);
         var open = req.param('open', null);
+        var shopType=req.param('shopType', null);
 
-        Shop.createShop(shopName, location, shopPicUrl, open, res, function(doc) {
+        Shop.createShop(shopName, location, shopPicUrl, open,shopType, res, function(doc) {
             if (doc == null) {
                 Shop.findShop(shopName, function(doc) {
                     res.json({
                         code: 200,
-                        shopName: doc.shopName,
+                        shop: doc,
                         success: true
                     })
                 })

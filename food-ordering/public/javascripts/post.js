@@ -3,68 +3,88 @@ $(function() {
         remove: function() {
             $(this).parent(".tag-wrp").remove();
         },
-        add: function() {
-            var content = $("#label").val().trim();
+        add: function(self) {
+            var content = $(self).val().trim();
             if (content !== "") {
-                var newTag = "<div class='tag-wrp'><span class='tag'>" + content + 
-                "</span><span class='delete'>×</span></div>";
-                $(".labels").append(newTag);
+                var newTag = "<div class='tag-wrp'><span class='tag'>" + content +
+                    "</span><span class='delete'>×</span></div>";
+                $(self).parent().find($(".labels")).append(newTag);
             }
-            $("#label").val("");
+            $(self).val("");
         }
     };
 
     var uploadPic = {
         add: function(files) {
-        	var preview=$(".preview");
-            preview.empty();
-            var len=files.length>9? 9 :files.length;
+            var len = files.length > 9 ? 9 : files.length;
             for (var i = 0; i < len; i++) {
                 var file = files[i];
                 var imageType = /^image\//;
-
                 if (!imageType.test(file.type)) {
                     continue;
                 }
-
-                var img = document.createElement("img");
-                img.classList.add("previewPic");
-                img.file = file;
-                // 假设 "preview" 是将要展示图片的 div
-                
-                preview[0].appendChild(img);
                 var reader = new FileReader();
-                reader.onload = (function(aImg) {
-                    return function(e) {
-                        aImg.src = e.target.result;
-                    };
-                })(img);
+                reader.onload = function(e) {
+                    $('<li><img src=' + e.target.result + ' alt=""> \
+                        <label>Dish name</label> \
+                        <input type="text"> \
+                        <label>Tags</label> \
+                        <input type="text" class="tagInput"> \
+                        <div class="labels"> \
+                            <div class="tag-wrp"> \
+                                <span class="tag">shmhsm</span> \
+                                <span class="delete">×</span> \
+                            </div> \
+                        </div> \
+                        <label>Price</label> \
+                        <input type="number"> \
+                        <label>Introduction</label> \
+                        <textarea name="" id="" cols="30" rows="10"></textarea></li>')
+                        .appendTo($(".dishPreview ul"));
+                };
                 reader.readAsDataURL(file);
             }
+        },
+        addCoverPic: function(file) {
+            $(".preview-coverPic").empty();
+            var imageType = /^image\//;
+            /*if (!imageType.test(file.type)) {
+                continue;
+            }*/
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('<img src=' + e.target.result + ' alt="" width="200" >')
+                    .appendTo($(".preview-coverPic"));
+            };
+            reader.readAsDataURL(file);
         }
     };
 
-
-
     var uploadBtn = $(".uploadPic");
-    uploadBtn.on("change", function(){
-    	uploadPic.add(this.files)
-    });
-
-    $(".uploadPicBtn").on("click",function(){
-    	uploadBtn[0].click();
+    uploadBtn.on("change", function() {
+        uploadPic.add(this.files);
     });
 
 
-$("#articlePostBtn").on("click",function(){
-    $.ajax({
+    $(".coverPic").on("change", function() {
+        uploadPic.addCoverPic(this.files[0]);
+    })
+
+    $(".uploadPicBtn").on("click", function() {
+        uploadBtn[0].click();
+    });
+
+
+    $("#articlePostBtn").on("click", function() {
+        $.ajax({
             url: '/shop/create/',
             type: 'POST',
             data: {
                 "shopName": $("#shopName").val(),
                 "location": $("#location").val(),
                 "shopPicUrl": $("#shopPicUrl").val(),
-                "open": $("#open").val()==""?false:true
+                "open": $("#open").val() == "" ? false : true,
+                "shopType":$(".typeResult").text().trim()
             },
             success: function(data, status) {
                 if (data.success == true) {
@@ -78,11 +98,20 @@ $("#articlePostBtn").on("click",function(){
                 }
             }
         });
-})
+    })
 
+    $(".type li").on("click", function(e) {
+        e.stopPropagation()
+        if ($(this).find("ul").length == 0) {
+            $(".typeResult").text($(this).text())
+        }
+    });
 
-
-
-
-
+    $(".delete").live("click", tagAction.remove);
+    $("input[type='text']").live("keydown", function(event) {
+        if (event.keyCode == 13) {
+            tagAction.add(this);
+            return false;
+        }
+    })
 })

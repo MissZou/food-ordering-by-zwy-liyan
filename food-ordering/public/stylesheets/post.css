@@ -3,7 +3,9 @@ body {
 
 input {
   display: block; }
-
+ul,li{
+  list-style: none;
+}
 .wrapper {
   width: 90%;
   margin: 0 auto; }
@@ -142,5 +144,65 @@ input {
     font-style: bold;
     color: #ccc;
     margin-top: 5px; }
+#type{
+  width: 100px;
+  height: 25px;
+  background: blue;
+  color: white;
+  text-align: center;
+  line-height: 25px;
+  cursor: pointer;
+  position:relative;
+}
+.type{
+position:absolute;
+left: 0;
+top:25px;
+background: #ccc;
+width:200px;
+}
+.type ul{
+  position: absolute;
+  left: 200px;
+  top: 0;
+  background: red;
+  width: 200px;
+  display: none;
+}
+.type{
+  display: none;
+}
 
-/*# sourceMappingURL=post.css.map */
+#type:hover > ul{
+display: block;
+}
+
+.type>li:hover{
+  background: black;
+}
+
+.type>li:hover > ul{
+display: block;
+}
+
+.dishPreview li{
+  box-sizing:border-box;
+  width: 50%;
+  border:10px solid transparent;
+  float: left;
+}
+
+.dishPreview li img{
+  width:95%;
+  height:200px;
+  margin:0 auto;
+  display: block;
+}
+.dishPreview li input{
+   box-sizing:border-box;
+}
+.dishPreview li textarea{
+  width: 100%;
+  box-sizing:border-box;
+}
+
