@@ -83,7 +83,7 @@
 
 
 -(void)catagoryClicked:(UIButton *)sender{
-    NSLog(@"%@",sender.titleLabel.text);
+    //NSLog(@"%@",sender.titleLabel.text);
     
     if (self.lastSelected >= 0) {
         UIButton *lastBtn = (UIButton *)[self viewWithTag:self.lastSelected];
@@ -109,8 +109,8 @@
         [self.delegate finishChooseCatagory:self.tableContentSection];
     }
     
-    NSLog(@"%@",[self.catagory valueForKey:self.tableContentSection]);
-    NSLog(@"%@",self.subCatagoryNumber);
+//    NSLog(@"%@",[self.catagory valueForKey:self.tableContentSection]);
+//    NSLog(@"%@",self.subCatagoryNumber);
 }
 
 
@@ -154,6 +154,13 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 40.0;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    UILabel *name = (UILabel *)[cell.contentView viewWithTag: tableCellTag+1];
+    [self.delegate finishChooseCatagory:name.text];
+    //NSLog(@"%@",name.text);
 }
 
 @end

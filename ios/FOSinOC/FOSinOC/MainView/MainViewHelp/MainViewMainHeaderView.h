@@ -1,5 +1,5 @@
 //
-//  MainViewController.h
+//  MainViewMainHeaderView.h
 //  FOSinOC
 //
 //  Created by MoonSlides on 16/4/24.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MainViewController : UIViewController
+@interface MainViewMainHeaderView : UIView
 
 @end

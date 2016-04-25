@@ -43,13 +43,22 @@
     return self;
 }
 
+-(void)initDropDownView:(UIButton *)button :(CGFloat)cellHeight :(CGFloat)viewHeight :(NSMutableArray *)array{
+    self.senderBtn = button;
+    self.tableViewCellHeight = cellHeight;
+    self.dropDownList = array;
+    [self showDropDownView:viewHeight withArray:self.dropDownList];
+}
+
 -(void)showDropDownView:(CGFloat)viewHeight withArray:(NSMutableArray *)array{
     
-    CGRect rect = self.senderBtn.superview.frame;
-    self.frame = CGRectMake(rect.origin.x, rect.origin.y+rect.size.height, rect.size.width, 0);
+    //CGRect rect = self.senderBtn.superview.frame;
+    
+    //self.frame = CGRectMake(rect.origin.x, rect.origin.y+rect.size.height, rect.size.width, 0);
+    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, 0);
     self.layer.masksToBounds = false;
     
-    self.dropDownTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, rect.size.width, 0)];
+    self.dropDownTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, 0)];
     self.dropDownTableView.delegate = self;
     self.dropDownTableView.dataSource = self;
     self.dropDownTableView.backgroundColor = [UIColor colorWithRed:0.239 green:0.239 blue:0.239 alpha:1];
@@ -58,10 +67,12 @@
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.5];
-    self.frame = CGRectMake(rect.origin.x, rect.origin.y+rect.size.height, rect.size.width, viewHeight);
-    self.dropDownTableView.frame = CGRectMake(0, 0, rect.size.width, viewHeight);
+    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, viewHeight);
+    self.dropDownTableView.frame = CGRectMake(0, 0, self.frame.size.width, viewHeight);
     [UIView commitAnimations];
-    [self.senderBtn.superview.superview.superview addSubview:self];
+    //[self.senderBtn.superview.superview.superview addSubview:self];
+    
+    
     [self addSubview:self.dropDownTableView];
 }
 
