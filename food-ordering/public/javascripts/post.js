@@ -27,7 +27,7 @@ $(function() {
                 reader.onload = function(e) {
                     $('<li><img src=' + e.target.result + ' alt=""> \
                         <label>Dish name</label> \
-                        <input type="text"> \
+                        <input type="text" class="dishName"> \
                         <label>Tags</label> \
                         <input type="text" class="tagInput"> \
                         <div class="labels"> \
@@ -37,9 +37,9 @@ $(function() {
                             </div> \
                         </div> \
                         <label>Price</label> \
-                        <input type="number"> \
+                        <input type="number" class="price"> \
                         <label>Introduction</label> \
-                        <textarea name="" id="" cols="30" rows="10"></textarea></li>')
+                        <textarea class="intro" cols="30" rows="10"></textarea></li>')
                         .appendTo($(".dishPreview ul"));
                 };
                 reader.readAsDataURL(file);
@@ -84,10 +84,93 @@ $(function() {
                 "location": $("#location").val(),
                 "shopPicUrl": $("#shopPicUrl").val(),
                 "open": $("#open").val() == "" ? false : true,
-                "shopType":$(".typeResult").text().trim()
+                "shopType": $(".typeResult").text().trim()
             },
             success: function(data, status) {
                 if (data.success == true) {
+                    alert("上传成功");
+                    console.log(data)
+                    var data = new FormData();
+                    data.append('file', $(".coverPic")[0].files[0]);
+                    data.append('shopName', $("#shopName").val());
+                    $.ajax({
+                        url: '/shop/createCover/',
+                        data: data,
+                        type: 'POST',
+                        contentType: false, //必须
+                        processData: false, //必须
+                        success: function(data, status) {
+                            if (data.code == 200) {
+                                alert("上传成功");
+                                console.log(data)
+
+                            }
+                        },
+                        error: function(data, status) {
+                            if (data.code != 200) {
+                                alert("上传shibai");
+                            }
+                        }
+                    });
+
+                }
+            },
+            error: function(data, status) {
+                if (data.code != 200) {
+                    alert("上传shibai");
+                }
+            }
+        });
+        var dish = []
+        var num = $(".dishPreview li").length;
+        for (var index = 0; index < num; index++) {
+            var tags = []
+            for (var i = 0; i < $(".dishPreview li").eq(index).find(".tag-wrp").length; i++) {
+                tags.push($(".dishPreview li").eq(index).find(".tag").eq(i).text())
+            }
+            dish[index]={}
+            dish[index].dishName = $(".dishName").eq(index).val();
+            dish[index].tags =tags;
+            dish[index].price=$(".price").eq(index).val();
+            dish[index].intro=$(".intro").eq(index).val();
+        }
+
+        
+        //data.append('shopDish', dish);
+        //data.append('shopName', $("#shopName").val());
+        $.ajax({
+            url: '/shop/createDish/',
+            data: {
+                "dish":dish,
+                "shopName":$("#shopName").val()
+            },
+            type: 'POST',
+            //contentType: false,
+            //processData: false, 
+            success: function(data, status) {
+                if (data.code == 200) {
+                    alert("上传成功");
+                    console.log(data)
+
+                }
+            },
+            error: function(data, status) {
+                if (data.code != 200) {
+                    alert("上传shibai");
+                }
+            }
+        });
+        var data = new FormData();
+        data.append('file', $(".uploadPic")[0].files);
+        data.append('shopName', $("#shopName").val());
+        $.ajax({
+            url: '/shop/createDishPic/',
+            data: data,
+            type: 'POST',
+            contentType: false,
+            processData: false, 
+            success: function(data, status) {
+                if (data.code == 200) {
                     alert("上传成功");
                     console.log(data)
                 }
@@ -98,6 +181,7 @@ $(function() {
                 }
             }
         });
+
     })
 
     $(".type li").on("click", function(e) {

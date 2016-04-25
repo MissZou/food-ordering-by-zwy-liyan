@@ -13,16 +13,13 @@ var session = require('express-session');
 var multipart = require('connect-multiparty');
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var path = require('path');
-
+var formidable = require('formidable');
 
 
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
 
 server.listen(8080);
-
-
-
 
 
 var httpsOptions = {
@@ -393,18 +390,14 @@ router.route('/login')
             // res.send(400);
         }
     });
-
-
 });
 
 router.use("/account", function(req, res, next) {
 
     // check header or url parameters or post parameters for token
     var token = req.body.token || req.param('token') || req.headers['x-access-token'] || req.session.userToken;
-
     // decode token
     if (token) {
-
         // verifies secret and checks exp
         jwt.verify(token, app.get('tokenScrete'), function(err, decoded) {
             if (err) {
@@ -417,7 +410,6 @@ router.use("/account", function(req, res, next) {
                 next();
             }
         });
-
     } else {
 
         // if there is no token
@@ -426,34 +418,31 @@ router.use("/account", function(req, res, next) {
             success: false,
             message: 'No token provided.'
         });
-
     }
-
 });
 
 router.route('/account')
-
-.post(function(req, res) {
-    //console.log(req.decoded);
-    Account.findAccountById(req.decoded._id, function(doc) {
-        if (null != doc)
-            res.json({
-                accountId: doc._id,
-                email: doc.email,
-                address: doc.address,
-                name: doc.name,
-                phone: doc.phone,
-                location: doc.location,
-                photoUrl: doc.photoUrl,
-                success: true
-            })
-        else {
-            res.json({
-                success: false
-            })
-        }
-    })
-});
+    .post(function(req, res) {
+        //console.log(req.decoded);
+        Account.findAccountById(req.decoded._id, function(doc) {
+            if (null != doc)
+                res.json({
+                    accountId: doc._id,
+                    email: doc.email,
+                    address: doc.address,
+                    name: doc.name,
+                    phone: doc.phone,
+                    location: doc.location,
+                    photoUrl: doc.photoUrl,
+                    success: true
+                })
+            else {
+                res.json({
+                    success: false
+                })
+            }
+        })
+    });
 
 
 router.route('/account/address')
@@ -635,9 +624,39 @@ routerRestuarant.route('/create')
         var location = req.param('location', null);
         var shopPicUrl = req.param('shopPicUrl', null);
         var open = req.param('open', null);
-        var shopType=req.param('shopType', null);
+        var shopType = req.param('shopType', null);
 
-        Shop.createShop(shopName, location, shopPicUrl, open,shopType, res, function(doc) {
+
+
+        /*        //copy file to a public directory
+            console.log(req.files);
+            var targetPath = './public/resources/avatar/' + 'test' + '.jpg';
+            //copy file
+            // fs.createReadStream(req.files.files.ws.path).pipe(fs.createWriteStream(targetPath));
+            //return file url
+            var tmp_path = req.files.files.path;
+            console.log(tmp_path)
+            fs.rename(tmp_path, targetPath, function(err) {
+                if (err) throw err;
+                // 删除临时文件夹文件, 
+                fs.unlink(tmp_path, function() {
+                    if (err) throw err;
+                });
+            });
+            var url = 'http://' + req.headers.host + '/resources/avatar/' + 'test' + '.jpg';
+            var accountId = req.session.user._id;
+            console.log(accountId);
+            Account.uploadAvatar(accountId, url, function(err) {
+                //console.log("save image");
+                if (null == err)
+                    res.json({
+                        code: 200,
+                        msg: {
+                            url: url
+                        }
+                    });
+            })*/
+        Shop.createShop(shopName, location, shopPicUrl, open, shopType, res, function(doc) {
             if (doc == null) {
                 Shop.findShop(shopName, function(doc) {
                     res.json({
@@ -649,6 +668,130 @@ routerRestuarant.route('/create')
             }
         });
     })
+
+
+routerRestuarant.route('/createCover')
+    .post(function(req, res) {
+        var form = new formidable.IncomingForm();
+        form.parse(req, function(err, fields, files) {
+            if (err || !files.file) {
+                res.json({
+                    succeed: false,
+                    status: 400,
+                    errMsg: "上传失败"
+                })
+                return
+            }
+            var goalUrl = './public/resources/' + fields.shopName + '/';
+            if (!fs.existsSync(goalUrl)) {
+                fs.mkdirSync(goalUrl);
+            }
+            var targetPath = goalUrl + fields.shopName + '.jpg';
+            var tmp_path = files.file.path;
+            fs.rename(tmp_path, targetPath, function(err) {
+                if (err) throw err;
+                // 删除临时文件夹文件, 
+                fs.unlink(tmp_path, function() {
+                    if (err) throw err;
+                });
+            });
+            var url = 'http://' + req.headers.host + '/resources/' + fields.shopName + '.jpg';
+
+
+            Shop.uploadShopCover(fields.shopName, url, function(err) {
+                if (null == err)
+                    res.json({
+                        code: 200,
+                        msg: {
+                            url: url
+                        }
+                    });
+            })
+
+        })
+    })
+
+routerRestuarant.route('/createDish')
+    .post(function(req, res) {
+
+        var dish = req.param('dish', null);
+        var shopName = req.param('shopName', null);
+
+        for (var i = 0; i < dish.length; i++) {
+            Shop.addDish(shopName, dish[i], function(err) {
+                if (null == err)
+                    res.json({
+                        code: 200
+                    });
+            })
+        }
+    })
+
+routerRestuarant.route('/createDishPic')
+    .post(function(req, res) {
+        var form = new formidable.IncomingForm();
+        form.encoding = 'utf-8';
+        form.multiples = true;
+
+        form.parse(req, function(err, fields, files) {
+                if (err || !files.file) {
+                    res.json({
+                        succeed: false,
+                        status: 400,
+                        errMsg: "上传失败"
+                    })
+                    return
+                }
+                var goalUrl = './public/resources/' + fields.shopName + '/dish';
+                if (!fs.existsSync(goalUrl)) {
+                    fs.mkdirSync(goalUrl);
+                }
+                console.log("files",files.file)
+            })
+            /*
+        var targetPath = goalUrl + fields.shopName + '.jpg';
+    //copy file
+    // fs.createReadStream(req.files.files.ws.path).pipe(fs.createWriteStream(targetPath));
+    //return file url
+    var tmp_path = files.file.path;
+    console.log(tmp_path)
+    fs.rename(tmp_path, targetPath, function(err) {
+        if (err) throw err;
+        // 删除临时文件夹文件, 
+        fs.unlink(tmp_path, function() {
+            if (err) throw err;
+        });
+    });
+    var url = 'http://' + req.headers.host + '/resources/' + fields.shopName + '.jpg';
+    
+
+    Shop.uploadShopCover(fields.shopName, url, function(err) {
+        //console.log("save image");
+        if (null == err)
+            res.json({
+                code: 200,
+                msg: {
+                    url: url
+                }
+            });
+    })*/
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // REGISTER OUR ROUTES -------------------------------
