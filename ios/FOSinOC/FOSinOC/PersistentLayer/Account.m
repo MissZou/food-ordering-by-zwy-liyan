@@ -158,7 +158,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
         [manager POST:[url absoluteString] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             
             if ([responseObject isKindOfClass:[NSDictionary class]]) {
-                
+                //NSLog(@"%@", responseObject);
                 [self updateAccount:responseObject];
                 [self.delegate finishFetchAccountData:responseObject withAccount:Account.sharedManager];
             } else {

@@ -27,5 +27,7 @@
 @property (strong,nonatomic)NSMutableArray *dropDownList;
 
 +(id)initDropDownView:(UIButton *)button cellHeight:(CGFloat)cellHeight viewHeight:(CGFloat)viewHeight Array:(NSMutableArray *)array;
+-(id)initDropDownViewConveniennce:(UIButton *)button :(CGFloat)cellHeight :(CGFloat)viewHeight :(NSMutableArray *)array;
+-(void)initDropDownView:(UIButton *)button :(CGFloat)cellHeight :(CGFloat)viewHeight :(NSMutableArray *)array;
 -(void)hideDropDownView;
 @end
