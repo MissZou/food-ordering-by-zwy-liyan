@@ -128,59 +128,63 @@ $(function() {
             for (var i = 0; i < $(".dishPreview li").eq(index).find(".tag-wrp").length; i++) {
                 tags.push($(".dishPreview li").eq(index).find(".tag").eq(i).text())
             }
-            dish[index]={}
+            dish[index] = {}
             dish[index].dishName = $(".dishName").eq(index).val();
-            dish[index].tags =tags;
-            dish[index].price=$(".price").eq(index).val();
-            dish[index].intro=$(".intro").eq(index).val();
+            dish[index].tags = tags;
+            dish[index].price = $(".price").eq(index).val();
+            dish[index].intro = $(".intro").eq(index).val();
+            dish[index].index =index;
         }
 
-        
+
         //data.append('shopDish', dish);
         //data.append('shopName', $("#shopName").val());
         $.ajax({
             url: '/shop/createDish/',
             data: {
-                "dish":dish,
-                "shopName":$("#shopName").val()
+                "dish": dish,
+                "shopName": $("#shopName").val()
             },
             type: 'POST',
+            async:false,
             //contentType: false,
             //processData: false, 
             success: function(data, status) {
                 if (data.code == 200) {
                     alert("上传成功");
                     console.log(data)
+                    var data = new FormData();
+                    $.each($(".uploadPic")[0].files, function(i, file) {
+                        data.append(i, file);
+                        //console.log('photo['+i+']', file)
+                    })
+                    data.append('shopName', $("#shopName").val());
+                    $.ajax({
+                        url: '/shop/createDishPic/',
+                        data: data,
+                        type: 'POST',
+                        contentType: false,
+                        processData: false,
+                        success: function(data, status) {
+                            if (data.code == 200) {
+                                alert("上传成功");
+                            }
+                        },
+                        error: function(data, status) {
+                            if (data.code != 200) {
+                                alert("上传shibai");
+                            }
+                        }
+                    });
+                }
+            },
+            error: function(data, status) {
+                if (data.code != 200) {
+                    alert("上传shibai");
+                }
+            }
+        });
 
-                }
-            },
-            error: function(data, status) {
-                if (data.code != 200) {
-                    alert("上传shibai");
-                }
-            }
-        });
-        var data = new FormData();
-        data.append('file', $(".uploadPic")[0].files);
-        data.append('shopName', $("#shopName").val());
-        $.ajax({
-            url: '/shop/createDishPic/',
-            data: data,
-            type: 'POST',
-            contentType: false,
-            processData: false, 
-            success: function(data, status) {
-                if (data.code == 200) {
-                    alert("上传成功");
-                    console.log(data)
-                }
-            },
-            error: function(data, status) {
-                if (data.code != 200) {
-                    alert("上传shibai");
-                }
-            }
-        });
 
     })
 

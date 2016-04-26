@@ -11,7 +11,9 @@ module.exports = function( mongoose) {
       dishName: { type: String},
       tags: { type: Array},
       price: { type: Number},
-      intro: { type: String}
+      intro: { type: String},
+      dishPic:{ type: String},
+      index:{type:Number}
     }]}
     
   });
@@ -50,7 +52,8 @@ var addDish = function(shopName, newDish, callback) {
           "dishName":newDish.dishName,
           "tags":newDish.tags,
           "price":newDish.price,
-          "intro":newDish.intro
+          "intro":newDish.intro,
+          "index":newDish.index
         }}},{upsert:true},
       function (err) {
         console.log(err)
@@ -58,11 +61,23 @@ var addDish = function(shopName, newDish, callback) {
     });
 };
 
+var addDishPic = function(shopName, key,url, callback) {
+  Shop.findOne({ shopName: shopName},
+  function (err,doc) {
+  doc.dish.forEach(function (event) {
+      if (event.index ==key) {
+        event.dishPic=url;
+      }
+    });
+   doc.save();
+  })
+};
 
   return {
     createShop: createShop,
     findShop:findShop,
     uploadShopCover:uploadShopCover,
-    addDish:addDish
+    addDish:addDish,
+    addDishPic:addDishPic
   }
 }

@@ -14,6 +14,7 @@ var multipart = require('connect-multiparty');
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var path = require('path');
 var formidable = require('formidable');
+var util = require('util');
 
 
 var server = http.createServer(app);
@@ -696,8 +697,6 @@ routerRestuarant.route('/createCover')
                 });
             });
             var url = 'http://' + req.headers.host + '/resources/' + fields.shopName + '.jpg';
-
-
             Shop.uploadShopCover(fields.shopName, url, function(err) {
                 if (null == err)
                     res.json({
@@ -713,10 +712,8 @@ routerRestuarant.route('/createCover')
 
 routerRestuarant.route('/createDish')
     .post(function(req, res) {
-
         var dish = req.param('dish', null);
         var shopName = req.param('shopName', null);
-
         for (var i = 0; i < dish.length; i++) {
             Shop.addDish(shopName, dish[i], function(err) {
                 if (null == err)
@@ -732,67 +729,49 @@ routerRestuarant.route('/createDishPic')
         var form = new formidable.IncomingForm();
         form.encoding = 'utf-8';
         form.multiples = true;
-
         form.parse(req, function(err, fields, files) {
-                if (err || !files.file) {
-                    res.json({
-                        succeed: false,
-                        status: 400,
-                        errMsg: "上传失败"
-                    })
-                    return
-                }
-                var goalUrl = './public/resources/' + fields.shopName + '/dish';
-                if (!fs.existsSync(goalUrl)) {
-                    fs.mkdirSync(goalUrl);
-                }
-                console.log("files",files.file)
-            })
-            /*
-        var targetPath = goalUrl + fields.shopName + '.jpg';
-    //copy file
-    // fs.createReadStream(req.files.files.ws.path).pipe(fs.createWriteStream(targetPath));
-    //return file url
-    var tmp_path = files.file.path;
-    console.log(tmp_path)
-    fs.rename(tmp_path, targetPath, function(err) {
-        if (err) throw err;
-        // 删除临时文件夹文件, 
-        fs.unlink(tmp_path, function() {
-            if (err) throw err;
-        });
-    });
-    var url = 'http://' + req.headers.host + '/resources/' + fields.shopName + '.jpg';
-    
+            if (err || !files) {
+                res.json({
+                    succeed: false,
+                    code: 400,
+                    errMsg: "上传失败"
+                })
+                return
+            }
+            var goalUrl = './public/resources/' + fields.shopName + '/';
+            if (!fs.existsSync(goalUrl)) {
+                fs.mkdirSync(goalUrl);
+            }
+            if (!fs.existsSync(goalUrl + '/dishes/')) {
+                fs.mkdirSync(goalUrl + '/dishes/');
+            }
+            for (var key in files) {
+                var targetPath = goalUrl + '/dishes/' + files[key].name;
+                var tmp_path = files[key].path;
+                fs.renameSync(tmp_path, targetPath);
+                var url = 'http://' + req.headers.host + '/resources/' + fields.shopName + '/dishes/' + files[key].name;
+                console.log(url)
+                console.log(key)
+                Shop.addDishPic(fields.shopName, key, url, function(err) {
+                    if (null == err){
+                        res.json({
+                            code: 200
+                        });
+                    }   
+                });
+            }
+        })
 
-    Shop.uploadShopCover(fields.shopName, url, function(err) {
-        //console.log("save image");
-        if (null == err)
-            res.json({
-                code: 200,
-                msg: {
-                    url: url
-                }
-            });
-    })*/
+        /* Shop.uploadShopCover(fields.shopName, url, function(err) {
+             if (null == err)
+                 res.json({
+                     code: 200,
+                     msg: {
+                         url: url
+                     }
+                 });
+         })*/
     })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // REGISTER OUR ROUTES -------------------------------
 app.use('/user', router);
