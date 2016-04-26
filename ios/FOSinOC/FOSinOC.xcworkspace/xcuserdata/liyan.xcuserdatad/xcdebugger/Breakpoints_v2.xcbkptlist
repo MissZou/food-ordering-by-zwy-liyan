@@ -420,11 +420,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FOSinOC/MainView/MainViewController.m"
-            timestampString = "483269277.292875"
+            timestampString = "483348424.776978"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "810"
-            endingLineNumber = "810">
+            startingLineNumber = "850"
+            endingLineNumber = "850">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -434,11 +434,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FOSinOC/MainView/MainViewController.m"
-            timestampString = "483269277.292875"
+            timestampString = "483348424.776978"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "809"
-            endingLineNumber = "809">
+            startingLineNumber = "849"
+            endingLineNumber = "849">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -528,11 +528,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FOSinOC/MainView/MainViewController.m"
-            timestampString = "483269277.292875"
+            timestampString = "483348424.776978"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "595"
-            endingLineNumber = "595">
+            startingLineNumber = "635"
+            endingLineNumber = "635">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -542,11 +542,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FOSinOC/MainView/MainViewController.m"
-            timestampString = "483269277.292875"
+            timestampString = "483348424.776978"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "596"
-            endingLineNumber = "596">
+            startingLineNumber = "636"
+            endingLineNumber = "636">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -636,11 +636,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FOSinOC/MainView/MainViewController.m"
-            timestampString = "483269277.292875"
+            timestampString = "483348424.776978"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
+            startingLineNumber = "225"
+            endingLineNumber = "225"
             landmarkName = "-dropDownMenuClicked:"
             landmarkType = "5">
          </BreakpointContent>
@@ -668,11 +668,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FOSinOC/MainView/MainViewController.m"
-            timestampString = "483269277.292875"
+            timestampString = "483348424.776978"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "207"
-            endingLineNumber = "207"
+            startingLineNumber = "247"
+            endingLineNumber = "247"
             landmarkName = "-searchBarCancelButtonClicked:"
             landmarkType = "5">
          </BreakpointContent>
@@ -684,11 +684,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FOSinOC/MainView/MainViewController.m"
-            timestampString = "483269277.292875"
+            timestampString = "483348424.776978"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "215"
-            endingLineNumber = "215"
+            startingLineNumber = "255"
+            endingLineNumber = "255"
             landmarkName = "-searchBarCancelButtonClicked"
             landmarkType = "5">
          </BreakpointContent>
@@ -700,13 +700,61 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "FOSinOC/MainView/MainViewController.m"
-            timestampString = "483269277.292875"
+            timestampString = "483348424.776978"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "461"
-            endingLineNumber = "461"
+            startingLineNumber = "501"
+            endingLineNumber = "501"
             landmarkName = "-sortBtnClicked"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FOSinOC/MainView/MainViewController.m"
+            timestampString = "483348424.776978"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
+            landmarkName = "-searchBarShouldBeginEditing:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FOSinOC/MainView/MainViewController.m"
+            timestampString = "483348424.776978"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
+            landmarkName = "-searchBarShouldBeginEditing:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FOSinOC/help/SlideMultiView.m"
+            timestampString = "483365530.664243"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
+            landmarkName = "@implementation SlideMultiView"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

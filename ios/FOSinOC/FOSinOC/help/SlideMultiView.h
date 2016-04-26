@@ -8,18 +8,18 @@
 
 #import <UIKit/UIKit.h>
 @class SlideMultiView;
-@protocol SlideButtonDelegate <NSObject>
+@protocol SlideMultiDelegate <NSObject>
 -(void)slideButtionClicked:(NSString *)title;
 
 @end
 
-@interface SlideButtonView : UIView
+@interface SlideMultiView : UIView
 @property(assign,nonatomic) CGFloat buttonWidth;
 
-@property(weak) id<SlideButtonDelegate> delegate;
+@property(weak) id<SlideMultiDelegate> delegate;
 
-+(id)initSlideButton:(NSArray *)buttonTitle;
--(void)initSlideButtonAddTitle:(NSArray *)buttonTitle;
+
+
 -(void)markButtonSelected:(NSInteger)tag;
-
+-(void)initSlideMultiView:(NSArray *)viewControllerArray withTitle:(NSArray *)title;
 @end

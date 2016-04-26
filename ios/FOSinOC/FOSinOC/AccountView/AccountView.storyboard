@@ -299,6 +299,9 @@
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
+                                                    <variation key="widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="22" y="37" width="124" height="34.5"/>
+                                                    </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yxn-04-gmz">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
@@ -354,7 +357,8 @@
                                                             <exclude reference="vUf-2h-tB4"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="widthClass=compact">
+                                                    <variation key="widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="190" y="30" width="30" height="30"/>
                                                         <mask key="constraints">
                                                             <include reference="rPh-pE-T7l"/>
                                                             <include reference="vUf-2h-tB4"/>
@@ -386,6 +390,8 @@
                                                     <exclude reference="ipx-AE-yHy"/>
                                                 </mask>
                                                 <mask key="constraints">
+                                                    <exclude reference="FjM-go-hrw"/>
+                                                    <exclude reference="haa-bm-7ep"/>
                                                     <exclude reference="2Qe-gP-XDJ"/>
                                                     <exclude reference="lHk-7y-mW9"/>
                                                     <exclude reference="Zmt-H5-b22"/>
@@ -394,8 +400,6 @@
                                                     <exclude reference="pNq-1L-95I"/>
                                                     <exclude reference="80y-m2-dI6"/>
                                                     <exclude reference="muW-AB-XFI"/>
-                                                    <exclude reference="FjM-go-hrw"/>
-                                                    <exclude reference="haa-bm-7ep"/>
                                                 </mask>
                                             </variation>
                                             <variation key="widthClass=compact">
@@ -406,6 +410,8 @@
                                                     <include reference="ipx-AE-yHy"/>
                                                 </mask>
                                                 <mask key="constraints">
+                                                    <include reference="FjM-go-hrw"/>
+                                                    <include reference="haa-bm-7ep"/>
                                                     <include reference="2Qe-gP-XDJ"/>
                                                     <include reference="lHk-7y-mW9"/>
                                                     <include reference="Zmt-H5-b22"/>
@@ -414,8 +420,6 @@
                                                     <include reference="pNq-1L-95I"/>
                                                     <include reference="80y-m2-dI6"/>
                                                     <include reference="muW-AB-XFI"/>
-                                                    <include reference="FjM-go-hrw"/>
-                                                    <include reference="haa-bm-7ep"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
