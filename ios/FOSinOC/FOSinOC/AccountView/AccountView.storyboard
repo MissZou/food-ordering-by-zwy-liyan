@@ -386,6 +386,8 @@
                                                     <exclude reference="ipx-AE-yHy"/>
                                                 </mask>
                                                 <mask key="constraints">
+                                                    <exclude reference="FjM-go-hrw"/>
+                                                    <exclude reference="haa-bm-7ep"/>
                                                     <exclude reference="2Qe-gP-XDJ"/>
                                                     <exclude reference="lHk-7y-mW9"/>
                                                     <exclude reference="Zmt-H5-b22"/>
@@ -394,8 +396,6 @@
                                                     <exclude reference="pNq-1L-95I"/>
                                                     <exclude reference="80y-m2-dI6"/>
                                                     <exclude reference="muW-AB-XFI"/>
-                                                    <exclude reference="FjM-go-hrw"/>
-                                                    <exclude reference="haa-bm-7ep"/>
                                                 </mask>
                                             </variation>
                                             <variation key="widthClass=compact">
@@ -406,6 +406,8 @@
                                                     <include reference="ipx-AE-yHy"/>
                                                 </mask>
                                                 <mask key="constraints">
+                                                    <include reference="FjM-go-hrw"/>
+                                                    <include reference="haa-bm-7ep"/>
                                                     <include reference="2Qe-gP-XDJ"/>
                                                     <include reference="lHk-7y-mW9"/>
                                                     <include reference="Zmt-H5-b22"/>
@@ -414,8 +416,6 @@
                                                     <include reference="pNq-1L-95I"/>
                                                     <include reference="80y-m2-dI6"/>
                                                     <include reference="muW-AB-XFI"/>
-                                                    <include reference="FjM-go-hrw"/>
-                                                    <include reference="haa-bm-7ep"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>

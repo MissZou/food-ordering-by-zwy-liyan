@@ -10,10 +10,12 @@
 #define buttonDefaultTag                960
 #define buttonDefaulWidth           50
 
-#import "SlideButtonView.h"
+#import "SlideMultiView.h"
 
-@interface SlideButtonView ()
-@property(strong,nonatomic)NSArray *buttonTitle;
+@interface SlideMultiView ()
+@property(strong,nonatomic)NSMutableArray *viewControllerArray;
+@property(strong,nonatomic)NSMutableArray *buttonTitle;
+
 @property(assign,nonatomic)NSInteger lastSelected;
 @property(strong,nonatomic)UIView *buttonMarkView;
 @property(weak,nonatomic)UIScrollView *buttonScrollView;
@@ -21,19 +23,19 @@
 
 @end
 
-@implementation SlideButtonView
-+(id)initSlideButton:(NSArray *)buttonTitle{
-    return [[self alloc]initSlideButtonConvenience:buttonTitle];
-}
-
--(id)initSlideButtonConvenience:(NSArray *)buttonTitle{
-    if (self = [super init]) {
-        self.buttonTitle = buttonTitle;
-        [self drawScrollView];
-        
-    }
-    return self;
-}
+@implementation SlideMultiView
+//+(id)initSlideButton:(NSArray *)buttonTitle{
+//    return [[self alloc]initSlideButtonConvenience:buttonTitle];
+//}
+//
+//-(id)initSlideButtonConvenience:(NSArray *)buttonTitle{
+//    if (self = [super init]) {
+//        self.buttonTitle = [buttonTitle mutableCopy];
+//        [self drawScrollView];
+//        
+//    }
+//    return self;
+//}
 
 -(id)initWithFrame:(CGRect)frame{
     if(self = [super initWithFrame:frame]){
@@ -42,15 +44,27 @@
     return self;
 }
 
--(void)initSlideButtonAddTitle:(NSArray *)buttonTitle{
+//-(void)initSlideButtonAddTitle:(NSArray *)buttonTitle{
+//    self.lastSelected = -1;
+//    self.buttonTitle = [buttonTitle mutableCopy];
+//    [self drawScrollView];
+//    [self markButtonSelected:0];
+//    
+//}
+
+-(void)initSlideMultiView:(NSArray *)viewControllerArray withTitle:(NSArray *)title{
     self.lastSelected = -1;
-    self.buttonTitle = buttonTitle;
-    [self drawScrollView];
-    [self markButtonSelected:0];
+    self.buttonTitle = [[NSMutableArray alloc]init];
+    self.buttonTitle = [title mutableCopy];
     
+    self.viewControllerArray = [[NSMutableArray alloc]init];
+    self.viewControllerArray = [viewControllerArray mutableCopy];
+    
+    [self drawTitleScrollView];
+    [self markButtonSelected:0];
 }
 
--(void)drawScrollView{
+-(void)drawTitleScrollView{
     UIScrollView *myScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     myScrollView.backgroundColor = [UIColor whiteColor];
     myScrollView.showsVerticalScrollIndicator = NO;
