@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface DetailedChildFoodView : UIViewController
-
+@property(copy,nonatomic)NSString *shopID;
+@property(assign,nonatomic)BOOL isEnableInteraction;
 @end

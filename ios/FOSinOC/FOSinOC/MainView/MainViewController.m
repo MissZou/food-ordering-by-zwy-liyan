@@ -17,7 +17,8 @@
 #import "CatagoryView.h"
 #import "SortView.h"
 #import "UINavigationBar+Awesome.h"
-
+#import "CustomizedSegueLeftToRight.h"
+#import "ShopDetailedViewController.h"
 
 @interface MainViewController ()<UITableViewDelegate, UITableViewDataSource,UISearchBarDelegate,UISearchResultsUpdating,SearchViewHelpControllerDelegate,DropDownViewDelegate,CatagoryViewDelegate,SortViewDelegate>
 @property(strong,nonatomic) Account *myAccount;
@@ -60,6 +61,7 @@
 //@property(strong,nonatomic) SlideButtonView *slideButtonView;
 //test
 @property(copy,nonatomic)NSString *testString;
+@property(strong,nonatomic)NSArray *shoplisttest;
 @end
 
 @implementation MainViewController
@@ -86,10 +88,10 @@
     self.blurEffectViewForSearch = [[UIVisualEffectView alloc] initWithEffect:self.blurEffet];
     self.tapToCloseSearchController = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(searchBarCancelButtonClicked)];
     
-    
     self.tapToCloseMainViewMenu = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideMainViewMenu)];
-
-
+    
+    
+    self.shoplisttest = @[@"viewcontroller",@"storyboard",@"tablevew",@"collectionview"];
     
 }
 
@@ -101,7 +103,7 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    
+    self.mainViewTableView.userInteractionEnabled = true;
     if (self.mainViewTableView.tableHeaderView == nil) {
         [self initTableViewMainHeaderView];
     }
@@ -117,12 +119,12 @@
 }
 
 -(BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{
-    NSLog(@"search bar clicked");
+    
     if (searchBar == self.searchForShop) {
         [self performSegueWithIdentifier:@"searchShop" sender:nil];
     }
     if (searchBar == self.searchController.searchBar) {
-        NSLog(@"search controller clicked");
+        
     }
     return NO;
 }
@@ -194,7 +196,7 @@
     NSMutableArray *locations = [self.myAccount.location mutableCopy];
     [locations insertObject:@"New location" atIndex:0];
     
-    NSLog(@"y %f,height %f",self.navigationController.navigationBar.frame.origin.y,self.navigationController.navigationBar.frame.size.height);
+
     
     if (self.dropDownChooseLocation == nil) {
         CGFloat dropDownFrameHeight = 40 * (CGFloat)locations.count;
@@ -290,7 +292,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 15;
+    return self.shoplisttest.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -333,13 +335,13 @@
         
         imageView.image = [UIImage imageNamed:@"favoriteGreen.png"];
         imageView.tag = tableCellTag+6;
-        
-        if (self.testString !=nil) {
-            name.text = self.testString;
-        }
-        else{
-            name.text = @"shop";
-        }
+        name.text = self.shoplisttest[indexPath.row];
+//        if (self.testString !=nil) {
+//            name.text = self.testString;
+//        }
+//        else{
+//            name.text = @"shop";
+//        }
         
         catagory.text = @"catagory";
         price.text = @"price";
@@ -360,21 +362,37 @@
         UILabel *distance = (UILabel *)[cell.contentView viewWithTag: tableCellTag+4];
         UILabel *heat = (UILabel *)[cell.contentView viewWithTag: tableCellTag+5];
         UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag: tableCellTag+5];
-        //name.text = self.subCatagoryName[indexPath.row];
-        if (self.testString !=nil) {
-            name.text = self.testString;
-        }
-        else{
-            name.text = @"shop";
-        }
+        name.text = self.shoplisttest[indexPath.row];
+//        if (self.testString !=nil) {
+//            name.text = self.testString;
+//        }
+//        else{
+//            name.text = @"shop";
+//        }
     }
     return cell;
+}
+
+-(void)prepareForSegue:(CustomizedSegueLeftToRight *)segue sender:(id)sender{
+    if ([segue.identifier isEqual: @"shopDetail"]) {
+        
+        NSIndexPath *indexPath = [self.mainViewTableView indexPathForCell:sender];
+        NSLog(@"%@",indexPath);
+        ShopDetailedViewController *destinationViewController = segue.destinationViewController;
+        destinationViewController.shopID = self.shoplisttest[indexPath.row];
+        
+    }
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    self.mainViewTableView.userInteractionEnabled = false;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return mainViewcellHeight;
 }
+
 
 //- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 //{

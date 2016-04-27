@@ -42,6 +42,7 @@
 		BA771B781CCF90F700755613 /* DetailedChildFoodView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA771B771CCF90F700755613 /* DetailedChildFoodView.m */; };
 		BA771B7B1CCF911E00755613 /* DetailedChildCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA771B7A1CCF911E00755613 /* DetailedChildCommentView.m */; };
 		BA771B7E1CCF913000755613 /* DetailedChildShopView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA771B7D1CCF913000755613 /* DetailedChildShopView.m */; };
+		BA771B811CD0580100755613 /* SlideMultiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA771B801CD0580100755613 /* SlideMultiViewController.m */; };
 		BA81F6421CB668CB007A8832 /* introductionPic1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BA81F63F1CB668CB007A8832 /* introductionPic1.jpg */; };
 		BA81F6431CB668CB007A8832 /* introductionPic2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BA81F6401CB668CB007A8832 /* introductionPic2.jpg */; };
 		BA81F6441CB668CB007A8832 /* introductionPic3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BA81F6411CB668CB007A8832 /* introductionPic3.jpg */; };
@@ -49,7 +50,6 @@
 		BAD8083B1CC200E500A79DE2 /* AccountAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD808381CC200E500A79DE2 /* AccountAddressViewController.m */; };
 		BAD8083F1CC201C000A79DE2 /* EditAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD8083E1CC201C000A79DE2 /* EditAddressViewController.m */; };
 		BAD808411CC23ED200A79DE2 /* heatBar.png in Resources */ = {isa = PBXBuildFile; fileRef = BAD808401CC23ED200A79DE2 /* heatBar.png */; };
-		BAD808471CC76E2600A79DE2 /* SlideMultiView.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD808461CC76E2600A79DE2 /* SlideMultiView.m */; };
 		BAD8085B1CCA151400A79DE2 /* LeftMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD8084D1CCA151400A79DE2 /* LeftMenuCell.m */; };
 		BAD8085C1CCA151400A79DE2 /* LeftMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD8084F1CCA151400A79DE2 /* LeftMenuViewController.m */; };
 		BAD8085D1CCA151400A79DE2 /* LeftViewTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD808511CCA151400A79DE2 /* LeftViewTableController.m */; };
@@ -140,6 +140,8 @@
 		BA771B7A1CCF911E00755613 /* DetailedChildCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailedChildCommentView.m; sourceTree = "<group>"; };
 		BA771B7C1CCF913000755613 /* DetailedChildShopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailedChildShopView.h; sourceTree = "<group>"; };
 		BA771B7D1CCF913000755613 /* DetailedChildShopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailedChildShopView.m; sourceTree = "<group>"; };
+		BA771B7F1CD0580100755613 /* SlideMultiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideMultiViewController.h; sourceTree = "<group>"; };
+		BA771B801CD0580100755613 /* SlideMultiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideMultiViewController.m; sourceTree = "<group>"; };
 		BA81F63F1CB668CB007A8832 /* introductionPic1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = introductionPic1.jpg; sourceTree = "<group>"; };
 		BA81F6401CB668CB007A8832 /* introductionPic2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = introductionPic2.jpg; sourceTree = "<group>"; };
 		BA81F6411CB668CB007A8832 /* introductionPic3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = introductionPic3.jpg; sourceTree = "<group>"; };
@@ -150,8 +152,6 @@
 		BAD8083D1CC201C000A79DE2 /* EditAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditAddressViewController.h; path = FOSinOC/AccountView/EditAddressViewController.h; sourceTree = SOURCE_ROOT; };
 		BAD8083E1CC201C000A79DE2 /* EditAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EditAddressViewController.m; path = FOSinOC/AccountView/EditAddressViewController.m; sourceTree = SOURCE_ROOT; };
 		BAD808401CC23ED200A79DE2 /* heatBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heatBar.png; sourceTree = "<group>"; };
-		BAD808451CC76E2600A79DE2 /* SlideMultiView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideMultiView.h; sourceTree = "<group>"; };
-		BAD808461CC76E2600A79DE2 /* SlideMultiView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideMultiView.m; sourceTree = "<group>"; };
 		BAD8084C1CCA151400A79DE2 /* LeftMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftMenuCell.h; sourceTree = "<group>"; };
 		BAD8084D1CCA151400A79DE2 /* LeftMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftMenuCell.m; sourceTree = "<group>"; };
 		BAD8084E1CCA151400A79DE2 /* LeftMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftMenuViewController.h; sourceTree = "<group>"; };
@@ -327,8 +327,8 @@
 				BA174A491CBE7B7B00419E3B /* SearchViewHelpController.m */,
 				BA174A511CBF802100419E3B /* CustomizedSegueLeftToRight.h */,
 				BA174A521CBF802100419E3B /* CustomizedSegueLeftToRight.m */,
-				BAD808451CC76E2600A79DE2 /* SlideMultiView.h */,
-				BAD808461CC76E2600A79DE2 /* SlideMultiView.m */,
+				BA771B7F1CD0580100755613 /* SlideMultiViewController.h */,
+				BA771B801CD0580100755613 /* SlideMultiViewController.m */,
 			);
 			name = help;
 			path = FOSinOC/help;
@@ -409,6 +409,12 @@
 		BAD808631CCA154B00A79DE2 /* MainViewHelp */ = {
 			isa = PBXGroup;
 			children = (
+				BA771B761CCF90F700755613 /* DetailedChildFoodView.h */,
+				BA771B771CCF90F700755613 /* DetailedChildFoodView.m */,
+				BA771B791CCF911E00755613 /* DetailedChildCommentView.h */,
+				BA771B7A1CCF911E00755613 /* DetailedChildCommentView.m */,
+				BA771B7C1CCF913000755613 /* DetailedChildShopView.h */,
+				BA771B7D1CCF913000755613 /* DetailedChildShopView.m */,
 				BAD808641CCA15D600A79DE2 /* CatagoryView.h */,
 				BAD808651CCA15D600A79DE2 /* CatagoryView.m */,
 				BAD8086A1CCB598700A79DE2 /* SortView.h */,
@@ -417,12 +423,6 @@
 				BA771B281CCCF5CD00755613 /* MainViewMainHeaderView.m */,
 				BA771B6C1CCF38A700755613 /* SearchShopViewController.h */,
 				BA771B6D1CCF38A700755613 /* SearchShopViewController.m */,
-				BA771B761CCF90F700755613 /* DetailedChildFoodView.h */,
-				BA771B771CCF90F700755613 /* DetailedChildFoodView.m */,
-				BA771B791CCF911E00755613 /* DetailedChildCommentView.h */,
-				BA771B7A1CCF911E00755613 /* DetailedChildCommentView.m */,
-				BA771B7C1CCF913000755613 /* DetailedChildShopView.h */,
-				BA771B7D1CCF913000755613 /* DetailedChildShopView.m */,
 			);
 			path = MainViewHelp;
 			sourceTree = "<group>";
@@ -643,6 +643,7 @@
 			files = (
 				BA1DAE7C1CB662E400CDD6E0 /* TutorialRootViewController.m in Sources */,
 				BAD8085B1CCA151400A79DE2 /* LeftMenuCell.m in Sources */,
+				BA771B811CD0580100755613 /* SlideMultiViewController.m in Sources */,
 				BAD8085D1CCA151400A79DE2 /* LeftViewTableController.m in Sources */,
 				BA771B721CCF478500755613 /* UINavigationBar+Awesome.m in Sources */,
 				BA771B7B1CCF911E00755613 /* DetailedChildCommentView.m in Sources */,
@@ -671,7 +672,6 @@
 				BA1DAE431CB657BE00CDD6E0 /* main.m in Sources */,
 				BA6046D91CBB8B1200A8FD34 /* CreateAccountViewController.m in Sources */,
 				BAD8085F1CCA151400A79DE2 /* MainViewCell.m in Sources */,
-				BAD808471CC76E2600A79DE2 /* SlideMultiView.m in Sources */,
 				BAD8085C1CCA151400A79DE2 /* LeftMenuViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
