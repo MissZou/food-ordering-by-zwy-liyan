@@ -10,6 +10,9 @@ iOS app need to set up node.js server to run fully or you can annotation code at
 And can log into the app.
 
 Now the iOS Objective-C version looks like:
+
 ![Alt Text](https://github.com/Thanatos-L/food-ordering-by-zwy-liyan/blob/master/readme/MainView.gif)
+
 ![Alt Text](https://github.com/Thanatos-L/food-ordering-by-zwy-liyan/blob/master/readme/Login%20and%20Address.gif)
+
 ![Alt Text](https://github.com/Thanatos-L/food-ordering-by-zwy-liyan/blob/master/readme/Detailed%20tableView.gif)
