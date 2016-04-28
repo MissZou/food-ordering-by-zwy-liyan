@@ -17,6 +17,8 @@
 @property(assign,nonatomic)BOOL isSelectCatagory;
 @property(assign, nonatomic)BOOL isLastCatagorySelected;
 @property(assign,nonatomic)BOOL isSendContinueScrolling;
+@property(assign,nonatomic)CGFloat maxOffset;
+@property(strong,nonatomic)UIPanGestureRecognizer *foodTablePanGesture;
 //test
 @property(strong,nonatomic)NSDictionary *foodlist;
 @property(strong,nonatomic)NSArray *catagory;
@@ -37,8 +39,10 @@
     self.catagory = [self.foodlist allKeys];
     [self initTableViews];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disableInteraction) name:@"disableInteraction" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enableInteraction) name:@"enableInteraction" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(triggerNotificationAction:) name:@"enableInteraction" object:nil];
     [self disableInteraction];
+    self.foodTablePanGesture = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(scrollFoodTalbe:)];
+    //[self.foodTable addGestureRecognizer:self.foodTablePanGesture];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -53,18 +57,23 @@
     self.foodTable.frame = CGRectMake(catagoryTalbeWidth, 0, self.view.frame.size.width - catagoryTalbeWidth, self.view.frame.size.height);
     NSLog(@"%f",self.view.frame.size.height);
     NSLog(@"%f",self.foodTable.frame.size.height);
+    
+    self.isSendContinueScrolling = false;
+    
 }
 
 -(void)disableInteraction{
     NSLog(@"Disable Interaction");
     self.foodTable.userInteractionEnabled =false;
-    self.catagoryTable.userInteractionEnabled =false;
+    //self.catagoryTable.userInteractionEnabled =false;
 }
 
 -(void)enableInteraction{
     NSLog(@"Enable Interaction");
+    self.maxOffset = 0;
     self.foodTable.userInteractionEnabled =true;
-    self.catagoryTable.userInteractionEnabled =true;
+    self.isSendContinueScrolling = false;
+    //self.catagoryTable.userInteractionEnabled =true;
 }
 
 -(void)initTableViews{
@@ -171,41 +180,75 @@
     }
 }
 
+-(void)scrollFoodTalbe:(UIPanGestureRecognizer *)panGesture{
+    CGPoint velocity = [panGesture velocityInView:self.view];
+    CGPoint translatedPoint = [panGesture translationInView:self.view];
+    NSLog(@"translated y:%f",translatedPoint.y);
+    NSLog(@"food speed y:%f",velocity.y);
+    NSLog(@"food slide y: %f",self.foodTable.contentOffset.y);
+}
+
 -(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
     self.isSelectCatagory = false;
-    NSLog(@"did end scrolling animation");
+    
+}
+
+-(void) triggerNotificationAction:(NSNotification *) notification
+{
+    if ([notification.object isKindOfClass:[NSNumber class]])
+    {
+        [self enableInteraction];
+        NSNumber *y = [notification object];
+        //NSLog(@"continu to scroll child %f",[y floatValue]);
+        [self.foodTable setContentOffset:CGPointMake(0,  -[y floatValue])];
+    }
+    else
+    {
+        NSLog(@"Error, object not recognised.");
+    }
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     if (scrollView == self.catagoryTable) {
         if (scrollView.contentOffset.y<=0) {
-            [self disableInteraction];
+            //[self disableInteraction];
 //            NSNumber *y = [NSNumber numberWithFloat:scrollView.contentOffset.y];
 //            [[NSNotificationCenter defaultCenter]postNotificationName:@"mainContinueScrolling" object:y];
             
         }
         else{
-            [self enableInteraction];
+           // [self enableInteraction];
         }
         
     }else{
-        NSLog(@"child %f",scrollView.contentOffset.y);
+        //NSLog(@"child %f",scrollView.contentOffset.y);
 
-        if (scrollView.contentOffset.y<=0) {
+        if (scrollView.contentOffset.y<0 ) {
+            //self.foodTable.bounces = NO;
             [self disableInteraction];
             
-            static dispatch_once_t once;
-//            dispatch_once(&once, ^ {
-//
-//            });
-            NSNumber *y = [NSNumber numberWithFloat:scrollView.contentOffset.y];
-            [[NSNotificationCenter defaultCenter]postNotificationName:@"mainContinueScrolling" object:y];
+            if (self.maxOffset > scrollView.contentOffset.y) {
+                
+                self.maxOffset = scrollView.contentOffset.y;
+                
+                //[self.foodTable setContentOffset:CGPointMake(0, 0)];
+                self.isSendContinueScrolling = true;
+                NSNumber *y = [NSNumber numberWithFloat:self.maxOffset];
+                //NSLog(@"maxoffset %f", [y floatValue]);
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"mainContinueScrolling" object:y];
+                if (scrollView.contentOffset.y < -20) {
+                    //[self.foodTable setContentOffset:CGPointMake(0, 0)];
+                }
+            }
+            
+
             
         }
-        else{
+        else if(scrollView.contentOffset.y>0){
             
             [self enableInteraction];
- 
+            self.isSendContinueScrolling = false;
+            self.foodTable.bounces = YES;
         }
         
         
