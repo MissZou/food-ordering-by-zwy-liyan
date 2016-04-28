@@ -91,7 +91,7 @@
     self.tapToCloseMainViewMenu = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideMainViewMenu)];
     
     
-    self.shoplisttest = @[@"viewcontroller",@"storyboard",@"tablevew",@"collectionview"];
+    self.shoplisttest = @[@"Noodle King",@"McDownload",@"KCF",@"Water",@"fat fat",@"MX",@"Asia pacific"];
     
 }
 
