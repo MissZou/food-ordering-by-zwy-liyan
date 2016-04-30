@@ -84,8 +84,9 @@
     [self addChildViewController:self.slideMultiViewController];
     [self.slideMultiViewController initSlideMultiView:viewArray withTitle:title];
     [self.view addSubview:self.slideMultiViewController.view];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(triggerNotificationAction:) name:@"mainContinueScrollingShop" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(triggerNotificationAction:) name:@"mainContinueScrollingFood" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(triggerNotificationAction:) name:@"mainContinueScrollingComment" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(triggerNotificationAction:) name:@"mainContinueScrollingShop" object:nil];
     self.isNotifyScrolling = false;
     
     self.scrollSlideViewGesture = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(scrollSlideView:)];
@@ -129,27 +130,6 @@
     }
 }
 
-//-(void)mainContinueScrolling{
-//     NSLog(@"continu to scroll");
-//     [self.mainScrollView setContentOffset:CGPointMake(0, 95)];
-//    
-//}
-
-
-
-
-//-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-//     NSLog(@"main %f", self.mainScrollView.contentOffset.y);
-//    if (self.mainScrollView.contentOffset.y<99 && !self.isNotifyScrolling) {
-//        [[NSNotificationCenter defaultCenter]postNotificationName:@"disableInteraction" object:nil];
-//        self.isNotifyScrolling = true;
-//    }
-//    else if(self.mainScrollView.contentOffset.y>=100){
-//       
-//        [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteraction" object:nil];
-//        self.isNotifyScrolling = false;
-//    }
-//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -234,6 +214,7 @@
         NSNumber *y = [NSNumber numberWithFloat:translatedPoint.y];
         [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionFood" object:y];
         [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionComment" object:y];
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionShop" object:y];
         
     }
     

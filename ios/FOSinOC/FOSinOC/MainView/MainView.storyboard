@@ -456,6 +456,8 @@
                                         <exclude reference="i50-HY-fQg"/>
                                         <exclude reference="eZ3-8Y-BLC"/>
                                         <exclude reference="j1G-tt-MaV"/>
+                                        <exclude reference="QAK-Pp-q4t"/>
+                                        <exclude reference="zHe-IV-lJZ"/>
                                         <exclude reference="Yhh-I3-yU9"/>
                                         <exclude reference="cv3-dp-mie"/>
                                         <exclude reference="osx-8Q-0Fl"/>
@@ -463,8 +465,6 @@
                                         <exclude reference="Kf4-kt-S2a"/>
                                         <exclude reference="PwG-YH-1l0"/>
                                         <exclude reference="bTG-Fs-pRK"/>
-                                        <exclude reference="QAK-Pp-q4t"/>
-                                        <exclude reference="zHe-IV-lJZ"/>
                                     </mask>
                                 </variation>
                                 <variation key="widthClass=compact">
@@ -478,6 +478,8 @@
                                         <include reference="i50-HY-fQg"/>
                                         <include reference="eZ3-8Y-BLC"/>
                                         <include reference="j1G-tt-MaV"/>
+                                        <include reference="QAK-Pp-q4t"/>
+                                        <include reference="zHe-IV-lJZ"/>
                                         <include reference="Yhh-I3-yU9"/>
                                         <include reference="cv3-dp-mie"/>
                                         <include reference="osx-8Q-0Fl"/>
@@ -485,8 +487,6 @@
                                         <include reference="Kf4-kt-S2a"/>
                                         <include reference="PwG-YH-1l0"/>
                                         <include reference="bTG-Fs-pRK"/>
-                                        <include reference="QAK-Pp-q4t"/>
-                                        <include reference="zHe-IV-lJZ"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -791,6 +791,9 @@
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                             <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
+                                            <variation key="widthClass=compact" misplaced="YES">
+                                                <rect key="frame" x="10" y="0.0" width="222" height="75"/>
+                                            </variation>
                                         </label>
                                     </subviews>
                                     <constraints>

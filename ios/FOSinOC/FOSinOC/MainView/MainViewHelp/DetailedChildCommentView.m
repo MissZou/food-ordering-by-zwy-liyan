@@ -6,6 +6,7 @@
 //  Copyright © 2016年 李龑. All rights reserved.
 //
 #define shopMarkViewHeight 200
+#define segmentViewHeight 100
 
 #import "DetailedChildCommentView.h"
 
@@ -73,7 +74,7 @@
         [self enableInteraction];
         NSNumber *y = [notification object];
         //NSLog(@"continu to scroll child %f",[y floatValue]);
-        [self.commentTableView setContentOffset:CGPointMake(0,  -[y floatValue])];
+        [self.commentTableView setContentOffset:CGPointMake(0,  -[y floatValue] - segmentViewHeight)];
     }
     else
     {
