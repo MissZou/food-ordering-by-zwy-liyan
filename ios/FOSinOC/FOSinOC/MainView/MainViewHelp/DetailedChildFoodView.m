@@ -7,9 +7,6 @@
 //
 
 #define catagoryTalbeWidth 80
-#define slideTitleHeight 40
-#define navigationBarHeight 64
-#define segmentHeight 100
 
 #import "DetailedChildFoodView.h"
 
@@ -21,8 +18,6 @@
 @property(assign, nonatomic)BOOL isLastCatagorySelected;
 @property(assign,nonatomic)BOOL isSendContinueScrolling;
 @property(assign,nonatomic)CGFloat maxOffset;
-@property(assign,nonatomic)CGFloat didSelectCatogoryFoodTableYRecord;
-
 @property(strong,nonatomic)UIPanGestureRecognizer *foodTablePanGesture;
 //test
 @property(strong,nonatomic)NSDictionary *foodlist;
@@ -43,8 +38,8 @@
     self.foodlist = catagory;
     self.catagory = [self.foodlist allKeys];
     [self initTableViews];
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disableInteraction) name:@"disableInteractionFood" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(triggerNotificationAction:) name:@"enableInteractionFood" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disableInteraction) name:@"disableInteraction" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(triggerNotificationAction:) name:@"enableInteraction" object:nil];
     [self disableInteraction];
     self.foodTablePanGesture = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(scrollFoodTalbe:)];
     //[self.foodTable addGestureRecognizer:self.foodTablePanGesture];
@@ -58,28 +53,39 @@
 
 //viewDidAppear called twice??
 -(void)viewDidAppear:(BOOL)animated{
+<<<<<<< HEAD
     self.foodTable.frame = CGRectMake(catagoryTalbeWidth, 0, self.view.frame.size.width - catagoryTalbeWidth, self.view.frame.size.height - navigationBarHeight - segmentHeight);
 //    NSLog(@"%f",self.view.superview.frame.size.height);
 //    NSLog(@"%f",self.view.frame.size.height);
 //    NSLog(@"%f",self.foodTable.frame.size.height);
+=======
+    //[self initTableViews];
+    self.foodTable.frame = CGRectMake(catagoryTalbeWidth, 0, self.view.frame.size.width - catagoryTalbeWidth, self.view.frame.size.height);
+    NSLog(@"%f",self.view.frame.size.height);
+    NSLog(@"%f",self.foodTable.frame.size.height);
+>>>>>>> parent of 153e679... implement comment view and some objects of detailed shop view
     
     self.isSendContinueScrolling = false;
     
 }
 
 -(void)disableInteraction{
-//    NSLog(@"Disable Interaction");
+    NSLog(@"Disable Interaction");
     self.foodTable.userInteractionEnabled =false;
     //self.catagoryTable.userInteractionEnabled =false;
     self.didSelectCatogoryFoodTableYRecord = 0;
 }
 
 -(void)enableInteraction{
-  //  NSLog(@"Enable Interaction");
+    NSLog(@"Enable Interaction");
     self.maxOffset = 0;
     self.foodTable.userInteractionEnabled =true;
     self.isSendContinueScrolling = false;
+<<<<<<< HEAD
     //self.didSelectCatogoryFoodTableYRecord = 0;
+=======
+    //self.catagoryTable.userInteractionEnabled =true;
+>>>>>>> parent of 153e679... implement comment view and some objects of detailed shop view
 }
 
 -(void)initTableViews{
@@ -181,15 +187,8 @@
         if (section +1 == self.catagory.count) {
             [self scrollViewDidEndScrollingAnimation:self.foodTable];
         }
-        if (self.view.superview.frame.origin.y >64) {
-            [self disableInteraction];
-        }
-        
-        
     } else{
         //select food
-        NSArray *food = [self.foodlist valueForKey:self.catagory[indexPath.section]];
-        NSLog(@"%@",food[indexPath.row]);
     }
 }
 
@@ -213,7 +212,11 @@
         [self enableInteraction];
         NSNumber *y = [notification object];
         //NSLog(@"continu to scroll child %f",[y floatValue]);
+<<<<<<< HEAD
         [self.foodTable setContentOffset:CGPointMake(0,  -[y floatValue] + self.didSelectCatogoryFoodTableYRecord - segmentHeight)];
+=======
+        [self.foodTable setContentOffset:CGPointMake(0,  -[y floatValue])];
+>>>>>>> parent of 153e679... implement comment view and some objects of detailed shop view
     }
     else
     {
@@ -234,35 +237,38 @@
         }
         
     }else{
-        NSLog(@"child food talbe offset %f",scrollView.contentOffset.y);
-        if (self.isSelectCatagory) {
-            self.didSelectCatogoryFoodTableYRecord = scrollView.contentOffset.y;
-        }
-        
+        //NSLog(@"child %f",scrollView.contentOffset.y);
+
         if (scrollView.contentOffset.y<0 ) {
+            //self.foodTable.bounces = NO;
             [self disableInteraction];
             
-            //scrollview will have bounce and the contentoffset will change to opposite direction, so use a maxoffest to keep the scroll direction
             if (self.maxOffset > scrollView.contentOffset.y) {
                 
                 self.maxOffset = scrollView.contentOffset.y;
                 
-                
+                //[self.foodTable setContentOffset:CGPointMake(0, 0)];
                 self.isSendContinueScrolling = true;
                 NSNumber *y = [NSNumber numberWithFloat:self.maxOffset];
+<<<<<<< HEAD
                 
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"mainContinueScrollingFood" object:y];
 
+=======
+                //NSLog(@"maxoffset %f", [y floatValue]);
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"mainContinueScrolling" object:y];
+                if (scrollView.contentOffset.y < -20) {
+                    //[self.foodTable setContentOffset:CGPointMake(0, 0)];
+                }
+>>>>>>> parent of 153e679... implement comment view and some objects of detailed shop view
             }
             
 
             
         }
         else if(scrollView.contentOffset.y>0){
-            if (!self.isSelectCatagory) {
-            [self enableInteraction];
-            }
             
+            [self enableInteraction];
             self.isSendContinueScrolling = false;
             self.foodTable.bounces = YES;
         }

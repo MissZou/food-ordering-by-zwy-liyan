@@ -72,21 +72,20 @@
     [self initTitleScrollView];
     //[self initMainScrollView];
     [self markButtonSelected:0];
-    //NSLog(@"slidemenu.m  %f",self.view.frame.size.height);
 }
 
-//-(void)initMainScrollView{
-//    self.mainScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-//    self.mainScrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height+100);
-//    self.mainScrollView.contentOffset = CGPointMake(0, -100);
-//    UIView *segmentView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 100)];
-//    segmentView.backgroundColor = [UIColor orangeColor];
-//    [self.mainScrollView addSubview:segmentView];
-//    self.contentScrollView.scrollEnabled = false;
-//    [self.view addSubview:self.mainScrollView];
-//    [self initContentScrollView];
-//    [self initTitleScrollView];
-//}
+-(void)initMainScrollView{
+    self.mainScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.mainScrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height+100);
+    self.mainScrollView.contentOffset = CGPointMake(0, -100);
+    UIView *segmentView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 100)];
+    segmentView.backgroundColor = [UIColor orangeColor];
+    [self.mainScrollView addSubview:segmentView];
+    self.contentScrollView.scrollEnabled = false;
+    [self.view addSubview:self.mainScrollView];
+    [self initContentScrollView];
+    [self initTitleScrollView];
+}
 
 -(void)initContentScrollView{
     self.contentScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, titleViewHeight, self.view.frame.size.width, self.view.frame.size.height - titleViewHeight)];

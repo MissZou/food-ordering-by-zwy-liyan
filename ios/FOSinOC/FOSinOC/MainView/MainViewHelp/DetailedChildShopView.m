@@ -5,6 +5,7 @@
 //  Created by MoonSlides on 16/4/26.
 //  Copyright © 2016年 李龑. All rights reserved.
 //
+<<<<<<< HEAD
 #define slideTitleHeight 40
 #define navigationBarHeight 64
 #define headViewHeight 100
@@ -12,18 +13,12 @@
 #define basicInfoViewHeight 100
 #define boxMargin 15
 #define segmentViewHeight 100
+=======
+>>>>>>> parent of 153e679... implement comment view and some objects of detailed shop view
 
 #import "DetailedChildShopView.h"
 
-@interface DetailedChildShopView ()<UIScrollViewDelegate>
-@property(strong,nonatomic) UIScrollView *shopScrollView;
-@property(strong,nonatomic) UIView *headView;
-@property(strong,nonatomic) UIView *billboardView;
-@property(strong,nonatomic) UIView *basicInfoView;
-
-@property(strong,nonatomic) UILabel *shopName;
-@property(strong,nonatomic) UILabel *shopMark;
-@property(strong,nonatomic) UIButton *favoriteButton;
+@interface DetailedChildShopView ()
 
 @property(assign,nonatomic)CGFloat maxOffset;
 
@@ -33,6 +28,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+<<<<<<< HEAD
     //self.view.backgroundColor = [UIColor greenColor];
 //    [self.view setNeedsLayout];
 //    [self.view layoutIfNeeded];
@@ -96,11 +92,18 @@
     
 }
 
+=======
+    self.view.backgroundColor = [UIColor greenColor];
+    
+}
+
+>>>>>>> parent of 153e679... implement comment view and some objects of detailed shop view
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+<<<<<<< HEAD
 -(void) triggerNotificationAction:(NSNotification *) notification
 {
     if ([notification.object isKindOfClass:[NSNumber class]])
@@ -132,6 +135,10 @@
         [self enableInteraction];
     }
 
+=======
+-(void)viewDidAppear:(BOOL)animated{
+    
+>>>>>>> parent of 153e679... implement comment view and some objects of detailed shop view
 }
 
 @end

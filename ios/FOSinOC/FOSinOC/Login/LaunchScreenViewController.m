@@ -71,11 +71,11 @@
         if([result valueForKey:@"photoUrl"]!=nil)
             self.avatar.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[result valueForKey:@"photoUrl"]]]];
         self.avatar.hidden = false;
-        [UIView animateWithDuration:0.0 animations:^{ //1.0
+        [UIView animateWithDuration:1.0 animations:^{
             self.avatar.frame = CGRectMake(self.avatar.frame.origin.x, self.avatar.frame.origin.y-25, self.avatar.frame.size.width, self.avatar.frame.size.height);
         }completion:^(BOOL finished) {
             self.nameLabel.hidden = false;
-            [UIView animateWithDuration:0.0 animations:^{ //2.0
+            [UIView animateWithDuration:2.0 animations:^{
                 self.nameLabel.frame = CGRectMake(self.nameLabel.frame.origin.x, self.nameLabel.frame.origin.y - 40, self.nameLabel.frame.size.width, self.nameLabel.frame.size.height);
             }completion:^(BOOL finished){
                 [self performSegueWithIdentifier:@"mainview" sender:nil];

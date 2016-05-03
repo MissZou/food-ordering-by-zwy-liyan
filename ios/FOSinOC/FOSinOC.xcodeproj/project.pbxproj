@@ -43,8 +43,6 @@
 		BA771B7B1CCF911E00755613 /* DetailedChildCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA771B7A1CCF911E00755613 /* DetailedChildCommentView.m */; };
 		BA771B7E1CCF913000755613 /* DetailedChildShopView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA771B7D1CCF913000755613 /* DetailedChildShopView.m */; };
 		BA771B811CD0580100755613 /* SlideMultiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA771B801CD0580100755613 /* SlideMultiViewController.m */; };
-		BA771B841CD2FEE600755613 /* Shop.m in Sources */ = {isa = PBXBuildFile; fileRef = BA771B831CD2FEE600755613 /* Shop.m */; };
-		BA771B871CD3033E00755613 /* Food.m in Sources */ = {isa = PBXBuildFile; fileRef = BA771B861CD3033E00755613 /* Food.m */; };
 		BA81F6421CB668CB007A8832 /* introductionPic1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BA81F63F1CB668CB007A8832 /* introductionPic1.jpg */; };
 		BA81F6431CB668CB007A8832 /* introductionPic2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BA81F6401CB668CB007A8832 /* introductionPic2.jpg */; };
 		BA81F6441CB668CB007A8832 /* introductionPic3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BA81F6411CB668CB007A8832 /* introductionPic3.jpg */; };
@@ -144,10 +142,6 @@
 		BA771B7D1CCF913000755613 /* DetailedChildShopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailedChildShopView.m; sourceTree = "<group>"; };
 		BA771B7F1CD0580100755613 /* SlideMultiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideMultiViewController.h; sourceTree = "<group>"; };
 		BA771B801CD0580100755613 /* SlideMultiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideMultiViewController.m; sourceTree = "<group>"; };
-		BA771B821CD2FEE600755613 /* Shop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shop.h; sourceTree = "<group>"; };
-		BA771B831CD2FEE600755613 /* Shop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Shop.m; sourceTree = "<group>"; };
-		BA771B851CD3033E00755613 /* Food.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Food.h; sourceTree = "<group>"; };
-		BA771B861CD3033E00755613 /* Food.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Food.m; sourceTree = "<group>"; };
 		BA81F63F1CB668CB007A8832 /* introductionPic1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = introductionPic1.jpg; sourceTree = "<group>"; };
 		BA81F6401CB668CB007A8832 /* introductionPic2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = introductionPic2.jpg; sourceTree = "<group>"; };
 		BA81F6411CB668CB007A8832 /* introductionPic3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = introductionPic3.jpg; sourceTree = "<group>"; };
@@ -353,10 +347,6 @@
 			children = (
 				BA6046D41CB8E5CF00A8FD34 /* Account.h */,
 				BA6046D51CB8E5CF00A8FD34 /* Account.m */,
-				BA771B821CD2FEE600755613 /* Shop.h */,
-				BA771B831CD2FEE600755613 /* Shop.m */,
-				BA771B851CD3033E00755613 /* Food.h */,
-				BA771B861CD3033E00755613 /* Food.m */,
 			);
 			name = PersistentLayer;
 			path = FOSinOC/PersistentLayer;
@@ -656,7 +646,6 @@
 				BA771B811CD0580100755613 /* SlideMultiViewController.m in Sources */,
 				BAD8085D1CCA151400A79DE2 /* LeftViewTableController.m in Sources */,
 				BA771B721CCF478500755613 /* UINavigationBar+Awesome.m in Sources */,
-				BA771B841CD2FEE600755613 /* Shop.m in Sources */,
 				BA771B7B1CCF911E00755613 /* DetailedChildCommentView.m in Sources */,
 				BA771B261CCCF04300755613 /* MainViewController.m in Sources */,
 				BAD8086C1CCB598700A79DE2 /* SortView.m in Sources */,
@@ -668,7 +657,6 @@
 				BA174A4A1CBE7B7B00419E3B /* SearchViewHelpController.m in Sources */,
 				BAD8083B1CC200E500A79DE2 /* AccountAddressViewController.m in Sources */,
 				BA174A501CBF7B8D00419E3B /* AccountViewController.m in Sources */,
-				BA771B871CD3033E00755613 /* Food.m in Sources */,
 				BAD808611CCA151400A79DE2 /* MainViewRootViewController.m in Sources */,
 				BA771B751CCF49A900755613 /* ShopDetailedViewController.m in Sources */,
 				BA6046D61CB8E5CF00A8FD34 /* Account.m in Sources */,
