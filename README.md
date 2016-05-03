@@ -12,5 +12,7 @@ And can log into the app.
 Now the iOS Objective-C version looks like:
 
 ![Alt Text](https://github.com/Thanatos-L/food-ordering-by-zwy-liyan/blob/master/readme/login.gif)
+
 ![Alt Text](https://github.com/Thanatos-L/food-ordering-by-zwy-liyan/blob/master/readme/MainView.gif)
+
 ![Alt Text](https://github.com/Thanatos-L/food-ordering-by-zwy-liyan/blob/master/readme/detailedview.gif)
