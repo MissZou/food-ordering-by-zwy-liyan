@@ -5,24 +5,24 @@
 //  Created by MoonSlides on 16/4/26.
 //  Copyright © 2016年 李龑. All rights reserved.
 //
-<<<<<<< HEAD
 #define shopMarkViewHeight 200
-#define segmentViewHeight 100
-=======
->>>>>>> parent of 153e679... implement comment view and some objects of detailed shop view
 
 #import "DetailedChildCommentView.h"
 
-@interface DetailedChildCommentView ()
-
+@interface DetailedChildCommentView ()<UITableViewDelegate, UITableViewDataSource>
+@property(strong,nonatomic)UIView *shopMarkView;
+@property(strong,nonatomic)UITableView *commentTableView;
+@property(assign,nonatomic)CGFloat maxOffset;
 @end
 
 @implementation DetailedChildCommentView
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor yellowColor];
+    [self initCommentView];
     // Do any additional setup after loading the view.
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disableInteraction) name:@"disableInteractionComment" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(triggerNotificationAction:) name:@"enableInteractionComment" object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -31,7 +31,6 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-<<<<<<< HEAD
     self.commentTableView.userInteractionEnabled = false;
 }
 
@@ -74,7 +73,7 @@
         [self enableInteraction];
         NSNumber *y = [notification object];
         //NSLog(@"continu to scroll child %f",[y floatValue]);
-        [self.commentTableView setContentOffset:CGPointMake(0,  -[y floatValue] - segmentViewHeight)];
+        [self.commentTableView setContentOffset:CGPointMake(0,  -[y floatValue])];
     }
     else
     {
@@ -112,9 +111,8 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"commentCell" forIndexPath:indexPath];
     
     cell.textLabel.text = @"comment";
-=======
->>>>>>> parent of 153e679... implement comment view and some objects of detailed shop view
     
+    return cell;
 }
 
 @end

@@ -314,6 +314,63 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HGh-2p-Xb1" userLabel="TopView">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OoS-HT-ECP" userLabel="TopViewSubView">
+                                        <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PmV-gP-cqu">
+                                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="46" id="8jg-WP-znC"/>
+                                                    <constraint firstAttribute="height" constant="30" id="Edm-Y6-4kV"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
+                                                <state key="normal" title="Share">
+                                                    <color key="titleColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <variation key="default">
+                                                    <mask key="constraints">
+                                                        <exclude reference="8jg-WP-znC"/>
+                                                        <exclude reference="Edm-Y6-4kV"/>
+                                                    </mask>
+                                                </variation>
+                                                <variation key="widthClass=compact">
+                                                    <mask key="constraints">
+                                                        <include reference="8jg-WP-znC"/>
+                                                        <include reference="Edm-Y6-4kV"/>
+                                                    </mask>
+                                                </variation>
+                                                <connections>
+                                                    <action selector="topViewSubViewShareButtonClicked:" destination="fjb-aI-gX6" eventType="touchUpInside" id="kJV-dB-7qP"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="200" id="87V-2q-fzj"/>
+                                            <constraint firstItem="PmV-gP-cqu" firstAttribute="top" secondItem="OoS-HT-ECP" secondAttribute="top" constant="7" id="Z0c-zS-5r4"/>
+                                            <constraint firstAttribute="trailing" secondItem="PmV-gP-cqu" secondAttribute="trailing" constant="54" id="wjr-qE-X5d"/>
+                                        </constraints>
+                                        <variation key="default">
+                                            <mask key="subviews">
+                                                <exclude reference="PmV-gP-cqu"/>
+                                            </mask>
+                                            <mask key="constraints">
+                                                <exclude reference="87V-2q-fzj"/>
+                                                <exclude reference="Z0c-zS-5r4"/>
+                                                <exclude reference="wjr-qE-X5d"/>
+                                            </mask>
+                                        </variation>
+                                        <variation key="widthClass=compact">
+                                            <mask key="subviews">
+                                                <include reference="PmV-gP-cqu"/>
+                                            </mask>
+                                            <mask key="constraints">
+                                                <include reference="87V-2q-fzj"/>
+                                                <include reference="Z0c-zS-5r4"/>
+                                                <include reference="wjr-qE-X5d"/>
+                                            </mask>
+                                        </variation>
+                                    </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M0d-1K-ODQ">
                                         <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                         <constraints>
@@ -340,24 +397,65 @@
                                             <action selector="dismissViewController:" destination="fjb-aI-gX6" eventType="touchUpInside" id="hc3-pM-tlE"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ShopName" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8un-NI-myK">
+                                        <rect key="frame" x="-42" y="-21" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                        <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="krX-Fm-8dl">
+                                        <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="30" id="cr9-MH-6B0"/>
+                                            <constraint firstAttribute="height" constant="20" id="lts-b2-GU3"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                        <state key="normal" title="...">
+                                            <color key="titleColor" red="0.27058823529999998" green="0.32549019610000002" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="cr9-MH-6B0"/>
+                                                <exclude reference="lts-b2-GU3"/>
+                                            </mask>
+                                        </variation>
+                                        <variation key="widthClass=compact">
+                                            <mask key="constraints">
+                                                <include reference="cr9-MH-6B0"/>
+                                                <include reference="lts-b2-GU3"/>
+                                            </mask>
+                                        </variation>
+                                        <connections>
+                                            <action selector="topViewMenuButtonClicked:" destination="fjb-aI-gX6" eventType="touchUpInside" id="lmM-Km-rl7"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
-                                <color key="backgroundColor" red="1" green="0.37193336199999999" blue="0.36972421309999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="OoS-HT-ECP" secondAttribute="trailing" id="Kf4-kt-S2a"/>
+                                    <constraint firstItem="OoS-HT-ECP" firstAttribute="top" secondItem="HGh-2p-Xb1" secondAttribute="top" constant="20" id="PwG-YH-1l0"/>
+                                    <constraint firstItem="krX-Fm-8dl" firstAttribute="top" secondItem="HGh-2p-Xb1" secondAttribute="top" constant="27" id="QAK-Pp-q4t"/>
+                                    <constraint firstItem="8un-NI-myK" firstAttribute="top" secondItem="M0d-1K-ODQ" secondAttribute="top" id="Yhh-I3-yU9"/>
+                                    <constraint firstAttribute="bottom" secondItem="OoS-HT-ECP" secondAttribute="bottom" id="bTG-Fs-pRK"/>
+                                    <constraint firstItem="8un-NI-myK" firstAttribute="leading" secondItem="M0d-1K-ODQ" secondAttribute="trailing" constant="30" id="cv3-dp-mie"/>
                                     <constraint firstItem="M0d-1K-ODQ" firstAttribute="top" secondItem="HGh-2p-Xb1" secondAttribute="top" constant="27" id="eZ3-8Y-BLC"/>
                                     <constraint firstAttribute="height" constant="64" id="i50-HY-fQg"/>
                                     <constraint firstItem="M0d-1K-ODQ" firstAttribute="leading" secondItem="HGh-2p-Xb1" secondAttribute="leading" constant="15" id="j1G-tt-MaV"/>
+                                    <constraint firstItem="8un-NI-myK" firstAttribute="bottom" secondItem="M0d-1K-ODQ" secondAttribute="bottom" id="osx-8Q-0Fl"/>
+                                    <constraint firstItem="8un-NI-myK" firstAttribute="centerX" secondItem="HGh-2p-Xb1" secondAttribute="centerX" id="pEF-oB-tR4"/>
+                                    <constraint firstAttribute="trailing" secondItem="krX-Fm-8dl" secondAttribute="trailing" constant="15" id="zHe-IV-lJZ"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="subviews">
+                                        <exclude reference="OoS-HT-ECP"/>
                                         <exclude reference="M0d-1K-ODQ"/>
+                                        <exclude reference="8un-NI-myK"/>
+                                        <exclude reference="krX-Fm-8dl"/>
                                     </mask>
                                     <mask key="constraints">
                                         <exclude reference="i50-HY-fQg"/>
                                         <exclude reference="eZ3-8Y-BLC"/>
                                         <exclude reference="j1G-tt-MaV"/>
-<<<<<<< HEAD
-                                        <exclude reference="QAK-Pp-q4t"/>
-                                        <exclude reference="zHe-IV-lJZ"/>
                                         <exclude reference="Yhh-I3-yU9"/>
                                         <exclude reference="cv3-dp-mie"/>
                                         <exclude reference="osx-8Q-0Fl"/>
@@ -365,21 +463,21 @@
                                         <exclude reference="Kf4-kt-S2a"/>
                                         <exclude reference="PwG-YH-1l0"/>
                                         <exclude reference="bTG-Fs-pRK"/>
-=======
->>>>>>> parent of 153e679... implement comment view and some objects of detailed shop view
+                                        <exclude reference="QAK-Pp-q4t"/>
+                                        <exclude reference="zHe-IV-lJZ"/>
                                     </mask>
                                 </variation>
                                 <variation key="widthClass=compact">
                                     <mask key="subviews">
+                                        <include reference="OoS-HT-ECP"/>
                                         <include reference="M0d-1K-ODQ"/>
+                                        <include reference="8un-NI-myK"/>
+                                        <include reference="krX-Fm-8dl"/>
                                     </mask>
                                     <mask key="constraints">
                                         <include reference="i50-HY-fQg"/>
                                         <include reference="eZ3-8Y-BLC"/>
                                         <include reference="j1G-tt-MaV"/>
-<<<<<<< HEAD
-                                        <include reference="QAK-Pp-q4t"/>
-                                        <include reference="zHe-IV-lJZ"/>
                                         <include reference="Yhh-I3-yU9"/>
                                         <include reference="cv3-dp-mie"/>
                                         <include reference="osx-8Q-0Fl"/>
@@ -387,8 +485,8 @@
                                         <include reference="Kf4-kt-S2a"/>
                                         <include reference="PwG-YH-1l0"/>
                                         <include reference="bTG-Fs-pRK"/>
-=======
->>>>>>> parent of 153e679... implement comment view and some objects of detailed shop view
+                                        <include reference="QAK-Pp-q4t"/>
+                                        <include reference="zHe-IV-lJZ"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -420,6 +518,11 @@
                             </mask>
                         </variation>
                     </view>
+                    <connections>
+                        <outlet property="topViewMenuButton" destination="krX-Fm-8dl" id="6Xl-gt-4Rw"/>
+                        <outlet property="topViewNameLabel" destination="8un-NI-myK" id="mAH-bc-40l"/>
+                        <outlet property="topViewSubView" destination="OoS-HT-ECP" id="H0F-9u-AbC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yQQ-pa-576" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -688,9 +791,6 @@
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                             <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
-                                            <variation key="widthClass=compact" misplaced="YES">
-                                                <rect key="frame" x="10" y="0.0" width="222" height="75"/>
-                                            </variation>
                                         </label>
                                     </subviews>
                                     <constraints>
