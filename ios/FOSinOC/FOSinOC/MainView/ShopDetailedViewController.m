@@ -13,15 +13,27 @@
 #import "DetailedChildFoodView.h"
 #import "DetailedChildShopView.h"
 #import "DetailedChildCommentView.h"
+#import "UINavigationBar+Awesome.h"
 
 #import "Shop.h"
 @interface ShopDetailedViewController ()<UIScrollViewDelegate,UIGestureRecognizerDelegate>
 
 @property(nonatomic,strong) Shop *myShop;
-@property (weak, nonatomic) IBOutlet UILabel *topViewNameLabel;
-@property (weak, nonatomic) IBOutlet UIButton *topViewMenuButton;
-@property (weak, nonatomic) IBOutlet UIView *topViewSubView;
+//@property (weak, nonatomic) IBOutlet UILabel *topViewNameLabel;
+//@property (weak, nonatomic) IBOutlet UIButton *topViewMenuButton;
+//@property (weak, nonatomic) IBOutlet UIView *topViewSubView;
+@property(strong,nonatomic) UILabel *naviShopName;
+@property(strong,nonatomic) UIView *naviRightViewSmall;
+@property(strong,nonatomic) UIBarButtonItem *rightBarItemSmall;
+@property(strong,nonatomic) UIView *naviRightViewFull;
+@property(strong,nonatomic) UIBarButtonItem *rightBarItemFull;
+@property(strong,nonatomic) UIButton *naviMenuButton;
 
+
+@property (strong,nonatomic)UIScreenEdgePanGestureRecognizer *edgePanGesture;
+@property CGPoint startLocation;
+@property CGPoint currentLocation;
+@property CGFloat swipeOffset;
 
 //slideMenu view ====================================
 @property(strong,nonatomic) UIScrollView *mainScrollView;
@@ -49,6 +61,40 @@
     [super viewDidLoad];
     self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height + sdSegmentViewHeight);
     [self initDetailedChildFoodView];
+
+    NSLog(@"shop id %@",self.shopID);
+    //[[self navigationController] setNavigationBarHidden:YES animated:NO];
+    [self initNavigationBar];
+  
+}
+
+-(void)initNavigationBar{
+    
+    self.naviShopName = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 200, 30)];
+    self.naviShopName.text = @"shopName";
+    self.naviShopName.textAlignment = NSTextAlignmentCenter;
+    self.naviShopName.backgroundColor = [UIColor redColor];
+    
+    self.navigationItem.titleView = self.naviShopName;
+    self.naviRightViewSmall = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 40, 30)];
+    self.naviRightViewSmall.backgroundColor = [UIColor blueColor];
+    self.rightBarItemSmall = [[UIBarButtonItem alloc]initWithCustomView:self.naviRightViewSmall];
+    self.naviMenuButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40, 30)];
+    [self.naviMenuButton setTitle:@"..." forState:UIControlStateNormal];
+    [self.naviRightViewSmall addSubview:self.naviMenuButton];
+    //self.navigationItem.rightBarButtonItem = self.rightBarItemSmall;
+    
+    self.naviRightViewFull = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 160, 30)];
+    self.naviRightViewFull.backgroundColor = [UIColor blackColor];
+    self.rightBarItemFull = [[UIBarButtonItem alloc]initWithCustomView:self.naviRightViewFull];
+    
+    self.navigationItem.rightBarButtonItem = self.rightBarItemFull;
+    
+    //[self.navigationController.navigationBar lt_setBackgroundColor:[UIColor blueColor]];
+    self.naviShopName.alpha = 0;
+    self.naviRightViewSmall.alpha = 0;
+    self.naviRightViewFull.alpha = 1;
+    //self.naviRightView.alpha = 0;
 }
 
 -(void)initDetailedChildFoodView{
@@ -65,8 +111,7 @@
     [self.segmentView addSubview:shopName];
     [self.view addSubview:self.segmentView];
     
-    self.topViewMenuButton.alpha = 0;
-    self.topViewNameLabel.alpha = 0;
+
     
 //slideMenu view ====================================
     self.foodView = [[DetailedChildFoodView alloc]init];
@@ -95,29 +140,40 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
      self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height + sdSegmentViewHeight);
-    NSLog(@"shop detail %f",self.slideMultiViewController.view.frame.size.height);
-    NSLog(@"shop detail %f",self.view.frame.size.height);
+    //NSLog(@"shop detail %f",self.slideMultiViewController.view.frame.size.height);
+    //NSLog(@"shop detail %f",self.view.frame.size.height);
+       // [self initNavigationBar];
+    self.naviShopName.alpha = 0;
+    self.naviRightViewSmall.alpha = 0;
+    self.naviRightViewFull.alpha = 1;
     
 }
 
+//- (void)viewWillDisappear:(BOOL)animated
+//{
+//    [super viewWillDisappear:animated];
+//    [self.navigationController.navigationBar lt_reset];
+//}
+
 -(void) triggerNotificationAction:(NSNotification *) notification
 {
-    if ([notification.object isKindOfClass:[NSNumber class]])
-    {
-        NSNumber *y = [notification object];
-        NSLog(@"notification main %f",[y floatValue]);
+    if ([notification.object isKindOfClass:[NSArray class]]){
+        NSArray *param = [notification object];
+        NSNumber *y = [param objectAtIndex:0];
+       // NSValue *velocityInValue = [param objectAtIndex:1];
+       // CGPoint velocity = velocityInValue.CGPointValue;
         self.slideMenuFrameY = self.slideMultiViewController.view.frame.origin.y;
         self.slideMultiViewController.view.frame = CGRectMake(0, 65 - [y floatValue], self.view.frame.size.width, self.view.frame.size.height - sdNavigationBarHeight-sdSegmentViewHeight);
         [self hideSegmentView:self.slideMultiViewController.view.frame.origin.y];
         [self hideTopview:self.slideMultiViewController.view.frame.origin.y];
-        
+
         if(self.slideMultiViewController.view.frame.origin.y > sdNavigationBarHeight+sdSegmentViewHeight)
         {
             [UIView animateWithDuration:0.25 animations:^{
                 self.slideMultiViewController.view.frame = CGRectMake(0, sdNavigationBarHeight+sdSegmentViewHeight, self.view.frame.size.width, self.view.frame.size.height - sdNavigationBarHeight-sdSegmentViewHeight);
                 [self hideSegmentView:sdNavigationBarHeight+sdSegmentViewHeight];
             }];
-            
+
         }
         
         NSLog(@"continu to scroll y: %f",self.slideMultiViewController.view.frame.origin.y);
@@ -129,101 +185,81 @@
     }
 }
 
-//-(void)mainContinueScrolling{
-//     NSLog(@"continu to scroll");
-//     [self.mainScrollView setContentOffset:CGPointMake(0, 95)];
-//    
-//}
-
-
-
-
-//-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-//     NSLog(@"main %f", self.mainScrollView.contentOffset.y);
-//    if (self.mainScrollView.contentOffset.y<99 && !self.isNotifyScrolling) {
-//        [[NSNotificationCenter defaultCenter]postNotificationName:@"disableInteraction" object:nil];
-//        self.isNotifyScrolling = true;
-//    }
-//    else if(self.mainScrollView.contentOffset.y>=100){
-//       
-//        [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteraction" object:nil];
-//        self.isNotifyScrolling = false;
-//    }
-//}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
     
 }
 
-- (IBAction)dismissViewController:(id)sender {
-    CATransition *transition = [CATransition new];
-    transition.duration = 0.35;
-    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
-    transition.type = kCATransitionReveal;
-    transition.subtype = kCATransitionFromLeft;
-    
-    UIWindow *containerWindow = self.view.window;
-    [containerWindow.layer addAnimation:transition forKey:nil];
-    [self dismissViewControllerAnimated:false completion:nil];
-}
 
-- (IBAction)topViewMenuButtonClicked:(id)sender {
-}
-- (IBAction)topViewSubViewShareButtonClicked:(id)sender {
-}
 
 -(void)hideTopview:(CGFloat) alpha{
-    alpha = (alpha - 134)/30;
+    NSLog(@"orign alpha %f",alpha);
+    alpha = (alpha - 64)/100;
+    float adjustAlpha;
     if (alpha < 0) {
         alpha = 0;
     }
-    self.topViewNameLabel.alpha =1 - alpha;
-    self.topViewMenuButton.alpha =1 - alpha;
+    if (alpha < 0.5) {
+        self.navigationItem.rightBarButtonItem = self.rightBarItemSmall;
+        self.navigationItem.titleView = self.naviShopName;
+        self.naviShopName.frame = CGRectMake(0, 0, 200, 30);
+        self.naviShopName.alpha =0;
+        self.naviRightViewSmall.alpha = 0;
+        
+        adjustAlpha = (alpha)/0.5;
+        self.naviShopName.alpha =1 - adjustAlpha;
+        self.naviRightViewSmall.alpha = 1 - adjustAlpha;
+        
+    }
+    if(alpha > 0.5){
+        self.navigationItem.rightBarButtonItem = self.rightBarItemFull;
+        self.navigationItem.titleView = nil;
+        if (alpha>1) {
+            adjustAlpha = 1;
+        }
+        else{
+            adjustAlpha = (alpha - 0.5)/0.5;
+        }
+        self.naviRightViewFull.alpha = adjustAlpha;
+    }
+    NSLog(@"right small %f",self.naviRightViewSmall.alpha);
+    NSLog(@"title %f",self.naviShopName.alpha);
+    NSLog(@"alpha %f",alpha);
 }
 
 
 -(void)hideSegmentView:(CGFloat) alpha{
     
     self.segmentView.alpha = (alpha - 64)/100;
-    self.topViewSubView.alpha = (alpha - 64)/100;
+    //self.topViewSubView.alpha = (alpha - 64)/100;
     if (alpha <= 164.0) {
         self.segmentView.frame = CGRectMake(0, alpha-100, self.segmentView.frame.size.width, self.segmentView.frame.size.width);
     }
-    
 }
-
 
 -(void)scrollSlideView:(UIPanGestureRecognizer *) panGesture{
     
     CGPoint velocity = [panGesture velocityInView:self.view];
     CGPoint translatedPoint = [panGesture translationInView:self.view];
-    
-    
-    
+
     if(velocity.y*self.lastVeclocity.y > 0)
     {
-        
         self.isChangeScrollDirection = false;
     }
     else
     {
-        
         self.isChangeScrollDirection = true;
     }
     
     self.lastVeclocity = velocity;
     
-    
-    
     if (panGesture.state == UIGestureRecognizerStateBegan) {
         self.slideMenuFrameY = self.slideMultiViewController.view.frame.origin.y;
     }
     
-    
     if (self.slideMultiViewController.view.frame.origin.y <sdNavigationBarHeight+sdSegmentViewHeight +60 && self.slideMultiViewController.view.frame.origin.y>sdNavigationBarHeight ) {
-        NSLog(@"move frame");
+        
         self.slideMultiViewController.view.frame = CGRectMake(0, self.slideMenuFrameY + translatedPoint.y, self.view.frame.size.width, self.view.frame.size.height - sdNavigationBarHeight-sdSegmentViewHeight);
     }
     
@@ -267,11 +303,10 @@
     
     [self hideSegmentView:self.slideMultiViewController.view.frame.origin.y];
     [self hideTopview:self.slideMultiViewController.view.frame.origin.y];
-    NSLog(@"translatedPoint y:%f",translatedPoint.y);
-    NSLog(@"speed y:%f",velocity.y);
-    NSLog(@"slide y: %f",self.slideMultiViewController.view.frame.origin.y);
+//    NSLog(@"translatedPoint y:%f",translatedPoint.y);
+//    NSLog(@"speed y:%f",velocity.y);
+//    NSLog(@"slide y: %f",self.slideMultiViewController.view.frame.origin.y);
 }
-
 
 
 @end

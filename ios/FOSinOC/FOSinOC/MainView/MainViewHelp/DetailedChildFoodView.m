@@ -247,15 +247,15 @@
                 
                 self.maxOffset = scrollView.contentOffset.y;
                 
-                
                 self.isSendContinueScrolling = true;
-                NSNumber *y = [NSNumber numberWithFloat:self.maxOffset];
                 
-                [[NSNotificationCenter defaultCenter]postNotificationName:@"mainContinueScrollingShop" object:y];
+                NSNumber *y = [NSNumber numberWithFloat:self.maxOffset];
+                CGPoint velocity = [self.foodTable.panGestureRecognizer velocityInView:self.foodTable];
+                NSValue *velocityInValue = [NSValue valueWithCGPoint:velocity];
+                NSArray *scrollParam = [NSArray arrayWithObjects:y,velocityInValue, nil];
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"mainContinueScrollingShop" object:scrollParam];
 
             }
-            
-
             
         }
         else if(scrollView.contentOffset.y>0){

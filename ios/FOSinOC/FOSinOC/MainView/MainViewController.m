@@ -92,7 +92,9 @@
     
     
     self.shoplisttest = @[@"Noodle King",@"McDownload",@"KCF",@"Water",@"fat fat",@"MX",@"Asia pacific"];
-    
+    UIBarButtonItem *backBarButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:NULL];
+    self.navigationItem.backBarButtonItem = backBarButton;
+    self.navigationItem.backBarButtonItem.tintColor = [UIColor whiteColor];
 }
 
 
@@ -112,7 +114,7 @@
         [self drawfloatMenuView];
     }
     
-    
+    [self.navigationController.navigationBar lt_reset];
 }
 - (IBAction)openMenu:(id)sender {
     [[NSNotificationCenter defaultCenter]postNotificationName:@"toggleMenu" object:nil];
@@ -373,7 +375,7 @@
     return cell;
 }
 
--(void)prepareForSegue:(CustomizedSegueLeftToRight *)segue sender:(id)sender{
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqual: @"shopDetail"]) {
         
         NSIndexPath *indexPath = [self.mainViewTableView indexPathForCell:sender];
