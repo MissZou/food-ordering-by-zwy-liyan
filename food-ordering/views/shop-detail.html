@@ -168,7 +168,25 @@
         padding: 20px 0 10px 15px;
         font-size: 20px;
     }
+    #shop-cart{
+    z-index: 102;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 20pc;
+    height: 46px;
+    font-size: 14px;
+    background: red;
+    }
+#circle{
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	background: blue;
+}
+
     </style>
+
 </head>
 
 <body>
@@ -351,8 +369,10 @@
             </div>
         </div>
     </div>
+    <div id="shop-cart"></div>
 </body>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="jquery.fly.min.js"></script>
 <script>
 	$(function(){
 		var shopmenuNav=$(".shopmenu-nav");
@@ -384,14 +404,40 @@
 				currentLink.removeClass("active");
 				shopmenuNav.find("[href="+ currentId +"]").addClass("active");
 			}
-
-
-
 		});
 
 		$(".shopmenu-nav a").on("click",function(){
 			$(this).addClass("active").siblings().removeClass("active");
 		})
+
+
+$('.shop-cartbutton').on('click', addProduct);
+
+function addProduct(e){
+	if($(this).text()!="加入购物车"){return false;}
+
+    var flyer = $('<div id="circle"></div>');
+  flyer.fly({
+    start: {
+      left: e.clientX,
+      top: e.clientY
+    },
+    end: {
+
+      left: $("#shop-cart")[0].getBoundingClientRect().left+15,
+      top: $("#shop-cart")[0].getBoundingClientRect().top+15
+   
+    },
+    onEnd: function(){
+    	$("#shop-cart").height(200);
+    	flyer.remove();
+    }
+  });
+
+
+}
+
+
 	})
 </script>
 </html>
