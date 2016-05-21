@@ -28,6 +28,7 @@
 @property(strong,nonatomic) UIView *naviRightViewFull;
 @property(strong,nonatomic) UIBarButtonItem *rightBarItemFull;
 @property(strong,nonatomic) UIButton *naviMenuButton;
+@property(strong,nonatomic) UIButton *naviShareButton;
 
 
 @property (strong,nonatomic)UIScreenEdgePanGestureRecognizer *edgePanGesture;
@@ -73,21 +74,28 @@
     self.naviShopName = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 200, 30)];
     self.naviShopName.text = @"shopName";
     self.naviShopName.textAlignment = NSTextAlignmentCenter;
-    self.naviShopName.backgroundColor = [UIColor redColor];
+    //self.naviShopName.backgroundColor = [UIColor redColor];
     
     self.navigationItem.titleView = self.naviShopName;
     self.naviRightViewSmall = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 40, 30)];
-    self.naviRightViewSmall.backgroundColor = [UIColor blueColor];
-    self.rightBarItemSmall = [[UIBarButtonItem alloc]initWithCustomView:self.naviRightViewSmall];
+    //self.naviRightViewSmall.backgroundColor = [UIColor blueColor];
+    
     self.naviMenuButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40, 30)];
     [self.naviMenuButton setTitle:@"..." forState:UIControlStateNormal];
+    [self.naviMenuButton addTarget:self action:@selector(naviMenuButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.naviMenuButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [self.naviRightViewSmall addSubview:self.naviMenuButton];
+    self.rightBarItemSmall = [[UIBarButtonItem alloc]initWithCustomView:self.naviRightViewSmall];
     //self.navigationItem.rightBarButtonItem = self.rightBarItemSmall;
     
     self.naviRightViewFull = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 160, 30)];
-    self.naviRightViewFull.backgroundColor = [UIColor blackColor];
+    //self.naviRightViewFull.backgroundColor = [UIColor blackColor];
+    self.naviShareButton = [[UIButton alloc]initWithFrame:CGRectMake(120, 0, 40, 30)];
+    [self.naviShareButton setTitle:@"share" forState:UIControlStateNormal];
+    [self.naviShareButton addTarget:self action:@selector(naviShareButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.naviShareButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [self.naviRightViewFull addSubview:self.naviShareButton];
     self.rightBarItemFull = [[UIBarButtonItem alloc]initWithCustomView:self.naviRightViewFull];
-    
     self.navigationItem.rightBarButtonItem = self.rightBarItemFull;
     
     //[self.navigationController.navigationBar lt_setBackgroundColor:[UIColor blueColor]];
@@ -176,12 +184,12 @@
 
         }
         
-        NSLog(@"continu to scroll y: %f",self.slideMultiViewController.view.frame.origin.y);
+        //NSLog(@"continu to scroll y: %f",self.slideMultiViewController.view.frame.origin.y);
         
     }
     else
     {
-        NSLog(@"Error, object not recognised.");
+       //NSLog(@"Error, object not recognised.");
     }
 }
 
@@ -194,7 +202,7 @@
 
 
 -(void)hideTopview:(CGFloat) alpha{
-    NSLog(@"orign alpha %f",alpha);
+    //NSLog(@"orign alpha %f",alpha);
     alpha = (alpha - 64)/100;
     float adjustAlpha;
     if (alpha < 0) {
@@ -223,9 +231,9 @@
         }
         self.naviRightViewFull.alpha = adjustAlpha;
     }
-    NSLog(@"right small %f",self.naviRightViewSmall.alpha);
-    NSLog(@"title %f",self.naviShopName.alpha);
-    NSLog(@"alpha %f",alpha);
+//    NSLog(@"right small %f",self.naviRightViewSmall.alpha);
+//    NSLog(@"title %f",self.naviShopName.alpha);
+//    NSLog(@"alpha %f",alpha);
 }
 
 
@@ -308,5 +316,12 @@
 //    NSLog(@"slide y: %f",self.slideMultiViewController.view.frame.origin.y);
 }
 
+-(void)naviMenuButtonClicked{
+    NSLog(@"naviMenuButtonClicked");
+}
+
+-(void)naviShareButtonClicked{
+    NSLog(@"naviShareButtonClicked");
+}
 
 @end

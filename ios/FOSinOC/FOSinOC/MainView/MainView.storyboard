@@ -206,7 +206,7 @@
                                 <variation key="widthClass=compact">
                                     <mask key="constraints">
                                         <include reference="3VY-XS-hDy"/>
-                                        <include reference="rdw-mz-WNJ"/>
+                                        <exclude reference="rdw-mz-WNJ"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -260,7 +260,7 @@
                                 </variation>
                                 <variation key="widthClass=compact">
                                     <mask key="constraints">
-                                        <include reference="dAq-Y5-VPa"/>
+                                        <exclude reference="dAq-Y5-VPa"/>
                                         <include reference="q3R-YA-aX8"/>
                                     </mask>
                                 </variation>
