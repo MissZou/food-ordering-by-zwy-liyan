@@ -64,20 +64,23 @@
     NSLog(@"%f",self.view.frame.size.height);
     NSLog(@"%f",self.foodTable.frame.size.height);
     
-    self.isSendContinueScrolling = false;
+    //self.isSendContinueScrolling = false;
+    [self.foodTable setScrollEnabled:false];
     
 }
 
 -(void)disableInteraction{
 //    NSLog(@"Disable Interaction");
-    self.foodTable.userInteractionEnabled =false;
+    //self.foodTable.userInteractionEnabled =false;
+    [self.foodTable setScrollEnabled:false];
     //self.catagoryTable.userInteractionEnabled =false;
 }
 
 -(void)enableInteraction{
   //  NSLog(@"Enable Interaction");
     self.maxOffset = 0;
-    self.foodTable.userInteractionEnabled =true;
+    //self.foodTable.userInteractionEnabled =true;
+    [self.foodTable setScrollEnabled:true];
     self.isSendContinueScrolling = false;
     self.didSelectCatogoryFoodTableYRecord = 0;
 }
