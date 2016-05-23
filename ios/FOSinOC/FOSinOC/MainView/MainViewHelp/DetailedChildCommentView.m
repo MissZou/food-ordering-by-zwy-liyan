@@ -90,7 +90,11 @@
         if (self.maxOffset > scrollView.contentOffset.y) {
             self.maxOffset = scrollView.contentOffset.y;
             NSNumber *y = [NSNumber numberWithFloat:self.maxOffset];
-            [[NSNotificationCenter defaultCenter]postNotificationName:@"mainContinueScrollingComment" object:y];
+            CGPoint velocity = [self.commentTableView.panGestureRecognizer velocityInView:self.commentTableView];
+            NSValue *velocityInValue = [NSValue valueWithCGPoint:velocity];
+            NSArray *scrollParam = [NSArray arrayWithObjects:y,velocityInValue, nil];
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"mainContinueScrollingShop" object:scrollParam];
+
         }
     }
     else if(scrollView.contentOffset.y>0){

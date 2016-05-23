@@ -17,6 +17,8 @@
     "morgan": "~1.0.0",
     "nodemailer": "0.7.1",
     "socket.io": "^1.4.5",
-    "formidable":"*"
+    "formidable":"*",
+    "request":">2.5",
+    "url":"*"
   }
 }

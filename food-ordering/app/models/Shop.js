@@ -1,7 +1,8 @@
 module.exports = function( mongoose) {
   var ShopSchema = new mongoose.Schema({
     shopName:     { type: String, unique: true },
-    location:     { type: String},
+    address:     { type: String},
+    location:{type:Array},
     shopPicUrl:      {type: String},
     shopPicTrueUrl:{type: String},
     mark:  { type: String},
@@ -19,10 +20,12 @@ module.exports = function( mongoose) {
   });
 
   var Shop = mongoose.model('Shop', ShopSchema);
+//  var Product = require('ProductModel')(mongoose);
 
-  var createShop = function(shopName, location, shopPicUrl, open,shopType,res, callback) {
+  var createShop = function(shopName, address,location, shopPicUrl, open,shopType,res, callback) {
     var shopInstance = new Shop({
       shopName: shopName,
+      address: address,
       location: location,
       shopPicUrl: shopPicUrl,
       open:open,

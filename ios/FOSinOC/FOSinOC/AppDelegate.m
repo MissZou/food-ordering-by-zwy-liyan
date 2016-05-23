@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "SSKeychain/SSKeychain.h"
-@interface AppDelegate ()
+@interface AppDelegate ()//<UINavigationControllerDelegate>
 
 @end
 
@@ -24,6 +24,7 @@
     
     [SSKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlocked];
     
+    //[(UINavigationController*)self.window.rootViewController setDelegate:self];
     return YES;
 }
 
@@ -47,6 +48,10 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+- (UIInterfaceOrientationMask)navigationControllerSupportedInterfaceOrientations:(UINavigationController *)navigationController
+{
+    return navigationController.topViewController.supportedInterfaceOrientations;
 }
 
 @end
