@@ -63,13 +63,13 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-
+    [self.delegate finishChooseLocationWithLocation:self.suggestedLocations[indexPath.row]];
 
 }
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     NSDictionary *parameters = @{@"locaiton": searchText};
-    NSLog(@"%@",searchText);
+    //NSLog(@"%@",searchText);
     NSString *URLString = @"http://localhost:8080/location/findlocation";
     
     [[AFHTTPRequestSerializer serializer] requestWithMethod:@"POST" URLString:URLString parameters:parameters error:nil];
@@ -85,11 +85,11 @@
         } else {
             //NSLog(@"%@",responseObject);
             self.suggestedLocations =[responseObject valueForKey:@"res"];
-            for(NSDictionary *loc in self.suggestedLocations){
-                NSLog(@"%@",[loc valueForKey:@"name"]);
-                NSLog(@"%@",[loc valueForKey:@"location"]);
-                
-            }
+//            for(NSDictionary *loc in self.suggestedLocations){
+//                NSLog(@"%@",[loc valueForKey:@"name"]);
+//                NSLog(@"%@",[loc valueForKey:@"location"]);
+//                
+//            }
             [self.delegate finishSearchLocationWithResult:self.suggestedLocations];
         }
     }];
@@ -97,11 +97,6 @@
     
 }
 
--(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
-    NSLog(@"text end editing");
-}
-//-(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    return nil;
-//}
+
 
 @end

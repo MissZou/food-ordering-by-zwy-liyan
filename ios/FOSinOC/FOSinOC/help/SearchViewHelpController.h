@@ -13,7 +13,7 @@
 
 @optional
 -(void) finishSearchLocationWithResult:(NSArray *)result;
-
+-(void) finishChooseLocationWithLocation:(NSDictionary *)location;
 @end
 
 @interface SearchViewHelpController : NSObject<UITableViewDelegate, UITableViewDataSource,UISearchBarDelegate,UISearchDisplayDelegate, UISearchResultsUpdating>

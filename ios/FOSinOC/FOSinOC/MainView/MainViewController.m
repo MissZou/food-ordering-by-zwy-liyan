@@ -9,10 +9,13 @@
 #define mainViewcellHeight 100
 #define floatViewHeight 40
 
+#import "Account.h"
+#import "Shop.h"
+
 #import "MainViewController.h"
 #import "MainViewCell.h"
 #import "DropDownView.h"
-#import "Account.h"
+
 #import "SearchViewHelpController.h"
 #import "CatagoryView.h"
 #import "SortView.h"
@@ -20,8 +23,9 @@
 #import "CustomizedSegueLeftToRight.h"
 #import "ShopDetailedViewController.h"
 
-@interface MainViewController ()<UITableViewDelegate, UITableViewDataSource,UISearchBarDelegate,UISearchResultsUpdating,SearchViewHelpControllerDelegate,DropDownViewDelegate,CatagoryViewDelegate,SortViewDelegate>
+@interface MainViewController ()<UITableViewDelegate, UITableViewDataSource,UISearchBarDelegate,UISearchResultsUpdating,SearchViewHelpControllerDelegate,DropDownViewDelegate,CatagoryViewDelegate,SortViewDelegate,ShopDelegate>
 @property(strong,nonatomic) Account *myAccount;
+@property(strong,nonatomic) Shop *myShop;
 
 @property (weak, nonatomic) IBOutlet UITableView *mainViewTableView;
 
@@ -61,7 +65,7 @@
 //@property(strong,nonatomic) SlideButtonView *slideButtonView;
 //test
 @property(copy,nonatomic)NSString *testString;
-@property(strong,nonatomic)NSArray *shoplisttest;
+@property(strong,nonatomic)NSMutableArray *shopList;
 @end
 
 @implementation MainViewController
@@ -76,6 +80,9 @@
     self.myAccount = [Account sharedManager];
     self.myAccount.delegate = nil;
     [self.myAccount checkLogin];
+    self.myShop = [Shop sharedManager];
+    self.myShop.delegate = self;
+    
     self.searchViewHelpController = [[SearchViewHelpController alloc]init];
     self.searchViewHelpController.delegate = self;
     
@@ -93,7 +100,7 @@
     self.tapToCloseMainViewMenu = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideMainViewMenu)];
     
     
-    self.shoplisttest = @[@"Noodle King",@"McDownload",@"KCF",@"Water",@"fat fat",@"MX",@"Asia pacific"];
+
     UIBarButtonItem *backBarButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:NULL];
     self.navigationItem.backBarButtonItem = backBarButton;
     self.navigationItem.backBarButtonItem.tintColor = [UIColor whiteColor];
@@ -117,7 +124,9 @@
     }
     
     [self.navigationController.navigationBar lt_reset];
-    
+
+    [self initLocation];
+
 }
 - (IBAction)openMenu:(id)sender {
     [[NSNotificationCenter defaultCenter]postNotificationName:@"toggleMenu" object:nil];
@@ -174,6 +183,23 @@
     [self.floatMenuView addSubview:self.sortBtn];
     [self.floatMenuView addSubview:self.filterBtn];
     [self.view addSubview:self.floatMenuView];
+}
+
+-(void)initLocation{
+    if ([self.myAccount.location count] == 0) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Choose a location" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            [self.chooseLocationBtn sendActionsForControlEvents:UIControlEventTouchUpInside];
+        }];
+        
+        [alert addAction:defaultAction];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+    else{
+        [self.myShop searchShopByLocation:[self.myAccount.location[0] valueForKey:@"coordinate"] withdistance:[NSNumber numberWithFloat:3.0]];
+        [self.chooseLocationBtn setTitle:[self.myAccount.location[0] valueForKey:@"name"] forState:UIControlStateNormal];
+    }
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
@@ -294,11 +320,11 @@
 
 
 -(void)finishSearchLocationWithResult:(NSArray *)result{
-    for(NSDictionary *loc in result){
-        NSLog(@"%@",[loc valueForKey:@"name"]);
-        NSLog(@"%@",[loc valueForKey:@"location"]);
-        
-    }
+//    for(NSDictionary *loc in result){
+//        NSLog(@"%@",[loc valueForKey:@"name"]);
+//        NSLog(@"%@",[loc valueForKey:@"location"]);
+//        
+//    }
     if ([result count]*40*1.5>self.view.frame.size.height - 64) {
         self.searchTableView.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 64);
     }
@@ -307,16 +333,25 @@
     }
     
     [self.searchTableView reloadData];
-
-    //[self searchBarCancelButtonClicked];
 }
 
+-(void)finishChooseLocationWithLocation:(NSDictionary *)location{
+    [self searchBarCancelButtonClicked];
+    NSLog(@"%@",[location valueForKey:@"name"]);
+    NSLog(@"%@",[location valueForKey:@"location"]);
+    NSArray *coordinate = @[[[location valueForKey:@"location"] valueForKey:@"lat"],[[location valueForKey:@"location"] valueForKey:@"lng"]];
+    [self.myShop searchShopByLocation:coordinate withdistance:[NSNumber numberWithFloat:5.0]];
+}
 
-
+-(void)finishSearchShops:(NSDictionary *)shops{
+    self.shopList = [[shops valueForKey:@"shop"] mutableCopy];
+    NSLog(@"%@",self.shopList);
+    [self.mainViewTableView reloadData];
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.shoplisttest.count;
+    return self.shopList.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -359,7 +394,7 @@
         
         imageView.image = [UIImage imageNamed:@"favoriteGreen.png"];
         imageView.tag = tableCellTag+6;
-        name.text = self.shoplisttest[indexPath.row];
+        name.text = [self.shopList[indexPath.row] valueForKey:@"shopName"];
 //        if (self.testString !=nil) {
 //            name.text = self.testString;
 //        }
@@ -386,7 +421,7 @@
         UILabel *distance = (UILabel *)[cell.contentView viewWithTag: tableCellTag+4];
         UILabel *heat = (UILabel *)[cell.contentView viewWithTag: tableCellTag+5];
         UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag: tableCellTag+5];
-        name.text = self.shoplisttest[indexPath.row];
+        name.text = [self.shopList[indexPath.row] valueForKey:@"shopName"];
 //        if (self.testString !=nil) {
 //            name.text = self.testString;
 //        }
@@ -403,7 +438,7 @@
         NSIndexPath *indexPath = [self.mainViewTableView indexPathForCell:sender];
         NSLog(@"%@",indexPath);
         ShopDetailedViewController *destinationViewController = segue.destinationViewController;
-        destinationViewController.shopID = self.shoplisttest[indexPath.row];
+        destinationViewController.shopID = [self.shopList[indexPath.row] valueForKey:@"shopName"];
         
     }
 }
@@ -416,31 +451,6 @@
 {
     return mainViewcellHeight;
 }
-
-
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-//{
-//    if (section == 0) {
-//        return 100;
-//    }
-//    return 0;
-//}
-
-//-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-//{
-//    //self.mainViewTableView.tableHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 0.1)];
-//    if (section == 0) {
-//        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 50)];
-//        [view setBackgroundColor:[UIColor yellowColor]];
-//        
-//        
-//        return view;
-//    }
-//    else{
-//        return nil;
-//    }
-//    
-//}
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -481,7 +491,7 @@
 
 -(void)catagoryBtnClicked{
     
-    NSLog(@"catagory clicked");
+    //NSLog(@"catagory clicked");
     NSDictionary *fastFood = @{@"All":@246,@"Famous Brand":@128,@"Over Rice":@115,@"Noodes":@27,@"Pot Food":@24,@"Dumplings":@12};
     NSDictionary *feature = @{@"All":@138,@"Sea Food":@58,@"Sichuan":@37,@"Toast Fish":@27,@"Guangdong":@14,@"Muslim":@12};
     NSDictionary *foreigner = @{@"All":@43,@"Korea":@25,@"Japan":@13,@"West":@8,@"Spaghetti":@1};
@@ -489,7 +499,7 @@
     NSDictionary *drink = @{@"All":@84,@"Juice":@53,@"Cafee":@31};
     NSDictionary *catagory2 = @{@"All Shop":@500,@"fastFood":fastFood,@"feature":feature,@"foreigner":foreigner,@"dessert":dessert,@"drink":drink};
     
-    NSLog(@"%@",catagory2);
+    //NSLog(@"%@",catagory2);
     
     if (self.sortView != nil) {
         [self hideMainViewMenu];

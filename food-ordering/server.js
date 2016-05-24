@@ -695,17 +695,16 @@ routerRestuarant.route('/create')
         // });
 
 
-        for (var i = 0; i <15000 ; i++) {
-            // var rand1 = Math.floor(Math.random()*100000000).toString();
-            // var rand2 = Math.floor(Math.random()*100000000).toString();
-            // var rand1 = (Math.random()*360 -180);
-            // var rand2 = (Math.random()*360 -180);
+        for (var i = 0; i <100000 ; i++) {
+            var rand2 = (Math.random()*(117.4-115.7+1)+115.7);
+            var rand1 = (Math.random()*(41.6-39.4+1)+39.4);
             //var location = [116.331398,39.897445];
-            var rand1 = (Math.random()*(41-38+1)+39);
-            var rand2 = (Math.random()*(120-110+1)+110);
+            // var rand1 = (Math.random()*(41-38+1)+39);
+            // var rand2 = (Math.random()*(120-110+1)+110);
 
             location = [rand1,rand2];
-                    Shop.createShop(rand1, address,location, shopPicUrl, open, shopType, res, function(err) {
+
+                    Shop.createShop(Math.random().toString(36).substring(7), address,location, shopPicUrl, open, shopType, res, function(err) {
             if (err == null) {
                 Shop.findShop(shopName, function(doc) {
                     res.json({
@@ -833,14 +832,40 @@ routerRestuarant.route('/createDishPic')
                      }
                  });
          })*/
-    })
+    });
+routerRestuarant.route('/findshops')
+.post(function(req,res){
+    
+    var distance = req.param('distance', null);
+    var coordinateTemp = req.param('coordinate', null);
+    console.log(typeof coordinateTemp);
+    console.log(coordinateTemp);
+    
+    var coordinate = JSON.stringify(coordinateTemp);
+    coordinate = coordinate.split(',');
+    coordinate[0] = coordinate[0].replace(/[^0-9.]/g,'');
+    coordinate[1] = coordinate[1].replace(/[^0-9.]/g,'');
+    
+     console.log(coordinate[0]);
+     console.log(coordinate[1]);
+    
+    if (coordinate !=null && distance !=null) {
+        var location = [Number(coordinate[0]),Number(coordinate[1])];
+        Shop.queryNearShops(location,distance,function(doc){
+           res.json({
+               shop:doc
+            })
+          })  
+      }  
+      
+});
 // location routers-----------------------------------
 routerLocation.route('/findlocation')
 
     .post(function(req,res){
 
      var searchLocation = req.param('locaiton');  
-     console.log(searchLocation);
+     
       request(
         { method: 'GET',
           header : {'Content-Type' : 'application/json; charset=UTF-8'},
@@ -858,27 +883,28 @@ routerLocation.route('/findlocation')
           json:true,
         }
       , function (error, response, body) {
+        //console.log(response);
           res.charset = 'UTF-8';
-          res.json({
-            res:response.body.result
-          })
-
+          if (response) {
+            var result = response.body.result;
+            for(var i = 0;i<result.length;i++){
+                 if (result[i].location == null) {
+                    console.log(result[i].name);
+                    result.splice(i,1);
+                    i=-1;continue;
+                }
+            }
+                res.json({
+                res:result
+              })
+              
+              
+          }
         }
       )
 
     });
-routerLocation.route('/findshops')
-.post(function(req,res){
 
-      var distance = req.param('distance', null);
-      var coordinate = req.param('coordinate', null);
-      var location = [Number(coordinate.split(',')[0]),Number(coordinate.split(',')[1])];
-      Shop.queryNearShops(location,distance,function(doc){
-        res.json({
-            shop:doc
-        })
-      })
-});
 // REGISTER OUR ROUTES -------------------------------
 app.use('/user', router);
 app.use('/shop', routerRestuarant);
