@@ -85,6 +85,8 @@
     [self.blurEffectView addGestureRecognizer:self.tapToCloseChooseLocation];
     
     self.searchController = [[UISearchController alloc]initWithSearchResultsController:nil];
+    self.searchController.searchBar.delegate = self.searchViewHelpController;
+    
     self.blurEffectViewForSearch = [[UIVisualEffectView alloc] initWithEffect:self.blurEffet];
     self.tapToCloseSearchController = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(searchBarCancelButtonClicked)];
     
@@ -115,6 +117,7 @@
     }
     
     [self.navigationController.navigationBar lt_reset];
+    
 }
 - (IBAction)openMenu:(id)sender {
     [[NSNotificationCenter defaultCenter]postNotificationName:@"toggleMenu" object:nil];
@@ -196,8 +199,13 @@
 - (IBAction)chooseLocation:(id)sender {
     [self.myAccount checkLogin];
     NSMutableArray *locations = [self.myAccount.location mutableCopy];
-    [locations insertObject:@"New location" atIndex:0];
+    if (locations == nil) {
+        locations = @[@"New location"];
+    }else{
+        [locations insertObject:@"New location" atIndex:0];    
+    }
     
+   // NSLog(locations);
 
     
     if (self.dropDownChooseLocation == nil) {
@@ -239,7 +247,8 @@
 
 -(void)dropDownMenuDelete:(DropDownView *)sender withString:(NSString *)string{
     //delete method
-    [self.myAccount location:DELETE withLocation:string];
+     NSDictionary *location = @{@"name": string,@"coordinate":@"0,0"};
+    [self.myAccount location:DELETE withLocation:location];
     self.dropDownChooseLocation.dropDownTableView.frame = CGRectMake(0, 0, self.chooseLocationBtn.superview.frame.size.width, 60 * (CGFloat)self.myAccount.location.count);
     [self.chooseLocationBtn setTitle:@"Choose location ▾" forState:UIControlStateNormal];
 }
@@ -264,7 +273,8 @@
 
 -(void)initSearchTableView{
     
-    self.searchTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, 2*40*1.5)];// 2 is results number
+    self.searchTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, 0)];
+    self.searchTableView.contentSize = CGSizeMake(self.view.frame.size.width, 3000);
     self.blurEffectViewForSearch.frame = CGRectMake(self.view.bounds.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height);
     //self.blurEffectViewForSearch.userInteractionEnabled = NO;
     [self.blurEffectViewForSearch addGestureRecognizer:self.tapToCloseSearchController];
@@ -282,11 +292,23 @@
     
 }
 
--(void)finishSearchWithResult:(NSString *)result{
-    NSLog(@"search result %@",result);
-    self.testString = result;
-    [self.mainViewTableView reloadData];
-    [self searchBarCancelButtonClicked];
+
+-(void)finishSearchLocationWithResult:(NSArray *)result{
+    for(NSDictionary *loc in result){
+        NSLog(@"%@",[loc valueForKey:@"name"]);
+        NSLog(@"%@",[loc valueForKey:@"location"]);
+        
+    }
+    if ([result count]*40*1.5>self.view.frame.size.height - 64) {
+        self.searchTableView.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 64);
+    }
+    else{
+        self.searchTableView.frame = CGRectMake(0, 64, self.view.frame.size.width, [result count]*40*1.5);
+    }
+    
+    [self.searchTableView reloadData];
+
+    //[self searchBarCancelButtonClicked];
 }
 
 

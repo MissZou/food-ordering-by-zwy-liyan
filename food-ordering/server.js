@@ -573,10 +573,14 @@ router.route('/account/location')
     .put(function(req, res) {
         var accountId = req.decoded._id;
         //var accountId = req.session.user._id;
-        var location = req.param("location", null);
-        if (location != null && location != "") {
-            Account.addLocation(accountId, location, function(doc) {
-                if (doc == null) {
+        var locationName = req.param("name", null);
+        var coordinateString = req.param("coordinate", null);
+        var coordinate = [Number(coordinateString.split(',')[0]),Number(coordinateString.split(',')[1])];
+        //console.log('account/location'+coordinate.split(',')[0]);
+
+        if (locationName != null && locationName != "") {
+            Account.addLocation(accountId, locationName,coordinate, function(err) {
+                if (err == null) {
                     Account.findAccountById(accountId, function(doc) {
                         res.json({
                             accountId: doc._id,
@@ -584,6 +588,11 @@ router.route('/account/location')
                             success: true
                         });
                     })
+                }else{
+                    res.json({
+                            err: err,
+                            success: false
+                        });
                 }
             });
         }
@@ -593,18 +602,23 @@ router.route('/account/location')
 .delete(function(req, res) {
     //console.log(req);
     var accountId = req.decoded._id;
-    var location = req.param("location", null);
-    if (location != null && location != "") {
-        Account.deleteLocation(accountId, location, function(doc) {
-            if (doc == null) {
-                Account.findAccountById(accountId, function(doc) {
+    var locationName = req.param("name", null);
+    if (locationName != null && locationName != "") {
+        Account.deleteLocation(accountId, locationName, function(err) {
+                if (err == null) {
+                    Account.findAccountById(accountId, function(doc) {
+                        res.json({
+                            accountId: doc._id,
+                            location: doc.location,
+                            success: true
+                        });
+                    })
+                }else{
                     res.json({
-                        accountId: doc._id,
-                        location: doc.location,
-                        success: true
-                    });
-                })
-            }
+                            err: err,
+                            success: false
+                        });
+                }
         });
     }
 });
@@ -672,43 +686,50 @@ routerRestuarant.route('/create')
         //         })
         //     } else{
         //             res.json({
-        //                 code: 200,
+        //                 code: 400,
         //                 shop: err,
-        //                 success: true
+        //                 success: false
         //             })
         //     }
 
         // });
 
 
-        for (var i = 0; i <50 ; i++) {
-            var rand1 = Math.floor(Math.random()*100000000).toString();
-            var rand2 = Math.floor(Math.random()*100000000).toString();
+        for (var i = 0; i <15000 ; i++) {
+            // var rand1 = Math.floor(Math.random()*100000000).toString();
+            // var rand2 = Math.floor(Math.random()*100000000).toString();
+            // var rand1 = (Math.random()*360 -180);
+            // var rand2 = (Math.random()*360 -180);
+            //var location = [116.331398,39.897445];
+            var rand1 = (Math.random()*(41-38+1)+39);
+            var rand2 = (Math.random()*(120-110+1)+110);
+
             location = [rand1,rand2];
                     Shop.createShop(rand1, address,location, shopPicUrl, open, shopType, res, function(err) {
             if (err == null) {
                 Shop.findShop(shopName, function(doc) {
-                    // res.json({
-                    //     code: 200,
-                    //     shop: doc,
-                    //     success: true
-                    // })
+                    res.json({
+                        code: 200,
+                        shop: doc,
+                        success: true
+                    })
                 })
             } else{
-                    // res.json({
-                    //     code: 200,
-                    //     shop: err,
-                    //     success: true
-                    // })
+                    res.json({
+                        code: 200,
+                        shop: err,
+                        success: true
+                    })
             }
 
         });
         }
-         res.json({
-                        code: 200,
-            
-                        success: true
-                    })
+         // res.json({
+         //                code: 200,
+         //                err: err,
+         //                shop:doc,
+         //                success: true
+         //            })
     })
 
 
@@ -814,11 +835,12 @@ routerRestuarant.route('/createDishPic')
          })*/
     })
 // location routers-----------------------------------
-routerLocation.route('/bmap')
+routerLocation.route('/findlocation')
 
     .post(function(req,res){
 
-     var searchLcation = req.param('searchLocation');  
+     var searchLocation = req.param('locaiton');  
+     console.log(searchLocation);
       request(
         { method: 'GET',
           header : {'Content-Type' : 'application/json; charset=UTF-8'},
@@ -827,7 +849,7 @@ routerLocation.route('/bmap')
               host: 'api.map.baidu.com',
               pathname: '/place/v2/suggestion',
               query: {
-                  query: searchLcation,
+                  query: searchLocation,
                   region: '全国',
                   output: 'json',
                   ak: 't7vL8QtOIrdigs8b4l0rKwTreBGWFFhN',
@@ -836,51 +858,26 @@ routerLocation.route('/bmap')
           json:true,
         }
       , function (error, response, body) {
-
+          res.charset = 'UTF-8';
           res.json({
             res:response.body.result
           })
+
         }
       )
 
     });
-routerLocation.route('/bmap2')
+routerLocation.route('/findshops')
 .post(function(req,res){
 
-    
-    request(
-    { method: 'POST'
-    , uri: encodeURI('http://api.map.baidu.com/direction/v1/routematrix?output=json&origins=天安门%7C鸟巢&destinations=北京大学%7C东方明珠&ak=t7vL8QtOIrdigs8b4l0rKwTreBGWFFhN')
-
-    }
-  , function (error, response, body) {
-        res.send(response);
-        console.log(response);
-    }
-  )
-      //   request(
-      //   { method: 'GET',
-      //     header : {'Content-Type' : 'application/json; charset=UTF-8'},
-      //     uri: URL.format({
-      //         protocol: 'http',
-      //         host: 'api.map.baidu.com',
-      //         pathname: '/place/v2/suggestion',
-      //         query: {
-      //             query: searchLcation,
-      //             region: '全国',
-      //             output: 'json',
-      //             ak: 't7vL8QtOIrdigs8b4l0rKwTreBGWFFhN',
-      //         }
-      //     }),
-      //     json:true,
-      //   }
-      // , function (error, response, body) {
-
-      //     res.json({
-      //       res:response.body.result
-      //     })
-      //   }
-      // )
+      var distance = req.param('distance', null);
+      var coordinate = req.param('coordinate', null);
+      var location = [Number(coordinate.split(',')[0]),Number(coordinate.split(',')[1])];
+      Shop.queryNearShops(location,distance,function(doc){
+        res.json({
+            shop:doc
+        })
+      })
 });
 // REGISTER OUR ROUTES -------------------------------
 app.use('/user', router);

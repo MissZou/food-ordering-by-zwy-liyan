@@ -93,7 +93,7 @@
     return YES;
 }
 
--(void)finishFetchAccountData:(NSDictionary *)result withAccount:(Account *)myAccount{
+-(BOOL)finishFetchAccountData:(NSDictionary *)result withAccount:(Account *)myAccount{
    
     //BOOL success = [result valueForKey:@"success"];
     //NSLog([[[result valueForKey:@"success"] class] description]);
@@ -119,6 +119,7 @@
             [self presentViewController:alert animated:YES completion:nil];
         });
     }
+    return true;
 }
 
 @end

@@ -12,11 +12,11 @@
 @protocol SearchViewHelpControllerDelegate <NSObject>
 
 @optional
--(void) finishSearchWithResult:(NSString *)result;
+-(void) finishSearchLocationWithResult:(NSArray *)result;
 
 @end
 
-@interface SearchViewHelpController : NSObject<UITableViewDelegate, UITableViewDataSource,UISearchBarDelegate, UISearchResultsUpdating>
+@interface SearchViewHelpController : NSObject<UITableViewDelegate, UITableViewDataSource,UISearchBarDelegate,UISearchDisplayDelegate, UISearchResultsUpdating>
 
 @property(weak) id<SearchViewHelpControllerDelegate> delegate;
 
