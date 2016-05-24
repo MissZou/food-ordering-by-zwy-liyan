@@ -2,7 +2,7 @@ module.exports = function( mongoose) {
   var ShopSchema = new mongoose.Schema({
     shopName:     { type: String, unique: true },
     address:     { type: String},
-    location:{type:Array},
+    location:{type:[Number],index: '2d'},
     shopPicUrl:      {type: String},
     shopPicTrueUrl:{type: String},
     mark:  { type: String},
@@ -76,11 +76,31 @@ var addDishPic = function(shopName, key,url, callback) {
   })
 };
 
+var queryNearShops = function(loc,distance,callback){
+//   var options = { near: location, maxDistance: 1000000 };
+//   Shop.geoNear(location, { maxDistance : 100000000, spherical : false }, function(err, results, stats) {
+//    console.log(results);
+//    console.log(err);
+//    console.log(stats);
+//    callback(results);
+// });
+var maxDistance = distance;
+  Shop.find({location:{$near:loc,$maxDistance: maxDistance}}).limit(15).exec(function(err, doc) {
+      if (err) {
+        console.log(err);
+      }
+
+      callback(doc);
+    });
+
+};
+
   return {
     createShop: createShop,
     findShop:findShop,
     uploadShopCover:uploadShopCover,
     addDish:addDish,
-    addDishPic:addDishPic
+    addDishPic:addDishPic,
+    queryNearShops:queryNearShops
   }
 }

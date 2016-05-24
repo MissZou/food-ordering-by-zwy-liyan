@@ -15,7 +15,7 @@
 
 @optional
 -(void)finishCreateAccount:(NSDictionary *)result withAccount:(Account *)myAccount;
--(void)finishFetchAccountData:(NSDictionary *)result withAccount:(Account *)myAccount;
+-(BOOL)finishFetchAccountData:(NSDictionary *)result withAccount:(Account *)myAccount;
 -(void)finishRefresh;
 
 @end
@@ -50,6 +50,6 @@ typedef NS_ENUM(NSUInteger, httpMethod){
 -(void) login:(Account *)model;
 -(void)createAccount:(Account *)model;
 -(void) checkLogin;
--(void) location:(enum httpMethod)httpMethod withLocation:(NSString *)location;
+-(void) location:(enum httpMethod)httpMethod withLocation:(NSDictionary *)location;
 -(void)address:(httpMethod)httpMethod withAddress:(NSDictionary *)address;
 @end

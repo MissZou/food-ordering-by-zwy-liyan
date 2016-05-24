@@ -60,7 +60,7 @@
     
 }
 
--(void)finishFetchAccountData:(NSDictionary *)result withAccount:(Account *)myAccount{
+-(BOOL)finishFetchAccountData:(NSDictionary *)result withAccount:(Account *)myAccount{
     
     if ([[result valueForKey:@"success"]boolValue] == YES) {
 
@@ -85,6 +85,7 @@
     else{
         [self performSegueWithIdentifier:@"tutorial" sender:nil];
     }
+    return true;
 }
 
 @end

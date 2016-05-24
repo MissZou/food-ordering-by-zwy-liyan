@@ -153,8 +153,9 @@
     return @[button, button2]; //array with all the buttons you want. 1,2,3, etc...
 }
 
--(void)finishFetchAccountData:(NSDictionary *)result withAccount:(Account *)myAccount{
+-(BOOL)finishFetchAccountData:(NSDictionary *)result withAccount:(Account *)myAccount{
     [self.tableView reloadData];
+    return true;
 }
 
 

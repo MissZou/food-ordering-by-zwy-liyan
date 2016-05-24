@@ -13,7 +13,10 @@ module.exports = function(config, mongoose, nodemailer) {
       type: { type: String},
       addr: { type: String}
     }]},
-    location: {type: [String]}
+    location: {type: [{
+      name: { type: String},
+      coordinate:{type:[Number]}
+    }]}
   });
 
   var Account = mongoose.model('Account', AccountSchema);
@@ -156,15 +159,20 @@ var deleteAddress = function(accountId, address, callback) {
         callback(err);
     });
 }
-var addLocation = function(accountId, location, callback) {
-        Account.update({_id:accountId}, {$push: {location:location}},{upsert:true},
+var addLocation = function(accountId, locationName, coordinate, callback) {
+        Account.update({_id:accountId}, {$push: {location:{
+          "name" : locationName,
+          "coordinate" : coordinate
+        }}},{upsert:true},
       function (err) {
         callback(err);
     });
 }
 
-var deleteLocation = function(accountId, location, callback) {
-        Account.update({_id:accountId}, {$pull: {location:location}},{upsert:true},
+var deleteLocation = function(accountId, locationName, callback) {
+        Account.update({_id:accountId}, {$pull: {location:{
+          "name":locationName
+        }}},{upsert:true},
       function (err) {
         callback(err);
     });

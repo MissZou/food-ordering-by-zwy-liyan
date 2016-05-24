@@ -7,6 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+@class Shop;
+@protocol ShopDelegate
+@optional
+-(void)finishSearchShops:(NSDictionary *)shops;
+
+@end
 
 @interface Shop : NSObject
 @property(copy,nonatomic) NSString * shopID;
@@ -21,4 +27,8 @@
 @property(strong,nonatomic) NSNumber *distance;
 @property(strong,nonatomic) NSMutableArray *shopComments;
 
+@property(weak)id <ShopDelegate> delegate;
+
++(Shop *) sharedManager;
+-(void)searchShopByLocation:(NSArray *)coordinate withdistance:(NSNumber *)distance;
 @end

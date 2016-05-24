@@ -103,7 +103,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"dropDownCell" forIndexPath:indexPath];
     if(indexPath.row != 0){
-        cell.textLabel.text = self.dropDownList[indexPath.row];
+        cell.textLabel.text = [self.dropDownList[indexPath.row] valueForKey:@"name"];
         cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
         cell.textLabel.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
@@ -124,7 +124,14 @@
     UITableViewCell *cell = [self.dropDownTableView cellForRowAtIndexPath:indexPath];
     NSString *btnTitle = [NSString stringWithFormat:@"%@ ▾",cell.textLabel.text];
     [self.senderBtn setTitle:btnTitle forState:UIControlStateNormal];
-    self.choosedString = self.dropDownList[indexPath.row];
+    if (indexPath.row == 0) {
+        self.choosedString = self.dropDownList[indexPath.row];
+    }
+    else{
+        self.choosedString = [self.dropDownList[indexPath.row] valueForKey:@"name"];    
+    }
+    
+
     [self.delegate dropDownMenuClicked:self];
 }
 
@@ -138,7 +145,7 @@
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     if(editingStyle == UITableViewCellEditingStyleDelete){
         
-        NSString *deleteString = self.dropDownList[indexPath.row];
+        NSString *deleteString = [self.dropDownList[indexPath.row] valueForKey:@"name"];
         [self.dropDownList removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         //[tableView deleteRowsAtIndexPaths:[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
