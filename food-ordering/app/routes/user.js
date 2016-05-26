@@ -1,15 +1,8 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var app = express();
-var morgan = require('morgan');
-//var crypto = require('crypto');
-//var nodemailer = require('nodemailer');
-
-var mongoose = require('mongoose');
-var https = require('https');
-var http = require('http')
-var fs = require('fs');
-var session = require('express-session');
+var routeUser = function (app,io,mongoose) {
+//var routeUser = function () {
+var 
+  express = require('express'),
+  router = express.Router();
 var multipart = require('connect-multiparty');
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var path = require('path');
@@ -17,21 +10,13 @@ var formidable = require('formidable');
 var util = require('util');
 var request = require('request');
 var URL = require('URL');
+var bodyParser = require('body-parser');
+var fs = require('fs');
+var nodemailer = require('nodemailer');
 
-var server = http.createServer(app);
-var io = require('socket.io').listen(server);
+var session = require('express-session');
+//var io = require('socket.io').listen(server);
 
-server.listen(8080);
-
-
-var httpsOptions = {
-    key: fs.readFileSync('./https/server-key.pem'),
-    cert: fs.readFileSync('./https/server-cert.pem'),
-    requestCert: true,
-    rejectUnauthorized: false
-}
-
-app.set('view engine', 'jade');
 
 var mailConfig = {
     host: 'smtp.gmail.com',
@@ -43,21 +28,18 @@ var mailConfig = {
     }
 }
 
+app.set('view engine', 'jade');
 var tokenConfig = {
     'secret': 'wochengrenwokanbudongzhegetokenshiTMzmlaide',
     'database': 'mongodb://localhost:27017/Server'
 }
 app.set('tokenScrete', tokenConfig.secret);
+var Account = require('../models/Account')(mailConfig, mongoose, nodemailer);
 
-var cookieSession = require('cookie-session');
-
-//var Account = require('./app/models/Account')(mailConfig, mongoose, nodemailer);
 //var Shop = require('./app/models/Shop')(mongoose);
-//var upload = require('./app/models/upload')(mongoose);
-app.use(express.static(__dirname + '/public'));
-//app.set('views', path.join(__dirname, 'views'));
-app.use(morgan('dev')); // log requests to the console 
+var upload = require('../models/upload')(mongoose);
 
+app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({
     extended: true
 }));
@@ -75,7 +57,6 @@ app.use(session({
         maxAge: 1000 * 60 * 30
     }
 }));
-
 app.use(function(req, res, next) {
     res.locals.user = req.session.user; // 从session 获取 user对象
     var err = req.session.error; //获取错误信息
@@ -87,31 +68,14 @@ app.use(function(req, res, next) {
     next(); //中间件传递
 });
 
-mongoose.connect('mongodb://localhost:27017/Server'); // connect to our database
 
-//set server port
-var portHttp = process.env.PORT || 8080;
-var portHttps = process.env.PORT || 8000;
+  // router.get('/', function (req, res, next) {
+  //   // Do stuff
+  //   res.json({
+  //   	msg:"new route"
+  //   })
+  // });
 
-//define routers
-var router = express.Router();
-var routerRestuarant = express.Router();
-var routerLocation = express.Router();
-//var routerSearch = express.Router();
-//var routerSearch = require('./app/routes/searchRouter')(app);
-//var routerSearch = require('./app/routes/index')(app);
-
-
-//app.use('/', require('./app/routes/index')(app,io,mongoose));
-// app.use(function(req, res, next) {
-//   req.components = {
-//     io: io, 
-//     mongo: mongoose,
-//     app: app
-//   };
-//   next();
-// });
-app.use(require('./app/routes/index')(app,io,mongoose));
 
 router.route('/')
 
@@ -121,8 +85,13 @@ router.route('/')
 
 .post(function(req, res) {
     res.render('index.jade');
-});
+})
 
+.put(function(req,res){
+	res.json({
+		msg:"new user.js router"
+	})
+});
 
 router.route('/upload')
     .get(function(req, res) {
@@ -170,13 +139,6 @@ router.route('/postupload').post(multipart(), function(req, res) {
     var url = 'http://' + req.headers.host + '/upload/' + req.session.user._id + '.jpg';
     upload.uploadUrl(url);
 });
-
-/*
-    socket
-    confirm order
-*/
-
-
 var onlineUser = {};
 io.on('connection', function(socket) {
     socket.on('chat message', function(msg) {
@@ -645,300 +607,9 @@ router.route('/account/location')
         });
     }
 });
-// Restuarant api =================================================================
 
-routerRestuarant.route('/')
-    .get(function(req, res) {
-        res.send('routerRestuarant');
-    })
+  return router;
+};
 
-.post(function(req, res) {
-    res.send('routerRestuarant');
-});
-
-routerRestuarant.route('/create')
-    .get(function(req, res) {
-        res.sendfile(path.join(__dirname, './views', 'restaurant-post.html'));
-    })
-    .post(function(req, res) {
-        var shopName = req.param('shopName', null);
-        var location = req.param('location', null);
-        var address = req.param('address', null);
-        var shopPicUrl = req.param('shopPicUrl', null);
-        var open = req.param('open', null);
-        var shopType = req.param('shopType', null);
-
-
-
-        /*        //copy file to a public directory
-            console.log(req.files);
-            var targetPath = './public/resources/avatar/' + 'test' + '.jpg';
-            //copy file
-            // fs.createReadStream(req.files.files.ws.path).pipe(fs.createWriteStream(targetPath));
-            //return file url
-            var tmp_path = req.files.files.path;
-            console.log(tmp_path)
-            fs.rename(tmp_path, targetPath, function(err) {
-                if (err) throw err;
-                // 删除临时文件夹文件, 
-                fs.unlink(tmp_path, function() {
-                    if (err) throw err;
-                });
-            });
-            var url = 'http://' + req.headers.host + '/resources/avatar/' + 'test' + '.jpg';
-            var accountId = req.session.user._id;
-            console.log(accountId);
-            Account.uploadAvatar(accountId, url, function(err) {
-                //console.log("save image");
-                if (null == err)
-                    res.json({
-                        code: 200,
-                        msg: {
-                            url: url
-                        }
-                    });
-            })*/
-        // Shop.createShop(shopName, address,location, shopPicUrl, open, shopType, res, function(err) {
-        //     if (err == null) {
-        //         Shop.findShop(shopName, function(doc) {
-        //             res.json({
-        //                 code: 200,
-        //                 shop: doc,
-        //                 success: true
-        //             })
-        //         })
-        //     } else{
-        //             res.json({
-        //                 code: 400,
-        //                 shop: err,
-        //                 success: false
-        //             })
-        //     }
-
-        // });
-
-
-        for (var i = 0; i <100000 ; i++) {
-            var rand2 = (Math.random()*(117.4-115.7+1)+115.7);
-            var rand1 = (Math.random()*(41.6-39.4+1)+39.4);
-            //var location = [116.331398,39.897445];
-            // var rand1 = (Math.random()*(41-38+1)+39);
-            // var rand2 = (Math.random()*(120-110+1)+110);
-
-            location = [rand1,rand2];
-
-                    Shop.createShop(Math.random().toString(36).substring(7), address,location, shopPicUrl, open, shopType, res, function(err) {
-            if (err == null) {
-                Shop.findShop(shopName, function(doc) {
-                    res.json({
-                        code: 200,
-                        shop: doc,
-                        success: true
-                    })
-                })
-            } else{
-                    res.json({
-                        code: 200,
-                        shop: err,
-                        success: true
-                    })
-            }
-
-        });
-        }
-         // res.json({
-         //                code: 200,
-         //                err: err,
-         //                shop:doc,
-         //                success: true
-         //            })
-    })
-
-
-routerRestuarant.route('/createCover')
-    .post(function(req, res) {
-        var form = new formidable.IncomingForm();
-        form.parse(req, function(err, fields, files) {
-            if (err || !files.file) {
-                res.json({
-                    succeed: false,
-                    status: 400,
-                    errMsg: "上传失败"
-                })
-                return
-            }
-            var goalUrl = './public/resources/' + fields.shopName + '/';
-            if (!fs.existsSync(goalUrl)) {
-                fs.mkdirSync(goalUrl);
-            }
-            var targetPath = goalUrl + fields.shopName + '.jpg';
-            var tmp_path = files.file.path;
-            fs.rename(tmp_path, targetPath, function(err) {
-                if (err) throw err;
-                // 删除临时文件夹文件, 
-                fs.unlink(tmp_path, function() {
-                    if (err) throw err;
-                });
-            });
-            var url = 'http://' + req.headers.host + '/resources/' + fields.shopName + '.jpg';
-            Shop.uploadShopCover(fields.shopName, url, function(err) {
-                if (null == err)
-                    res.json({
-                        code: 200,
-                        msg: {
-                            url: url
-                        }
-                    });
-            })
-
-        })
-    })
-
-routerRestuarant.route('/createDish')
-    .post(function(req, res) {
-        var dish = req.param('dish', null);
-        var shopName = req.param('shopName', null);
-        for (var i = 0; i < dish.length; i++) {
-            Shop.addDish(shopName, dish[i], function(err) {
-                if (null == err)
-                    res.json({
-                        code: 200
-                    });
-            })
-        }
-    })
-
-routerRestuarant.route('/createDishPic')
-    .post(function(req, res) {
-        var form = new formidable.IncomingForm();
-        form.encoding = 'utf-8';
-        form.multiples = true;
-        form.parse(req, function(err, fields, files) {
-            if (err || !files) {
-                res.json({
-                    succeed: false,
-                    code: 400,
-                    errMsg: "上传失败"
-                })
-                return
-            }
-            var goalUrl = './public/resources/' + fields.shopName + '/';
-            if (!fs.existsSync(goalUrl)) {
-                fs.mkdirSync(goalUrl);
-            }
-            if (!fs.existsSync(goalUrl + '/dishes/')) {
-                fs.mkdirSync(goalUrl + '/dishes/');
-            }
-            for (var key in files) {
-                var targetPath = goalUrl + '/dishes/' + files[key].name;
-                var tmp_path = files[key].path;
-                fs.renameSync(tmp_path, targetPath);
-                var url = 'http://' + req.headers.host + '/resources/' + fields.shopName + '/dishes/' + files[key].name;
-                console.log(url)
-                console.log(key)
-                Shop.addDishPic(fields.shopName, key, url, function(err) {
-                    if (null == err){
-                        res.json({
-                            code: 200
-                        });
-                    }   
-                });
-            }
-        })
-
-        /* Shop.uploadShopCover(fields.shopName, url, function(err) {
-             if (null == err)
-                 res.json({
-                     code: 200,
-                     msg: {
-                         url: url
-                     }
-                 });
-         })*/
-    });
-routerRestuarant.route('/findshops')
-.post(function(req,res){
-    
-    var distance = req.param('distance', null);
-    var coordinateTemp = req.param('coordinate', null);
-    //console.log(typeof coordinateTemp);
-    //console.log(coordinateTemp);
-    
-    var coordinate = JSON.stringify(coordinateTemp);
-    coordinate = coordinate.split(',');
-    coordinate[0] = coordinate[0].replace(/[^0-9.]/g,'');
-    coordinate[1] = coordinate[1].replace(/[^0-9.]/g,'');
-    
-     // console.log(coordinate[0]);
-     // console.log(coordinate[1]);
-    
-    if (coordinate !=null && distance !=null) {
-        var location = [Number(coordinate[0]),Number(coordinate[1])];
-        Shop.queryNearShops(location,distance,function(doc){
-           res.json({
-               shop:doc
-            })
-          })  
-      }  
-      
-});
-// location routers-----------------------------------
-routerLocation.route('/findlocation')
-
-    .post(function(req,res){
-
-     var searchLocation = req.param('locaiton');  
-     
-      request(
-        { method: 'GET',
-          header : {'Content-Type' : 'application/json; charset=UTF-8'},
-          uri: URL.format({
-              protocol: 'http',
-              host: 'api.map.baidu.com',
-              pathname: '/place/v2/suggestion',
-              query: {
-                  query: searchLocation,
-                  region: '全国',
-                  output: 'json',
-                  ak: 't7vL8QtOIrdigs8b4l0rKwTreBGWFFhN',
-              }
-          }),
-          json:true,
-        }
-      , function (error, response, body) {
-        //console.log(response);
-          res.charset = 'UTF-8';
-          if (response) {
-            var result = response.body.result;
-            for(var i = 0;i<result.length;i++){
-                 if (result[i].location == null) {
-                    console.log(result[i].name);
-                    result.splice(i,1);
-                    i=-1;continue;
-                }
-            }
-                res.json({
-                res:result
-              })
-              
-              
-          }
-        }
-      )
-
-    });
-
-// location routers-----------------------------------
-
-// REGISTER OUR ROUTES -------------------------------
-app.use('/userold', router);
-app.use('/shopold', routerRestuarant);
-app.use('/locationold',routerLocation);
-//app.use('/search',routerSearch);
-// START THE SERVER
-// =============================================================================
-//http.createServer(app).listen(portHttp);
-https.createServer(httpsOptions, app).listen(portHttps);
-
-console.log('http listen ' + portHttp);
-console.log('TSL listen ' + portHttps);
+module.exports = routeUser;
+//module.exports = router; 

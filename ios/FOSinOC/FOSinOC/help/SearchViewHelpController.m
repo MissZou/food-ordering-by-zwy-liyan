@@ -63,13 +63,13 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
     [self.delegate finishChooseLocationWithLocation:self.suggestedLocations[indexPath.row]];
 
 }
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     NSDictionary *parameters = @{@"locaiton": searchText};
-    //NSLog(@"%@",searchText);
     NSString *URLString = @"http://localhost:8080/location/findlocation";
     
     [[AFHTTPRequestSerializer serializer] requestWithMethod:@"POST" URLString:URLString parameters:parameters error:nil];

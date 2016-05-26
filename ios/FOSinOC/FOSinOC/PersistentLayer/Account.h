@@ -16,7 +16,7 @@
 @optional
 -(void)finishCreateAccount:(NSDictionary *)result withAccount:(Account *)myAccount;
 -(BOOL)finishFetchAccountData:(NSDictionary *)result withAccount:(Account *)myAccount;
--(void)finishRefresh;
+-(void)finishRefreshAccountData;
 
 @end
 

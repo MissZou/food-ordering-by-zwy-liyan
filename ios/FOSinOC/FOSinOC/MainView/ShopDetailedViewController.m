@@ -16,7 +16,7 @@
 #import "UINavigationBar+Awesome.h"
 
 #import "Shop.h"
-@interface ShopDetailedViewController ()<UIScrollViewDelegate,UIGestureRecognizerDelegate>
+@interface ShopDetailedViewController ()<UIScrollViewDelegate,UIGestureRecognizerDelegate,DetailedChildFoodViewDelegate>
 
 @property(nonatomic,strong) Shop *myShop;
 //@property (weak, nonatomic) IBOutlet UILabel *topViewNameLabel;
@@ -35,7 +35,8 @@
 @property CGPoint startLocation;
 @property CGPoint currentLocation;
 @property CGFloat swipeOffset;
-
+@property CGPoint tempTranslatedPoint;
+@property CGFloat tempTransPointY;
 //slideMenu view ====================================
 @property(strong,nonatomic) UIScrollView *mainScrollView;
 @property(strong,nonatomic) SlideMultiViewController *slideMultiViewController;
@@ -98,6 +99,10 @@
     self.rightBarItemFull = [[UIBarButtonItem alloc]initWithCustomView:self.naviRightViewFull];
     self.navigationItem.rightBarButtonItem = self.rightBarItemFull;
     
+    UIBarButtonItem *backBarButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:NULL];
+    
+    self.navigationItem.backBarButtonItem = backBarButton;
+    
     //[self.navigationController.navigationBar lt_setBackgroundColor:[UIColor blueColor]];
     self.naviShopName.alpha = 0;
     self.naviRightViewSmall.alpha = 0;
@@ -125,6 +130,7 @@
     self.foodView = [[DetailedChildFoodView alloc]init];
     self.shopView = [[DetailedChildShopView alloc]init];
     self.commentView = [[DetailedChildCommentView alloc]init];
+    self.foodView.delegate = self;
     self.foodView.shopID = self.shopID;
     
     
@@ -250,7 +256,7 @@
     
     CGPoint velocity = [panGesture velocityInView:self.view];
     CGPoint translatedPoint = [panGesture translationInView:self.view];
-
+    
     if(velocity.y*self.lastVeclocity.y > 0)
     {
         self.isChangeScrollDirection = false;
@@ -264,17 +270,23 @@
     
     if (panGesture.state == UIGestureRecognizerStateBegan) {
         self.slideMenuFrameY = self.slideMultiViewController.view.frame.origin.y;
+        self.tempTranslatedPoint = translatedPoint;
     }
     
-    if (self.slideMultiViewController.view.frame.origin.y <sdNavigationBarHeight+sdSegmentViewHeight +60 && self.slideMultiViewController.view.frame.origin.y>sdNavigationBarHeight ) {
+// when the food view is on the top, scroll it to show segment view
+    if (self.slideMultiViewController.view.frame.origin.y <sdNavigationBarHeight+sdSegmentViewHeight + 60  && self.slideMultiViewController.view.frame.origin.y>sdNavigationBarHeight ) {
         
         self.slideMultiViewController.view.frame = CGRectMake(0, self.slideMenuFrameY + translatedPoint.y, self.view.frame.size.width, self.view.frame.size.height - sdNavigationBarHeight-sdSegmentViewHeight);
+        if(velocity.y>0){
+            self.tempTransPointY = self.tempTranslatedPoint.y - translatedPoint.y;
+        }
     }
     
     if(self.slideMultiViewController.view.frame.origin.y <= sdNavigationBarHeight)
     {
         
         self.slideMultiViewController.view.frame = CGRectMake(0, sdNavigationBarHeight, self.view.frame.size.width, self.view.frame.size.height - sdNavigationBarHeight-sdSegmentViewHeight);
+        //NSNumber *y = [NSNumber numberWithFloat:translatedPoint.y + self.tempTransPointY];
         NSNumber *y = [NSNumber numberWithFloat:translatedPoint.y];
         [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionFood" object:y];
         [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionComment" object:y];
@@ -311,8 +323,8 @@
     
     [self hideSegmentView:self.slideMultiViewController.view.frame.origin.y];
     [self hideTopview:self.slideMultiViewController.view.frame.origin.y];
-//    NSLog(@"translatedPoint y:%f",translatedPoint.y);
-//    NSLog(@"speed y:%f",velocity.y);
+    //NSLog(@"translatedPoint y:%f",translatedPoint.y);
+    //NSLog(@"speed y:%f",velocity.y);
 //    NSLog(@"slide y: %f",self.slideMultiViewController.view.frame.origin.y);
 }
 
@@ -322,6 +334,14 @@
 
 -(void)naviShareButtonClicked{
     NSLog(@"naviShareButtonClicked");
+}
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
+    return true;
+}
+
+-(void)DetailedChildFoodDidSelectFood:(NSString *)foodId{
+    NSLog(@"%@",foodId);
+    [self performSegueWithIdentifier:@"foodDetailSegue" sender:nil];
 }
 
 @end

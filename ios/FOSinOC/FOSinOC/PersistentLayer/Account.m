@@ -105,6 +105,8 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     if([result valueForKey:@"location"]!=nil){
         self.location = [result valueForKey:@"location"];
     }
+    
+    [self.delegate finishRefreshAccountData];
 }
 
 -(void)createAccount:(Account *)model {
@@ -202,7 +204,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
 -(void) location:(httpMethod)httpMethod withLocation:(NSDictionary *)location{
     
         NSString *token = self.token;
-        NSDictionary *parameters = @{@"token": token, @"name": [location valueForKey:@"name"],@"coordinate":[location valueForKey:@"coordinate"]};
+        NSDictionary *parameters = @{@"token": token, @"name": [location valueForKey:@"name"],@"location":[location valueForKey:@"location"]};
         NSURL *url = [NSURL URLWithString:@"account/location" relativeToURL:self.baseUrl];
         
         AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];

@@ -13,7 +13,7 @@
 
 #import "DetailedChildFoodView.h"
 
-@interface DetailedChildFoodView ()<UITableViewDelegate, UITableViewDataSource>
+@interface DetailedChildFoodView ()<UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate >
 @property(strong,nonatomic)UITableView *catagoryTable;
 @property(strong,nonatomic)UITableView *foodTable;
 @property(assign,nonatomic)NSInteger lastSelectSection;
@@ -45,7 +45,7 @@
     [self initTableViews];
     //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disableInteraction) name:@"disableInteractionFood" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(triggerNotificationAction:) name:@"enableInteractionFood" object:nil];
-    [self disableInteraction];
+    
     self.foodTablePanGesture = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(scrollFoodTalbe:)];
     //[self.foodTable addGestureRecognizer:self.foodTablePanGesture];
 }
@@ -60,12 +60,15 @@
 -(void)viewDidAppear:(BOOL)animated{
     //[self initTableViews];
     self.foodTable.frame = CGRectMake(catagoryTalbeWidth, 0, self.view.frame.size.width - catagoryTalbeWidth, self.view.frame.size.height - navigationBarHeight - segmentHeight);
+//    self.foodTable.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height - navigationBarHeight - segmentHeight);
     NSLog(@"%f",self.view.superview.frame.size.height);
     NSLog(@"%f",self.view.frame.size.height);
     NSLog(@"%f",self.foodTable.frame.size.height);
     
     //self.isSendContinueScrolling = false;
+    //[self enableInteraction];
     [self.foodTable setScrollEnabled:false];
+    //[self disableInteraction];
     
 }
 
@@ -73,6 +76,7 @@
 //    NSLog(@"Disable Interaction");
     //self.foodTable.userInteractionEnabled =false;
     [self.foodTable setScrollEnabled:false];
+    //[self.foodTable setContentOffset:CGPointMake(0, 0)];
     //self.catagoryTable.userInteractionEnabled =false;
 }
 
@@ -83,6 +87,7 @@
     [self.foodTable setScrollEnabled:true];
     self.isSendContinueScrolling = false;
     self.didSelectCatogoryFoodTableYRecord = 0;
+
 }
 
 -(void)initTableViews{
@@ -193,6 +198,9 @@
         //select food
         NSArray *food = [self.foodlist valueForKey:self.catagory[indexPath.section]];
         NSLog(@"%@",food[indexPath.row]);
+        
+        [self.delegate DetailedChildFoodDidSelectFood:@"foodId"];
+        
     }
 }
 
@@ -237,14 +245,17 @@
         }
         
     }else{
+        CGPoint translatedPoint = [[self.foodTable panGestureRecognizer] translationInView:self.view];
+        
         NSLog(@"child food talbe offset %f",scrollView.contentOffset.y);
+        NSLog(@"shop translatedPoint y:%f",translatedPoint.y);
         if (self.isSelectCatagory) {
             self.didSelectCatogoryFoodTableYRecord = scrollView.contentOffset.y;
         }
         
-        if (scrollView.contentOffset.y<0 ) {
+        if (scrollView.contentOffset.y<=0 ) {
             [self disableInteraction];
-            
+            //self.foodTable.userInteractionEnabled = false;
             //scrollview will have bounce and the contentoffset will change to opposite direction, so use a maxoffest to keep the scroll direction
             if (self.maxOffset > scrollView.contentOffset.y) {
                 
@@ -299,6 +310,9 @@
     }else{
         return self.catagory[section];
     }
+}
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
+    return true;
 }
 
 @end

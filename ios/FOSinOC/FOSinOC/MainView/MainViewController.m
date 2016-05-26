@@ -23,7 +23,7 @@
 #import "CustomizedSegueLeftToRight.h"
 #import "ShopDetailedViewController.h"
 
-@interface MainViewController ()<UITableViewDelegate, UITableViewDataSource,UISearchBarDelegate,UISearchResultsUpdating,SearchViewHelpControllerDelegate,DropDownViewDelegate,CatagoryViewDelegate,SortViewDelegate,ShopDelegate>
+@interface MainViewController ()<UITableViewDelegate, UITableViewDataSource,UISearchBarDelegate,UISearchResultsUpdating,SearchViewHelpControllerDelegate,DropDownViewDelegate,CatagoryViewDelegate,SortViewDelegate,ShopDelegate, AccountDelegate>
 @property(strong,nonatomic) Account *myAccount;
 @property(strong,nonatomic) Shop *myShop;
 
@@ -104,6 +104,8 @@
     UIBarButtonItem *backBarButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:NULL];
     self.navigationItem.backBarButtonItem = backBarButton;
     self.navigationItem.backBarButtonItem.tintColor = [UIColor whiteColor];
+    
+    [self initLocation];
 }
 
 
@@ -125,7 +127,7 @@
     
     [self.navigationController.navigationBar lt_reset];
 
-    [self initLocation];
+ 
 
 }
 - (IBAction)openMenu:(id)sender {
@@ -197,8 +199,9 @@
         [self presentViewController:alert animated:YES completion:nil];
     }
     else{
-        [self.myShop searchShopByLocation:[self.myAccount.location[0] valueForKey:@"coordinate"] withdistance:[NSNumber numberWithFloat:3.0]];
-        [self.chooseLocationBtn setTitle:[self.myAccount.location[0] valueForKey:@"name"] forState:UIControlStateNormal];
+        [self.myShop searchShopByLocation:[self.myAccount.location[0] valueForKey:@"loc"] withdistance:[NSNumber numberWithFloat:3.0]];
+        NSString *title = [NSString stringWithFormat:@"%@%@", [self.myAccount.location[0] valueForKey:@"name"],@" ▾"];
+        [self.chooseLocationBtn setTitle:title forState:UIControlStateNormal];
     }
 }
 
@@ -223,6 +226,7 @@
 }
 
 - (IBAction)chooseLocation:(id)sender {
+    self.myAccount.delegate = self;
     [self.myAccount checkLogin];
     NSMutableArray *locations = [self.myAccount.location mutableCopy];
     if (locations == nil) {
@@ -269,6 +273,14 @@
     }
     NSLog(@"you choose %@",sender.choosedString);
     self.dropDownChooseLocation = nil;
+}
+
+-(void)dropDownLocationChooseLocation:(NSDictionary *)location{
+//    NSLog(@"%@",[location valueForKey:@"name"]);
+//    NSLog(@"%@",[location valueForKey:@"loc"]);
+    NSArray *coordinate = @[[location valueForKey:@"loc"][0],[location valueForKey:@"loc"][1]];
+    
+    [self.myShop searchShopByLocation:coordinate withdistance:[NSNumber numberWithFloat:5.0]];
 }
 
 -(void)dropDownMenuDelete:(DropDownView *)sender withString:(NSString *)string{
@@ -320,11 +332,6 @@
 
 
 -(void)finishSearchLocationWithResult:(NSArray *)result{
-//    for(NSDictionary *loc in result){
-//        NSLog(@"%@",[loc valueForKey:@"name"]);
-//        NSLog(@"%@",[loc valueForKey:@"location"]);
-//        
-//    }
     if ([result count]*40*1.5>self.view.frame.size.height - 64) {
         self.searchTableView.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 64);
     }
@@ -337,15 +344,20 @@
 
 -(void)finishChooseLocationWithLocation:(NSDictionary *)location{
     [self searchBarCancelButtonClicked];
-    NSLog(@"%@",[location valueForKey:@"name"]);
-    NSLog(@"%@",[location valueForKey:@"location"]);
+//    NSLog(@"%@",[location valueForKey:@"name"]);
+//    NSLog(@"%@",[location valueForKey:@"location"]);
     NSArray *coordinate = @[[[location valueForKey:@"location"] valueForKey:@"lat"],[[location valueForKey:@"location"] valueForKey:@"lng"]];
+    //self.myAccount
     [self.myShop searchShopByLocation:coordinate withdistance:[NSNumber numberWithFloat:5.0]];
+    [self.myAccount location:PUT withLocation:location];
+    NSString *title = [NSString stringWithFormat:@"%@%@", [location valueForKey:@"name"],@" ▾"];
+    [self.chooseLocationBtn setTitle:title forState:UIControlStateNormal];
 }
 
 -(void)finishSearchShops:(NSDictionary *)shops{
     self.shopList = [[shops valueForKey:@"shop"] mutableCopy];
-    NSLog(@"%@",self.shopList);
+    
+    //NSLog(@"%@",self.shopList);
     [self.mainViewTableView reloadData];
 }
 
@@ -596,5 +608,10 @@
         
     }
     
+}
+
+-(void)finishRefreshAccountData{
+    self.myAccount.delegate = nil;
+    [self.dropDownChooseLocation.dropDownTableView reloadData];
 }
 @end

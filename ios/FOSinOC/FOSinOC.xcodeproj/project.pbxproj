@@ -30,6 +30,7 @@
 		BA1DAE7C1CB662E400CDD6E0 /* TutorialRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA1DAE7B1CB662E400CDD6E0 /* TutorialRootViewController.m */; };
 		BA1DAE7F1CB6635500CDD6E0 /* TutorialPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA1DAE7E1CB6635500CDD6E0 /* TutorialPageViewController.m */; };
 		BA21783D1CB67830003402E1 /* CustomizationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = BA21783C1CB67830003402E1 /* CustomizationButton.m */; };
+		BA26A6921CF6A8F80056689B /* FoodViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA26A6911CF6A8F80056689B /* FoodViewController.m */; };
 		BA6046D01CB8D70400A8FD34 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046CF1CB8D70400A8FD34 /* LoginViewController.m */; };
 		BA6046D61CB8E5CF00A8FD34 /* Account.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046D51CB8E5CF00A8FD34 /* Account.m */; };
 		BA6046D91CBB8B1200A8FD34 /* CreateAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046D81CBB8B1200A8FD34 /* CreateAccountViewController.m */; };
@@ -118,6 +119,8 @@
 		BA1DAE7E1CB6635500CDD6E0 /* TutorialPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialPageViewController.m; sourceTree = "<group>"; };
 		BA21783B1CB67830003402E1 /* CustomizationButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomizationButton.h; sourceTree = "<group>"; };
 		BA21783C1CB67830003402E1 /* CustomizationButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomizationButton.m; sourceTree = "<group>"; };
+		BA26A6901CF6A8F80056689B /* FoodViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoodViewController.h; sourceTree = "<group>"; };
+		BA26A6911CF6A8F80056689B /* FoodViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoodViewController.m; sourceTree = "<group>"; };
 		BA6046CE1CB8D70400A8FD34 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		BA6046CF1CB8D70400A8FD34 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		BA6046D41CB8E5CF00A8FD34 /* Account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Account.h; sourceTree = "<group>"; };
@@ -433,6 +436,8 @@
 				BA771B281CCCF5CD00755613 /* MainViewMainHeaderView.m */,
 				BA771B6C1CCF38A700755613 /* SearchShopViewController.h */,
 				BA771B6D1CCF38A700755613 /* SearchShopViewController.m */,
+				BA26A6901CF6A8F80056689B /* FoodViewController.h */,
+				BA26A6911CF6A8F80056689B /* FoodViewController.m */,
 			);
 			path = MainViewHelp;
 			sourceTree = "<group>";
@@ -677,6 +682,7 @@
 				BA21783D1CB67830003402E1 /* CustomizationButton.m in Sources */,
 				BAD808661CCA15D600A79DE2 /* CatagoryView.m in Sources */,
 				BA6046D01CB8D70400A8FD34 /* LoginViewController.m in Sources */,
+				BA26A6921CF6A8F80056689B /* FoodViewController.m in Sources */,
 				BA1DAE461CB657BE00CDD6E0 /* AppDelegate.m in Sources */,
 				BA771B291CCCF5CD00755613 /* MainViewMainHeaderView.m in Sources */,
 				BAD8083F1CC201C000A79DE2 /* EditAddressViewController.m in Sources */,

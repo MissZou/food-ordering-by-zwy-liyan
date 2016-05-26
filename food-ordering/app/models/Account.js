@@ -15,7 +15,7 @@ module.exports = function(config, mongoose, nodemailer) {
     }]},
     location: {type: [{
       name: { type: String},
-      coordinate:{type:[Number]}
+      loc:{type:[Number]}
     }]}
   });
 
@@ -162,7 +162,7 @@ var deleteAddress = function(accountId, address, callback) {
 var addLocation = function(accountId, locationName, coordinate, callback) {
         Account.update({_id:accountId}, {$push: {location:{
           "name" : locationName,
-          "coordinate" : coordinate
+          "loc" : coordinate
         }}},{upsert:true},
       function (err) {
         callback(err);

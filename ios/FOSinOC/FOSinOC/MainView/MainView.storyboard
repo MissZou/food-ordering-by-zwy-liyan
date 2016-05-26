@@ -336,10 +336,30 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="ByG-lt-GwQ"/>
+                    <connections>
+                        <segue destination="nRw-L4-Tfd" kind="show" identifier="foodDetailSegue" id="QdE-YH-T2p"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yQQ-pa-576" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2745" y="370"/>
+        </scene>
+        <!--Food View Controller-->
+        <scene sceneID="y4o-BY-b88">
+            <objects>
+                <viewController id="nRw-L4-Tfd" customClass="FoodViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Nq9-zm-5Ur"/>
+                        <viewControllerLayoutGuide type="bottom" id="uTr-np-LrK"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="FA4-Wd-sXF">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="I8z-jY-WFy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3571.5" y="370"/>
         </scene>
         <!--Search Shop View Controller-->
         <scene sceneID="O37-AV-qRa">
