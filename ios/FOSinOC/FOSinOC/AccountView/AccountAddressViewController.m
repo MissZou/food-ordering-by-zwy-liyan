@@ -158,5 +158,7 @@
     return true;
 }
 
-
+-(void)finishRefreshAccountData{
+    
+}
 @end

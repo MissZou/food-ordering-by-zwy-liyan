@@ -7,8 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+@class DetailedChildFoodView;
+@protocol DetailedChildFoodViewDelegate <NSObject>
+
+@optional
+-(void) DetailedChildFoodDidSelectFood:(NSString *)foodId;
+
+@end
 
 @interface DetailedChildFoodView : UIViewController
 @property(copy,nonatomic)NSString *shopID;
 @property(assign,nonatomic)BOOL isEnableInteraction;
+
+@property(weak)id <DetailedChildFoodViewDelegate> delegate;
 @end

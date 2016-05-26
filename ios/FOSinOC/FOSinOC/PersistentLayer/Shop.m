@@ -38,7 +38,7 @@ static Shop *sharedManager = nil;
 -(void)searchShopByLocation:(NSArray *)coordinate withdistance:(NSNumber *)distance{
     NSURL *url = [NSURL URLWithString:@"findshops" relativeToURL:self.baseUrl];
     NSDictionary *parameters = @{@"coordinate": coordinate, @"distance": distance};
-    NSLog(@"%@",parameters);
+    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
     
@@ -56,5 +56,7 @@ static Shop *sharedManager = nil;
         NSLog(@"%@", error);
     }];
 }
+
+
 
 @end

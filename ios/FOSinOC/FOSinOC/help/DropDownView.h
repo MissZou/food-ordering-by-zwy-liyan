@@ -13,7 +13,7 @@
 @optional
 -(void) dropDownMenuClicked:(DropDownView *)sender;
 -(void) dropDownMenuDelete:(DropDownView *)sender withString:(NSString *)string;
-
+-(void)dropDownLocationChooseLocation:(NSDictionary *)location;
 @end
 
 @interface DropDownView : UIView<UITableViewDelegate, UITableViewDataSource> {
@@ -30,4 +30,5 @@
 -(id)initDropDownViewConveniennce:(UIButton *)button :(CGFloat)cellHeight :(CGFloat)viewHeight :(NSMutableArray *)array;
 -(void)initDropDownView:(UIButton *)button :(CGFloat)cellHeight :(CGFloat)viewHeight :(NSMutableArray *)array;
 -(void)hideDropDownView;
+
 @end

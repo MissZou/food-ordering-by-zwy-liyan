@@ -7,7 +7,7 @@
 //
 
 #import "DropDownView.h"
-
+#import "Account.h"
 @interface DropDownView()
 {
 
@@ -15,6 +15,7 @@
 @property(strong,nonatomic)UIButton *senderBtn;
 @property(assign,nonatomic)CGFloat tableViewCellHeight;
 -(id)initDropDownViewConveniennce:(UIButton *)button :(CGFloat)cellHeight :(CGFloat)viewHeight :(NSMutableArray *)array;
+
 
 @end
 
@@ -39,6 +40,7 @@
         self.tableViewCellHeight = cellHeight;
         self.dropDownList = array;
         [self showDropDownView:viewHeight withArray:self.dropDownList];
+
     }
     return self;
 }
@@ -83,6 +85,7 @@
     self.frame = CGRectMake(rect.origin.x, rect.origin.y+rect.size.height, rect.size.width, 0);
     self.dropDownTableView.frame = CGRectMake(0, 0, rect.size.width, 0);
     [UIView commitAnimations];
+    
 }
 
 #pragma mark - Table view
@@ -121,14 +124,18 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [self hideDropDownView];
-    UITableViewCell *cell = [self.dropDownTableView cellForRowAtIndexPath:indexPath];
-    NSString *btnTitle = [NSString stringWithFormat:@"%@ ▾",cell.textLabel.text];
-    [self.senderBtn setTitle:btnTitle forState:UIControlStateNormal];
+    //UITableViewCell *cell = [self.dropDownTableView cellForRowAtIndexPath:indexPath];
     if (indexPath.row == 0) {
         self.choosedString = self.dropDownList[indexPath.row];
+        NSString *btnTitle = [NSString stringWithFormat:@"%@ ▾",self.dropDownList[indexPath.row]];
+        [self.senderBtn setTitle:btnTitle forState:UIControlStateNormal];
     }
     else{
-        self.choosedString = [self.dropDownList[indexPath.row] valueForKey:@"name"];    
+        self.choosedString = [self.dropDownList[indexPath.row] valueForKey:@"name"];
+        NSString *btnTitle = [NSString stringWithFormat:@"%@ ▾",[self.dropDownList[indexPath.row] valueForKey:@"name"]];
+        [self.senderBtn setTitle:btnTitle forState:UIControlStateNormal];
+        NSLog(@"%@",self.dropDownList);
+        [self.delegate dropDownLocationChooseLocation:self.dropDownList[indexPath.row]];
     }
     
 
@@ -152,5 +159,10 @@
         [self.delegate dropDownMenuDelete:self withString:deleteString];
     }
 }
+
+//-(void)finishRefreshAccountData{
+//    [self.dropDownTableView reloadData];
+//}
+
 
 @end

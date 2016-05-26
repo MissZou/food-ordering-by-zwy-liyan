@@ -30,25 +30,7 @@
 @end
 
 @implementation SlideMultiViewController
-//+(id)initSlideButton:(NSArray *)buttonTitle{
-//    return [[self alloc]initSlideButtonConvenience:buttonTitle];
-//}
-//
-//-(id)initSlideButtonConvenience:(NSArray *)buttonTitle{
-//    if (self = [super init]) {
-//        self.buttonTitle = [buttonTitle mutableCopy];
-//        [self drawScrollView];
-//        
-//    }
-//    return self;
-//}
 
-//-(id)initWithFrame:(CGRect)frame{
-//    if(self = [super initWithFrame:frame]){
-//        
-//    }
-//    return self;
-//}
 
 -(void)initSlideButtonAddTitle:(NSArray *)buttonTitle{
     self.lastSelected = -1;
