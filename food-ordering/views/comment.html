@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>comment</title>
+    <link rel="stylesheet" href="../public/stylesheets/normalize.css">
+    <style>
+    html {
+        color: #333;
+        background: #fff;
+        box-sizing: border-box;
+    }
+    
+    .commentitem {
+        padding: 20px 0;
+        margin-left: 130px;
+        position: relative;
+        border-bottom: 1px solid #eee;
+        min-height: 100px;
+    }
+    
+    *,
+    :after,
+    :before {
+        box-sizing: inherit;
+    }
+    
+    ol,
+    ul {
+        list-style: none;
+    }
+    
+    body,
+    button,
+    input,
+    select,
+    textarea {
+        font: 400 1em/1.5 PingFang SC, Lantinghei SC, Helvetica Neue, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans;
+    }
+    
+    fieldset,
+    img {
+        border: 0;
+    }
+    
+    .commentitem-avatar {
+        position: absolute;
+        left: -130px;
+        width: 130px;
+        text-align: center;
+    }
+    
+    .commentitem-avatar img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+    }
+    
+    .commentitem-username {
+        margin-bottom: 5px;
+    }
+    
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: PingFang SC, Lantinghei SC, Helvetica Neue, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans;
+        font-weight: 400;
+    }
+    
+    .star-rating[progress-meter] {
+        top: 3px;
+        position: relative;
+        display: inline-block;
+        line-height: 1em;
+        color: #ccc;
+        width: 85px;
+        height: 15px;
+        background-image: url(gray-star.svg);
+        background-repeat: repeat-x;
+    }
+    
+    .star-rating .star-meter[progress-fill] {
+        height: 100%;
+        background-image: url(gold-star.svg);
+        background-repeat: repeat-x;
+    }
+    
+    .commentitem-main {
+        margin-bottom: 20px;
+    }
+    
+    .shoprate-itemratinglist {
+        padding-top: 15px;
+        padding-bottom: 15px;
+        border-top: 1px solid #f7f7f7;
+    }
+    
+    .commentitem-date {
+        position: absolute;
+        top: 28px;
+        right: 0;
+        font-size: 12px;
+        color: #999;
+    }
+    
+    .commentlist {
+        padding: 0 20px 20px 0;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="commentfilter">
+        <!-- ngRepeat: item in ratingTypeList --><a class="commentfilter-item ng-binding ng-scope active" ng-repeat="item in ratingTypeList" ng-class="{active: filter.type === item.record_type}" ng-click="select(item.record_type)">全部(2933)</a>
+        <!-- end ngRepeat: item in ratingTypeList --><a class="commentfilter-item ng-binding ng-scope" ng-repeat="item in ratingTypeList" ng-class="{active: filter.type === item.record_type}" ng-click="select(item.record_type)">满意(2686)</a>
+        <!-- end ngRepeat: item in ratingTypeList --><a class="commentfilter-item ng-binding ng-scope" ng-repeat="item in ratingTypeList" ng-class="{active: filter.type === item.record_type}" ng-click="select(item.record_type)">不满意(247)</a>
+        <!-- end ngRepeat: item in ratingTypeList -->
+    </div>
+    <ul id="ratinglist" class="commentlist">
+        <li class="commentitem">
+            <span class="commentitem-avatar"><img alt="4*******b" src="//static11.elemecdn.com/eleme/desktop/media/img/default-avatar.38e40d.png"></span>
+            <div class="commentitem-content">
+                <h4 class="commentitem-username">4*******b</h4>
+                <div class="commentitem-main">
+                    <div class="star-rating" progress-meter="5">
+                        <div class="star-meter" progress-fill="4.2" style="width: 84%;">
+                        </div>
+                    </div>
+                </div>
+                <div class="shoprate-itemrating shoprate-itemratinglist">
+                    <span class="shoprate-itemratinglist-name">小农家炒肉（饭单点）</span>
+                    <div class="star-rating" progress-meter="5">
+                        <div class="star-meter" progress-fill="4.2" style="width: 84%;">
+                        </div>
+                    </div>
+                </div>
+                <span class="commentitem-date">2016-05-27 19:33</span>
+            </div>
+        </li>
+    </ul>
+</body>
+
+</html>
