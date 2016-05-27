@@ -35,8 +35,6 @@ var tokenConfig = {
 }
 app.set('tokenScrete', tokenConfig.secret);
 var Account = require('../models/Account')(mailConfig, mongoose, nodemailer);
-
-//var Shop = require('./app/models/Shop')(mongoose);
 var upload = require('../models/upload')(mongoose);
 
 app.use(express.static(__dirname + '/public'));
@@ -211,8 +209,8 @@ router.route('/register')
                     });
                     return
                 } else {
-                    Account.register(email, password, phone, name, res, function(doc) {
-                        if (doc == null) {
+                    Account.register(email, password, phone, name, function(err) {
+                        if (err == null) {
                             Account.findAccount(email, function(doc) {
                                 //console.log(doc)
                                 var inToken = { "_id": doc._id }
