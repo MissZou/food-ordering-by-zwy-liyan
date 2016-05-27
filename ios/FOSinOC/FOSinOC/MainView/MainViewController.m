@@ -285,7 +285,7 @@
 
 -(void)dropDownMenuDelete:(DropDownView *)sender withString:(NSString *)string{
     //delete method
-     NSDictionary *location = @{@"name": string,@"coordinate":@"0,0"};
+     NSDictionary *location = @{@"name": string,@"location":@"0,0"};
     [self.myAccount location:DELETE withLocation:location];
     self.dropDownChooseLocation.dropDownTableView.frame = CGRectMake(0, 0, self.chooseLocationBtn.superview.frame.size.width, 60 * (CGFloat)self.myAccount.location.count);
     [self.chooseLocationBtn setTitle:@"Choose location ▾" forState:UIControlStateNormal];

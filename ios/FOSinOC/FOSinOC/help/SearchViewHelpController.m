@@ -70,7 +70,7 @@
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     NSDictionary *parameters = @{@"locaiton": searchText};
-    NSString *URLString = @"http://localhost:8080/location/findlocation";
+    NSString *URLString = @"http://localhost:8080/search/findlocation";
     
     [[AFHTTPRequestSerializer serializer] requestWithMethod:@"POST" URLString:URLString parameters:parameters error:nil];
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
