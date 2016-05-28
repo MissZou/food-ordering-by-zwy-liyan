@@ -30,5 +30,5 @@
 @property(weak)id <ShopDelegate> delegate;
 
 +(Shop *) sharedManager;
--(void)searchShopByLocation:(NSArray *)coordinate withdistance:(NSNumber *)distance;
+-(void)searchShopByLocation:(NSArray *)location withdistance:(NSNumber *)distance;
 @end

@@ -278,9 +278,9 @@
 -(void)dropDownLocationChooseLocation:(NSDictionary *)location{
 //    NSLog(@"%@",[location valueForKey:@"name"]);
 //    NSLog(@"%@",[location valueForKey:@"loc"]);
-    NSArray *coordinate = @[[location valueForKey:@"loc"][0],[location valueForKey:@"loc"][1]];
+    NSArray *loc = @[[location valueForKey:@"loc"][0],[location valueForKey:@"loc"][1]];
     
-    [self.myShop searchShopByLocation:coordinate withdistance:[NSNumber numberWithFloat:5.0]];
+    [self.myShop searchShopByLocation:loc withdistance:[NSNumber numberWithFloat:5.0]];
 }
 
 -(void)dropDownMenuDelete:(DropDownView *)sender withString:(NSString *)string{
@@ -346,16 +346,21 @@
     [self searchBarCancelButtonClicked];
 //    NSLog(@"%@",[location valueForKey:@"name"]);
 //    NSLog(@"%@",[location valueForKey:@"location"]);
-    NSArray *coordinate = @[[[location valueForKey:@"location"] valueForKey:@"lat"],[[location valueForKey:@"location"] valueForKey:@"lng"]];
+    NSArray *loc = @[[[location valueForKey:@"location"] valueForKey:@"lat"],[[location valueForKey:@"location"] valueForKey:@"lng"]];
     //self.myAccount
-    [self.myShop searchShopByLocation:coordinate withdistance:[NSNumber numberWithFloat:5.0]];
+    [self.myShop searchShopByLocation:loc withdistance:[NSNumber numberWithFloat:5.0]];
     [self.myAccount location:PUT withLocation:location];
     NSString *title = [NSString stringWithFormat:@"%@%@", [location valueForKey:@"name"],@" ▾"];
     [self.chooseLocationBtn setTitle:title forState:UIControlStateNormal];
 }
 
 -(void)finishSearchShops:(NSDictionary *)shops{
-    self.shopList = [[shops valueForKey:@"shop"] mutableCopy];
+    if ([shops valueForKey:@"shop"] != NULL) {
+            self.shopList = [[shops valueForKey:@"shop"] mutableCopy];
+    }else{
+        NSLog(@"shop list = null");
+    }
+    
     
     //NSLog(@"%@",self.shopList);
     [self.mainViewTableView reloadData];
@@ -433,7 +438,13 @@
         UILabel *distance = (UILabel *)[cell.contentView viewWithTag: tableCellTag+4];
         UILabel *heat = (UILabel *)[cell.contentView viewWithTag: tableCellTag+5];
         UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag: tableCellTag+5];
-        name.text = [self.shopList[indexPath.row] valueForKey:@"shopName"];
+        if ([self.shopList[indexPath.row] valueForKey:@"shopName"]) {
+            NSLog(@"shop name is null");
+        }
+        else{
+            name.text = [self.shopList[indexPath.row] valueForKey:@"shopName"];
+        }
+        
 //        if (self.testString !=nil) {
 //            name.text = self.testString;
 //        }

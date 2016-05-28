@@ -30,16 +30,18 @@ app.use(bodyParser.json());
 router.route('/')
 .post(function(req,res){
 	var searchText = req.param('searchText');  
-	Shop.findShopByName(searchText,function(doc){
-		console.log(doc);
-		var shopArray = {};
-			for (var i = doc.length - 1; i >= 0; i--) {
-				//shopArray.push(doc[i].shopName,doc[i]._id);
-				shopArray[doc._id] = [doc.shopName];
-			}
+	var locaiton = "";
+	Shop.findShopsAndDishs(searchText,location,function(doc){
+		//console.log(doc);
+		// var shopArray = {};
+		// 	for (var i = doc.length - 1; i >= 0; i--) {
+		// 		//shopArray.push(doc[i].shopName,doc[i]._id);
+		// 		shopArray[doc[i].shopName] = [doc[i]._id];
+		// 	}
+			
 		res.json({
 
-			shopName:shopArray
+			result:doc
 		})
 	})
 
