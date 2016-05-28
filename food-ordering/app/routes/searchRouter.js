@@ -1,4 +1,4 @@
-var routeSearch = function (app,io,mongoose) {
+var routeSearch = function (app,io,mongoose,Shop) {
 var 
   express = require('express'),
   router = express.Router();
@@ -12,19 +12,37 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
+// router.route('/')
+// .get(function(req, res) {
+//         res.send('location');
+//     })
+
+// .post(function(req, res) {
+//     res.send('location');
+// })
+
+// .put(function(req,res){
+//     res.json({
+//         msg:"new search.js router"
+//     })
+// });
+
 router.route('/')
-.get(function(req, res) {
-        res.send('location');
-    })
+.post(function(req,res){
+	var searchText = req.param('searchText');  
+	Shop.findShopByName(searchText,function(doc){
+		console.log(doc);
+		var shopArray = {};
+			for (var i = doc.length - 1; i >= 0; i--) {
+				//shopArray.push(doc[i].shopName,doc[i]._id);
+				shopArray[doc._id] = [doc.shopName];
+			}
+		res.json({
 
-.post(function(req, res) {
-    res.send('location');
-})
+			shopName:shopArray
+		})
+	})
 
-.put(function(req,res){
-    res.json({
-        msg:"new search.js router"
-    })
 });
 
 router.route('/findlocation')
@@ -76,6 +94,7 @@ router.route('/findlocation')
       )
 
     });
+
 
     
 
