@@ -91,7 +91,7 @@ router.route('/findshops')
 .post(function(req,res){
     
     var distance = req.param('distance', null);
-    var coordinateTemp = req.param('coordinate', null);
+    var coordinateTemp = req.param('location', null);
     //console.log(typeof coordinateTemp);
     //console.log(coordinateTemp);
     
@@ -313,6 +313,8 @@ router.route('/login')
                 address: doc.address,
                 shopName: doc.shopName,
                 location: doc.location,
+                dish:doc.dish,
+                order:doc.order,
                 token: token,
                 success: true
             });
@@ -489,9 +491,9 @@ router.route('/account/testAddDish')
 .post(function(req,res){
     var shopId = req.decoded._id;
     var dish = {};
-    dish['dishName'] = "dishName";
+    dish['dishName'] = "kaorou";
     dish['tags'] = ["1","2"];
-    dish['price'] = "123";
+    dish['price'] = "15";
     dish['intro'] = "intro";
     dish['index'] = "1";
 
