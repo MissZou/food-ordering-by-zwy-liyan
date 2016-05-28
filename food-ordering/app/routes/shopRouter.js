@@ -1,5 +1,5 @@
 
-var routeShop = function (app,io,mongoose) {
+var routeShop = function (app,io,mongoose,Shop) {
 //var routeShop = function () {
 //var session = require('express-session');
 var 
@@ -8,7 +8,17 @@ var
 var request = require('request');
 var URL = require('URL');
 var bodyParser = require('body-parser');
-var Shop = require('../models/Shop')(mailConfig, mongoose, nodemailer);
+// var Shop = require('../models/Shop')(mailConfig, mongoose, nodemailer);
+// var mailConfig = {
+//     host: 'smtp.gmail.com',
+//     secureConnection: true,
+//     port: 465,
+//     auth: {
+//         user: 'foodtongcom@gmail.com',
+//         pass: 'comtongfood'
+//     }
+// }
+// var nodemailer = require('nodemailer');
 var path = require('path');
 var multipart = require('connect-multiparty');
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
@@ -16,17 +26,8 @@ var formidable = require('formidable');
 var util = require('util');
 var session = require('express-session');
 var fs = require('fs');
-var nodemailer = require('nodemailer');
 
-var mailConfig = {
-    host: 'smtp.gmail.com',
-    secureConnection: true,
-    port: 465,
-    auth: {
-        user: 'foodtongcom@gmail.com',
-        pass: 'comtongfood'
-    }
-}
+
 
 var tokenConfig = {
     'secret': 'zhegeshishopdetakensecretwochongxinxieleyige',
@@ -384,8 +385,8 @@ router.route('/account')
 
 //mark this route have problem of fields, the uploadShopCover method is changed.
 router.route('/account/createCover')
-var shopId = req.decoded._id;
     .post(function(req, res) {
+        var shopId = req.decoded._id;
         var form = new formidable.IncomingForm();
         form.parse(req, function(err, fields, files) {
             if (err || !files.file) {
@@ -424,8 +425,8 @@ var shopId = req.decoded._id;
     });
 
 router.route('/account/createDish')
-var shopId = req.decoded._id;
     .post(function(req, res) {
+        var shopId = req.decoded._id;
         var dish = req.param('dish', null);
         var shopName = req.param('shopName', null);
         for (var i = 0; i < dish.length; i++) {
