@@ -130,14 +130,9 @@ router.route('/register')
         var shopName = req.param('shopName', null);
         var loc = req.param('location', null);
         var address = req.param('address', null);
-        var shopPicUrl = req.param('shopPicUrl', null);
+       
         var open = req.param('open', null);
         var shopType = req.param('shopType', null);
-
-    var distance = req.param('distance', null);
-    var coordinateTemp = req.param('coordinate', null);
-    //console.log(typeof coordinateTemp);
-    //console.log(coordinateTemp);
     
     var coordinate = JSON.stringify(loc);
     coordinate = coordinate.split(',');
@@ -182,7 +177,7 @@ router.route('/register')
         }else{
 
         }
-            Shop.createShop(email,password,shopName, address,location, shopPicUrl, open, shopType, function(err) {
+            Shop.createShop(email,password,shopName, address,location, open, shopType, function(err) {
             if (err == null) {
                 Shop.findShop(email, function(doc) {
                     var inToken = { "_id": doc._id }
@@ -384,18 +379,20 @@ router.route('/account')
     });
 
 //mark this route have problem of fields, the uploadShopCover method is changed.
-router.route('/account/createCover')
+router.route('/createCover')
     .post(function(req, res) {
-        var shopId = req.decoded._id;
+        //var shopId = req.decoded._id;
         var form = new formidable.IncomingForm();
         form.parse(req, function(err, fields, files) {
+            console.log(fields)
+            var shopId = fields.shopId;
             if (err || !files.file) {
                 res.json({
                     succeed: false,
                     status: 400,
                     errMsg: "上传失败"
                 })
-                return
+                return;
             }
             var goalUrl = './public/resources/' + fields.shopName + '/';
             if (!fs.existsSync(goalUrl)) {
@@ -411,7 +408,7 @@ router.route('/account/createCover')
                 });
             });
             var url = 'http://' + req.headers.host + '/resources/' + fields.shopName + '.jpg';
-            Shop.uploadShopCover(fields.shopName, url, function(err) {
+            Shop.uploadShopCover(shopId, url, function(err) {
                 if (null == err)
                     res.json({
                         code: 200,

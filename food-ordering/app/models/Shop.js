@@ -57,7 +57,7 @@ module.exports = function(config, mongoose, nodemailer) {
   var Shop = mongoose.model('Shop', ShopSchema);
 //  var Product = require('ProductModel')(mongoose);
 
-  var createShop = function(email,password,shopName, address,location, shopPicUrl, open,shopType, callback) {
+  var createShop = function(email,password,shopName, address,location, open,shopType, callback) {
     var shaSum = crypto.createHash('sha256');
     shaSum.update(password);
     var shopInstance = new Shop({
@@ -66,7 +66,7 @@ module.exports = function(config, mongoose, nodemailer) {
       shopName: shopName,
       address: address,
       location: location,
-      shopPicUrl: shopPicUrl,
+      
       open:open,
       shopType:shopType
       //shopPicTrueUrl:shopPicTrueUrl
