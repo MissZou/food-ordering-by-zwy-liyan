@@ -95,7 +95,15 @@ module.exports = function(config, mongoose, nodemailer) {
   }
 
   var findShopByName = function(shopName, callback){
-    Shop.findOne({shopName:/shopName/},function(doc){
+    // Shop.find({shopName:RegExp(shopName)},function(err,doc){
+    //   callback(doc);
+    // })
+    var loc = [39.956578, 116.327024];
+    //Shop.find({shopName:RegExp(shopName)},{location:{$near:loc,$maxDistance: 50}}).limit(15).exec(function(err,doc){
+      Shop.find({shopName:RegExp(shopName)}).limit(15).exec(function(err,doc){
+      if (err) {
+        callback(err);  
+      }
       callback(doc);
     })
   }

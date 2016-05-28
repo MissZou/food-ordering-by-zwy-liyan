@@ -15,7 +15,7 @@ var mailConfig = {
 var nodemailer = require('nodemailer');
 var router = express.Router();
 
-  router.use('/search', require('./searchRouter')(app,io,mongoose));
+  router.use('/search', require('./searchRouter')(app,io,mongoose,Shop));
   router.use('/user', require('./userRouter')(app,io,mongoose));
   router.use('/shop', require('./shopRouter')(app,io,mongoose,Shop));
 
