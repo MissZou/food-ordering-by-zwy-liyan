@@ -104,7 +104,34 @@ module.exports = function(config, mongoose, nodemailer) {
       if (err) {
         callback(err);  
       }
-      callback(doc);
+          var shopArray = {};
+      for (var i = doc.length - 1; i >= 0; i--) {
+        //shopArray.push(doc[i].shopName,doc[i]._id);
+        shopArray[doc[i].shopName] = [doc[i]._id];
+      }
+      
+      callback(shopArray);
+    })
+  }
+
+
+  var findShopsAndDishs = function(shopName,location, callback){
+    // Shop.find({shopName:RegExp(shopName)},function(err,doc){
+    //   callback(doc);
+    // }
+    var loc = [39.956578, 116.327024];
+
+    Shop.find({location:{$near:loc,$maxDistance: 25},shopName:RegExp(shopName)}).limit(15).exec(function(err,doc){
+            if (err) {
+        callback(err);  
+      }
+          var shopArray = {};
+      for (var i = doc.length - 1; i >= 0; i--) {
+        //shopArray.push(doc[i].shopName,doc[i]._id);
+        shopArray[doc[i].shopName] = [doc[i]._id];
+      }
+      
+      callback(shopArray);
     })
   }
 
@@ -198,7 +225,6 @@ var queryNearShops = function(loc,distance,callback){
         if (err) {
           console.log(err);
         }
-
         callback(doc);
       });
 };
@@ -224,6 +250,7 @@ var addComments = function(dishId,date,contnet,userId){
     login: login,
     //addDishPic:addDishPic,
     queryNearShops:queryNearShops,
-    findShopByName:findShopByName
+    findShopByName:findShopByName,
+    findShopsAndDishs:findShopsAndDishs
   }
 }
