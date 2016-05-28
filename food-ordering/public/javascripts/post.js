@@ -1,5 +1,5 @@
 $(function() {
-    var tagAction = {
+  /*  var tagAction = {
         remove: function() {
             $(this).parent(".tag-wrp").remove();
         },
@@ -12,39 +12,39 @@ $(function() {
             }
             $(self).val("");
         }
-    };
+    };*/
 
     var uploadPic = {
-        add: function(files) {
-            var len = files.length > 9 ? 9 : files.length;
-            for (var i = 0; i < len; i++) {
-                var file = files[i];
-                var imageType = /^image\//;
-                if (!imageType.test(file.type)) {
-                    continue;
-                }
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    $('<li><img src=' + e.target.result + ' alt=""> \
-                        <label>Dish name</label> \
-                        <input type="text" class="dishName"> \
-                        <label>Tags</label> \
-                        <input type="text" class="tagInput"> \
-                        <div class="labels"> \
-                            <div class="tag-wrp"> \
-                                <span class="tag">shmhsm</span> \
-                                <span class="delete">×</span> \
-                            </div> \
-                        </div> \
-                        <label>Price</label> \
-                        <input type="number" class="price"> \
-                        <label>Introduction</label> \
-                        <textarea class="intro" cols="30" rows="10"></textarea></li>')
-                        .appendTo($(".dishPreview ul"));
-                };
-                reader.readAsDataURL(file);
-            }
-        },
+        // add: function(files) {
+        //     var len = files.length > 9 ? 9 : files.length;
+        //     for (var i = 0; i < len; i++) {
+        //         var file = files[i];
+        //         var imageType = /^image\//;
+        //         if (!imageType.test(file.type)) {
+        //             continue;
+        //         }
+        //         var reader = new FileReader();
+        //         reader.onload = function(e) {
+        //             $('<li><img src=' + e.target.result + ' alt=""> \
+        //                 <label>Dish name</label> \
+        //                 <input type="text" class="dishName"> \
+        //                 <label>Tags</label> \
+        //                 <input type="text" class="tagInput"> \
+        //                 <div class="labels"> \
+        //                     <div class="tag-wrp"> \
+        //                         <span class="tag">shmhsm</span> \
+        //                         <span class="delete">×</span> \
+        //                     </div> \
+        //                 </div> \
+        //                 <label>Price</label> \
+        //                 <input type="number" class="price"> \
+        //                 <label>Introduction</label> \
+        //                 <textarea class="intro" cols="30" rows="10"></textarea></li>')
+        //                 .appendTo($(".dishPreview ul"));
+        //         };
+        //         reader.readAsDataURL(file);
+        //     }
+        // },
         addCoverPic: function(file) {
             $(".preview-coverPic").empty();
             var imageType = /^image\//;
@@ -60,42 +60,44 @@ $(function() {
         }
     };
 
-    var uploadBtn = $(".uploadPic");
+   /* var uploadBtn = $(".uploadPic");
     uploadBtn.on("change", function() {
         uploadPic.add(this.files);
-    });
+    });*/
 
 
     $(".coverPic").on("change", function() {
         uploadPic.addCoverPic(this.files[0]);
     })
 
-    $(".uploadPicBtn").on("click", function() {
+    /*$(".uploadPicBtn").on("click", function() {
         uploadBtn[0].click();
     });
-
+*/
 
     $("#articlePostBtn").on("click", function() {
         $.ajax({
-            url: '/shop/create/',
+            url: '/shop/register/',
             type: 'POST',
             data: {
+                "email":$("#email").val(),
+                "password":$("#password").val(),
                 "shopName": $("#shopName").val(),
                 "location": $("#location").val(),
-                "shopPicUrl": $("#shopPicUrl").val(),
+                "address": $("#address").val(),
                 "open": $("#open").val() == "" ? false : true,
                 "shopType": $(".typeResult").text().trim()
             },
             success: function(data, status) {
                 if (data.success == true) {
                     alert("上传成功");
-                    console.log(data)
-                    var data = new FormData();
-                    data.append('file', $(".coverPic")[0].files[0]);
-                    data.append('shopName', $("#shopName").val());
+                    var formData = new FormData();
+                    formData.append('file', $(".coverPic")[0].files[0]);
+                    formData.append('shopName', $("#shopName").val());
+                    formData.append('shopId', data.shop._id);
                     $.ajax({
                         url: '/shop/createCover/',
-                        data: data,
+                        data: formData,
                         type: 'POST',
                         contentType: false, //必须
                         processData: false, //必须
@@ -121,7 +123,7 @@ $(function() {
                 }
             }
         });
-        var dish = []
+       /* var dish = []
         var num = $(".dishPreview li").length;
         for (var index = 0; index < num; index++) {
             var tags = []
@@ -183,7 +185,7 @@ $(function() {
                     alert("上传shibai");
                 }
             }
-        });
+        });*/
 
 
     })
@@ -195,11 +197,11 @@ $(function() {
         }
     });
 
-    $(".delete").live("click", tagAction.remove);
-    $("input[type='text']").live("keydown", function(event) {
+    /*$(".delete").live("click", tagAction.remove);*/
+    /*$("input[type='text']").live("keydown", function(event) {
         if (event.keyCode == 13) {
             tagAction.add(this);
             return false;
         }
-    })
+    })*/
 })

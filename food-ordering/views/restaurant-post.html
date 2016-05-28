@@ -12,12 +12,14 @@
     <div class="wrapper">
         <h1>Create your own shop</h1>
         <form action="/message/post" id="post" method="POST" enctype="multipart/form-data">
+            email:<input type="text" id="email">
+            password:<input type="password" id="password">
             <div class="editor-title">
                 <input type="text" id="shopName" autocomplete="off" placeholder="Write down your shop name here..." name="shopName" required>
             </div>
             <textarea id="location" placeholder="location" class="editor-content" name="location" required></textarea>
-            <label for="shopPicUrl">shopPicUrl</label>
-            <input type="text" id="shopPicUrl" name="shopPicUrl" required>
+            <label for="address">address</label>
+          <input type="text" id="address" name="address" required>
             <label for="open">open</label>
             <input type="text" id="open" name="open" required>
             <label>type</label>
@@ -43,10 +45,10 @@
             </label>
             <input type="file" class="coverPic" accept="image/*" name="files">
              <div class="preview-coverPic"></div>
-            <div class="uploadPicBtn">+</div><label>Dish Pic Update Pictures(at most 9)</label>
-            <div class="dishPreview clearfix">
-                <ul></ul>
-            </div>
+           <!--  <div class="uploadPicBtn">+</div><label>Dish Pic Update Pictures(at most 9)</label>
+           <div class="dishPreview clearfix">
+               <ul></ul>
+           </div> -->
             <div class="commit" id="articlePostBtn">Submit</div>
         </form>
     </div>
