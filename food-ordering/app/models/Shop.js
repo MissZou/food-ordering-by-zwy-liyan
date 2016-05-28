@@ -35,7 +35,12 @@ module.exports = function(config, mongoose, nodemailer) {
         _id:{type: String},
         number:{type: Number}
       }]},
-      userId:{type: String}
+      userId:{type: String},
+      comment:{type:[{
+        date:{type: Date,default: Date.now},
+        userId:{type: String},
+        content:{type: String}
+      }]} 
     }]}
     
   });
@@ -115,24 +120,72 @@ module.exports = function(config, mongoose, nodemailer) {
   }
 
 
-  var findShopsAndDishs = function(shopName,location, callback){
+  // var findShopsAndDishs = function(searchText,location, callback){
+  //   // Shop.find({shopName:RegExp(shopName)},function(err,doc){
+  //   //   callback(doc);
+  //   // }
+  //   ///var loc = [39.956578, 116.327024];
+
+  //   Shop.find({location:{$near:location,$maxDistance: 25},shopName:RegExp(searchText)}).limit(15).exec(function(err,doc){
+  //           if (err) {
+  //       callback(err);  
+  //     }
+  //         var shopArray = {};
+  //     for (var i = doc.length - 1; i >= 0; i--) {
+  //       //shopArray.push(doc[i].shopName,doc[i]._id);
+  //       shopArray[doc[i].shopName] = [doc[i]._id];
+  //     }
+      
+  //     callback(shopArray);
+  //   })
+  // }
+
+  var findShopsAndDishs = function(searchText,location, callback){
     // Shop.find({shopName:RegExp(shopName)},function(err,doc){
     //   callback(doc);
     // }
-    var loc = [39.956578, 116.327024];
+    ///var loc = [39.956578, 116.327024];
 
-    Shop.find({location:{$near:loc,$maxDistance: 25},shopName:RegExp(shopName)}).limit(15).exec(function(err,doc){
-            if (err) {
-        callback(err);  
-      }
-          var shopArray = {};
-      for (var i = doc.length - 1; i >= 0; i--) {
-        //shopArray.push(doc[i].shopName,doc[i]._id);
-        shopArray[doc[i].shopName] = [doc[i]._id];
-      }
-      
-      callback(shopArray);
-    })
+    Shop.find({location:{$near:location,$maxDistance: 25}}).limit(15).exec(function(err, doc) {
+        if (err) {
+          console.log(err);
+        }
+        var shopArray = [];
+
+        for (var i = doc.length - 1; i >= 0; i--) {
+            var obj={};        
+            var isFindShop = false;
+          if (doc[i].shopName) {
+            if (doc[i].shopName.indexOf(searchText)>=0 ) {
+                //shopArray[doc[i].shopName] = [doc[i]._id];    
+                obj[doc[i].shopName]=doc[i]._id;
+                //shopArray.push(obj);
+                //shopArray.push(doc[i].shopName+':'+doc[i]._id);
+                isFindShop = true;
+            }
+            if (doc[i].dish.length != 0) {
+
+              for (var j = doc[i].dish.length - 1; j >= 0; j--) {
+
+                  if (doc[i].dish[j].dishName.indexOf(searchText)>=0) {
+                     //shopArray[doc[i].shopName] = [doc[i].dish[j].dishName];       
+                     //shopArray.push(doc[i].shopName+':'+doc[i].dish[j].dishName);
+                    
+                    obj["dish"]=doc[i].dish[j].dishName;
+                    //obj[doc[i].shopName]=doc[i]._id;
+                    //shopArray.push(obj);
+                  }
+              }
+            }
+            if (isFindShop) {
+
+              shopArray.push(obj);
+            }
+
+          }
+        }
+        callback(shopArray);
+      });
   }
 
   var findShopById = function(id, callback) {
@@ -193,8 +246,12 @@ var addDish = function(shopId, newDish, callback) {
         }}},{upsert:true},
       function (err,doc) {
         if (err != null) {
+          console.log("add dish err");
+          console.log(err);
           callback(err);  
         }else{
+          console.log("add dish doc");
+          console.log(doc);
           callback(doc);
         }
         

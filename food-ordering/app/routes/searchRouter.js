@@ -30,7 +30,7 @@ app.use(bodyParser.json());
 router.route('/')
 .post(function(req,res){
 	var searchText = req.param('searchText');  
-	var locaiton = "";
+	var location = [39.956578, 116.327024];
 	Shop.findShopsAndDishs(searchText,location,function(doc){
 		//console.log(doc);
 		// var shopArray = {};
