@@ -42,17 +42,17 @@ ul,li{
     #post .commit:hover {
       background: #3E60EA;
       color: #fff; }
-  #post .tag-wrp {
+ .tag-wrp {
     display: inline-block;
     margin: 3px 3px 0;
     border: 1px solid #e2e3e5;
     text-align: center;
     line-height: 25px; }
-  #post .tag {
+ .tag {
     display: inline-block;
     padding: 0 8px;
     color: #999; }
-  #post .delete {
+.delete {
     display: inline-block;
     border-left: 1px solid #e2e3e5;
     width: 24px;
@@ -116,9 +116,9 @@ ul,li{
       width: 80%; }
   #post label {
     display: block; }
-  #post #label {
+ #label {
     display: inline-block; }
-  #post .label {
+.label {
     display: inline-block;
     padding: 5px;
     border-radius: 5px;
@@ -129,9 +129,9 @@ ul,li{
     height: 100px;
     display: inline-block;
     margin: 10px 10px 0 0; }
-  #post .uploadPic {
+ .uploadPic {
     display: none; }
-  #post .uploadPicBtn {
+.uploadPicBtn {
     cursor: pointer;
     width: 80px;
     text-align: center;

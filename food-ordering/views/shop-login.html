@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>shop-login</title>
+</head>
+<body>
+	email:<input type="text" id="email">
+    password:<input type="password" id="password">
+    <button>login</button>
+</body>
+<script src="/javascripts/jquery-1.7.1.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$("button").on("click",function(){
+			$.ajax({
+            url: '/shop/login/',
+            type: 'POST',
+            data: {
+                "email":$("#email").val(),
+                "password":$("#password").val()
+            },
+            success: function(data, status) {
+            	if(data.code==200){
+            		alert("login Success")
+                    window.location="/shop/account/createDish";
+                    
+            	}else{
+            		alert("shibai!!")
+            	}
+            },
+            error:function(){
+            	alert("login shibai")
+            }
+        });
+		})
+		
+	});
+</script>
+</html>
