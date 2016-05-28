@@ -91,7 +91,7 @@ router.route('/findshops')
 .post(function(req,res){
     
     var distance = req.param('distance', null);
-    var coordinateTemp = req.param('coordinate', null);
+    var coordinateTemp = req.param('location', null);
     //console.log(typeof coordinateTemp);
     //console.log(coordinateTemp);
     
@@ -134,11 +134,6 @@ router.route('/register')
         var open = req.param('open', null);
         var shopType = req.param('shopType', null);
 
-    var distance = req.param('distance', null);
-    var coordinateTemp = req.param('coordinate', null);
-    //console.log(typeof coordinateTemp);
-    //console.log(coordinateTemp);
-    
     var coordinate = JSON.stringify(loc);
     coordinate = coordinate.split(',');
     coordinate[0] = coordinate[0].replace(/[^0-9.]/g,'');
