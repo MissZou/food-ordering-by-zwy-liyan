@@ -1,5 +1,5 @@
 
-var routeShop = function (app,io,mongoose,Shop) {
+var routeShop = function (app,io,mongoose,Account,Shop) {
 //var routeShop = function () {
 //var session = require('express-session');
 var 
@@ -91,18 +91,11 @@ router.route('/findshops')
 .post(function(req,res){
     
     var distance = req.param('distance', null);
-    var coordinateTemp = req.param('location', null);
-    //console.log(typeof coordinateTemp);
-    //console.log(coordinateTemp);
-    
+    var coordinateTemp = req.param('location', null);    
     var coordinate = JSON.stringify(coordinateTemp);
     coordinate = coordinate.split(',');
     coordinate[0] = coordinate[0].replace(/[^0-9.]/g,'');
     coordinate[1] = coordinate[1].replace(/[^0-9.]/g,'');
-    
-     // console.log(coordinate[0]);
-     // console.log(coordinate[1]);
-    
     if (coordinate !=null && distance !=null) {
         var location = [Number(coordinate[0]),Number(coordinate[1])];
         Shop.queryNearShops(location,distance,function(doc){
@@ -331,6 +324,8 @@ router.route('/login')
     });
 });
 
+
+
 router.use("/account", function(req, res, next) {
 
     // check header or url parameters or post parameters for token
@@ -440,7 +435,7 @@ router.route('/account/createDish')
         }
         console.log(dishNames)
             res.json({
-                code: 200
+                code: 200,
             });
     })
 
@@ -487,38 +482,49 @@ router.route('/account/createDishPic')
 router.route('/account/testAddDish')
 .post(function(req,res){
     var shopId = req.decoded._id;
-    var dish = {};
-    dish['dishName'] = "kaorou";
-    dish['tags'] = ["1","2"];
-    dish['price'] = "15";
-    dish['intro'] = "intro";
-    dish['index'] = "1";
+    // var dishName = req.param('dishName');
+    // var tags = req.param('tags');
+    // var price = req.param('price');
+    // var intro = req.param('intro');
+    // var index = req.param('index');
+    
+    var array = req.param('array');
+    //console.log(req.param);
+    res.send(array);
+    //console.log(array);
 
-    console.log(dish);
-     Shop.addDish(shopId, dish, function(err) {
-                if (null == err){
-                    res.json({
-                        code: 200
-                    });
-                }else{
-                    res.json({
-                        msg: err
-                    });
-                }
+    // var dish = {};
+    // dish['dishName'] = dishName;
+    // dish['tags'] = tags;
+    // dish['price'] = price;
+    // dish['intro'] = intro;
+    // dish['index'] = index;
+    // console.log(dish);
+    // console.log(dish.dishName);
+    //res.send(dish);
+    //console.log(dish.dishName);
+    
+    // Shop.deleteShop(shopId,function(doc){
+    //     res.send(doc);
+    // });
+    //  Shop.addDish(shopId, dish, function(err) {
+    //             if (null == err){
+    //                 res.json({
+    //                     code: 200
+    //                 });
+    //             }else{
+    //                 res.json({
+    //                     msg: err
+    //                 });
+    //             }
                     
-    })
+    // })
                 
 });
 
-router.route('/findDishs')
-.post(function(req,res){
 
 
-var shopId = req.param('shopId', null);
 
-
-                
-});
 
 router.route('/account/testAddShop')
 .post(function(req,res){
