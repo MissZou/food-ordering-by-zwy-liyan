@@ -32,7 +32,8 @@ module.exports = function(config, mongoose, nodemailer) {
       orderId:{type: String},
       date:{type: Date,default: Date.now},
       dishs:{type: [{
-        _id:{type: String},
+        shopId:{type: String},
+        itemId:{type: String},
         number:{type: Number}
       }]},
       userId:{type: String},
@@ -58,6 +59,23 @@ module.exports = function(config, mongoose, nodemailer) {
 //         content:{type: String}
 //       }]}
 //     });
+
+
+var OrderSchema = new mongoose.Schema({
+    orderId:{type: String},
+    date:{type: Date,default: Date.now},
+    dishs:{type: [{
+      shopId:{type: String},
+      itemId:{type: String},
+      number:{type: Number}
+    }]},
+    userId:{type: String},
+     comment:{type:[{
+       date:{type: Date,default: Date.now},
+       userId:{type: String},
+       content:{type: String}
+     }]} 
+})
 
   var Shop = mongoose.model('Shop', ShopSchema);
 //  var Product = require('ProductModel')(mongoose);
@@ -155,12 +173,11 @@ module.exports = function(config, mongoose, nodemailer) {
          for (var i = doc.length - 1; i >= 0; i--) {
              var obj={};        
              var isFindShop = false;
+             var isFindDish = false;
            if (doc[i].shopName) {
              if (doc[i].shopName.indexOf(searchText)>=0 ) {
                  //shopArray[doc[i].shopName] = [doc[i]._id];    
                  obj[doc[i].shopName]=doc[i]._id;
-                 //shopArray.push(obj);
-                 //shopArray.push(doc[i].shopName+':'+doc[i]._id);
                 isFindShop = true;
              }
              if (doc[i].dish.length != 0) {
@@ -168,20 +185,21 @@ module.exports = function(config, mongoose, nodemailer) {
               for (var j = doc[i].dish.length - 1; j >= 0; j--) {
 
                    if (doc[i].dish[j].dishName.indexOf(searchText)>=0) {
-                      //shopArray[doc[i].shopName] = [doc[i].dish[j].dishName];       
-                      //shopArray.push(doc[i].shopName+':'+doc[i].dish[j].dishName);
-                     
-                     obj["dish"]=doc[i].dish[j].dishName;
-                     //obj[doc[i].shopName]=doc[i]._id;
-                     //shopArray.push(obj);
+                       isFindDish = true        
+                        obj["dish"]=doc[i].dish[j].dishName;
+                        obj["dishId"]=doc[i].dish[j]._id;
+                      if (!isFindShop) {
+                          obj[doc[i].shopName]=doc[i]._id;
+                      }
                    }
                }
              }
              if (isFindShop) {
- 
                shopArray.push(obj);
             }
-
+              if (!isFindShop && isFindDish) {
+                shopArray.push(obj);   
+              }
            }
          }
          callback(shopArray);
@@ -271,9 +289,7 @@ var addDishPic = function(shopId, key,url, callback) {
   })
 };
 
-// var findDishs = function(shopId,callback){
-//   Shop.find({_id,shopId},)
-// };
+
 
 
 var queryNearShops = function(loc,distance,callback){
@@ -286,8 +302,8 @@ var queryNearShops = function(loc,distance,callback){
       });
 };
 
-var addComments = function(dishId,date,contnet,userId){
-  Shop.find({_id:dishId},{$pull:{comment:{
+var addComments = function(dishId,date,contnet,userId,callback){
+  Shop.findOne({_id:dishId},{$pull:{comment:{
     "content":content,
     //"date":date,
     "userId":userId
@@ -295,6 +311,32 @@ var addComments = function(dishId,date,contnet,userId){
 };
 
 
+var findById = function(_id,callback){
+  Shop.findById(_id,function(err,doc){
+    if (err) {
+        callback(err);
+        console.log(err);
+      }
+        console.log(doc);
+        if (doc == null) {
+          Shop.findOne({dish:{_id:_id}},function(err,doc){
+            if (err) {
+              callback(err);
+            }else{
+              callback(doc);
+            }
+          });
+        }
+        callback(doc);
+  })
+}
+
+//=======test api=========
+var deleteShop = function(shopId,callback){
+  Shop.findById(shopId).remove().exec(function(err,doc){
+    callback(doc);
+  });
+}
 
   return {
     createShop: createShop,
@@ -308,6 +350,8 @@ var addComments = function(dishId,date,contnet,userId){
     addDishPic:addDishPic,
     queryNearShops:queryNearShops,
     findShopByName:findShopByName,
-    findShopsAndDishs:findShopsAndDishs
+    findShopsAndDishs:findShopsAndDishs,
+    findById:findById,
+    deleteShop:deleteShop
   }
 }

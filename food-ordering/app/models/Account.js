@@ -17,9 +17,32 @@ module.exports = function(config, mongoose, nodemailer) {
       name: { type: String},
       loc:{type:[Number]}
     }]},
-    favorite:{type:[{
-      type:{type: String},
-      _id:{type: String}
+    cart: {type: [{
+      shopId: { type: String},
+      itemId: { type: String},
+      amount:{type:Number},
+      date:{type: Date, default: Date.now}
+    }]},
+    favoriteShop:{type:[{
+      shopId:{type: String}
+    }]},
+    favoriteItem:{type:[{
+      shopId:{type:String},
+      itemId:{type: String}
+    }]},
+    order:{type:[{
+      date:{type: Date,default: Date.now},
+      dishs:{type: [{
+        shopId:{type: String},
+        itemId:{type: String},
+        amount:{type: Number}
+      }]},
+      userId:{type: String},
+       comment:{type:[{
+         date:{type: Date,default: Date.now},
+         userId:{type: String},
+         content:{type: String}
+       }]} 
     }]}
   });
 
@@ -182,6 +205,56 @@ var deleteLocation = function(accountId, locationName, callback) {
     });
 };
 
+var addItemToCart = function(accountId,shopId,itemId,amount,callback){
+  Account.update({_id:accountId}, {$push: {cart:{
+          "shopId" : shopId,
+          "itemId" : itemId,
+          "amount" : amount
+        }}},{upsert:true},
+      function (err) {
+        callback(err);
+    });
+}
+
+var deleteItemOfCart = function(accountId,itemId,callback){
+  Account.update({_id:accountId}, {$pull: {cart:{
+          "itemId" : ItemId
+        }}},{upsert:true},
+      function (err) {
+        callback(err);
+    });
+}
+
+
+var addOrder = function(accountId,itemList,callback){
+  // Account.update({_id:accountId}, {$push: {order:{
+  //         "userId" : accountId
+  //       }}},{upsert:true},
+  //     function (err) {
+  //       callback(err);
+  //   });
+  var array = [];
+  var dishs = [];
+  var dish = {}
+  dish["shopId"] = "shopId";
+  dish["itemId"] = "itemId";
+  dish["amount"] = "amount";
+  dishs.push(dish);
+  dishs.push(dish);
+  dishs.push(dish);
+  dishs.push(dish);
+  for (var i = 5 - 1; i >= 0; i--) {
+      var obj = {};
+      obj["userId"] = "userId";
+      obj["dishs"] = dishs;
+      array.push(obj);
+  }
+  console.log(array);
+  Account.create(array, function(doc){
+      callback(doc);
+  })
+}
+
   return {
     register: register,
     forgotPassword: forgotPassword,
@@ -195,6 +268,9 @@ var deleteLocation = function(accountId, locationName, callback) {
     updateAddress: updateAddress,
     deleteAddress: deleteAddress,
     addLocation:addLocation,
-    deleteLocation:deleteLocation
+    deleteLocation:deleteLocation,
+    addItemToCart:addItemToCart,
+    deleteItemOfCart:deleteItemOfCart,
+    addOrder:addOrder
   }
 }

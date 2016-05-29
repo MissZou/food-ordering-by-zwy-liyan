@@ -1,4 +1,4 @@
-var routeUser = function (app,io,mongoose) {
+var routeUser = function (app,io,mongoose,Account,Shop) {
 //var routeUser = function () {
 var 
   express = require('express'),
@@ -17,16 +17,16 @@ var nodemailer = require('nodemailer');
 var session = require('express-session');
 //var io = require('socket.io').listen(server);
 
-
-var mailConfig = {
-    host: 'smtp.gmail.com',
-    secureConnection: true,
-    port: 465,
-    auth: {
-        user: 'foodtongcom@gmail.com',
-        pass: 'comtongfood'
-    }
-}
+//var Account = require('../models/Account')(mailConfig, mongoose, nodemailer);
+// var mailConfig = {
+//     host: 'smtp.gmail.com',
+//     secureConnection: true,
+//     port: 465,
+//     auth: {
+//         user: 'foodtongcom@gmail.com',
+//         pass: 'comtongfood'
+//     }
+// }
 
 app.set('view engine', 'jade');
 var tokenConfig = {
@@ -34,7 +34,7 @@ var tokenConfig = {
     'database': 'mongodb://localhost:27017/Server'
 }
 app.set('tokenScrete', tokenConfig.secret);
-var Account = require('../models/Account')(mailConfig, mongoose, nodemailer);
+
 var upload = require('../models/upload')(mongoose);
 
 app.use(express.static(__dirname + '/public'));
@@ -358,6 +358,9 @@ router.route('/login')
                 phone: doc.phone,
                 location: doc.location,
                 photoUrl: doc.photoUrl,
+                favoriteShop: doc.favoriteShop,
+                favoriteItem: doc.favoriteItem,
+                cart: doc.cart,
                 token: token,
                 success: true
             });
@@ -413,6 +416,9 @@ router.route('/account')
                     phone: doc.phone,
                     location: doc.location,
                     photoUrl: doc.photoUrl,
+                    favoriteShop: doc.favoriteShop,
+                    favoriteItem: doc.favoriteItem,
+                    cart: doc.cart,
                     success: true
                 })
             else {
@@ -605,6 +611,54 @@ router.route('/account/location')
         });
     }
 });
+
+router.route('/account/cart')
+     .put(function(req, res) {
+        var accountId = req.decoded._id;
+        var itemId = req.param("itemId", null);
+        var shopId = req.param("shopId", null);
+        var amount = req.param("amount", null);
+        Account.addItemToCart(accountId,shopId,itemId,amount,function(err){
+            if (err == null) {
+                Account.findAccountById(accountId,function(doc){
+                    res.json({
+                        accountId: doc._id,
+                        cart: doc.cart,
+                        success: true
+                    })
+                })
+            }
+        })
+    })
+
+     .delete(function(req, res){
+        var accountId = req.decoded._id;
+        var ItemId = req.param("itemId", null);
+                Account.deleteItemOfCart(accountId,itemId,function(err){
+            if (err == null) {
+                Account.findAccountById(accountId,function(doc){
+                    res.json({
+                        accountId: doc._id,
+                        cart: doc.cart,
+                        success: true
+                    })
+                })
+            }
+        })
+     });
+
+
+router.route('/account/order')
+    .post(function(req, res){
+        Account.addOrder("id","array",function(doc){
+             res.json({
+                msg:"user order",
+                doc:doc
+            })
+        })
+       
+    })
+
 
   return router;
 };

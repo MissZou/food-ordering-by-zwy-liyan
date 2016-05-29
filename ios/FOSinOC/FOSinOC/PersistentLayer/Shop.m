@@ -46,7 +46,7 @@ static Shop *sharedManager = nil;
         
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
             NSDictionary *responseDict = responseObject;
-            NSLog(@"%@",responseDict);
+            //NSLog(@"%@",responseDict);
             [self.delegate finishSearchShops:responseDict];
         } else {
             NSLog(@"%@", responseObject);

@@ -1,16 +1,16 @@
 var routeSearch = function (app,io,mongoose,Shop) {
-var 
-  express = require('express'),
-  router = express.Router();
+	var 
+	  express = require('express'),
+	  router = express.Router();
 
-var request = require('request');
-var URL = require('URL');
-var bodyParser = require('body-parser');
-var path = require('path');
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-app.use(bodyParser.json());
+	var request = require('request');
+	var URL = require('URL');
+	var bodyParser = require('body-parser');
+	var path = require('path');
+	app.use(bodyParser.urlencoded({
+	    extended: true
+	}));
+	app.use(bodyParser.json());
 
 // router.route('/')
 // .get(function(req, res) {
@@ -30,20 +30,22 @@ app.use(bodyParser.json());
 router.route('/')
 .post(function(req,res){
 	var searchText = req.param('searchText');  
-	var location = [39.956578, 116.327024];
-	Shop.findShopsAndDishs(searchText,location,function(doc){
-		//console.log(doc);
-		// var shopArray = {};
-		// 	for (var i = doc.length - 1; i >= 0; i--) {
-		// 		//shopArray.push(doc[i].shopName,doc[i]._id);
-		// 		shopArray[doc[i].shopName] = [doc[i]._id];
-		// 	}
-			
+	var coordinateTemp = req.param('location', null);    
+   	console.log(coordinateTemp);
+	if (searchText != null) { 
+		var coordinate = JSON.stringify(coordinateTemp);
+	    coordinate = coordinate.split(',');
+	    coordinate[0] = coordinate[0].replace(/[^0-9.]/g,'');
+	    coordinate[1] = coordinate[1].replace(/[^0-9.]/g,'');
+		
+		var location = [Number(coordinate[0]),Number(coordinate[1])];
+		var location = [39.956578, 116.327024]; //for test purpose
+		Shop.findShopsAndDishs(searchText,location,function(doc){
 		res.json({
-
 			result:doc
+			})
 		})
-	})
+	}
 
 });
 
