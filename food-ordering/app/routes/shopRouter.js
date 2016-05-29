@@ -284,7 +284,10 @@ router.route('/resetPassword')
 });
 
 router.route('/login')
-
+.get(function(req, res) {
+        //res.sendfile(path.join(__dirname, './views', 'restaurant-post.html'));
+        res.sendfile(path.join(__dirname, '../../views', 'shop-login.html'));
+    })
 .post(function(req, res) {
     //console.log('login request');
     var email = req.param('email', null);
@@ -386,7 +389,6 @@ router.route('/createCover')
         //var shopId = req.decoded._id;
         var form = new formidable.IncomingForm();
         form.parse(req, function(err, fields, files) {
-            console.log(fields)
             var shopId = fields.shopId;
             if (err || !files.file) {
                 res.json({
@@ -415,7 +417,7 @@ router.route('/createCover')
                     res.json({
                         code: 200,
                         msg: {
-                            url: url
+                            shopName:fields.shopName
                         }
                     });
             })
@@ -424,23 +426,30 @@ router.route('/createCover')
     });
 
 router.route('/account/createDish')
+.get(function(req, res) {
+        //res.sendfile(path.join(__dirname, './views', 'restaurant-post.html'));
+        res.sendfile(path.join(__dirname, '../../views', 'post-dish.html'));
+    })
     .post(function(req, res) {
         var shopId = req.decoded._id;
         var dish = req.param('dish', null);
-        var shopName = req.param('shopName', null);
+        var dishNames=[];
         for (var i = 0; i < dish.length; i++) {
-            Shop.addDish(shopName, dish[i], function(err) {
-                if (null == err)
-                    res.json({
-                        code: 200
-                    });
+            Shop.addDish(shopId, dish[i], function(doc) {
             })
         }
+        console.log(dishNames)
+            res.json({
+                code: 200
+            });
     })
 
 router.route('/account/createDishPic')
     .post(function(req, res) {
-        var form = new formidable.IncomingForm();
+        var shopId = req.decoded._id;
+       Shop.findShopById(shopId, function(doc) {
+            if (null != doc){
+ var form = new formidable.IncomingForm();
         form.encoding = 'utf-8';
         form.multiples = true;
         form.parse(req, function(err, fields, files) {
@@ -452,7 +461,7 @@ router.route('/account/createDishPic')
                 })
                 return
             }
-            var goalUrl = './public/resources/' + fields.shopName + '/';
+            var goalUrl = './public/resources/' +doc.shopName + '/';
             if (!fs.existsSync(goalUrl)) {
                 fs.mkdirSync(goalUrl);
             }
@@ -463,28 +472,16 @@ router.route('/account/createDishPic')
                 var targetPath = goalUrl + '/dishes/' + files[key].name;
                 var tmp_path = files[key].path;
                 fs.renameSync(tmp_path, targetPath);
-                var url = 'http://' + req.headers.host + '/resources/' + fields.shopName + '/dishes/' + files[key].name;
-                console.log(url)
-                console.log(key)
-                // Shop.addDishPic(fields.shopName, key, url, function(err) {
-                //     if (null == err){
-                //         res.json({
-                //             code: 200
-                //         });
-                //     }   
-                // });
+                var url = 'http://' + req.headers.host + '/resources/' + doc.shopName+ '/dishes/' + files[key].name;
+                Shop.addDishPic(shopId, fields["dishNames"+key], url, function(err) {
+                });
             }
         })
-
-        /* Shop.uploadShopCover(fields.shopName, url, function(err) {
-             if (null == err)
-                 res.json({
-                     code: 200,
-                     msg: {
-                         url: url
-                     }
-                 });
-         })*/
+            res.json({
+                code: 200
+            });
+            }
+        })
     });
 
 router.route('/account/testAddDish')
