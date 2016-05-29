@@ -155,8 +155,9 @@ module.exports = function(config, mongoose, nodemailer) {
         for (var i = doc.length - 1; i >= 0; i--) {
             var obj={};        
             var isFindShop = false;
+            var isFindDish = false;
           if (doc[i].shopName) {
-            if (doc[i].shopName.indexOf(searchText)>=0 ) {
+            if (doc[i].shopName.indexOf(searchText)>=0 ) { //need regx to match?
                 //shopArray[doc[i].shopName] = [doc[i]._id];    
                 obj[doc[i].shopName]=doc[i]._id;
                 //shopArray.push(obj);
@@ -167,21 +168,22 @@ module.exports = function(config, mongoose, nodemailer) {
 
               for (var j = doc[i].dish.length - 1; j >= 0; j--) {
 
-                  if (doc[i].dish[j].dishName.indexOf(searchText)>=0) {
-                     //shopArray[doc[i].shopName] = [doc[i].dish[j].dishName];       
-                     //shopArray.push(doc[i].shopName+':'+doc[i].dish[j].dishName);
-                    
-                    obj["dish"]=doc[i].dish[j].dishName;
-                    //obj[doc[i].shopName]=doc[i]._id;
-                    //shopArray.push(obj);
+                  if (doc[i].dish[j].dishName.indexOf(searchText)>=0) {//need regx to match?
+                      isFindDish = true;
+                      obj["dish"]=doc[i].dish[j].dishName;
+                      if (!isFindShop) {
+                          obj[doc[i].shopName]=doc[i]._id;
+                      }
+
                   }
               }
             }
             if (isFindShop) {
-
-              shopArray.push(obj);
+                shopArray.push(obj);
             }
-
+            if (!isFindShop && isFindDish) {
+                shopArray.push(obj); 
+            }
           }
         }
         callback(shopArray);

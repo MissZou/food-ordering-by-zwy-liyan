@@ -16,6 +16,10 @@ module.exports = function(config, mongoose, nodemailer) {
     location: {type: [{
       name: { type: String},
       loc:{type:[Number]}
+    }]},
+    favorite:{type:[{
+      type:{type: String},
+      _id:{type: String}
     }]}
   });
 
