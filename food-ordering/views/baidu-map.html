@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/stylesheets/normalize.css">
+    <link rel="stylesheet" href="/stylesheets/search-result.css">
+    <style type="text/css">
+    body,
+    html {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        font-family: "微软雅黑";
+        font-size: 14px;
+    }
+    
+    #l-map {
+        height: 300px;
+        width: 100%;
+    }
+    
+    #r-result {
+        width: 100%;
+    }
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=G9z0gp8jpzYSv9WNpqboiWgmB3ZpkUv4"></script>
+    <title>关键字输入提示词条</title>
+</head>
+
+<body>
+    <div id="l-map"></div>
+    <div id="r-result">请输入:
+        <input type="text" id="suggestId" size="20" value="百度" style="width:150px;" />
+    </div>
+    <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+    <button id="confirm">确定</button>
+    <div id="search-result" class="clearfix wrp"></div>
+</body>
+
+</html>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/javascripts/jquery.tmpl.min.js"></script>
+<script type="text/javascript">
+$(function() {
+    var marker = null;
+    function G(id) {
+        return document.getElementById(id);
+    }
+
+    var map = new BMap.Map("l-map");
+    map.centerAndZoom("北京", 12); // 初始化地图,设置城市和地图级别。
+
+    var ac = new BMap.Autocomplete( //建立一个自动完成的对象
+        {
+            "input": "suggestId",
+            "location": map
+        });
+
+    ac.addEventListener("onhighlight", function(e) { //鼠标放在下拉列表上的事件
+        var str = "";
+        var _value = e.fromitem.value;
+        var value = "";
+        if (e.fromitem.index > -1) {
+            value = _value.province + _value.city + _value.district + _value.street + _value.business;
+        }
+        str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+        value = "";
+        if (e.toitem.index > -1) {
+            _value = e.toitem.value;
+            value = _value.province + _value.city + _value.district + _value.street + _value.business;
+        }
+        str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+        G("searchResultPanel").innerHTML = str;
+    });
+
+    var myValue;
+    ac.addEventListener("onconfirm", function(e) { //鼠标点击下拉列表后的事件
+        var _value = e.item.value;
+        myValue = _value.province + _value.city + _value.district + _value.street + _value.business;
+        G("searchResultPanel").innerHTML = "onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+
+        setPlace();
+    });
+
+    function setPlace() {
+        map.clearOverlays(); //清除地图上所有覆盖物
+        function myFun() {
+            var pp = local.getResults().getPoi(0).point; //获取第一个智能搜索的结果
+            map.centerAndZoom(pp, 18);
+            marker = new BMap.Marker(pp)
+            map.addOverlay(marker); //添加标注
+            marker.enableDragging();
+        }
+        var local = new BMap.LocalSearch(map, { //智能搜索
+            onSearchComplete: myFun
+        });
+        local.search(myValue);
+    }
+
+    function markerPos() {
+        var p = marker.getPosition(); //获取marker的位置
+        var loc = "[" + p.lng + "," + p.lat + "]";
+        console.log(loc)
+        var data = {
+            "distance": 5,
+            "location": loc
+        };
+        $.ajax({
+            url: '/shop/findshops',
+            type: 'post',
+            data: data,
+            success: function(data, status) {
+                if (data.code == 200) {
+                    alert("搜索成功");
+                    var shopData=data.shop;
+                   /* var movies = [
+          { Name: "The Red Violin", ReleaseYear: "1998" },
+          { Name: "Eyes Wide Shut", ReleaseYear: "1999" },
+          { Name: "The Inheritance", ReleaseYear: "1976" }
+        ];*/
+
+		var markup ='<a href="http://www.baidu.com" target="_blank" class="rstblock"> \
+            <div class="rstblock-logo"> \
+            <img src=${shopPicTrueUrl} width="70" height="70" alt=${shopName} class="rstblock-logo-icon"><span>36 分钟</span></div> \
+            <div class="rstblock-content"> \
+                <div class="rstblock-title">${shopName}</div> \
+                <div class="star-rating" progress-meter="5"> \
+                	<div class="star-meter" progress-fill="4.2" style="width: 84%;"> \
+                </div> \
+              </div> \
+                <div class="rstblock-cost">类型：${shopType}</div> \
+            </div> \
+        </a>'
+      //var markup = "<li><b>${Name}</b> (${ReleaseYear})</li>";
+
+      // Compile the markup as a named template
+      $.template( "shopTemplate", markup );
+
+      // Render the template with the movies data and insert
+      // the rendered HTML under the "movieList" element
+      $.tmpl( "shopTemplate", shopData )
+          .appendTo( "#search-result" );
+
+                } else {
+                    alert("附近没有商家！");
+                }
+            }
+        });
+    }
+
+    G("confirm").addEventListener("click", markerPos, false);
+
+
+})
+</script>
