@@ -33,6 +33,18 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     return sharedManager;
 }
 
+-(void)reloadAccount{
+    self.email = nil;
+    self.name = nil;
+    self.phone = nil;
+    self.name = nil;
+    self.location = nil;
+    self.deliverAddress = nil;
+    self.photoUrl = nil;
+    self.accountId = nil;
+    
+}
+
 -(id) init {
     if(self = [super init]){
         self.baseUrl = [NSURL URLWithString:baseUrlString];
@@ -40,6 +52,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
         self.serviceAccount = @"fosAccount";
         self.servicePassword = @"fosPassword";
         self.serviceToken = @"fosToken";
+        
     }
     return self;
 }

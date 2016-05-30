@@ -47,6 +47,7 @@
     [SSKeychain deletePasswordForService:self.myAccount.serviceName account:self.myAccount.serviceToken];
     [SSKeychain deletePasswordForService:self.myAccount.serviceName account:self.myAccount.servicePassword];
     [SSKeychain deletePasswordForService:self.myAccount.serviceName account:self.myAccount.serviceAccount];
+    [self.myAccount reloadAccount];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

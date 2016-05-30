@@ -1,6 +1,6 @@
 module.exports = function(config, mongoose, nodemailer) {
   var crypto = require('crypto');
-  
+  //var Order = require('Order');
   var AccountSchema = new mongoose.Schema({
     email:     { type: String, unique: true },
     password:  { type: String},
@@ -30,20 +30,22 @@ module.exports = function(config, mongoose, nodemailer) {
       shopId:{type:String},
       itemId:{type: String}
     }]},
-    order:{type:[{
-      date:{type: Date,default: Date.now},
-      dishs:{type: [{
-        shopId:{type: String},
-        itemId:{type: String},
-        amount:{type: Number}
-      }]},
-      userId:{type: String},
-       comment:{type:[{
-         date:{type: Date,default: Date.now},
-         userId:{type: String},
-         content:{type: String}
-       }]} 
-    }]}
+    orders:{order: [{type: mongoose.Schema.Types.ObjectId, ref:'Order'}] }
+    //order:{}
+    // order:{type:[{
+    //   date:{type: Date,default: Date.now},
+    //   dishs:{type: [{
+    //     shopId:{type: String},
+    //     itemId:{type: String},
+    //     amount:{type: Number}
+    //   }]},
+    //   userId:{type: String},
+    //    comment:{type:[{
+    //      date:{type: Date,default: Date.now},
+    //      userId:{type: String},
+    //      content:{type: String}
+    //    }]} 
+    // }]}
   });
 
   var Account = mongoose.model('Account', AccountSchema);
@@ -226,33 +228,30 @@ var deleteItemOfCart = function(accountId,itemId,callback){
 }
 
 
-var addOrder = function(accountId,itemList,callback){
-  // Account.update({_id:accountId}, {$push: {order:{
-  //         "userId" : accountId
-  //       }}},{upsert:true},
-  //     function (err) {
-  //       callback(err);
-  //   });
-  var array = [];
-  var dishs = [];
-  var dish = {}
-  dish["shopId"] = "shopId";
-  dish["itemId"] = "itemId";
-  dish["amount"] = "amount";
-  dishs.push(dish);
-  dishs.push(dish);
-  dishs.push(dish);
-  dishs.push(dish);
-  for (var i = 5 - 1; i >= 0; i--) {
-      var obj = {};
-      obj["userId"] = "userId";
-      obj["dishs"] = dishs;
-      array.push(obj);
-  }
-  console.log(array);
-  Account.create(array, function(doc){
-      callback(doc);
-  })
+var addOrder = function(accountId,orderId,callback){
+  Account.update({_id:accountId}, {$push: {orders:{
+            "order":orderId
+        }}},{upsert:true},
+      function (err) {
+        //callback(err);
+        if (err == null) {
+          Account.findOne({_id:accountId}).populate('order.orders').exec(function (err, doc) {
+              if (err) {
+                callback(err);
+              }
+              callback(doc);
+          })
+        }
+    });
+}
+
+var findOrderByUserId = function(accountId,callback){
+  Account.findOne({_id:accountId}).populate('orders.order').exec(function (err, doc) {
+              if (err) {
+                callback(err);
+              }
+              callback(doc);
+          })
 }
 
   return {
@@ -271,6 +270,7 @@ var addOrder = function(accountId,itemList,callback){
     deleteLocation:deleteLocation,
     addItemToCart:addItemToCart,
     deleteItemOfCart:deleteItemOfCart,
-    addOrder:addOrder
+    addOrder:addOrder,
+    findOrderByUserId:findOrderByUserId
   }
 }

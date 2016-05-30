@@ -1,5 +1,5 @@
 
-var routeShop = function (app,io,mongoose,Account,Shop) {
+var routeShop = function (app,io,mongoose,Account,Shop,Order) {
 //var routeShop = function () {
 //var session = require('express-session');
 var 
@@ -100,7 +100,9 @@ router.route('/findshops')
         var location = [Number(coordinate[0]),Number(coordinate[1])];
         Shop.queryNearShops(location,distance,function(doc){
            res.json({
-               shop:doc
+               shop:doc,
+               code:200,
+               success:true
             })
           })  
       }  

@@ -1,4 +1,4 @@
-var routeUser = function (app,io,mongoose,Account,Shop) {
+var routeUser = function (app,io,mongoose,Account,Shop,Order) {
 //var routeUser = function () {
 var 
   express = require('express'),
@@ -429,6 +429,10 @@ router.route('/account')
         })
     });
 
+ router.route('/account/index')
+    .get(function(req, res) {
+        res.sendfile(path.join(__dirname, '../../views', 'baidu-map.html'));
+    });
 
 router.route('/account/address')
     .get(function(req, res) {
@@ -650,13 +654,32 @@ router.route('/account/cart')
 
 router.route('/account/order')
     .post(function(req, res){
-        Account.addOrder("id","array",function(doc){
-             res.json({
-                msg:"user order",
-                doc:doc
+        var accountId = req.decoded._id;
+        Account.findOrderByUserId(accountId,function(doc){
+            res.json({
+                accountId: doc._id,
+                order:doc.order,
+                success: true
             })
         })
        
+    })
+
+    .put(function(req, res){
+        var accountId = req.decoded._id;
+        var shopId = req.param("shopId", null);
+        Order.addOrder(accountId,shopId,function(order){
+            //res.send(doc);
+            Account.addOrder(accountId,order._id,function(doc){
+                res.json({
+                    accountId: doc._id,
+                    order:doc.order,
+                    success: true
+                })
+            });
+
+        });
+
     })
 
 

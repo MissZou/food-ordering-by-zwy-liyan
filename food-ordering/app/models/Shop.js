@@ -1,5 +1,6 @@
 module.exports = function(config, mongoose, nodemailer) {
   var crypto = require('crypto');
+  //var Order = require('Order');
   var ShopSchema = new mongoose.Schema({
     email:{ type: String, unique: true },
     password:{type: String},
@@ -25,24 +26,24 @@ module.exports = function(config, mongoose, nodemailer) {
         content:{type: String}
       }]}
     }]},
-
+    order:{orders: [{type: mongoose.Schema.Types.ObjectId, ref:'Order'}] }
 //    dish:{type:[DishSchema]},
-
-    order:{type:[{
-      orderId:{type: String},
-      date:{type: Date,default: Date.now},
-      dishs:{type: [{
-        shopId:{type: String},
-        itemId:{type: String},
-        number:{type: Number}
-      }]},
-      userId:{type: String},
-       comment:{type:[{
-         date:{type: Date,default: Date.now},
-         userId:{type: String},
-         content:{type: String}
-       }]} 
-    }]}
+    
+    // order:{type:[{
+    //   orderId:{type: String},
+    //   date:{type: Date,default: Date.now},
+    //   dishs:{type: [{
+    //     shopId:{type: String},
+    //     itemId:{type: String},
+    //     number:{type: Number}
+    //   }]},
+    //   userId:{type: String},
+    //    comment:{type:[{
+    //      date:{type: Date,default: Date.now},
+    //      userId:{type: String},
+    //      content:{type: String}
+    //    }]} 
+    // }]}
     
   });
 
