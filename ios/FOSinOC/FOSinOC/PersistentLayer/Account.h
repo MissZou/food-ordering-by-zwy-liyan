@@ -47,6 +47,7 @@ typedef NS_ENUM(NSUInteger, httpMethod){
 };
 
 +(Account *) sharedManager;
+-(void) reloadAccount;
 -(void) login:(Account *)model;
 -(void)createAccount:(Account *)model;
 -(void) checkLogin;
