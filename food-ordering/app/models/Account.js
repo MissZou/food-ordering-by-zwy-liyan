@@ -18,34 +18,22 @@ module.exports = function(config, mongoose, nodemailer) {
       loc:{type:[Number]}
     }]},
     cart: {type: [{
-      shopId: { type: String},
+      shopId: { type:mongoose.Schema.Types.ObjectId, ref:'Shop'},
       itemId: { type: String},
       amount:{type:Number},
       date:{type: Date, default: Date.now}
     }]},
     favoriteShop:{type:[{
-      shopId:{type: String}
+      shopId:{type:mongoose.Schema.Types.ObjectId, ref:'Shop'},
     }]},
     favoriteItem:{type:[{
-      shopId:{type:String},
+      shopId:{type:mongoose.Schema.Types.ObjectId, ref:'Shop'},
       itemId:{type: String}
     }]},
-    orders:{order: [{type: mongoose.Schema.Types.ObjectId, ref:'Order'}] }
-    //order:{}
-    // order:{type:[{
-    //   date:{type: Date,default: Date.now},
-    //   dishs:{type: [{
-    //     shopId:{type: String},
-    //     itemId:{type: String},
-    //     amount:{type: Number}
-    //   }]},
-    //   userId:{type: String},
-    //    comment:{type:[{
-    //      date:{type: Date,default: Date.now},
-    //      userId:{type: String},
-    //      content:{type: String}
-    //    }]} 
-    // }]}
+   // orders:{order: [{type: mongoose.Schema.Types.ObjectId, ref:'Order'}] }
+    orders:{type:[{
+      order:{type: mongoose.Schema.Types.ObjectId, ref:'Order'}
+    }]}
   });
 
   var Account = mongoose.model('Account', AccountSchema);
@@ -229,30 +217,91 @@ var deleteItemOfCart = function(accountId,itemId,callback){
 
 
 var addOrder = function(accountId,orderId,callback){
+  //console.log("add order");
   Account.update({_id:accountId}, {$push: {orders:{
             "order":orderId
         }}},{upsert:true},
       function (err) {
+        console.log(err);
         //callback(err);
         if (err == null) {
-          Account.findOne({_id:accountId}).populate('order.orders').exec(function (err, doc) {
+          Account.findOne({_id:accountId}).populate({
+            path:"orders.order",
+              match:{_id:orderId},
+            selecte:'',
+            options:{
+              limit:1
+            }
+          }).exec(function (err, doc) {
               if (err) {
                 callback(err);
               }
               callback(doc);
           })
+        }else{
+          callback(err);
         }
+    });
+}
+
+
+var deleteOrder = function(accountId,orderId,callback){
+    Account.update({_id:accountId}, {$pull: {orders:{
+            "order":orderId
+        }}},{upsert:true},
+      function (err) {
+        callback(err)
     });
 }
 
 var findOrderByUserId = function(accountId,callback){
   Account.findOne({_id:accountId}).populate('orders.order').exec(function (err, doc) {
               if (err) {
+                console.log(err);
                 callback(err);
               }
+              console.log(doc);
               callback(doc);
           })
 }
+
+var addFavoriteShop = function(accountId,shopId,callback){
+    Account.findOne({_id:accountId,"favoriteShop.shopId":shopId},function(err,doc){
+      if (doc == null) {
+          Account.update({_id:accountId},{$push:{favoriteShop:{
+            "shopId":shopId
+          }}},{upsert:true},
+          function(err,doc){
+            // callback(doc);
+            if (err == null) {
+              
+            }
+          });
+      }else{
+        callback("err");
+      }
+    });
+}
+
+
+var deleteFavoriteShop = function(accountId,shopId,callback){
+    Account.findOne({_id:accountId},function(err,doc){
+      if (doc != null) {
+          Account.update({_id:accountId},{$pull:{favoriteShop:{
+            "shopId":shopId
+          }}},{upsert:true},
+          function(err,doc){
+            console.log(err);
+            callback(doc);
+          });
+      }else{
+        callback("err");
+      }
+    });
+}
+
+  
+
 
   return {
     register: register,
@@ -271,6 +320,9 @@ var findOrderByUserId = function(accountId,callback){
     addItemToCart:addItemToCart,
     deleteItemOfCart:deleteItemOfCart,
     addOrder:addOrder,
-    findOrderByUserId:findOrderByUserId
+    deleteOrder:deleteOrder,
+    findOrderByUserId:findOrderByUserId,
+    addFavoriteShop:addFavoriteShop,
+    deleteFavoriteShop:deleteFavoriteShop
   }
 }

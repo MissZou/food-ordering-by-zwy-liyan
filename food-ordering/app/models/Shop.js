@@ -26,40 +26,10 @@ module.exports = function(config, mongoose, nodemailer) {
         content:{type: String}
       }]}
     }]},
-    order:{orders: [{type: mongoose.Schema.Types.ObjectId, ref:'Order'}] }
-//    dish:{type:[DishSchema]},
-    
-    // order:{type:[{
-    //   orderId:{type: String},
-    //   date:{type: Date,default: Date.now},
-    //   dishs:{type: [{
-    //     shopId:{type: String},
-    //     itemId:{type: String},
-    //     number:{type: Number}
-    //   }]},
-    //   userId:{type: String},
-    //    comment:{type:[{
-    //      date:{type: Date,default: Date.now},
-    //      userId:{type: String},
-    //      content:{type: String}
-    //    }]} 
-    // }]}
+    orders:{order: [{type: mongoose.Schema.Types.ObjectId, ref:'Order'}] }
     
   });
 
-// var DishSchema = new mongoose.Schema({
-//   dishName: { type: String},
-//       tags: { type: Array},
-//       price: { type: Number},
-//       intro: { type: String},
-//       dishPic:{ type: String},
-//       index:{type:Number},
-//       comment:{type:[{
-//         date:{type: Date,default: Date.now},
-//         userId:{type: String},
-//         content:{type: String}
-//       }]}
-//     });
 
 
 var OrderSchema = new mongoose.Schema({
@@ -312,24 +282,59 @@ var addComments = function(dishId,date,contnet,userId,callback){
 };
 
 
-var findById = function(_id,callback){
-  Shop.findById(_id,function(err,doc){
-    if (err) {
-        callback(err);
-        console.log(err);
-      }
-        console.log(doc);
-        if (doc == null) {
-          Shop.findOne({dish:{_id:_id}},function(err,doc){
-            if (err) {
-              callback(err);
-            }else{
-              callback(doc);
-            }
-          });
+var findItemById = function(shopId,itemId,callback){
+  Shop.findOne({_id:shopId},function(err,doc){
+      if (err) {
+        callback(err)
+        
+      }else{
+        if (doc != null && doc.dish != null) {
+          for (var i = doc.dish.length - 1; i >= 0; i--) {
+              if (doc.dish[i]._id == itemId) {
+                  console.log(doc.dish[i]);
+                  callback(doc.dish[i]);
+              }
+          }  
+        }else{
+          callback("err");
         }
-        callback(doc);
+        
+
+      }
   })
+}
+
+var addOrder = function(shopId,orderId,callback){
+  Shop.update({_id:shopId}, {$push: {orders:{
+            "order":orderId
+        }}},{upsert:true},
+      function (err) {
+        //callback(err);
+        if (err == null) {
+          Shop.findOne({_id:shopId}).populate({
+            path:"orders.order",
+            match:{_id:orderId},
+            selecte:'',
+            options:{
+              limit:1
+            }
+          }).exec(function (err, doc) {
+              if (err) {
+                callback(err);
+              }
+              callback(doc);
+          })
+        }
+    });
+}
+
+var findOrderByShopId = function(shopId,callback){
+  Shop.findOne({_id:shopId}).populate('orders.order').exec(function (err, doc) {
+              if (err) {
+                callback(err);
+              }
+              callback(doc);
+          })
 }
 
 //=======test api=========
@@ -352,7 +357,9 @@ var deleteShop = function(shopId,callback){
     queryNearShops:queryNearShops,
     findShopByName:findShopByName,
     findShopsAndDishs:findShopsAndDishs,
-    findById:findById,
-    deleteShop:deleteShop
+    findItemById:findItemById,
+    deleteShop:deleteShop,//test api
+    addOrder:addOrder,
+    findOrderByShopId:findOrderByShopId
   }
 }

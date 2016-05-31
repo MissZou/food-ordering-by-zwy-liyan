@@ -42,6 +42,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     self.deliverAddress = nil;
     self.photoUrl = nil;
     self.accountId = nil;
+    self.token = nil;
     
 }
 
@@ -131,7 +132,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     [manager POST:[url absoluteString] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
-            
+//            NSLog(@"%@",responseObject);
             [self.delegate finishCreateAccount:responseObject withAccount:Account.sharedManager];
         } else {
             NSLog(@"%@", responseObject);
@@ -218,6 +219,8 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     
         NSString *token = self.token;
         NSDictionary *parameters = @{@"token": token, @"name": [location valueForKey:@"name"],@"location":[location valueForKey:@"location"]};
+        //NSLog(@"%@",token);
+    
         NSURL *url = [NSURL URLWithString:@"account/location" relativeToURL:self.baseUrl];
         
         AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
