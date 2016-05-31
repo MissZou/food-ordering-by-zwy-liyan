@@ -69,7 +69,7 @@
 }
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
-    NSDictionary *parameters = @{@"locaiton": searchText};
+    NSDictionary *parameters = @{@"location": searchText};
     NSString *URLString = @"http://localhost:8080/search/findlocation";
     //NSString *baseUrlString = @"http://localhost:8080/search/";
     

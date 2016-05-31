@@ -553,7 +553,9 @@ router.route('/account/address')
 
 router.route('/account/location')
     .get(function(req, res) {
+
         res.render('updateInfo.jade');
+
     })
     .put(function(req, res) {
         var accountId = req.decoded._id;
@@ -562,15 +564,15 @@ router.route('/account/location')
         var coordinateString = req.param("location", null);
         //console.log(coordinateString);
     var coordinate = JSON.stringify(coordinateString);
-    console.log(typeof coordinate);
-    console.log(typeof coordinateString);
+    //console.log(typeof coordinate);
+    //console.log(typeof coordinateString);
     coordinate = coordinate.split(',');
     coordinate[0] = coordinate[0].replace(/[^0-9.]/g,'');
     coordinate[1] = coordinate[1].replace(/[^0-9.]/g,'');
     var location = [Number(coordinate[0]),Number(coordinate[1])];
         //var coordinate = [Number(coordinateString.split(',')[0]),Number(coordinateString.split(',')[1])];
         //console.log('account/location'+coordinate.split(',')[0]);
-
+        console.log(accountId);
         if (locationName != null && locationName != "") {
             Account.addLocation(accountId, locationName,location, function(err) {
                 if (err == null) {
@@ -617,6 +619,9 @@ router.route('/account/location')
 });
 
 router.route('/account/cart')
+    .get(function(req, res) {
+         res.sendfile(path.join(__dirname, '../../views', 'shop-detail.html'));
+    })
      .put(function(req, res) {
         var accountId = req.decoded._id;
         var itemId = req.param("itemId", null);
@@ -653,14 +658,21 @@ router.route('/account/cart')
 
 
 router.route('/account/order')
+    .get(function(req, res) {
+         res.sendfile(path.join(__dirname, '../../views', 'confirm-order.html'));
+    })
     .post(function(req, res){
         var accountId = req.decoded._id;
         Account.findOrderByUserId(accountId,function(doc){
-            res.json({
-                accountId: doc._id,
-                order:doc.order,
-                success: true
-            })
+            //res.send(doc);
+            if (doc != null) {
+                    res.json({
+                    accountId: doc._id,
+                    order:doc.orders,
+                    success: true
+                })
+            }
+            
         })
        
     })
@@ -668,18 +680,106 @@ router.route('/account/order')
     .put(function(req, res){
         var accountId = req.decoded._id;
         var shopId = req.param("shopId", null);
-        Order.addOrder(accountId,shopId,function(order){
+        var dishs = req.param("dishs", null);
+        var price = req.param("price", null);
+        var address = req.param("address", null);
+        var message = req.param("message", null);
+        //console.log(typeof Number(price));
+        Order.addOrder(accountId,shopId,dishs,address,price,message,function(order){
             //res.send(doc);
-            Account.addOrder(accountId,order._id,function(doc){
-                res.json({
-                    accountId: doc._id,
-                    order:doc.order,
-                    success: true
-                })
-            });
+            //console.log(order);
+            if (order._id != null) {
+                
+                
+                // Shop.addOrder(shopId,order._id,function(doc){
+                //     //mergeOrder.push(doc.orders);
+                // });
 
+                Account.addOrder(accountId,order._id,function(doc){
+                    //console.log(doc);
+                    //mergeOrder.push(doc.orders);
+                    //console.log(doc.orders);
+                    //console.log(doc.orders.order);
+                    //console.log(doc.orders[0].order);
+                    console.log(doc);
+                    console.log(Array.isArray(doc.orders));
+                    console.log(doc.orders);
+
+                    // var arrs = Array
+                    //     .prototype
+                    //     .slice
+                    //     .call(doc.orders)
+                    //     .filter(order => order.order);
+
+                    // console.log(arrs);
+                    for(var i = 0;i<doc.orders.length;i++){
+                        //console.log("for loop");
+                        if (doc.orders[i].order == null) {
+                        //console.log("null!!!!");
+                        doc.orders.splice(i,1);
+                        i=-1;continue;
+                        }
+                    }
+                    console.log(doc.orders);
+                    res.json({
+                        accountId: doc._id,
+                        order:doc.orders,
+                        success: true
+                    })
+                });    
+            }
+            
         });
 
+    })
+
+    .delete(function(req, res){
+        var accountId = req.decoded._id;
+        var orderId = req.param("orderId", null);
+
+        Account.deleteOrder(accountId,orderId,function(err){
+            if (err == null) {
+                res.json({
+                    //accountId: doc._id,
+                    //order:doc.orders,
+                    success: true
+                })    
+            }
+            
+        });
+    })
+
+router.route('/account/favoriteshop')
+
+    
+    
+    .put(function(req, res){
+        var accountId = req.decoded._id;
+        var shopId = req.param("shopId", null);
+
+        Account.addFavoriteShop(accountId,shopId,function(doc){
+            //res.send(doc);
+            if (doc == "err") {
+                res.json({
+                    success:false,
+                    doc:"the shop already favored"
+                });
+            }else{
+                res.json({
+                    success:true,
+                    doc:doc
+                })
+            }
+        });
+    })
+
+    .delete(function(req,res){
+        var accountId = req.decoded._id;
+        var shopId = req.param("shopId", null);
+
+        Account.deleteFavoriteShop(accountId,shopId,function(doc){
+            res.send(doc);
+        })
     })
 
 
