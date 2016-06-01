@@ -42,6 +42,10 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     self.deliverAddress = nil;
     self.photoUrl = nil;
     self.accountId = nil;
+    self.favoriteShop = nil;
+    self.favoriteItem = nil;
+    self.cart = nil;
+    self.order = nil;
     self.token = nil;
     
 }
@@ -120,6 +124,14 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
         self.location = [result valueForKey:@"location"];
     }
     
+    if ([result valueForKey:@"favoriteItem"] != nil) {
+        self.favoriteItem = [result valueForKey:@"favoriteItem"];
+    }
+    
+    if ([result valueForKey:@"favoriteShop"] != nil) {
+        self.favoriteItem = [result valueForKey:@"favoriteShop"];
+    }
+    
     [self.delegate finishRefreshAccountData];
 }
 
@@ -129,16 +141,28 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
     
-    [manager POST:[url absoluteString] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
+//    [manager PUT:[url absoluteString] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        
+//        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+////            NSLog(@"%@",responseObject);
+//            [self.delegate finishCreateAccount:responseObject withAccount:Account.sharedManager];
+//        } else {
+//            NSLog(@"%@", responseObject);
+//        }
+//        
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        NSLog(@"%@", error);
+//    }];
+    [manager PUT:[url absoluteString] parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject){
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
-//            NSLog(@"%@",responseObject);
+            
+            //[self updateAccount:responseObject];
             [self.delegate finishCreateAccount:responseObject withAccount:Account.sharedManager];
         } else {
             NSLog(@"%@", responseObject);
         }
         
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    }failure:^(NSURLSessionDataTask * _Nonnull task, NSError *error){
         NSLog(@"%@", error);
     }];
 
@@ -218,9 +242,13 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
 -(void) location:(httpMethod)httpMethod withLocation:(NSDictionary *)location{
     
         NSString *token = self.token;
-        NSDictionary *parameters = @{@"token": token, @"name": [location valueForKey:@"name"],@"location":[location valueForKey:@"location"]};
-        //NSLog(@"%@",token);
-    
+        NSDictionary *parameters;
+    if (httpMethod == GET) {
+        parameters = nil;
+    }else{
+        parameters = @{@"token": token, @"name": [location valueForKey:@"name"],@"location":[location valueForKey:@"location"]};
+        
+    }
         NSURL *url = [NSURL URLWithString:@"account/location" relativeToURL:self.baseUrl];
         
         AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -252,6 +280,20 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
         }failure:^(NSURLSessionDataTask * _Nonnull task, NSError *error){
             NSLog(@"%@", error);
         }];
+    } else if(httpMethod == GET){
+        [manager.requestSerializer setValue:self.token forHTTPHeaderField:@"token"];
+        [manager DELETE:[url absoluteString] parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject){
+            if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                
+                [self updateAccount:responseObject];
+                [self.delegate finishFetchAccountData:responseObject withAccount:Account.sharedManager];
+            } else {
+                NSLog(@"%@", responseObject);
+            }
+            
+        }failure:^(NSURLSessionDataTask * _Nonnull task, NSError *error){
+            NSLog(@"%@", error);
+        }];
     }
 }
 
@@ -261,6 +303,9 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     if (httpMethod == POST) {
          parameters = @{@"token": token, @"address": [address valueForKey:@"address"],@"phone":
                                          [address valueForKey:@"phone"],@"name":[address valueForKey:@"name"],@"type":[address valueForKey:@"type"],@"addrId":[address valueForKey:@"_id"]};
+    }else if(httpMethod == GET){
+        
+        parameters = nil;
     }else{
         parameters = @{@"token": token, @"address": [address valueForKey:@"address"],@"phone":
                                          [address valueForKey:@"phone"],@"name":[address valueForKey:@"name"],@"type":[address valueForKey:@"type"]};
@@ -304,6 +349,22 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
             
             if ([responseObject isKindOfClass:[NSDictionary class]]) {
                 
+                [self updateAccount:responseObject];
+                [self.delegate finishFetchAccountData:responseObject withAccount:Account.sharedManager];
+            } else {
+                NSLog(@"%@", responseObject);
+            }
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            NSLog(@"%@", error);
+        }];
+    }
+    else if(httpMethod == GET){
+        [manager.requestSerializer setValue:self.token forHTTPHeaderField:@"token"];
+        [manager GET:[url absoluteString] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                //NSLog(@"%@",responseObject);
                 [self updateAccount:responseObject];
                 [self.delegate finishFetchAccountData:responseObject withAccount:Account.sharedManager];
             } else {

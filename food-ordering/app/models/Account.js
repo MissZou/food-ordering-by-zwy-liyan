@@ -103,6 +103,9 @@ module.exports = function(config, mongoose, nodemailer) {
 
   var findAccountById = function(id, callback) {
     Account.findOne({_id:id}, function(err, doc){
+      if (err) {
+        callback(err)
+      }
       callback(doc);
     })
   }
@@ -273,9 +276,21 @@ var addFavoriteShop = function(accountId,shopId,callback){
           }}},{upsert:true},
           function(err,doc){
             // callback(doc);
-            if (err == null) {
-              
-            }
+              if (err == null) {
+              Account.findOne({_id:accountId}).populate({
+              path:"favoriteShop.shopId",
+                match:{_id:shopId},
+              selecte:'',
+              options:{
+                limit:1
+              }
+             }).exec(function (err, doc) {
+                if (err) {
+                  callback(err);
+                }
+                callback(doc);
+            })
+              }
           });
       }else{
         callback("err");
@@ -285,17 +300,21 @@ var addFavoriteShop = function(accountId,shopId,callback){
 
 
 var deleteFavoriteShop = function(accountId,shopId,callback){
+    //console.log(accountId);
     Account.findOne({_id:accountId},function(err,doc){
       if (doc != null) {
+
           Account.update({_id:accountId},{$pull:{favoriteShop:{
             "shopId":shopId
           }}},{upsert:true},
           function(err,doc){
+            console.log(doc);
             console.log(err);
             callback(doc);
           });
       }else{
-        callback("err");
+        console.log(err);
+        callback("account not exist");
       }
     });
 }

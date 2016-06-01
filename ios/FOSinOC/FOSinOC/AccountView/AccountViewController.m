@@ -44,6 +44,7 @@
     
     //NSLog(@"%@",self.myAccount.deliverAddress);
     // Do any additional setup after loading the view.
+    [self.myAccount address:GET withAddress:nil];
 }
 
 - (void)didReceiveMemoryWarning {

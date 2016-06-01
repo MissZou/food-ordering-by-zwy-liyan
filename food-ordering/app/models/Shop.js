@@ -26,7 +26,10 @@ module.exports = function(config, mongoose, nodemailer) {
         content:{type: String}
       }]}
     }]},
-    orders:{order: [{type: mongoose.Schema.Types.ObjectId, ref:'Order'}] }
+    //orders:{order: [{type: mongoose.Schema.Types.ObjectId, ref:'Order'}] }
+        orders:{type:[{
+      order:{type: mongoose.Schema.Types.ObjectId, ref:'Order'}
+    }]}
     
   });
 

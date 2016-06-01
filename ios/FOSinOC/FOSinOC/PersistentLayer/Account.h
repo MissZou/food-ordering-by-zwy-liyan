@@ -35,6 +35,10 @@
 @property(strong,nonatomic)NSMutableArray *deliverAddress;
 @property(copy,nonatomic)NSString *accountId;
 @property(strong,nonatomic)NSMutableArray *location;
+@property(strong,nonatomic)NSMutableArray *favoriteShop;
+@property(strong,nonatomic)NSMutableArray *favoriteItem;
+@property(strong,nonatomic)NSMutableArray *cart;
+@property(strong,nonatomic)NSMutableArray *order;
 @property(copy,nonatomic)NSString *token;
 
 @property(weak)id <AccountDelegate> delegate;

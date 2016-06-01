@@ -130,6 +130,7 @@
                                         NSLog(@"Edit");
                                     }];
     button.backgroundColor = [UIColor grayColor]; //arbitrary color
+    
     UITableViewRowAction *button2 = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Delete" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath)
                                      {
                                          NSDictionary *addr = [self.myAccout.deliverAddress objectAtIndex:indexPath.row];
