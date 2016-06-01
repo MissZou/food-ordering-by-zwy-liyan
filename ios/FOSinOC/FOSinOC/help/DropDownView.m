@@ -134,7 +134,7 @@
         self.choosedString = [self.dropDownList[indexPath.row] valueForKey:@"name"];
         NSString *btnTitle = [NSString stringWithFormat:@"%@ ▾",[self.dropDownList[indexPath.row] valueForKey:@"name"]];
         [self.senderBtn setTitle:btnTitle forState:UIControlStateNormal];
-        NSLog(@"%@",self.dropDownList);
+        //NSLog(@"%@",self.dropDownList);
         [self.delegate dropDownLocationChooseLocation:self.dropDownList[indexPath.row]];
     }
     

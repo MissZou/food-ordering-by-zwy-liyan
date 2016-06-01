@@ -353,7 +353,7 @@ router.route('/login')
 router.use("/account", function(req, res, next) {
 
     // check header or url parameters or post parameters for token
-    var token = req.body.token || req.param('token') || req.headers['x-access-token'] || req.session.userToken;
+    var token = req.body.token || req.param('token') || req.headers['token'] || req.session.userToken;
     // decode token
     if (token) {
         // verifies secret and checks exp
@@ -445,10 +445,10 @@ router.route('/createCover')
     });
 
 router.route('/account/createDish')
-.get(function(req, res) {
-        //res.sendfile(path.join(__dirname, './views', 'restaurant-post.html'));
-        res.sendfile(path.join(__dirname, '../../views', 'post-dish.html'));
-    })
+    .get(function(req, res) {
+            //res.sendfile(path.join(__dirname, './views', 'restaurant-post.html'));
+            res.sendfile(path.join(__dirname, '../../views', 'post-dish.html'));
+        })
     .post(function(req, res) {
         var shopId = req.decoded._id;
         var dish = req.param('dish', null);
@@ -504,7 +504,7 @@ router.route('/account/createDishPic')
     });
 
 router.route('/account/order')
-    .post(function(req, res){
+    .get(function(req, res){
         var shopId = req.decoded._id;
         Shop.findOrderByShopId(shopId,function(doc){
             res.json({
@@ -519,15 +519,15 @@ router.route('/account/order')
 router.route('/account/testAddDish')
 .post(function(req,res){
     var shopId = req.decoded._id;
+    var dish = req.param('dish', null);
     // var dishName = req.param('dishName');
     // var tags = req.param('tags');
     // var price = req.param('price');
     // var intro = req.param('intro');
     // var index = req.param('index');
     
-    var array = req.param('array');
-    //console.log(req.param);
-    res.send(array);
+    //var array = req.param('array');
+    //res.send(array);
     //console.log(array);
 
     // var dish = {};
@@ -544,18 +544,18 @@ router.route('/account/testAddDish')
     // Shop.deleteShop(shopId,function(doc){
     //     res.send(doc);
     // });
-    //  Shop.addDish(shopId, dish, function(err) {
-    //             if (null == err){
-    //                 res.json({
-    //                     code: 200
-    //                 });
-    //             }else{
-    //                 res.json({
-    //                     msg: err
-    //                 });
-    //             }
+     Shop.addDish(shopId, dish, function(err) {
+                if (null == err){
+                    res.json({
+                        code: 200
+                    });
+                }else{
+                    res.json({
+                        msg: err
+                    });
+                }
                     
-    // })
+    })
                 
 });
 
