@@ -156,34 +156,8 @@ router.route('/register')
     coordinate[0] = coordinate[0].replace(/[^0-9.]/g,'');
     coordinate[1] = coordinate[1].replace(/[^0-9.]/g,'');
     var location = [Number(coordinate[0]),Number(coordinate[1])];
-        /*        //copy file to a public directory
-            console.log(req.files);
-            var targetPath = './public/resources/avatar/' + 'test' + '.jpg';
-            //copy file
-            // fs.createReadStream(req.files.files.ws.path).pipe(fs.createWriteStream(targetPath));
-            //return file url
-            var tmp_path = req.files.files.path;
-            console.log(tmp_path)
-            fs.rename(tmp_path, targetPath, function(err) {
-                if (err) throw err;
-                // 删除临时文件夹文件, 
-                fs.unlink(tmp_path, function() {
-                    if (err) throw err;
-                });
-            });
-            var url = 'http://' + req.headers.host + '/resources/avatar/' + 'test' + '.jpg';
-            var accountId = req.session.user._id;
-            console.log(accountId);
-            Account.uploadAvatar(accountId, url, function(err) {
-                //console.log("save image");
-                if (null == err)
-                    res.json({
-                        code: 200,
-                        msg: {
-                            url: url
-                        }
-                    });
-            })*/
+
+
     Shop.findShop(email,function(doc){
         if (doc != null) {
                                 res.json({
@@ -220,41 +194,6 @@ router.route('/register')
     });
 
 
-
-        // for (var i = 0; i <100000 ; i++) {
-        //     var rand2 = (Math.random()*(117.4-115.7+1)+115.7);
-        //     var rand1 = (Math.random()*(41.6-39.4+1)+39.4);
-        //     //var location = [116.331398,39.897445];
-        //     // var rand1 = (Math.random()*(41-38+1)+39);
-        //     // var rand2 = (Math.random()*(120-110+1)+110);
-
-        //     location = [rand1,rand2];
-
-        //             Shop.createShop(Math.random().toString(36).substring(7), address,location, shopPicUrl, open, shopType, res, function(err) {
-        //     if (err == null) {
-        //         Shop.findShop(shopName, function(doc) {
-        //             res.json({
-        //                 code: 200,
-        //                 shop: doc,
-        //                 success: true
-        //             })
-        //         })
-        //     } else{
-        //             res.json({
-        //                 code: 200,
-        //                 shop: err,
-        //                 success: true
-        //             })
-        //     }
-
-        // });
-        // }
-         // res.json({
-         //                code: 200,
-         //                err: err,
-         //                shop:doc,
-         //                success: true
-         //            })
     });
 router.route('/forgetpassword')
 
@@ -444,11 +383,14 @@ router.route('/createCover')
         })
     });
 
-router.route('/account/createDish')
+router.route('/account/web/dish')
     .get(function(req, res) {
             //res.sendfile(path.join(__dirname, './views', 'restaurant-post.html'));
             res.sendfile(path.join(__dirname, '../../views', 'post-dish.html'));
         })
+
+router.route('/account/dish')
+    
     .post(function(req, res) {
         var shopId = req.decoded._id;
         var dish = req.param('dish', null);
@@ -484,7 +426,7 @@ router.route('/account/createDishPic')
             if (!fs.existsSync(goalUrl)) {
                 fs.mkdirSync(goalUrl);
             }
-            if (!fs.existsSync(goalUrl + '/dishes/')) {
+            if (!fs.existsSync(goalUrl + '/dishes/ ')) {
                 fs.mkdirSync(goalUrl + '/dishes/');
             }
             for (var key in files) {
@@ -502,6 +444,8 @@ router.route('/account/createDishPic')
             }
         })
     });
+
+
 
 router.route('/account/order')
     .get(function(req, res){
