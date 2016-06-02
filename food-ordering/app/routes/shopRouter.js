@@ -1,5 +1,5 @@
 
-var routeShop = function (app,io,mongoose,Account,Shop,Order) {
+var routeShop = function (app,io,mongoose,Account,Shop,Order,onlineUser) {
 //var routeShop = function () {
 //var session = require('express-session');
 var 
@@ -72,6 +72,7 @@ app.use(bodyParser({
 //     next(); //中间件传递
 // });
 //routers
+var sessionShop="";
 router.route('/')
 .get(function(req, res) {
         res.send('routerRestuarant');
@@ -277,6 +278,7 @@ router.route('/login')
                 token: token,
                 success: true
             });
+            sessionShop=doc._id;
         } else {
             res.json({
                 code: 400,
@@ -548,6 +550,15 @@ router.route('/account/testAddShop')
 
         });
     }
+});
+
+io.on('connection', function(socket) {
+var nickname=sessionShop;
+onlineUser[nickname]=socket.id;
+  /*  socket.on('say to someone', function(id, msg) {
+    io.sockets.connected[onlineUser[id]].emit("my message", msg)
+    });*/
+       console.log("shop",onlineUser)
 });
 
   return router;

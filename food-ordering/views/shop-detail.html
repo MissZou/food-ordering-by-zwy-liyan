@@ -214,6 +214,11 @@
 <script src="/javascripts/jquery.fly.min.js"></script>
 <script>
 $(function() {
+    var accountId=localStorage.getItem('accountId');
+    var shopId=window.location.search.split("=")[1]; //非常不健壮
+    localStorage.setItem('shopId',shopId);
+    console.log("accountId",accountId)
+    console.log("shopId",shopId)
     var shopmenuNav = $(".shopmenu-nav");
     var navTop = shopmenuNav.offset().top;
     var items = $(".shopmenu");
@@ -366,7 +371,7 @@ $(function() {
 
         localStorage.setItem('orderList',JSON.stringify(orderList));
         localStorage.setItem('totalPrice',$(".shop-cartfooter-text").text());
-        window.location="/user/account/order";
+        window.location="/user/account/web/order";
 
     }
 })

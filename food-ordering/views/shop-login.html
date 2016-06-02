@@ -22,8 +22,11 @@
             },
             success: function(data, status) {
             	if(data.code==200){
+                    console.log("shop-id",data.shopId)
             		alert("login Success")
-                    window.location="/shop/account/createDish";
+
+                    window.location="/shop/account/web/dish";
+                    
                     
             	}else{
             		alert("shibai!!")

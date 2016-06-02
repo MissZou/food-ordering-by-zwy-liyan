@@ -244,114 +244,132 @@
         font-size: 14px;
         text-align: center;
     }
+    
     .addressdialog {
-    position: fixed;
-    background: #fff;
-    padding: 0;
-}
-.addressdialog-close {
-    display: inline-block;
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 12px;
-    height: 12px;
-    cursor: pointer;
-    color: #ccc;
-    font-size: 12px;
-    line-height: 20px;
-    text-align: center;
-    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAW1JREFUWAntl0FugzAQRaELJNg3Z0DqHSylB28lJI4QiTtkDxIb4r9wNSEz+I/TSl3EEsLYM/8/GxiSqnq1/7YDwzC84/htrnEcT5rumzRCQNu23zi0YBnr6UOraZovTfcOIInWdf2hBad5zzktCppaXr0flAnbtl2WZTmHEK77OOaa0XoAgDCTmANgNVSAZyFYc/iYAKUQHvMsgBfCa04BsBAl5jRADqLU3AVgQWAcNQPveclre/gQQnzf5Grj3BRNq2jel5hD2w2AJEB0XTfEbo/raD7FghXrlb9gqaUYormGlacWdyB13Wc3gLgF2PYpOuLoS78dLgBhnh64MM9zwP3HQ1gCQe+dYv7zkTqay90TCoAxYGI0mCyAR9gTm2AOAUoEvTkmgFcorQhnT64K4BGQxrLPajwAsInSzOozWncATIJlZo3nNNVChMLyzI9RCYPvw7qun9CU42bf+gNhJpATf6VL2r/C7B24AaM38w9UaoY7AAAAAElFTkSuQmCC") center center no-repeat;
-}
-.addressdialog-header {
-    font-size: 18px;
-    font-weight: 600;
-    padding: 15px;
-    color: #333;
-}
-.addressdialog-content {
-    padding: 15px 15px 30px;
-    overflow-x: hidden;
-}
-.addressform {
-    width: 760px;
-}
-.addressform {
-    position: relative;
-}
-.addressdialog-content {
-    padding: 15px 15px 30px;
-    overflow-x: hidden;
-}
-.addressformfield {
-    position: relative;
-    padding-bottom: 25px;
-    font-size: 14px;
-}
-.addressformfield>label {
-    float: left;
-    display: inline-block;
-    width: 65px;
-    height: 38px;
-    margin-right: 20px;
-    line-height: 38px;
-    text-align: right;
-    color: #666;
-}
-.addressformfield>input, .addressformfield>input[type=text] {
-    vertical-align: baseline;
-    border: 1px solid #dedede;
-    box-sizing: border-box;
-    width: 300px;
-    height: 42px;
-    line-height: 38px;
-    padding-left: 10px;
-    border-radius: 2px;
-}
-.sexfield label+div {
-    line-height: 38px;
-}
-.sexfield input+label {
-    display: inline-block;
-    margin-left: 5px;
-    width: 60px;
-    cursor: pointer;
-}
-.addressform-buttons {
-    margin-left: 84px;
-}
-.addressformfield-hint {
-    position: absolute;
-    font-size: 12px;
-    line-height: 20px;
-    bottom: 5px;
-    margin-left: 88px;
-}
-.addressformfield-hint .icon-dot-error {
-    color: #ff464c;
-}
-.addressformfield.validate-error input {
-    border-color: #ff464c;
-}
-.addressform-buttons button {
-    font-size: 14px;
-    box-sizing: border-box;
-    background: 0 0;
-    border: none;
-    padding: 0 20px;
-    color: #9f9f9f;
-    height: 42px;
-    border-radius: 2px;
-    cursor: pointer;
-}
-
-.addressform-buttons button:first-child {
-    margin-right: 10px;
-    border: 1px solid #0089dc;
-    background-color: #0089dc;
-    color: #fff;
-    width: 160px;
-}
+        position: fixed;
+        background: #fff;
+        padding: 0;
+    }
+    
+    .addressdialog-close {
+        display: inline-block;
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        width: 12px;
+        height: 12px;
+        cursor: pointer;
+        color: #ccc;
+        font-size: 12px;
+        line-height: 20px;
+        text-align: center;
+        background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAW1JREFUWAntl0FugzAQRaELJNg3Z0DqHSylB28lJI4QiTtkDxIb4r9wNSEz+I/TSl3EEsLYM/8/GxiSqnq1/7YDwzC84/htrnEcT5rumzRCQNu23zi0YBnr6UOraZovTfcOIInWdf2hBad5zzktCppaXr0flAnbtl2WZTmHEK77OOaa0XoAgDCTmANgNVSAZyFYc/iYAKUQHvMsgBfCa04BsBAl5jRADqLU3AVgQWAcNQPveclre/gQQnzf5Grj3BRNq2jel5hD2w2AJEB0XTfEbo/raD7FghXrlb9gqaUYormGlacWdyB13Wc3gLgF2PYpOuLoS78dLgBhnh64MM9zwP3HQ1gCQe+dYv7zkTqay90TCoAxYGI0mCyAR9gTm2AOAUoEvTkmgFcorQhnT64K4BGQxrLPajwAsInSzOozWncATIJlZo3nNNVChMLyzI9RCYPvw7qun9CU42bf+gNhJpATf6VL2r/C7B24AaM38w9UaoY7AAAAAElFTkSuQmCC") center center no-repeat;
+    }
+    
+    .addressdialog-header {
+        font-size: 18px;
+        font-weight: 600;
+        padding: 15px;
+        color: #333;
+    }
+    
+    .addressdialog-content {
+        padding: 15px 15px 30px;
+        overflow-x: hidden;
+    }
+    
+    .addressform {
+        width: 760px;
+    }
+    
+    .addressform {
+        position: relative;
+    }
+    
+    .addressdialog-content {
+        padding: 15px 15px 30px;
+        overflow-x: hidden;
+    }
+    
+    .addressformfield {
+        position: relative;
+        padding-bottom: 25px;
+        font-size: 14px;
+    }
+    
+    .addressformfield>label {
+        float: left;
+        display: inline-block;
+        width: 65px;
+        height: 38px;
+        margin-right: 20px;
+        line-height: 38px;
+        text-align: right;
+        color: #666;
+    }
+    
+    .addressformfield>input,
+    .addressformfield>input[type=text] {
+        vertical-align: baseline;
+        border: 1px solid #dedede;
+        box-sizing: border-box;
+        width: 300px;
+        height: 42px;
+        line-height: 38px;
+        padding-left: 10px;
+        border-radius: 2px;
+    }
+    
+    .sexfield label+div {
+        line-height: 38px;
+    }
+    
+    .sexfield input+label {
+        display: inline-block;
+        margin-left: 5px;
+        width: 60px;
+        cursor: pointer;
+    }
+    
+    .addressform-buttons {
+        margin-left: 84px;
+    }
+    
+    .addressformfield-hint {
+        position: absolute;
+        font-size: 12px;
+        line-height: 20px;
+        bottom: 5px;
+        margin-left: 88px;
+    }
+    
+    .addressformfield-hint .icon-dot-error {
+        color: #ff464c;
+    }
+    
+    .addressformfield.validate-error input {
+        border-color: #ff464c;
+    }
+    
+    .addressform-buttons button {
+        font-size: 14px;
+        box-sizing: border-box;
+        background: 0 0;
+        border: none;
+        padding: 0 20px;
+        color: #9f9f9f;
+        height: 42px;
+        border-radius: 2px;
+        cursor: pointer;
+    }
+    
+    .addressform-buttons button:first-child {
+        margin-right: 10px;
+        border: 1px solid #0089dc;
+        background-color: #0089dc;
+        color: #fff;
+        width: 160px;
+    }
     </style>
 </head>
 
@@ -385,7 +403,6 @@
                             <ul></ul>
                         </div>
                         <div class="addressformfield-hint"><span></span></div>
-                        
                     </div>
                     <div class="addressformfield">
                         <label>详细地址</label>
@@ -454,39 +471,98 @@
         </div>
     </div>
 </body>
+<script src="/javascripts/socket.io.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 <script src="/javascripts/jquery.tmpl.min.js"></script>
 <script>
-	$(function(){
-        if(localStorage.getItem('orderList')){
-            var orderList=localStorage.getItem('orderList');
-            console.log(JSON.parse(orderList))
-            var orderListArr=JSON.parse(orderList)
-            var markup ='<li> \
+$(function() {
+    if (localStorage.getItem('orderList')) {
+        var orderList = localStorage.getItem('orderList');
+        console.log(JSON.parse(orderList))
+        var orderListArr = JSON.parse(orderList)
+        var markup = '<li> \
                     <div class="checkoutcart-tablerow"> \
                         <div class="cell itemname" title=${dishName}> ${dishName}</div> \
                         <div class="cell itemquantity"> ${num} </div> \
                         <div class="cell itemtotal">${price}</div> \
                     </div> \
                 </li>';
-            
-      $.template( "orderTemplate", markup );
 
-      // Render the template with the movies data and insert
-      // the rendered HTML under the "movieList" element
-      $.tmpl( "orderTemplate", orderListArr )
-          .appendTo( ".checkoutcart-group" );
-          $(".checkoutcart-total .num").text(localStorage.getItem('totalPrice'));
-          $(".checkoutcart-totalextra span").text(orderListArr.length);
+        $.template("orderTemplate", markup);
+
+        // Render the template with the movies data and insert
+        // the rendered HTML under the "movieList" element
+        $.tmpl("orderTemplate", orderListArr)
+            .appendTo(".checkoutcart-group");
+        $(".checkoutcart-total .num").text(localStorage.getItem('totalPrice'));
+        $(".checkoutcart-totalextra span").text(orderListArr.length);
+    }
+
+    var socket = io();
+    var id = localStorage.getItem("shopId");
+    console.log(id)
+
+    socket.on('my message', function(msg) {
+        // 首先，让我们检查我们是否有权限发出通知
+        // 如果没有，我们就请求获得权限
+        if (window.Notification && Notification.permission !== "granted") {
+            Notification.requestPermission(function(status) {
+                if (Notification.permission !== status) {
+                    Notification.permission = status;
+                }
+            });
         }
-		$(".addressdialog-close").on("click",function(){
-			$(this).parent().hide();
-			$(".mask").hide();
-		});
-		$(".checkout-noaddress").on("click",function(){
-			$(".mask").show();
-			$(".addressdialog").show();
-		});
-	})
+
+        // 如果用户同意就创建一个通知
+        if (window.Notification && Notification.permission === "granted") {
+            var n = new Notification(msg);
+        }
+
+        // 如果用户没有选择是否显示通知
+        // 注：因为在 Chrome 中我们无法确定 permission 属性是否有值，因此
+        // 检查该属性的值是否是 "default" 是不安全的。
+        else if (window.Notification && Notification.permission !== "denied") {
+            Notification.requestPermission(function(status) {
+                if (Notification.permission !== status) {
+                    Notification.permission = status;
+                }
+
+                // 如果用户同意了
+                if (status === "granted") {
+                    var n = new Notification(msg);
+                }
+
+                // 否则，我们可以让步的使用常规模态的 alert
+                else {
+                    alert(msg);
+                }
+            });
+        }
+
+        // 如果用户拒绝接受通知
+        else {
+            // 我们可以让步的使用常规模态的 alert
+            alert(msg);
+        }
+
+        $('body').append($('<li>').text(msg));
+    });
+
+    $(".addressdialog-close").on("click", function() {
+        $(this).parent().hide();
+        $(".mask").hide();
+    });
+    $(".checkout-noaddress").on("click", function() {
+        $(".mask").show();
+        $(".addressdialog").show();
+    });
+
+    $(".btn-stress").on("click", confirmOrder);
+
+    function confirmOrder() {
+        socket.emit('say to someone', id, "Someone orders!"); //to id
+    }
+})
 </script>
+
 </html>

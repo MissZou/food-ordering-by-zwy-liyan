@@ -113,6 +113,7 @@ $(function() {
             success: function(data, status) {
                 if (data.code == 200) {
                     alert("搜索成功");
+                    console.log(data)
                     var shopData=data.shop;
                    /* var movies = [
           { Name: "The Red Violin", ReleaseYear: "1998" },
@@ -120,7 +121,7 @@ $(function() {
           { Name: "The Inheritance", ReleaseYear: "1976" }
         ];*/
 
-		var markup ='<a href="http://www.baidu.com" target="_blank" class="rstblock"> \
+		var markup ='<a href="/user/account/web/cart?shopId=${_id}" target="_blank" class="rstblock"> \
             <div class="rstblock-logo"> \
             <img src=${shopPicTrueUrl} width="70" height="70" alt=${shopName} class="rstblock-logo-icon"><span>36 分钟</span></div> \
             <div class="rstblock-content"> \
@@ -131,6 +132,7 @@ $(function() {
               </div> \
                 <div class="rstblock-cost">类型：${shopType}</div> \
             </div> \
+            <div>${_id}</div> \
         </a>'
       //var markup = "<li><b>${Name}</b> (${ReleaseYear})</li>";
 

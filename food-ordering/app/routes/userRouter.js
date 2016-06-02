@@ -1,4 +1,4 @@
-var routeUser = function (app,io,mongoose,Account,Shop,Order) {
+var routeUser = function (app,io,mongoose,Account,Shop,Order,onlineUser) {
 //var routeUser = function () {
 var 
   express = require('express'),
@@ -75,7 +75,7 @@ app.use(function(req, res, next) {
   // });
 
 
-
+var sessionUser="";
 
 router.route('/upload')
     .get(function(req, res) {
@@ -123,44 +123,8 @@ router.route('/postupload').post(multipart(), function(req, res) {
     var url = 'http://' + req.headers.host + '/upload/' + req.session.user._id + '.jpg';
     upload.uploadUrl(url);
 });
-var onlineUser = {};
-io.on('connection', function(socket) {
-    socket.on('chat message', function(msg) {
-        console.log('message: ' + msg);
-    });
-
-    socket.on('say to someone', function(id, to, msg) {
-        //all[username] = socket.id;
-        var online = Object.keys(io.sockets.adapter.rooms); //connected socket id array
-
-        onlineUser[id] = socket.id;
-
-        console.log(socket.id) //from socket id 
-        console.log(id);
-        console.log(to)
-        console.log(online)
-            //socket.emit('my message',msg,online[1],online[0]);
-            //socket.broadcast.to(online[1]).emit('my message', msg);
-        console.log("online1", online[0])
-        console.log("online2", online[1])
-
-        console.log(onlineUser)
-
-        console.log(onlineUser[to])
-        if (onlineUser[to]) {
-
-            io.sockets.connected[onlineUser[to]].emit("my message", msg)
-        }
-
-    });
 
 
-    socket.on('chat message', function(msg) {
-        io.emit('chat message', msg);
-    });
-
-
-});
 
 
 router.route('/confirm')
@@ -350,6 +314,7 @@ router.route('/login')
                 token: token,
                 success: true
             });
+            sessionUser=doc._id;
         } else {
             res.json({
                 code: 400,
@@ -583,7 +548,9 @@ router.route('/account/location')
                             location: doc.location,
                             success: true
                         });
+
                     })
+                    
                 }else{
                     res.json({
                             err: err,
@@ -773,6 +740,16 @@ router.route('/account/favoriteshop')
             res.send(doc);
         })
     })
+
+
+io.on('connection', function(socket) {
+var nickname=sessionUser;
+onlineUser[nickname]=socket.id;
+    socket.on('say to someone', function(id, msg) {
+    io.sockets.connected[onlineUser[id]].emit("my message", msg)
+    });
+    console.log("user",onlineUser)
+});
 
 
   return router;
