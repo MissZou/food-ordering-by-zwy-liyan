@@ -9,7 +9,7 @@ module.exports = function(config, mongoose, nodemailer) {
     location:{type:[Number],index: '2d'},
     shopPicUrl:      {type: String},
     shopPicTrueUrl:{type: String},
-    mark:  { type: String},
+    mark:  { type: Number},
     open:{type:Boolean},
     shopType:{type:String},
     
@@ -22,12 +22,13 @@ module.exports = function(config, mongoose, nodemailer) {
       index:{type:Number},
       comment:{type:[{
         date:{type: Date,default: Date.now},
-        userId:{type: String},
+        userId:{type: mongoose.Schema.Types.ObjectId, ref:'Account'},
+        mark:{type:Number},
         content:{type: String}
       }]}
     }]},
     //orders:{order: [{type: mongoose.Schema.Types.ObjectId, ref:'Order'}] }
-        orders:{type:[{
+    orders:{type:[{
       order:{type: mongoose.Schema.Types.ObjectId, ref:'Order'}
     }]}
     
@@ -110,27 +111,6 @@ var OrderSchema = new mongoose.Schema({
       callback(shopArray);
     })
   }
-
-
- // var findShopsAndDishs = function(searchText,location, callback){
-   //   // Shop.find({shopName:RegExp(shopName)},function(err,doc){
-   //   //   callback(doc);
-   //   // }
-  //   ///var loc = [39.956578, 116.327024];
- 
-   //   Shop.find({location:{$near:location,$maxDistance: 25},shopName:RegExp(searchText)}).limit(15).exec(function(err,doc){
-   //           if (err) {
-  //       callback(err);  
-   //     }
-  //         var shopArray = {};
-   //     for (var i = doc.length - 1; i >= 0; i--) {
-  //       //shopArray.push(doc[i].shopName,doc[i]._id);
-   //       shopArray[doc[i].shopName] = [doc[i]._id];
-   //     }
-       
-   //     callback(shopArray);
-   //   })
-   // }
  
    var findShopsAndDishs = function(searchText,location, callback){
     // Shop.find({shopName:RegExp(shopName)},function(err,doc){
@@ -138,7 +118,7 @@ var OrderSchema = new mongoose.Schema({
     // }
     ///var loc = [39.956578, 116.327024];
 
-   Shop.find({location:{$near:location,$maxDistance: 25}}).limit(15).exec(function(err, doc) {
+   Shop.find({location:{$near:location,$maxDistance: 25}}).limit(150).exec(function(err, doc) {
         if (err) {
            console.log(err);
          }

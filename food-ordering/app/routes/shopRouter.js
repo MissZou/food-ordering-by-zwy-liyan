@@ -391,7 +391,7 @@ router.route('/account/web/dish')
 
 router.route('/account/dish')
     
-    .post(function(req, res) {
+    .put(function(req, res) {
         var shopId = req.decoded._id;
         var dish = req.param('dish', null);
         var dishNames=[];
