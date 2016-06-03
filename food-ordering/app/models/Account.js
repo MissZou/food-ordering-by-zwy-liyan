@@ -1,5 +1,6 @@
 module.exports = function(config, mongoose, nodemailer) {
   var crypto = require('crypto');
+  var eventEmitter = require('events').EventEmitter;  
   //var Order = require('Order');
   var AccountSchema = new mongoose.Schema({
     email:     { type: String, unique: true },
@@ -19,7 +20,7 @@ module.exports = function(config, mongoose, nodemailer) {
     }]},
     cart: {type: [{
       shopId: { type:mongoose.Schema.Types.ObjectId, ref:'Shop'},
-      itemId: { type: String},
+      itemId: { type: mongoose.Schema.Types.ObjectId},
       amount:{type:Number},
       date:{type: Date, default: Date.now}
     }]},
@@ -28,9 +29,8 @@ module.exports = function(config, mongoose, nodemailer) {
     }]},
     favoriteItem:{type:[{
       shopId:{type:mongoose.Schema.Types.ObjectId, ref:'Shop'},
-      itemId:{type: String}
+      itemId:{type:mongoose.Schema.Types.ObjectId}
     }]},
-   // orders:{order: [{type: mongoose.Schema.Types.ObjectId, ref:'Order'}] }
     orders:{type:[{
       order:{type: mongoose.Schema.Types.ObjectId, ref:'Order'}
     }]}
@@ -298,6 +298,21 @@ var addFavoriteShop = function(accountId,shopId,callback){
     });
 }
 
+var findFavoriteShop = function(accountId,callback){
+    Account.findOne({_id:accountId}).populate({
+            path:"favoriteShop.shopId",
+              selecte:'',
+              options:{
+                limit:1
+              }
+             }).exec(function (err, doc) {
+                if (err) {
+                  callback(err);
+                }
+                callback(doc.favoriteShop);
+            })
+              
+}
 
 var deleteFavoriteShop = function(accountId,shopId,callback){
     //console.log(accountId);
@@ -308,8 +323,8 @@ var deleteFavoriteShop = function(accountId,shopId,callback){
             "shopId":shopId
           }}},{upsert:true},
           function(err,doc){
-            console.log(doc);
-            console.log(err);
+            //console.log(doc);
+            //console.log(err);
             callback(doc);
           });
       }else{
@@ -319,8 +334,179 @@ var deleteFavoriteShop = function(accountId,shopId,callback){
     });
 }
 
-  
+var addFavoriteItem = function(accountId,shopId,itemId,callback){
+    Account.findOne({_id:accountId,"favoriteItem.itemId":itemId},function(err,doc){
+      if (doc == null) {
+        Account.update({_id:accountId},{$push:{favoriteItem:{
+            "shopId":shopId,
+            "itemId":itemId
+          }}},{upsert:true},
+          function(err,doc){        
+            if (err == null) {
+                Account.findOne({_id:accountId}).populate({
+                path:"favoriteShop.shopId",
+                match:{_id:shopId},
+                selecte:'',
+                options:{
+                  limit:1
+                }
+               }).exec(function (err, doc) {
+                  if (err) {
+                    callback(err);
+                  }else{
+            
+                    for(var i = 0;i<doc.favoriteShop.length;i++){
+                        if (doc.favoriteShop[i].shopId == null) {
+                            doc.favoriteShop.splice(i,1);
+                            i=-1;continue;
+                        }
+                    }
+                    
+                    var dishs = doc.favoriteShop[0].shopId.dish;
+                    var isFindItem = false;
+                    for(var i = 0;i<dishs.length;i++){
+                        console.log(dishs[i]._id);
+                      if (String(dishs[i]._id).valueOf() == String(itemId).valueOf()) {
+                          callback(dishs[i]);
+                          isFindItem = true
+                      }
+                    }
+                    if (!isFindItem) {
+                        callback("dish not found");
+                    }
+                  }
+              })
+            }else{
+              callback(err);  
+            }
+            
+          });
+      }else{
+        callback("found duiplicate item");  
+      }
+    });
+}
 
+
+var findFavoriteItem = function(accountId,index,count,callback){
+  
+  Account.findOne({_id:accountId},function(err,doc){
+      if (doc != null) {
+        var resultNumber = count;
+        var limit = index * resultNumber;
+        var items = doc.favoriteItem;
+        var array = [];
+          for (var i = limit - resultNumber; i < limit; i++) {
+              if (items[i] != null) {
+                array.push(items[i]);
+              } else{
+                break;
+              }
+          }
+           
+           var result = [];
+           var obj;
+           var j = 0;
+           var myEventEmitter = new eventEmitter;
+           myEventEmitter.on('next',addResult);
+           function addResult(){
+              result.push(obj)
+              j++;
+              if (j == array.length) {
+                callback(result);
+              }
+           }
+          
+           
+           var populateFav = promiseify(populateFavoriteItem);           
+           for (var i = 0; i <array.length ; i++) {
+                var ii = i;
+                populateFavoriteItem(accountId,array[ii],function(doc){
+                  //result.push(doc);
+                  obj = doc;
+                  myEventEmitter.emit("next");
+                })
+           }
+           
+      }else{
+        console.log(err);
+        callback("account not exist");
+      }
+    });
+
+}
+
+var promiseify = function(func) {
+    return function() {
+        var ctx = this;
+        var parameters = Array.prototype.apply(arguments);
+
+        return new Promise(function(resolve, reject) {
+            var cb = function(doc) {
+                return resolve.call(this, doc);
+            };
+            func.apply(ctx, parameters.concat([cb]));
+        });
+    };
+};
+
+
+
+
+var populateFavoriteItem = function(accountId,item,callback){
+        var result = {};
+        Account.findOne({_id:accountId}).populate({
+                path:"favoriteShop.shopId",
+                match:{_id:item.shopId},
+                selecte:'',
+                options:{
+                  limit:1
+                }
+               }).exec(function (err, doc) {
+                  if (err) {
+                    callback(err);
+                  }else{
+            
+                    for(var i = 0;i<doc.favoriteShop.length;i++){
+                        if (doc.favoriteShop[i].shopId == null) {
+                            doc.favoriteShop.splice(i,1);
+                            i=-1;continue;
+                        }
+                    }
+                    
+                    var dishs = doc.favoriteShop[0].shopId.dish;
+                    
+                    for(var i = 0;i<dishs.length;i++){
+                        
+                      if (String(dishs[i]._id).valueOf() == String(item.itemId).valueOf()) {
+                          callback(dishs[i]);
+                      }
+                    
+                    }
+                  }
+              })
+
+}
+
+var deleteFavoriteItem = function(accountId,shopId,itemId,callback){
+      Account.findOne({_id:accountId},function(err,doc){
+      if (doc != null) {
+
+          Account.update({_id:accountId},{$pull:{favoriteItem:{
+            "shopId":shopId,
+            "itemId":itemId
+          }}},{upsert:true},
+          function(err,doc){
+            //console.log(doc);
+            //console.log(err);
+            callback(doc);
+          });
+      }else{
+        console.log(err);
+        callback("account not exist");
+      }
+    });
+}
 
   return {
     register: register,
@@ -342,6 +528,10 @@ var deleteFavoriteShop = function(accountId,shopId,callback){
     deleteOrder:deleteOrder,
     findOrderByUserId:findOrderByUserId,
     addFavoriteShop:addFavoriteShop,
-    deleteFavoriteShop:deleteFavoriteShop
+    findFavoriteShop:findFavoriteShop,
+    deleteFavoriteShop:deleteFavoriteShop,
+    addFavoriteItem:addFavoriteItem,
+    findFavoriteItem:findFavoriteItem,
+    deleteFavoriteItem:deleteFavoriteItem
   }
 }

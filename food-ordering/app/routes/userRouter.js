@@ -660,7 +660,10 @@ router.route('/account/order')
            
             if (order._id != null) {
                 Shop.addOrder(shopId,order._id,function(doc){
-                    
+                    // request(to shop/router)
+                    // shop.notification{
+                    //     res.send()
+                    // }
                 });
                 Account.addOrder(accountId,order._id,function(doc){
                     // console.log(doc.orders);
@@ -705,8 +708,20 @@ router.route('/account/favoriteshop')
 
     .get(function(req, res){
         var accountId = req.decoded._id;
-        Account.findAccountById(accountId,function(doc){
-            res.send(doc);
+        Account.findFavoriteShop(accountId,function(doc){
+            for (var i = doc.length - 1; i >= 0; i--) {
+                doc[i].shopId.dish = undefined;
+                doc[i].shopId.orders = undefined;
+                doc[i].shopId.email = undefined;
+                doc[i].shopId.password = undefined;
+                doc[i].shopId._id = undefined;
+                doc[i]._id = undefined;
+            }
+            
+            res.json({
+                success:true,
+                favoriteshop:doc
+            });
         })
     })
     
@@ -722,8 +737,6 @@ router.route('/account/favoriteshop')
                     doc:"the shop already favored"
                 });
             }else{
-
-
                 res.json({
                     success:true,
                     doc:doc
@@ -737,9 +750,85 @@ router.route('/account/favoriteshop')
         var shopId = req.param("shopId", null);
 
         Account.deleteFavoriteShop(accountId,shopId,function(doc){
+            //res.send(doc);
+            res.json({
+                success:true,
+                doc:doc
+            })
+        })
+    });
+
+router.route('/account/favoriteitem')
+    .get(function(req,res){
+        var accountId = req.decoded._id;
+        var index = req.headers["index"];
+        var count = req.headers["count"];
+        //console.log(index);
+        if (index == null) {
+            index = 1;
+        }
+        if (count == null) {
+            count = 10;
+        }
+        Account.findFavoriteItem(accountId,index,count,function(doc){
             res.send(doc);
         })
     })
+
+    .put(function(req,res){
+        var accountId = req.decoded._id;
+        var shopId = req.param("shopId", null);
+        var itemId = req.param("itemId", null);
+
+        Account.addFavoriteItem(accountId,shopId,itemId,function(doc){
+            console.log(doc);
+            //var dishs = doc.favoriteShop.dish;
+            //console.log(dishs);
+            if (typeof doc === "string") {
+                res.json({
+                    success:false,
+                    doc:doc
+                })
+            }else{
+
+                res.json({
+                    success:true,
+                    shopId:shopId,
+                    doc:doc
+                })
+            }
+        })        
+    })
+
+
+    .delete(function(req,res){
+        var accountId = req.decoded._id;
+        var shopId = req.param("shopId", null);
+        var itemId = req.param("itemId", null);
+
+        Account.deleteFavoriteItem(accountId,shopId,itemId,function(doc){
+            if (doc.ok == 1) {
+                res.json({
+                    success:true
+                })    
+            }else{
+                res.json({
+                    success:false
+                })
+            }
+            //res.send(doc)
+        })
+
+    })
+
+
+
+
+
+
+
+
+
 
 
 io.on('connection', function(socket) {

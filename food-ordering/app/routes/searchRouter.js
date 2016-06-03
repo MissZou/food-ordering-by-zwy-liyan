@@ -12,20 +12,6 @@ var routeSearch = function (app,io,mongoose,Shop) {
 	}));
 	app.use(bodyParser.json());
 
-// router.route('/')
-// .get(function(req, res) {
-//         res.send('location');
-//     })
-
-// .post(function(req, res) {
-//     res.send('location');
-// })
-
-// .put(function(req,res){
-//     res.json({
-//         msg:"new search.js router"
-//     })
-// });
 
 router.route('/')
 .post(function(req,res){
