@@ -631,15 +631,21 @@ router.route('/account/web/order')
     });
 
 router.route('/account/order')
-    
-    .post(function(req, res){
+    .get(function(req, res){
         var accountId = req.decoded._id;
-        Account.findOrderByUserId(accountId,function(doc){
-            //res.send(doc);
+        var index = req.headers["index"];
+        var count = req.headers["count"];
+        //console.log(index);
+        if (index == null) {
+            index = 1;
+        }
+        if (count == null) {
+            count = 10;
+        }
+        Account.findOrderByUserId(accountId,index,count,function(doc){
             if (doc != null) {
                     res.json({
-                    accountId: doc._id,
-                    order:doc.orders,
+                    order:doc,
                     success: true
                 })
             }
@@ -708,16 +714,16 @@ router.route('/account/favoriteshop')
 
     .get(function(req, res){
         var accountId = req.decoded._id;
-        Account.findFavoriteShop(accountId,function(doc){
-            for (var i = doc.length - 1; i >= 0; i--) {
-                doc[i].shopId.dish = undefined;
-                doc[i].shopId.orders = undefined;
-                doc[i].shopId.email = undefined;
-                doc[i].shopId.password = undefined;
-                doc[i].shopId._id = undefined;
-                doc[i]._id = undefined;
-            }
-            
+        var index = req.headers["index"];
+        var count = req.headers["count"];
+        //console.log(index);
+        if (index == null) {
+            index = 1;
+        }
+        if (count == null) {
+            count = 1;
+        }
+        Account.findFavoriteShop(accountId,index,count,function(doc){            
             res.json({
                 success:true,
                 favoriteshop:doc
