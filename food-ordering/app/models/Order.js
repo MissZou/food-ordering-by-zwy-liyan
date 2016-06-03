@@ -16,12 +16,13 @@ module.exports = function(mongoose) {
 	    }},
 	    price:{type:Number},
 	    message:{type:String},
+	    status:{type:String,enum:['created','shipped','confirmed']},
 	    comment:{type:{
 	        date:{type: Date,default: Date.now},
 	        userId:{type: mongoose.Schema.Types.ObjectId, ref:'Account'},
 	        content:{type: String}
 	      }} 
-	 
+	 	
 	});
 
 
@@ -35,7 +36,8 @@ var addOrder = function(userId,shopId,dishs,address,price,message,callback){
 		dishs:dishs,
 		address:address,
 		price:price,
-		message:message
+		message:message,
+		status:'created'
 	});
 
 	tempOrder.save(function(err,doc){
@@ -49,9 +51,26 @@ var addOrder = function(userId,shopId,dishs,address,price,message,callback){
 
 }
 
+var changeOrderStatus = function(shopId,orderId,status,callback){
+	
+	Order.update({_id:orderId,shop:shopId},{$set:{status:status}},{upsert:false},
+		function(err){
+
+			console.log(err);
+			//callback(err);
+			Order.findOne({_id:orderId},function(err,doc){
+
+				//console.log(Temp.schema.path('salutation').enumValues);
+				console.log(doc);
+				callback(doc);
+				//console.log(doc..status.enumValues);
+			})
+	})
+}
 
 
 	return {
-	  	addOrder:addOrder
+	  	addOrder:addOrder,
+	  	changeOrderStatus:changeOrderStatus
   	}
 }

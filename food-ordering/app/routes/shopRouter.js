@@ -8,17 +8,7 @@ var
 var request = require('request');
 var URL = require('URL');
 var bodyParser = require('body-parser');
-// var Shop = require('../models/Shop')(mailConfig, mongoose, nodemailer);
-// var mailConfig = {
-//     host: 'smtp.gmail.com',
-//     secureConnection: true,
-//     port: 465,
-//     auth: {
-//         user: 'foodtongcom@gmail.com',
-//         pass: 'comtongfood'
-//     }
-// }
-// var nodemailer = require('nodemailer');
+
 var path = require('path');
 var multipart = require('connect-multiparty');
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
@@ -73,22 +63,41 @@ app.use(bodyParser({
 // });
 //routers
 var sessionShop="";
-router.route('/')
-.get(function(req, res) {
-        res.send('routerRestuarant');
-    })
-
-.post(function(req, res) {
-    res.send('routerRestuarant');
-})
-
-.put(function(req,res){
-    res.json({
-        msg:"new shop.js router"
-    })
-});
 
 router.route('/findshops')
+    .get(function(req,res){
+        var index = req.headers["index"];
+        var count = req.headers["count"];
+        
+        var distance = req.headers["distance"];
+        var coordinateTemp = req.headers["location"];
+        if (index == null) {
+            index = 1;
+        }
+        if (count == null) {
+            count = 1;
+        }
+        var coordinate = JSON.stringify(coordinateTemp);
+        coordinate = coordinate.split(',');
+        coordinate[0] = coordinate[0].replace(/[^0-9.]/g,'');
+        coordinate[1] = coordinate[1].replace(/[^0-9.]/g,'');
+        if (coordinate !=null && distance !=null) {
+            var location = [Number(coordinate[0]),Number(coordinate[1])];
+            Shop.findNearShops(location,distance,index,count,function(doc){
+               res.json({
+                   shop:doc,
+                   code:200,
+                   success:true
+                })
+              })  
+          }  
+          else{
+                res.json({
+                   code:400
+                })
+          }
+    })
+
     .post(function(req,res){
         
         var distance = req.param('distance', null);
@@ -452,12 +461,42 @@ router.route('/account/createDishPic')
 router.route('/account/order')
     .get(function(req, res){
         var shopId = req.decoded._id;
-        Shop.findOrderByShopId(shopId,function(doc){
-            res.json({
-                success:true,
-                order:doc.orders,
-                shopId:shopId
-            })
+        var index = req.headers["index"];
+        var count = req.headers["count"];
+        if (index == null) {
+            index = 1;
+        }
+        if (count == null) {
+            count = 1;
+        }
+        Shop.findOrderByShopId(shopId,index,count,function(doc){
+            if (doc != null) {
+                res.json({
+                    success:true,
+                    order:doc,
+                    shopId:shopId
+                })
+            }
+
+        })
+    })
+
+    .post(function(req, res){
+        var shopId = req.decoded._id;
+        var orderId = req.param('orderId', null);
+        var status = req.param('status',null);
+
+        Order.changeOrderStatus(shopId,orderId,status,function(doc){
+            if (doc) {
+                res.json({
+                    success:true,
+                    doc:doc
+                })
+            }else{
+                res.json({
+                    success:false
+                })
+            }
         })
     })
 

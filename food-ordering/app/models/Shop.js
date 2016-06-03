@@ -256,10 +256,30 @@ var queryNearShops = function(loc,distance,callback){
       });
 };
 
-var addComments = function(dishId,date,contnet,userId,callback){
+var findNearShops = function(loc,distance,index,count,callback){
+  var maxDistance = distance;
+  var limit = index*count;
+    Shop.find({location:{$near:loc,$maxDistance: maxDistance}}).skip(limit - count).limit(limit).exec(function(err, doc) {
+        if (err) {
+          console.log(err);
+        }
+        console.log(doc);
+        for (var i = doc.length - 1; i >= 0; i--) {
+            doc[i].dish = undefined;
+            doc[i].orders = undefined;
+            doc[i].email = undefined;
+            doc[i].password = undefined;
+            
+        }
+        callback(doc);
+      });
+};
+
+var addComments = function(dishId,date,userId,mark,contnet,callback){
   Shop.findOne({_id:dishId},{$pull:{comment:{
     "content":content,
     //"date":date,
+    "mark":mark,
     "userId":userId
   }}})
 };
@@ -311,12 +331,30 @@ var addOrder = function(shopId,orderId,callback){
     });
 }
 
-var findOrderByShopId = function(shopId,callback){
-  Shop.findOne({_id:shopId}).populate('orders.order').exec(function (err, doc) {
+var findOrderByShopId = function(shopId,index,count,callback){
+var limit = index*count;
+  
+  Shop.findOne({_id:shopId}).populate({
+    path:'orders.order',
+    options:{
+      skip:limit - count
+    }
+  }).slice('orders',limit).exec(function (err, doc) {
               if (err) {
+                console.log(err);
                 callback(err);
               }
-              callback(doc);
+                var array = [];
+                for(var i=limit - count;i<doc.orders.length;i++){
+                    if(doc.orders[i].order!=null){
+                        array.push(doc.orders[i]);            
+                    }
+                    else{
+                      break;
+                    } 
+                }
+
+              callback(array);
           })
 }
 
@@ -338,6 +376,7 @@ var deleteShop = function(shopId,callback){
     login: login,
     addDishPic:addDishPic,
     queryNearShops:queryNearShops,
+    findNearShops:findNearShops,
     findShopByName:findShopByName,
     findShopsAndDishs:findShopsAndDishs,
     findItemById:findItemById,

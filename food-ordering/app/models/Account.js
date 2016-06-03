@@ -225,7 +225,7 @@ var addOrder = function(accountId,orderId,callback){
             "order":orderId
         }}},{upsert:true},
       function (err) {
-        console.log(err);
+        
         //callback(err);
         if (err == null) {
           Account.findOne({_id:accountId}).populate({
@@ -257,14 +257,32 @@ var deleteOrder = function(accountId,orderId,callback){
     });
 }
 
-var findOrderByUserId = function(accountId,callback){
-  Account.findOne({_id:accountId}).populate('orders.order').exec(function (err, doc) {
+var findOrderByUserId = function(accountId,index,count,callback){
+  var limit = index*count;
+  
+  Account.findOne({_id:accountId}).populate({
+    path:'orders.order',
+    options:{
+      
+      skip:limit - count
+      
+    }
+  }).slice('orders',limit).exec(function (err, doc) {
               if (err) {
                 console.log(err);
                 callback(err);
               }
               console.log(doc);
-              callback(doc);
+                var array = [];
+                for(var i=limit - count;i<doc.orders.length;i++){
+                    if(doc.orders[i].order!=null){
+                        array.push(doc.orders[i]);            
+                    }
+                    else{
+                      break;
+                    } 
+                }
+              callback(array);
           })
 }
 
@@ -298,18 +316,40 @@ var addFavoriteShop = function(accountId,shopId,callback){
     });
 }
 
-var findFavoriteShop = function(accountId,callback){
+var findFavoriteShop = function(accountId,index,count,callback){
+    var limit = index*count;
     Account.findOne({_id:accountId}).populate({
             path:"favoriteShop.shopId",
               selecte:'',
               options:{
-                limit:1
+                skip:limit - count
               }
-             }).exec(function (err, doc) {
+             }).slice("favoriteShop",limit).exec(function (err, doc) {
                 if (err) {
                   callback(err);
                 }
-                callback(doc.favoriteShop);
+                console.log(doc);
+                var array = [];
+                for(var i=limit - count;i<doc.favoriteShop.length;i++){
+                    if(doc.favoriteShop[i]!=null){
+                        array.push(doc.favoriteShop[i]);            
+                    }
+                    else{
+                      break;
+                    }
+                }
+
+                for (var i = array.length - 1; i >= 0; i--) {
+                    array[i].shopId.dish = undefined;
+                    array[i].shopId.orders = undefined;
+                    array[i].shopId.email = undefined;
+                    array[i].shopId.password = undefined;
+                    array[i].shopId._id = undefined;
+                    array[i]._id = undefined;
+
+                }
+                
+                callback(array);
             })
               
 }
@@ -435,23 +475,6 @@ var findFavoriteItem = function(accountId,index,count,callback){
     });
 
 }
-
-var promiseify = function(func) {
-    return function() {
-        var ctx = this;
-        var parameters = Array.prototype.apply(arguments);
-
-        return new Promise(function(resolve, reject) {
-            var cb = function(doc) {
-                return resolve.call(this, doc);
-            };
-            func.apply(ctx, parameters.concat([cb]));
-        });
-    };
-};
-
-
-
 
 var populateFavoriteItem = function(accountId,item,callback){
         var result = {};
