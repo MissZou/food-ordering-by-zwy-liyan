@@ -53,17 +53,13 @@ var addOrder = function(userId,shopId,dishs,address,price,message,callback){
 
 var changeOrderStatus = function(shopId,orderId,status,callback){
 	
-	Order.update({_id:orderId,shop:shopId},{$set:{status:status}},{upsert:false},
+	Order.update({_id:orderId,shop:shopId},{$set:{status:status}},{upsert:false,runValidators: true},
 		function(err){
-
 			console.log(err);
-			//callback(err);
 			Order.findOne({_id:orderId},function(err,doc){
-
-				//console.log(Temp.schema.path('salutation').enumValues);
-				console.log(doc);
+				//console.log(doc);
 				callback(doc);
-				//console.log(doc..status.enumValues);
+				
 			})
 	})
 }
