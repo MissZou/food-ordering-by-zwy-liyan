@@ -241,22 +241,15 @@ var findCartItem = function(accountId,index,count,callback){
            for (var i = 0; i <array.length ; i++) {
                 var ii = i;
                 populateCartItem(accountId,array[ii],function(doc){
-                  
-                  //console.log(array[ii]);
-                  // console.log(typeof doc);
-                  console.log(doc.toString());
-                  obj = doc.toObject();
-
-                  // console.log(typeof doc);
-                  //obj = doc;
                   obj["amount"] = array[ii].amount;
-                  // obj["dishName"] = doc["dishName"];
-                  // obj["price"] = doc["price"];
-                  // obj["intro"] = doc["intro"];
-                  // obj["_id"] = doc["_id"];
-                  // obj["dishPic"] = doc["dishPic"];
-                  // obj["comment"] = doc["comment"];
-                  // obj["tags"] = doc["tags"];
+                  obj["dishName"] = doc["dishName"];
+                  obj["price"] = doc["price"];
+                  obj["intro"] = doc["intro"];
+                  obj["_id"] = doc["_id"];
+                  obj["dishPic"] = doc["dishPic"];
+                  obj["comment"] = doc["comment"];
+                  obj["tags"] = doc["tags"];
+
                   //obj = doc;
                   myEventEmitter.emit("next");
                 })

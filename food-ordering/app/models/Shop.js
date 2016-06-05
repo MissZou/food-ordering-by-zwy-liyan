@@ -20,6 +20,7 @@ module.exports = function(config, mongoose, nodemailer) {
       intro: { type: String},
       dishPic:{ type: String},
       index:{type:Number},
+      category:{type: String},
       comment:{type:[{
         date:{type: Date,default: Date.now},
         userId:{type: mongoose.Schema.Types.ObjectId, ref:'Account'},
