@@ -9,13 +9,16 @@
 #define catagoryTalbeWidth 80
 #define slideTitleHeight 40
 #define navigationBarHeight 64
-#define segmentHeight 100
+#define segmentHeight 70
+#define cartViewHeight 60
 
 #import "DetailedChildFoodView.h"
 
 @interface DetailedChildFoodView ()<UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate >
 @property(strong,nonatomic)UITableView *catagoryTable;
 @property(strong,nonatomic)UITableView *foodTable;
+
+
 @property(assign,nonatomic)NSInteger lastSelectSection;
 @property(assign,nonatomic)BOOL isSelectCatagory;
 @property(assign, nonatomic)BOOL isLastCatagorySelected;
@@ -33,7 +36,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    NSLog(@"food view did load %f",self.view.frame.size.height);
+//    CGRect frame = self.view.frame;
+//    frame.size.height = self.view.frame.size.height - segmentHeight - slideTitleHeight;
+//    self.view.frame = frame;
+//
     NSArray *food1 = @[@"c1 food one",@"c1 food two",@"c1 food three",@"food four",@"food five"];
     NSArray *food2 = @[@"c2 food one",@"c2 food two",@"food three",@"food four",@"food five"];
     NSArray *food3 = @[@"c3 food one",@"c3 food two",@"food three",@"food four",@"food five"];
@@ -48,6 +55,7 @@
     
     self.foodTablePanGesture = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(scrollFoodTalbe:)];
     //[self.foodTable addGestureRecognizer:self.foodTablePanGesture];
+    //self.foodTable.frame = CGRectMake(catagoryTalbeWidth, 0, self.view.frame.size.width - catagoryTalbeWidth, self.view.frame.size.height - navigationBarHeight - segmentHeight);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -56,15 +64,19 @@
 }
 
 
-//viewDidAppear called twice??
+
 -(void)viewDidAppear:(BOOL)animated{
     //[self initTableViews];
-    self.foodTable.frame = CGRectMake(catagoryTalbeWidth, 0, self.view.frame.size.width - catagoryTalbeWidth, self.view.frame.size.height - navigationBarHeight - segmentHeight);
-//    self.foodTable.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height - navigationBarHeight - segmentHeight);
+    self.foodTable.frame = CGRectMake(catagoryTalbeWidth, 0, self.view.frame.size.width - catagoryTalbeWidth, self.view.frame.size.height  - navigationBarHeight - segmentHeight - segmentHeight);
+    self.catagoryTable.frame = CGRectMake(0, 0,catagoryTalbeWidth, self.view.frame.size.height- navigationBarHeight - segmentHeight - segmentHeight);
+//    CGRect frame = self.view.frame;
+//    frame.size.height = self.view.frame.size.height - segmentHeight - slideTitleHeight;
+//    self.view.frame = frame;
+    
     NSLog(@"%f",self.view.superview.frame.size.height);
     NSLog(@"%f",self.view.frame.size.height);
     NSLog(@"%f",self.foodTable.frame.size.height);
-    
+    NSLog(@"%f",self.foodTable.frame.origin.y);
     //self.isSendContinueScrolling = false;
     //[self enableInteraction];
     [self.foodTable setScrollEnabled:false];
@@ -93,7 +105,8 @@
 -(void)initTableViews{
     self.lastSelectSection = -1;
     
-    self.catagoryTable = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, catagoryTalbeWidth, self.view.frame.size.height) style:UITableViewStylePlain];
+    self.catagoryTable = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, catagoryTalbeWidth, self.view.frame.size.height - segmentHeight + slideTitleHeight) style:UITableViewStylePlain];
+    self.catagoryTable = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, catagoryTalbeWidth, self.view.frame.size.height - slideTitleHeight) style:UITableViewStylePlain];
     [self.catagoryTable registerClass:[UITableViewCell self] forCellReuseIdentifier:@"catagoryCell"];
     self.catagoryTable.delegate = self;
     self.catagoryTable.dataSource = self;
@@ -101,10 +114,13 @@
     self.catagoryTable.backgroundColor = [UIColor grayColor];
     [self.view addSubview:self.catagoryTable];
     
-    self.foodTable = [[UITableView alloc]initWithFrame:CGRectMake(catagoryTalbeWidth, 0, self.view.frame.size.width - catagoryTalbeWidth, self.view.frame.size.height) style:UITableViewStylePlain];
+    self.foodTable = [[UITableView alloc]initWithFrame:CGRectMake(catagoryTalbeWidth, 0, self.view.frame.size.width - catagoryTalbeWidth, self.view.frame.size.height- segmentHeight + slideTitleHeight ) style:UITableViewStylePlain];
+    //self.foodTable = [[UITableView alloc]initWithFrame:CGRectMake(catagoryTalbeWidth, 0, self.view.frame.size.width - catagoryTalbeWidth, self.view.frame.size.height - slideTitleHeight) style:UITableViewStylePlain];
     [self.foodTable registerClass:[UITableViewCell self] forCellReuseIdentifier:@"foodCell"];
     self.foodTable.delegate = self;
     self.foodTable.dataSource = self;
+    
+    //self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height);
     
     [self.view addSubview:self.foodTable];
 }

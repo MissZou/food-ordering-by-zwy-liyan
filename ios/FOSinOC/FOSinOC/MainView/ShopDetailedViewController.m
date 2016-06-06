@@ -6,14 +6,15 @@
 //  Copyright © 2016年 李龑. All rights reserved.
 //
 #define sdNavigationBarHeight 64
-#define sdSegmentViewHeight 100
+#define sdSegmentViewHeight 70
+#define slideTitleHeight 40
 
 #import "ShopDetailedViewController.h"
 #import "SlideMultiViewController.h"
 #import "DetailedChildFoodView.h"
 #import "DetailedChildShopView.h"
 #import "DetailedChildCommentView.h"
-#import "UINavigationBar+Awesome.h"
+//#import "UINavigationBar+Awesome.h"
 
 #import "Shop.h"
 @interface ShopDetailedViewController ()<UIScrollViewDelegate,UIGestureRecognizerDelegate,DetailedChildFoodViewDelegate>
@@ -32,13 +33,16 @@
 
 
 @property (strong,nonatomic)UIScreenEdgePanGestureRecognizer *edgePanGesture;
+//gesture varibles
 @property CGPoint startLocation;
 @property CGPoint currentLocation;
 @property CGFloat swipeOffset;
 @property CGPoint tempTranslatedPoint;
 @property CGFloat tempTransPointY;
+@property CGFloat superViewHeight;
+@property BOOL gestureStateBegin;
 //slideMenu view ====================================
-@property(strong,nonatomic) UIScrollView *mainScrollView;
+
 @property(strong,nonatomic) SlideMultiViewController *slideMultiViewController;
 @property(strong,nonatomic)  DetailedChildFoodView *foodView;
 @property(strong,nonatomic)  DetailedChildShopView *shopView;
@@ -62,9 +66,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height + sdSegmentViewHeight);
+    self.superViewHeight = self.view.frame.size.height;
     [self initDetailedChildFoodView];
-
-    NSLog(@"shop id %@",self.shopID);
+    
+    //NSLog(@"shop id %@",self.shopID);
     //[[self navigationController] setNavigationBarHidden:YES animated:NO];
     [self initNavigationBar];
   
@@ -115,7 +120,7 @@
     self.segmentView = [[UIView alloc]initWithFrame:CGRectMake(0, sdNavigationBarHeight, self.view.frame.size.width, sdSegmentViewHeight)];
     //self.segmentView.backgroundColor = [UIColor orangeColor];
     
-    UIImageView *shopImageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 5, 90, 90)];
+    UIImageView *shopImageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 5, 60, 60)];
     shopImageView.image = [UIImage imageNamed:@"favoriteGreen.png"];
     UILabel *shopName = [[UILabel alloc]initWithFrame:CGRectMake(shopImageView.frame.size.width+shopImageView.frame.origin.x + 10, 5, self.view.frame.size.width - 150, 30)];
     shopName.text = @"ShopName";
@@ -128,6 +133,8 @@
     
 //slideMenu view ====================================
     self.foodView = [[DetailedChildFoodView alloc]init];
+    //self.foodView.view.frame = CGRectMake(self.foodView.view.frame.origin.x, self.foodView.view.frame.origin.y, self.foodView.view.frame.size.width, self.view.frame.size.height);
+    
     self.shopView = [[DetailedChildShopView alloc]init];
     self.commentView = [[DetailedChildCommentView alloc]init];
     self.foodView.delegate = self;
@@ -154,12 +161,14 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
      self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height + sdSegmentViewHeight);
+    
     //NSLog(@"shop detail %f",self.slideMultiViewController.view.frame.size.height);
     //NSLog(@"shop detail %f",self.view.frame.size.height);
        // [self initNavigationBar];
     self.naviShopName.alpha = 0;
     self.naviRightViewSmall.alpha = 0;
     self.naviRightViewFull.alpha = 1;
+    
     
 }
 
@@ -208,7 +217,7 @@
 
 
 -(void)hideTopview:(CGFloat) alpha{
-    //NSLog(@"orign alpha %f",alpha);
+
     alpha = (alpha - 64)/100;
     float adjustAlpha;
     if (alpha < 0) {
@@ -237,23 +246,20 @@
         }
         self.naviRightViewFull.alpha = adjustAlpha;
     }
-//    NSLog(@"right small %f",self.naviRightViewSmall.alpha);
-//    NSLog(@"title %f",self.naviShopName.alpha);
-//    NSLog(@"alpha %f",alpha);
+    
 }
 
 
 -(void)hideSegmentView:(CGFloat) alpha{
-    
-    self.segmentView.alpha = (alpha - 64)/100;
+
+    self.segmentView.alpha = (alpha - 64)/sdSegmentViewHeight;
     //self.topViewSubView.alpha = (alpha - 64)/100;
     if (alpha <= 164.0) {
-        self.segmentView.frame = CGRectMake(0, alpha-100, self.segmentView.frame.size.width, self.segmentView.frame.size.width);
+        self.segmentView.frame = CGRectMake(0, alpha-sdSegmentViewHeight, self.segmentView.frame.size.width, self.segmentView.frame.size.width);
     }
 }
 
 -(void)scrollSlideView:(UIPanGestureRecognizer *) panGesture{
-    
     CGPoint velocity = [panGesture velocityInView:self.view];
     CGPoint translatedPoint = [panGesture translationInView:self.view];
     
@@ -271,14 +277,17 @@
     if (panGesture.state == UIGestureRecognizerStateBegan) {
         self.slideMenuFrameY = self.slideMultiViewController.view.frame.origin.y;
         self.tempTranslatedPoint = translatedPoint;
+        self.gestureStateBegin = true;
+        NSLog(@"state begin true");
     }
     
 // when the food view is on the top, scroll it to show segment view
     if (self.slideMultiViewController.view.frame.origin.y <sdNavigationBarHeight+sdSegmentViewHeight + 60  && self.slideMultiViewController.view.frame.origin.y>sdNavigationBarHeight ) {
         
         self.slideMultiViewController.view.frame = CGRectMake(0, self.slideMenuFrameY + translatedPoint.y, self.view.frame.size.width, self.view.frame.size.height - sdNavigationBarHeight-sdSegmentViewHeight);
-        if(velocity.y>0){
-            self.tempTransPointY = self.tempTranslatedPoint.y - translatedPoint.y;
+                if(velocity.y>0){
+            //self.tempTransPointY = self.tempTranslatedPoint.y - translatedPoint.y;
+                    //self.tempTranslatedPoint = CGPointMake(0, 0);
         }
     }
     
@@ -286,20 +295,29 @@
     {
         
         self.slideMultiViewController.view.frame = CGRectMake(0, sdNavigationBarHeight, self.view.frame.size.width, self.view.frame.size.height - sdNavigationBarHeight-sdSegmentViewHeight);
-        //NSNumber *y = [NSNumber numberWithFloat:translatedPoint.y + self.tempTransPointY];
-        NSNumber *y = [NSNumber numberWithFloat:translatedPoint.y];
-        [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionFood" object:y];
-        [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionComment" object:y];
+        if (self.gestureStateBegin) {
+            NSLog(@"state begin false");
+            
+            NSNumber *y = [NSNumber numberWithFloat:0.0];
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionFood" object:y];
+            self.gestureStateBegin = false;
+            self.tempTranslatedPoint = translatedPoint;
+        }
+        // when sroll segment view up out of screen,
+        if (velocity.y<0) {
+            NSNumber *y = [NSNumber numberWithFloat:translatedPoint.y - self.tempTranslatedPoint.y];
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionFood" object:y];
+        }else{
+            NSNumber *y = [NSNumber numberWithFloat:translatedPoint.y];
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionFood" object:y];
+        }
+        
+        //NSNumber *y = [NSNumber numberWithFloat:translatedPoint.y - self.tempTranslatedPoint.y];
+        //NSNumber *y = [NSNumber numberWithFloat:0.0];
+        
+        //[[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionComment" object:y];
         
     }
-    
-    //move from top to bottom
-    
-    //    if (self.slideMultiViewController.view.frame.origin.y <sdNavigationBarHeight+sdSegmentViewHeight && self.slideMultiViewController.view.frame.origin.y>=sdNavigationBarHeight && velocity.y>0) {
-    //        [[NSNotificationCenter defaultCenter]postNotificationName:@"disableInteraction" object:nil];
-    //        self.slideMultiViewController.view.frame = CGRectMake(0, self.slideMenuFrameY + translatedPoint.y, self.view.frame.size.width, self.view.frame.size.height - sdNavigationBarHeight-sdSegmentViewHeight);
-    //    }
-    
     
     if (panGesture.state == UIGestureRecognizerStateEnded) {
         
@@ -311,6 +329,9 @@
         }
         if(self.slideMultiViewController.view.frame.origin.y < sdNavigationBarHeight+sdSegmentViewHeight && self.slideMultiViewController.view.frame.origin.y > sdNavigationBarHeight+20 && velocity.y>0)
         {
+//            CGRect frame = self.view.frame;
+//            frame.size.height = self.superViewHeight;
+//            self.view.frame = frame;
             [UIView animateWithDuration:0.25 animations:^{
                 self.slideMultiViewController.view.frame = CGRectMake(0, sdNavigationBarHeight+sdSegmentViewHeight, self.view.frame.size.width, self.view.frame.size.height - sdNavigationBarHeight-sdSegmentViewHeight);
                 [self hideSegmentView:sdNavigationBarHeight+sdSegmentViewHeight];
@@ -323,9 +344,15 @@
     
     [self hideSegmentView:self.slideMultiViewController.view.frame.origin.y];
     [self hideTopview:self.slideMultiViewController.view.frame.origin.y];
-    //NSLog(@"translatedPoint y:%f",translatedPoint.y);
-    //NSLog(@"speed y:%f",velocity.y);
+//    CGRect frame = self.view.frame;
+//    frame.size.height = self.superViewHeight;
+//    self.view.frame = frame;
+//    NSLog(@"translatedPoint y:%f",translatedPoint.y);
+//    NSLog(@"speed y:%f",velocity.y);
 //    NSLog(@"slide y: %f",self.slideMultiViewController.view.frame.origin.y);
+//    NSLog(@"super view superViewHeight %f",self.superViewHeight);
+//    NSLog(@"super view frame height %f",self.view.frame.size.height);
+//    NSLog(@"translatedPoint temp y:%f",self.tempTranslatedPoint.y);
 }
 
 -(void)naviMenuButtonClicked{

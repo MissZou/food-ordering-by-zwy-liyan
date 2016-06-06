@@ -127,7 +127,7 @@
     
     [self.navigationController.navigationBar lt_reset];
 
- 
+    
 
 }
 - (IBAction)openMenu:(id)sender {
@@ -387,7 +387,7 @@
         UILabel *catagory = [[UILabel alloc]initWithFrame:CGRectMake(130, 5, 100, 30)];
         UILabel *price = [[UILabel alloc]initWithFrame:CGRectMake(200, 65, 60, 30)];
         UILabel *distance = [[UILabel alloc]initWithFrame:CGRectMake(130, 65, 60, 30)];
-        UILabel *heat = [[UILabel alloc]initWithFrame:CGRectMake(100, 5, 8, 90)];
+        UIImageView *heat = [[UIImageView alloc]initWithFrame:CGRectMake(100, 5, 8, 90)];
         UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 5, 90, 90)];
         
         name.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
@@ -436,7 +436,7 @@
         UILabel *catagroy = (UILabel *)[cell.contentView viewWithTag: tableCellTag+2];
         UILabel *price = (UILabel *)[cell.contentView viewWithTag: tableCellTag+3];
         UILabel *distance = (UILabel *)[cell.contentView viewWithTag: tableCellTag+4];
-        UILabel *heat = (UILabel *)[cell.contentView viewWithTag: tableCellTag+5];
+        UIImageView *heat = (UIImageView *)[cell.contentView viewWithTag: tableCellTag+5];
         UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag: tableCellTag+5];
         if ([self.shopList[indexPath.row] valueForKey:@"shopName"]) {
             NSLog(@"shop name is null");

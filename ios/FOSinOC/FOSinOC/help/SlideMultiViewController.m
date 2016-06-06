@@ -176,6 +176,7 @@
     UIViewController *vc = self.viewControllerArray[index];
     CGRect frame = self.contentScrollView.bounds;
     frame.origin.x = self.view.frame.size.width * index;
+    frame.size.height = self.view.frame.size.height -titleViewHeight;
     vc.view.frame = frame;
     [self.contentScrollView addSubview:vc.view];
 }

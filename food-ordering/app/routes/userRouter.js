@@ -591,6 +591,35 @@ router.route('/account/web/cart')
     });
 
 router.route('/account/cart')
+
+    
+    .get(function(req, res) {
+        var accountId = req.decoded._id;
+        var index = req.headers["index"];
+        var count = req.headers["count"];
+        //console.log(index);
+        if (index == null || index == 0) {
+            index = 1;
+        }
+        if (count == null || count == 0) {
+            count = 1;
+        }
+
+        Account.findCartItem(accountId,index,count,function(doc){
+            if (doc != null) {
+                res.json({
+                    success:true,
+                    doc:doc
+                })
+            }else{
+                res.json({
+                    success:false
+                })
+            }
+        })
+
+     })
+
      .put(function(req, res) {
         var accountId = req.decoded._id;
         var itemId = req.param("itemId", null);
@@ -611,8 +640,8 @@ router.route('/account/cart')
 
      .delete(function(req, res){
         var accountId = req.decoded._id;
-        var ItemId = req.param("itemId", null);
-                Account.deleteItemOfCart(accountId,itemId,function(err){
+        var _id = req.param("_id", null);
+                Account.deleteItemOfCart(accountId,_id,function(err){
             if (err == null) {
                 Account.findAccountById(accountId,function(doc){
                     res.json({
@@ -636,17 +665,21 @@ router.route('/account/order')
         var index = req.headers["index"];
         var count = req.headers["count"];
         //console.log(index);
-        if (index == null) {
+        if (index == null || index == 0) {
             index = 1;
         }
-        if (count == null) {
-            count = 10;
+        if (count == null || count == 0) {
+            count = 1;
         }
         Account.findOrderByUserId(accountId,index,count,function(doc){
             if (doc != null) {
                     res.json({
                     order:doc,
                     success: true
+                })
+            }else{
+                res.json({    
+                    success: false
                 })
             }
             
@@ -717,10 +750,10 @@ router.route('/account/favoriteshop')
         var index = req.headers["index"];
         var count = req.headers["count"];
         //console.log(index);
-        if (index == null) {
+        if (index == null || index == 0) {
             index = 1;
         }
-        if (count == null) {
+        if (count == null || count == 0) {
             count = 1;
         }
         Account.findFavoriteShop(accountId,index,count,function(doc){            
@@ -769,13 +802,15 @@ router.route('/account/favoriteitem')
         var accountId = req.decoded._id;
         var index = req.headers["index"];
         var count = req.headers["count"];
-        //console.log(index);
-        if (index == null) {
+        console.log(count);
+        console.log(typeof count);
+        if (index == null || index == 0) {
             index = 1;
         }
-        if (count == null) {
-            count = 10;
+        if (count == null || count == 0) {
+            count = 1;
         }
+        
         Account.findFavoriteItem(accountId,index,count,function(doc){
             res.send(doc);
         })

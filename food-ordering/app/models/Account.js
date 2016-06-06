@@ -21,8 +21,8 @@ module.exports = function(config, mongoose, nodemailer) {
     cart: {type: [{
       shopId: { type:mongoose.Schema.Types.ObjectId, ref:'Shop'},
       itemId: { type: mongoose.Schema.Types.ObjectId},
-      amount:{type:Number},
-      date:{type: Date, default: Date.now}
+      amount:{type:Number}
+      //date:{type: Date, default: Date.now}
     }]},
     favoriteShop:{type:[{
       shopId:{type:mongoose.Schema.Types.ObjectId, ref:'Shop'},
@@ -209,9 +209,95 @@ var addItemToCart = function(accountId,shopId,itemId,amount,callback){
     });
 }
 
-var deleteItemOfCart = function(accountId,itemId,callback){
+var findCartItem = function(accountId,index,count,callback){
+  Account.findOne({_id:accountId},function(err,doc){
+      if (doc != null) {
+        var limit = index * count;
+        var items = doc.cart;
+        var array = [];
+          for (var i = limit - count; i < limit; i++) {
+              if (items[i] != null) {
+                array.push(items[i]);
+              } else{
+                break;
+              }
+          }
+           
+           var result = [];
+           var obj = {};
+           obj["amount"] = 0;
+           var j = 0;
+           var myEventEmitter = new eventEmitter;
+           myEventEmitter.on('next',addResult);
+           function addResult(){
+              
+              result.push(obj)
+              obj = {};
+              j++;
+              if (j == array.length) {
+                callback(result);
+              }
+           }         
+           for (var i = 0; i <array.length ; i++) {
+                var ii = i;
+                populateCartItem(accountId,array[ii],function(doc){
+                  obj["amount"] = array[ii].amount;
+                  obj["dishName"] = doc["dishName"];
+                  obj["price"] = doc["price"];
+                  obj["intro"] = doc["intro"];
+                  obj["_id"] = doc["_id"];
+                  obj["dishPic"] = doc["dishPic"];
+                  obj["comment"] = doc["comment"];
+                  obj["tags"] = doc["tags"];
+
+                  //obj = doc;
+                  myEventEmitter.emit("next");
+                })
+           }
+           
+      }else{
+        console.log(err);
+        callback("account not exist");
+      }
+    });
+}
+var populateCartItem = function(accountId,item,callback){
+        var result = {};
+        Account.findOne({_id:accountId}).populate({
+                path:"cart.shopId",
+                match:{_id:item.shopId},
+                selecte:'',
+                options:{
+                  limit:1
+                }
+               }).exec(function (err, doc) {
+                  if (err) {
+                    callback(err);
+                  }else{
+                    
+                    for(var i = 0;i<doc.cart.length;i++){
+                        if (doc.cart[i].shopId == null) {
+                            doc.cart.splice(i,1);
+                            i=-1;continue;
+                        }
+                    }
+                    
+                    var dishs = doc.cart[0].shopId.dish;
+
+                    for(var i = 0;i<dishs.length;i++){
+                      if (String(dishs[i]._id).valueOf() == String(item.itemId).valueOf()) {
+                          callback(dishs[i]);
+                      }
+                    
+                    }
+                  }
+              })
+}
+
+
+var deleteItemOfCart = function(accountId,_id,callback){
   Account.update({_id:accountId}, {$pull: {cart:{
-          "itemId" : ItemId
+          "_id" : _id
         }}},{upsert:true},
       function (err) {
         callback(err);
@@ -311,7 +397,9 @@ var addFavoriteShop = function(accountId,shopId,callback){
               }
           });
       }else{
+        
         callback("err");
+
       }
     });
 }
@@ -328,7 +416,7 @@ var findFavoriteShop = function(accountId,index,count,callback){
                 if (err) {
                   callback(err);
                 }
-                console.log(doc);
+
                 var array = [];
                 for(var i=limit - count;i<doc.favoriteShop.length;i++){
                     if(doc.favoriteShop[i]!=null){
@@ -455,10 +543,7 @@ var findFavoriteItem = function(accountId,index,count,callback){
               if (j == array.length) {
                 callback(result);
               }
-           }
-          
-           
-           var populateFav = promiseify(populateFavoriteItem);           
+           }         
            for (var i = 0; i <array.length ; i++) {
                 var ii = i;
                 populateFavoriteItem(accountId,array[ii],function(doc){
@@ -476,6 +561,7 @@ var findFavoriteItem = function(accountId,index,count,callback){
 
 }
 
+
 var populateFavoriteItem = function(accountId,item,callback){
         var result = {};
         Account.findOne({_id:accountId}).populate({
@@ -489,16 +575,14 @@ var populateFavoriteItem = function(accountId,item,callback){
                   if (err) {
                     callback(err);
                   }else{
-            
+                    
                     for(var i = 0;i<doc.favoriteShop.length;i++){
                         if (doc.favoriteShop[i].shopId == null) {
                             doc.favoriteShop.splice(i,1);
                             i=-1;continue;
                         }
                     }
-                    
                     var dishs = doc.favoriteShop[0].shopId.dish;
-                    
                     for(var i = 0;i<dishs.length;i++){
                         
                       if (String(dishs[i]._id).valueOf() == String(item.itemId).valueOf()) {
@@ -508,7 +592,6 @@ var populateFavoriteItem = function(accountId,item,callback){
                     }
                   }
               })
-
 }
 
 var deleteFavoriteItem = function(accountId,shopId,itemId,callback){
@@ -546,6 +629,7 @@ var deleteFavoriteItem = function(accountId,shopId,itemId,callback){
     addLocation:addLocation,
     deleteLocation:deleteLocation,
     addItemToCart:addItemToCart,
+    findCartItem:findCartItem,
     deleteItemOfCart:deleteItemOfCart,
     addOrder:addOrder,
     deleteOrder:deleteOrder,

@@ -20,6 +20,7 @@ module.exports = function(config, mongoose, nodemailer) {
       intro: { type: String},
       dishPic:{ type: String},
       index:{type:Number},
+      category:{type: String},
       comment:{type:[{
         date:{type: Date,default: Date.now},
         userId:{type: mongoose.Schema.Types.ObjectId, ref:'Account'},
@@ -34,23 +35,6 @@ module.exports = function(config, mongoose, nodemailer) {
     
   });
 
-
-
-var OrderSchema = new mongoose.Schema({
-    orderId:{type: String},
-    date:{type: Date,default: Date.now},
-    dishs:{type: [{
-      shopId:{type: String},
-      itemId:{type: String},
-      number:{type: Number}
-    }]},
-    userId:{type: String},
-     comment:{type:[{
-       date:{type: Date,default: Date.now},
-       userId:{type: String},
-       content:{type: String}
-     }]} 
-})
 
   var Shop = mongoose.model('Shop', ShopSchema);
 //  var Product = require('ProductModel')(mongoose);
@@ -112,6 +96,26 @@ var OrderSchema = new mongoose.Schema({
     })
   }
  
+var changeShopInfo = function(shopId,shop,callback){
+      Shop.findOne({_id:shopId},function(err,doc){
+      if (err) {
+        console.log(err);
+      }else{
+        
+       if (shop.shopPicUrl != null) {
+          doc.shopPicUrl = shop.shopPicUrl;
+          doc.markModified("shopPicUrl");        
+       }
+        doc.save(function(err,doc){
+          console.log(doc);
+          callback(doc);
+        });
+
+
+      }
+    })
+}
+
    var findShopsAndDishs = function(searchText,location, callback){
     // Shop.find({shopName:RegExp(shopName)},function(err,doc){
     //   callback(doc);
@@ -229,6 +233,45 @@ var addDish = function(shopId, newDish, callback) {
         
     });
 };
+
+var changeDishInfo = function(shopId, dish, callback){
+    
+    Shop.findOne({_id:shopId},function(err,doc){
+      if (err) {
+        console.log(err);
+      }else{
+        
+        if (dish.price != null) {
+          doc.dish.id(dish._id).price = dish.price;  
+        }
+        if (dish.dishName != null) {
+          doc.dish.id(dish._id).dishName = dish.dishName;  
+        }
+        if (dish.intro != null) {
+          doc.dish.id(dish._id).intro = dish.intro;  
+        }
+        if (dish.dishPic != null) {
+          doc.dish.id(dish._id).dishPic = dish.dishPic;  
+        }
+        if (dish.category != null) {
+          doc.dish.id(dish._id).category = dish.category;  
+        }
+        if (dish.tags != null) {
+          doc.dish.id(dish._id).tags = dish.tags;  
+        }
+
+
+        doc.markModified("dish");
+        doc.save(function(err,doc){
+          console.log(doc);
+          callback(doc);
+        });
+
+
+      }
+    })
+}
+
 
 
 var addDishPic = function(shopId, key,url, callback) {
@@ -365,12 +408,16 @@ var deleteShop = function(shopId,callback){
   });
 }
 
+//var addDishInfo = 
+
   return {
     createShop: createShop,
     findShop: findShop,
     findShopById: findShopById,
+    changeShopInfo:changeShopInfo,
     uploadShopCover:uploadShopCover,
     addDish:addDish,
+    changeDishInfo:changeDishInfo,
     forgotPassword: forgotPassword,
     changePassword: changePassword,
     login: login,

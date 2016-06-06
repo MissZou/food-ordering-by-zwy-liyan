@@ -352,6 +352,21 @@ router.route('/account')
         })
     });
 
+
+router.route('/account/edit')
+    .post(function(req, res){
+        var shopId = req.decoded._id;
+        var shop = req.param('shop', null);
+        Shop.changeShopInfo(shopId,shop,function(doc){
+            if (doc != null) {
+                res.json({
+                    success:true,
+                    doc:doc
+                })
+            }
+        })
+    })
+
 //mark this route have problem of fields, the uploadShopCover method is changed.
 router.route('/createCover')
     .post(function(req, res) {
@@ -410,10 +425,22 @@ router.route('/account/dish')
             Shop.addDish(shopId, dish[i], function(doc) {
             })
         }
-        console.log(dishNames)
+        //console.log(dishNames)
+            res.json({
+                code: 200,
+                success: true
+            });
+    })
+    .post(function(req, res){
+        var shopId = req.decoded._id;
+        var dish = req.param('dish', null);
+
+        Shop.changeDishInfo(shopId,dish,function(err,doc){
+
             res.json({
                 code: 200,
             });
+        })
     })
 
 router.route('/account/createDishPic')
@@ -504,7 +531,7 @@ router.route('/account/order')
 router.route('/account/testAddDish')
 .post(function(req,res){
     var shopId = req.decoded._id;
-    var dish = req.param('dish', null);
+    //var dish = req.param('dish', null);
     // var dishName = req.param('dishName');
     // var tags = req.param('tags');
     // var price = req.param('price');
@@ -526,21 +553,21 @@ router.route('/account/testAddDish')
     //res.send(dish);
     //console.log(dish.dishName);
     
-    // Shop.deleteShop(shopId,function(doc){
-    //     res.send(doc);
-    // });
-     Shop.addDish(shopId, dish, function(err) {
-                if (null == err){
-                    res.json({
-                        code: 200
-                    });
-                }else{
-                    res.json({
-                        msg: err
-                    });
-                }
+    Shop.deleteShop(shopId,function(doc){
+        res.send(doc);
+    });
+    //  Shop.addDish(shopId, dish, function(err) {
+    //             if (null == err){
+    //                 res.json({
+    //                     code: 200
+    //                 });
+    //             }else{
+    //                 res.json({
+    //                     msg: err
+    //                 });
+    //             }
                     
-    })
+    // })
                 
 });
 
