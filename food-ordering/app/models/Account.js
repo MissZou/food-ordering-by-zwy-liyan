@@ -397,7 +397,9 @@ var addFavoriteShop = function(accountId,shopId,callback){
               }
           });
       }else{
+        
         callback("err");
+
       }
     });
 }

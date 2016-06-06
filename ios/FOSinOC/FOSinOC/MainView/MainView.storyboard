@@ -353,6 +353,7 @@
                         <viewControllerLayoutGuide type="bottom" id="uTr-np-LrK"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="FA4-Wd-sXF">
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
