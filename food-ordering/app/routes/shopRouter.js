@@ -367,7 +367,6 @@ router.route('/account/edit')
         })
     })
 
-//mark this route have problem of fields, the uploadShopCover method is changed.
 router.route('/createCover')
     .post(function(req, res) {
         //var shopId = req.decoded._id;
@@ -382,11 +381,11 @@ router.route('/createCover')
                 })
                 return;
             }
-            var goalUrl = './public/resources/' + fields.shopName + '/';
+            var goalUrl = './public/resources/' + fields.shopId + '/';
             if (!fs.existsSync(goalUrl)) {
                 fs.mkdirSync(goalUrl);
             }
-            var targetPath = goalUrl + fields.shopName + '.jpg';
+            var targetPath = goalUrl + fields.shopId + '.jpg';
             var tmp_path = files.file.path;
             fs.rename(tmp_path, targetPath, function(err) {
                 if (err) throw err;
@@ -395,7 +394,7 @@ router.route('/createCover')
                     if (err) throw err;
                 });
             });
-            var url = 'http://' + req.headers.host + '/resources/' + fields.shopName + '.jpg';
+            var url = 'http://' + req.headers.host + '/resources/' + fields.shopId + '.jpg';
             Shop.uploadShopCover(shopId, url, function(err) {
                 if (null == err)
                     res.json({
@@ -420,16 +419,22 @@ router.route('/account/dish')
     .put(function(req, res) {
         var shopId = req.decoded._id;
         var dish = req.param('dish', null);
-        var dishNames=[];
+        var dishes=null;
         for (var i = 0; i < dish.length; i++) {
             Shop.addDish(shopId, dish[i], function(doc) {
             })
         }
-        //console.log(dishNames)
-            res.json({
+Shop.findShopById(shopId,function(doc){
+    dishes=doc.dish;
+     res.json({
                 code: 200,
-                success: true
+                success: true,
+                dishes:dishes
+                
             });
+});
+        //console.log(dishNames)
+           
     })
     .post(function(req, res){
         var shopId = req.decoded._id;
@@ -448,7 +453,7 @@ router.route('/account/createDishPic')
         var shopId = req.decoded._id;
        Shop.findShopById(shopId, function(doc) {
             if (null != doc){
- var form = new formidable.IncomingForm();
+        var form = new formidable.IncomingForm();
         form.encoding = 'utf-8';
         form.multiples = true;
         form.parse(req, function(err, fields, files) {
@@ -460,18 +465,19 @@ router.route('/account/createDishPic')
                 })
                 return
             }
-            var goalUrl = './public/resources/' +doc.shopName + '/';
+            var goalUrl = './public/resources/' +shopId + '/';
             if (!fs.existsSync(goalUrl)) {
                 fs.mkdirSync(goalUrl);
             }
-            if (!fs.existsSync(goalUrl + '/dishes/ ')) {
-                fs.mkdirSync(goalUrl + '/dishes/');
+            if (!fs.existsSync(goalUrl + 'dishes/')) {
+                fs.mkdirSync(goalUrl + 'dishes/');
             }
+            console.log(files)
             for (var key in files) {
-                var targetPath = goalUrl + '/dishes/' + files[key].name;
+                var targetPath = goalUrl + 'dishes/' + fields["dishId"+key]+".jpg";
                 var tmp_path = files[key].path;
                 fs.renameSync(tmp_path, targetPath);
-                var url = 'http://' + req.headers.host + '/resources/' + doc.shopName+ '/dishes/' + files[key].name;
+                var url = 'http://' + req.headers.host + '/resources/' +shopId+ '/dishes/' +fields["dishId"+key]+".jpg";
                 Shop.addDishPic(shopId, fields["dishNames"+key], url, function(err) {
                 });
             }

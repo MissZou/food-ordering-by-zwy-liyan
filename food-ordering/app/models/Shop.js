@@ -8,7 +8,6 @@ module.exports = function(config, mongoose, nodemailer) {
     address:     { type: String},
     location:{type:[Number],index: '2d'},
     shopPicUrl:      {type: String},
-    shopPicTrueUrl:{type: String},
     mark:  { type: Number},
     open:{type:Boolean},
     shopType:{type:String},
@@ -206,7 +205,7 @@ var changeShopInfo = function(shopId,shop,callback){
   };
 
   var uploadShopCover = function(shopId, shopPicTrueUrl, callback) {
-    Shop.update({_id:shopId}, {$set:{shopPicTrueUrl:shopPicTrueUrl}},{upsert:false},
+    Shop.update({_id:shopId}, {$set:{shopPicUrl:shopPicTrueUrl}},{upsert:false},
       function(err){
         callback(err);
       });
@@ -232,6 +231,7 @@ var addDish = function(shopId, newDish, callback) {
         }
         
     });
+
 };
 
 var changeDishInfo = function(shopId, dish, callback){

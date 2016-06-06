@@ -15,6 +15,7 @@ $(function() {
     };
 
     var uploadPic = {
+
         add: function(files) {
             var len = files.length > 9 ? 9 : files.length;
             for (var i = 0; i < len; i++) {
@@ -23,9 +24,7 @@ $(function() {
                 if (!imageType.test(file.type)) {
                     continue;
                 }
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    $('<li><img src=' + e.target.result + ' alt=""> \
+                var list = $('<li><img alt=""> \
                         <label>Dish name</label> \
                         <input type="text" class="dishName"> \
                         <label>Tags</label> \
@@ -40,8 +39,15 @@ $(function() {
                         <input type="number" class="price"> \
                         <label>Introduction</label> \
                         <textarea class="intro" cols="30" rows="10"></textarea></li>')
-                        .appendTo($(".dishPreview ul"));
-                };
+                var img = list.find("img");
+                list.appendTo($(".dishPreview ul"));
+
+                var reader = new FileReader();
+                reader.onload = (function(aImg) {
+                    return function(e) {
+                        aImg.attr("src",e.target.result);
+                    };
+                })(img);
                 reader.readAsDataURL(file);
             }
         }
@@ -76,16 +82,25 @@ $(function() {
         //data.append('shopDish', dish);
         //data.append('shopName', $("#shopName").val());
         $.ajax({
-            url: '/shop/account/createDish',
+            url: '/shop/account/dish',
             data: {
                 "dish": dish
             },
-            type: 'POST',
+            type: 'PUT',
             //contentType: false,
             //processData: false, 
             success: function(data, status) {
                 if (data.code == 200) {
                     alert("上传成功");
+                    console.log(data.dishes);
+                    var originalDishes = data.dishes;
+                    var newDishes = [];
+                    for (var i = 0; i < originalDishes.length; i++) {
+                        if (!originalDishes[i].dishPic) {
+                            newDishes.push(originalDishes[i]._id);
+                        }
+                    }
+                    console.log(newDishes)
                     var data = new FormData();
                     $.each($(".uploadPic")[0].files, function(i, file) {
                         data.append(i, file);
@@ -94,7 +109,9 @@ $(function() {
                     data.append('shopName', $("#shopName").val());
                     for (var i = 0; i < dish.length; i++) {
                         data.append('dishNames' + i, dish[i].dishName);
+                        data.append('dishId' + i, newDishes[i]);
                     }
+
                     /*   data.append('dishNames',dish);*/
                     console.log(dish)
                     $.ajax({
