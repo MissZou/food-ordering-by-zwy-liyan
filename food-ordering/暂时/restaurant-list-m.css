@@ -1,0 +1,232 @@
+.shoplist {
+    background-color: #fff;
+}
+h3 {
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  position: relative;
+  background-color: #fff;
+  color: #666;
+  list-style: none;
+  font-size: 0.30137rem;
+  line-height: 1;
+}
+
+.item:first-child .item-wrap {
+  border-top: none;
+}
+
+.item-wrap {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-left: 0.410959rem;
+  padding: 0.410959rem 0.410959rem 0.410959rem 0;
+  border-top: 1px solid #eee;
+}
+
+.left-wrap {
+  position: relative;
+  -webkit-flex-basis: 1.315068rem;
+  -ms-flex-preferred-size: 1.315068rem;
+  flex-basis: 1.315068rem;
+  margin-right: 0.410959rem;
+}
+
+.logo {
+  display: block;
+  width: 1.315068rem;
+  height: 1.315068rem;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.premium {
+  position: absolute;
+  top: 0.890411rem;
+  left: 0;
+  width: 1.315068rem;
+  height: 0.69863rem;
+}
+
+.right-wrap {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.line {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.line + .line {
+  margin-top: 0.205479rem;
+}
+
+.shop-name {
+  overflow: hidden;
+  max-width: 5.136986rem;
+  color: #333;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.438356rem;
+}
+
+.price {
+  color: #ff6000;
+  font-weight: 600;
+  font-size: 0.356164rem;
+}
+
+.price::before {
+  content: '\a5';
+  font-size: 0.328767rem;
+}
+
+.price-big {
+  font-size: 0.465753rem;
+}
+
+.rate-wrap {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.rate {
+  margin: 0 0.109589rem;
+  color: #ff6000;
+}
+
+.speed span + span:before {
+  margin: 0 0.109589rem;
+  color: #eee;
+  content: '/';
+}
+
+.status-tip {
+  padding: 0 0.068493rem;
+  height: 0.410959rem;
+  color: #fff;
+  line-height: 0.410959rem;
+}
+
+.icon-wrap {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.icon-delivery {
+  width: 1.260274rem;
+  -webkit-border-radius: 0.041096rem;
+  border-radius: 0.041096rem;
+  background: #57a9ff;
+  color: #fff;
+  text-align: center;
+  font-size: 0.273973rem;
+  line-height: 0.356164rem;
+}
+
+.activities {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 0.273973rem;
+  border-top: 1px dashed #ddd;
+  color: #666;
+}
+
+.act-list {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.act-list div {
+  margin-top: 0.205479rem;
+}
+
+.act-list div:first-child {
+  padding-right: 1.917808rem;
+}
+
+.act-list span {
+  display: none;
+  white-space: normal;
+}
+
+.act-btn {
+  position: absolute;
+  top: 0.205479rem;
+  right: 0;
+  padding-right: 0.410959rem;
+  width: 1.643836rem;
+  text-align: right;
+  line-height: 0.438356rem;
+}
+
+.act-icon {
+  position: absolute;
+  top: 50%;
+  right: 0.068493rem;
+  width: 0.219178rem;
+  height: 0.219178rem;
+  -webkit-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+  -webkit-transform: translateY(-50%) rotate(0deg);
+  transform: translateY(-50%) rotate(0deg);
+  fill: currentColor;
+  will-change: transform;
+}
+
+.act-icon-open {
+  -webkit-transform: translateY(-50%) rotate(180deg);
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.new {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  width: 1.041096rem;
+  height: 1.041096rem;
+  background-image: -webkit-linear-gradient(315deg, transparent 20%, #6ecd37 20%, #6ecd37 50%, transparent 50%);
+  background-image: linear-gradient(135deg, transparent 20%, #6ecd37 20%, #6ecd37 50%, transparent 50%);
+}
+
+.new span {
+  position: absolute;
+  top: 0.205479rem;
+  left: 0.054795rem;
+  display: block;
+  color: #fff;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
