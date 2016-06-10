@@ -1,0 +1,35 @@
+	.topbar {
+    display: block;
+    line-height: 60px;
+    background-color: #1e89e0;
+}
+.container {
+    font-size: 14px;
+    width: 960px;
+    margin: 0 auto;
+}
+.topbar-item.focus {
+    background-color: #006bc7;
+}
+.topbar-item.topbar-homepage {
+    width: 112px!important;
+}
+.topbar-item {
+    font-size: 16px;
+    position: relative;
+    color: #fff;
+    width: 104px;
+    text-align: center;
+}
+.topbar-item, .topbar-logo, .topbar-nav-link {
+    float: left;
+}
+
+.topbar-profilebox {
+    float: right;
+    color: #fff;
+    width: 93px;
+} 
+.topbar-profilebox a{
+	color: #fff;
+}

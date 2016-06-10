@@ -27,7 +27,7 @@ input[type="password"]{
 }
 
 .signup {
-    background: url(/images/signup-background.jpg);
+  /*   background: url(/images/signup-background.jpg); */
     background-size: cover;
     font-family: "Microsoft Yahei", "BentonSans", Helvetica, Arial, sans-serif;
 }

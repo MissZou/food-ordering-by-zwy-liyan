@@ -1,25 +1,13 @@
-//- extends layout
-//- block content
-//-     include header.jade
-//-     form#registerForm(method="post")
-//-         input#userName(type='text', placeholder='Username',name="Username")
-//-         br
-//-         input#password(type='password', placeholder='password',name="password")
-//-         br
-//-         确认密码：
-//-         input#repeatPassword(type='password', placeholder='password',name="repeatPassword")
-//-         br
-//-         邮箱：
-//-         input#email(type="email",name="email")
-//-         input#register(type="submit",value="注册")
-
 doctype html
 html
 	head
 		meta(charset='UTF-8')   
 		title 注册   
+		link(rel='stylesheet', href='/stylesheets/normalize.css')
 		link(rel='stylesheet', href='/stylesheets/signup.css')
+		link(rel='stylesheet', href='/stylesheets/header.css')
 	body.signup
+		include header.jade
 		.loginForm
 			a.close X
 			h1 Log In To Your Account
