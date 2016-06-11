@@ -230,3 +230,95 @@ h3 {
   -webkit-transform: rotate(-45deg);
   transform: rotate(-45deg);
 }
+
+
+
+.filter-extend {
+    left: 0;
+    right: 0;
+    /* top: 100%; */
+    border-top: 1px solid #ddd;
+    /* position: absolute; */
+    max-height: 0;
+    background-color: #fff;
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+    visibility: hidden;
+    overflow: auto;
+    opacity: 0;
+    padding-bottom: 1.466667rem;
+    z-index: 3;
+}
+.filter-category {
+    z-index: 200;
+    padding-bottom: 0;
+    color: #666;
+}
+.filter-extend.open {
+    opacity: 1;
+    visibility: visible;
+    max-height: 12rem;
+}
+.filter-category .filter-scroller{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    overflow: auto;
+    max-height: 10.666667rem;
+    -webkit-overflow-scrolling: touch;
+    line-height: normal;
+}
+.filter-category ul:first-child {
+    background-color: #f2f2f2;
+}
+.filter-category ul {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    display: block;
+    width: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.filter-category ul:first-child li {
+    padding: 0 .133333rem 0 .266667rem;
+}
+.filter-category li {
+    position: relative;
+    line-height: 1.333333rem;
+}
+.filter-scroller span {
+    vertical-align: middle;
+}
+.filter-category .count {
+    position: absolute;
+    right: .666667rem;
+    line-height: .373333rem;
+    top: 50%;
+    margin-top: -.186667rem;
+    border-radius: .266667rem;
+    color: #fff;
+    background-color: #ccc;
+    padding: 0 .133333rem;
+    font-size: .293333rem;
+}
+.filter-category ul:nth-of-type(2) {
+    margin-left: .4rem;
+    padding-right: .133333rem;
+}
+.filter-category ul:nth-of-type(2) li {
+    border-bottom: .013333rem solid #ddd;
+}
+.filter-category ul:nth-of-type(2) .count {
+    right: .266667rem;
+    background-color: transparent;
+    color: #999;
+}
+.filter-category li.active{
+    background-color: #fff;
+}
