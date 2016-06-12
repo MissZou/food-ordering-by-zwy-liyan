@@ -1,0 +1,66 @@
+.eleme-header,
+    .restaurant-food-container .restaurant-food-footer ,.menu-cart{
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        -webkit-justify-content: space-between;
+        justify-content: space-between;
+    }
+    .eleme-header {
+        position: relative;
+        z-index: 20;
+        height: 44px;
+        background: #3199e8;
+        color: #fff;
+        line-height: 44px;
+    }
+    
+    .header-back {
+        position: relative;
+        padding: 0 0 0 10px;
+        color: #fff;
+        display: block;
+    }
+    
+    a {
+        background: 0 0;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    
+    .header-title.flex {
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+    }
+    
+    .header-title {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 65px;
+        right: 65px;
+        overflow: hidden;
+        margin: 0;
+        text-align: center;
+        font-size: 1.05rem;
+        color: #fff;
+    }
+    
+    .header-title>.header-rst-name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 90%;
+    }
+    

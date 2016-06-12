@@ -38,16 +38,17 @@ app.set('tokenScrete', tokenConfig.secret);
 var upload = require('../models/upload')(mongoose);
 
 var ifMobile = function (req, res, next) {
-  //console.log('LOGGED');
   var deviceAgent = req.headers["user-agent"].toLowerCase();
-  //console.log(deviceAgent)
 var agentID = deviceAgent.match(/(iphone|ipod|ipad|android)/);
 if(agentID){
-res.redirect("/user/upload")
+if(/\/m$/.test(req.url) ||req.method!="GET" ){
+    next();
+}else {
+res.redirect(req.protocol + '://' + req.get('host') + req.originalUrl+"/m");
+}
 }else{
 next();
 }
-
 };
 
 app.use(express.static(__dirname + '/public'));
@@ -80,16 +81,8 @@ app.use(function(req, res, next) {
 });
 
 
-  // router.get('/', function (req, res, next) {
-  //   // Do stuff
-  //   res.json({
-  //   	msg:"new route"
-  //   })
-  // });
-
-
 var sessionUser="";
-
+router.use(ifMobile);
 router.route('/upload')
     .get(function(req, res) {
         if (req.session.user) {
@@ -103,7 +96,7 @@ router.route('/upload')
         }
     });
 
-router.use(ifMobile);
+
 
 router.route('/confirm')
 
@@ -112,6 +105,10 @@ router.route('/confirm')
 })
 
 // ----------------------------------------------------
+router.route('/register/m')
+.get(function(req, res) {
+         res.render('reg-m');
+    });
 
 router.route('/register')
     .get(function(req, res) {
@@ -157,8 +154,6 @@ router.route('/register')
                             })
                         }
                     });
-
-
                 }
             })
         }

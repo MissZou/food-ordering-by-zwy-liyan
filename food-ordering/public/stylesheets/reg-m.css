@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="UTF-8">
-    <title>register-m</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <style>
-    * {
+* {
         margin: 0;
         padding: 0;
     }
@@ -134,52 +126,3 @@
     .input-group.ui_error .ui-input {
         border-color: #ea3106;
     }
-    </style>
-</head>
-
-<body>
-    <div class="logreg-form">
-        <div class="logreg-inputs">
-            <div class="input-group">
-                <input type="email" class="ui-input email" placeholder="Please input your email" required>
-                <p class="input-tip">shmshm</p>
-            </div>
-            <div class="input-group">
-                <input type="password" class="ui-input" placeholder="Please input your password" required>
-            </div>
-        </div>
-        <button class="ui-btn logreg-btn" type="submit" disabled>同意协议并注册</button>
-    </div>
-</body>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-<script>
-$(function() {
-    var emailVerify = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
-    $("input").on("input", function() {
-        var notEmpty = true;
-        $("input").each(function() {
-            if ($(this).val() == "") {
-                notEmpty = false
-            }
-        })
-        console.log(notEmpty)
-        if (notEmpty) {
-            $("button").removeAttr("disabled");
-        } else {
-            $("button").attr("disabled", "disabled");
-        }
-    })
-
-    $("button").on("click", function() {
-        if (emailVerify.test($(".email").val())) {
-            console.log("yes")
-            $(".input-group").eq(0).removeClass("ui_error");
-        } else {
-            console.log("noo")
-            $(".input-group").eq(0).addClass("ui_error");
-        }
-    });
-})
-</script>
-
-</html>
