@@ -47,6 +47,10 @@ var tokenConfig = {
     'secret': 'wochengrenwokanbudongzhegetokenshiTMzmlaide',
     'database': 'mongodb://localhost:27017/Server'
 }
+
+
+
+
 app.set('tokenScrete', tokenConfig.secret);
 
 var cookieSession = require('cookie-session');
@@ -111,8 +115,8 @@ var portHttps = process.env.PORT || 8000;
 //   };
 //   next();
 // });
-app.use(require('./app/routes/index')(app,io,mongoose));
 
+app.use(require('./app/routes/index')(app,io,mongoose));
 
 
 // location routers-----------------------------------
@@ -125,6 +129,7 @@ app.use(require('./app/routes/index')(app,io,mongoose));
 // START THE SERVER
 // =============================================================================
 //http.createServer(app).listen(portHttp);
+
 https.createServer(httpsOptions, app).listen(portHttps);
 
 console.log('http listen ' + portHttp);

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>geolocation</title>
+</head>
+<body>
+<p><button onclick="geoFindMe()">Show my location</button></p>
+<div id="out"></div>
+	<script>
+function geoFindMe() {
+  var output = document.getElementById("out");
+
+  if (!navigator.geolocation){
+    output.innerHTML = "<p>Geolocation is not supported by your browser</p>";
+    return;
+  }
+
+  function success(position) {
+    var latitude  = position.coords.latitude;
+    var longitude = position.coords.longitude;
+
+   alert(latitude)
+   alert(longitude)
+  };
+
+  function error(error) {
+    output.innerHTML = "Unable to retrieve your location";
+    alert('ERROR(' + error.code + '): ' + error.message);
+  };
+
+  output.innerHTML = "<p>Locating…</p>";
+
+  navigator.geolocation.getCurrentPosition(success, error);
+}
+
+
+
+	</script>
+</body>
+</html>

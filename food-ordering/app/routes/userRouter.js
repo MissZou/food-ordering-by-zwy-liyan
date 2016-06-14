@@ -37,6 +37,20 @@ app.set('tokenScrete', tokenConfig.secret);
 
 var upload = require('../models/upload')(mongoose);
 
+var ifMobile = function (req, res, next) {
+  var deviceAgent = req.headers["user-agent"].toLowerCase();
+var agentID = deviceAgent.match(/(iphone|ipod|ipad|android)/);
+if(agentID){
+if(/\/m$/.test(req.url) ||req.method!="GET" ){
+    next();
+}else {
+res.redirect(req.protocol + '://' + req.get('host') + req.originalUrl+"/m");
+}
+}else{
+next();
+}
+};
+
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({
     extended: true
@@ -67,16 +81,8 @@ app.use(function(req, res, next) {
 });
 
 
-  // router.get('/', function (req, res, next) {
-  //   // Do stuff
-  //   res.json({
-  //   	msg:"new route"
-  //   })
-  // });
-
-
 var sessionUser="";
-
+router.use(ifMobile);
 router.route('/upload')
     .get(function(req, res) {
         if (req.session.user) {
@@ -91,41 +97,6 @@ router.route('/upload')
     });
 
 
-router.route('/postupload').post(multipart(), function(req, res) {
-    console.log(req.files)
-    var date = new Date()
-    var dateString = date.toISOString().slice(0, 19).replace(/-/g, "");
-    if (req.files.files.originalFilename != undefined) {
-        var filename = dateString.concat(req.files.files.originalFilename);
-    } else {
-        var filename = date;
-    }
-    //copy file to a public directory
-    var targetPath = './public/upload/' + req.session.user._id + '.jpg';
-    //copy file
-    // fs.createReadStream(req.files.files.ws.path).pipe(fs.createWriteStream(targetPath));
-    //return file url
-    var tmp_path = req.files.files.path;
-    fs.rename(tmp_path, targetPath, function(err) {
-        if (err) throw err;
-        // 删除临时文件夹文件, 
-        fs.unlink(tmp_path, function() {
-            if (err) throw err;
-        });
-    });
-
-    res.json({
-        code: 200,
-        msg: {
-            url: 'http://' + req.headers.host + '/upload/' + req.session.user._id + '.jpg'
-        }
-    });
-    var url = 'http://' + req.headers.host + '/upload/' + req.session.user._id + '.jpg';
-    upload.uploadUrl(url);
-});
-
-
-
 
 router.route('/confirm')
 
@@ -134,6 +105,10 @@ router.route('/confirm')
 })
 
 // ----------------------------------------------------
+router.route('/register/m')
+.get(function(req, res) {
+         res.render('reg-m');
+    });
 
 router.route('/register')
     .get(function(req, res) {
@@ -179,8 +154,6 @@ router.route('/register')
                             })
                         }
                     });
-
-
                 }
             })
         }

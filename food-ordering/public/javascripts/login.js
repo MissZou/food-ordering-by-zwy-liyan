@@ -74,7 +74,7 @@ function addUser(e) {
         };
 
         $.ajax({
-            type: "POST",
+            type: "PUT",
             data: newUser,
             url: "/user/register",
             success: function(data, status) {

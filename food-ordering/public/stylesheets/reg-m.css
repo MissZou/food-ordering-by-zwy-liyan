@@ -1,0 +1,128 @@
+* {
+        margin: 0;
+        padding: 0;
+    }
+    
+    img {
+        border: 0;
+        max-width: 100%;
+    }
+    
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p {
+        margin: 0 0 .6em;
+    }
+    
+    article,
+    aside,
+    details,
+    figcaption,
+    figure,
+    footer,
+    header,
+    hgroup,
+    main,
+    nav,
+    section,
+    summary {
+        display: block;
+    }
+    
+    body {
+        min-width: 20em;
+        width: 100%;
+        background: #f2f2f2;
+        color: #333;
+        font: 100%/1.5 "Helvetica Neue", "Microsoft Yahei", sans-serif;
+    }
+    
+    .logreg-form {
+        margin: 10px;
+    }
+    
+    .logreg-inputs {
+        margin: 0 -10px;
+        padding: 10px 10px 0;
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        background: #fff;
+    }
+    
+    .input-group {
+        margin-bottom: 10px;
+    }
+    
+    input.ui-input {
+        display: block;
+        width: 100%;
+        padding: 8px 4px;
+        background: #f2f2f2;
+        border: 1px solid #ddd;
+        border-radius: 2px;
+        font-size: 1rem;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-appearance: none!important;
+        font-family: inherit;
+    }
+    
+    button {
+        color: #fff;
+    }
+    
+    input.ui-input:focus {
+        outline: 0;
+        border-color: #87cefa;
+    }
+    
+    .ui-btn:disabled {
+        color: rgba(255, 255, 255, .6);
+    }
+    
+    button.logreg-btn {
+        margin: 1em 0 0;
+    }
+    
+    .ui-btn {
+        display: block;
+        width: 100%;
+        padding: 10px 0;
+        background: #3199e8;
+        border: none;
+        border-radius: 3px;
+        text-align: center;
+        -webkit-transition: color .4s;
+        transition: color .4s;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        font-family: inherit;
+        font-size: 100%;
+    }
+    
+    .input-tip {
+        margin: 0;
+        max-height: 0;
+        overflow: hidden;
+        color: #ea3106;
+        font-size: .875rem;
+        line-height: 1.8;
+        clear: both;
+        -webkit-transition: max-height .3s;
+        transition: max-height .3s;
+    }
+    
+    .input-group.ui_error>.input-tip {
+        max-height: 10em;
+        min-height: 1.8em;
+    }
+    
+    .input-group.ui_error .ui-input {
+        border-color: #ea3106;
+    }
