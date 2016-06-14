@@ -39,7 +39,7 @@
     [super viewDidAppear:animated];
     self.myAccout.delegate = self;
     [self.myAccout checkLogin];
-    NSLog(@"log did appear");
+    
     
 }
 

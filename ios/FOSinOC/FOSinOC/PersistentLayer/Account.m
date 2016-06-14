@@ -363,7 +363,8 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     }
     else if(httpMethod == GET){
         [manager.requestSerializer setValue:self.token forHTTPHeaderField:@"token"];
-        [manager GET:[url absoluteString] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        [manager GET:[url absoluteString] parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             
             if ([responseObject isKindOfClass:[NSDictionary class]]) {
                 //NSLog(@"%@",responseObject);

@@ -157,5 +157,115 @@
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FOSinOC/AccountView/AccountViewController.m"
+            timestampString = "487585037.284348"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "-viewDidLoad"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FOSinOC/PersistentLayer/Account.m"
+            timestampString = "487583390.10302"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "364"
+            endingLineNumber = "364"
+            landmarkName = "-address:withAddress:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FOSinOC/PersistentLayer/Account.m"
+            timestampString = "487583421.402023"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "377"
+            endingLineNumber = "377"
+            landmarkName = "-address:withAddress:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__31-[Account address:withAddress:]_block_invoke_2.240"
+                  moduleName = "FOSinOC"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/liyan/Documents/Dropbox/MScCS/fos/food-ordering-by-zwy-liyan/ios/FOSinOC/FOSinOC/PersistentLayer/Account.m"
+                  timestampString = "487583421.404308"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "377"
+                  endingLineNumber = "377"
+                  offsetFromSymbolStart = "316">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__copy_helper_block_.241"
+                  moduleName = "FOSinOC"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/liyan/Documents/Dropbox/MScCS/fos/food-ordering-by-zwy-liyan/ios/FOSinOC/FOSinOC/PersistentLayer/Account.m"
+                  timestampString = "487583421.40445"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "377"
+                  endingLineNumber = "377"
+                  offsetFromSymbolStart = "51">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_.242"
+                  moduleName = "FOSinOC"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/liyan/Documents/Dropbox/MScCS/fos/food-ordering-by-zwy-liyan/ios/FOSinOC/FOSinOC/PersistentLayer/Account.m"
+                  timestampString = "487583421.404583"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "377"
+                  endingLineNumber = "377"
+                  offsetFromSymbolStart = "29">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__31-[Account address:withAddress:]_block_invoke.244"
+                  moduleName = "FOSinOC"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/liyan/Documents/Dropbox/MScCS/fos/food-ordering-by-zwy-liyan/ios/FOSinOC/FOSinOC/PersistentLayer/Account.m"
+                  timestampString = "487583421.404679"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "378"
+                  endingLineNumber = "378"
+                  offsetFromSymbolStart = "82">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
