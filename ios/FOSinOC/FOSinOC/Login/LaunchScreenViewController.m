@@ -89,6 +89,10 @@
 }
 
 -(void)finishRefreshAccountData{
-    
+    NSLog(@"finishRefreshAccountData");
+}
+
+-(void)networkFailed{
+    [self performSegueWithIdentifier:@"tutorial" sender:nil];
 }
 @end

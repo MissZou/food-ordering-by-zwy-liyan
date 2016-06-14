@@ -206,7 +206,9 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
             }
             
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            [self.delegate networkFailed];
             NSLog(@"%@", error);
+            
         }];
     }
     else {

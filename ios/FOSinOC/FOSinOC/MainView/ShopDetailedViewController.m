@@ -17,7 +17,7 @@
 //#import "UINavigationBar+Awesome.h"
 
 #import "Shop.h"
-@interface ShopDetailedViewController ()<UIScrollViewDelegate,UIGestureRecognizerDelegate,DetailedChildFoodViewDelegate>
+@interface ShopDetailedViewController ()<UIScrollViewDelegate,UIGestureRecognizerDelegate,SlideMultiViewControllerDelegate,DetailedChildFoodViewDelegate>
 
 @property(nonatomic,strong) Shop *myShop;
 //@property (weak, nonatomic) IBOutlet UILabel *topViewNameLabel;
@@ -41,6 +41,7 @@
 @property CGFloat tempTransPointY;
 @property CGFloat superViewHeight;
 @property BOOL gestureStateBegin;
+@property (strong,nonatomic)NSString *currentTitle;
 //slideMenu view ====================================
 
 @property(strong,nonatomic) SlideMultiViewController *slideMultiViewController;
@@ -69,10 +70,10 @@
     self.superViewHeight = self.view.frame.size.height;
     [self initDetailedChildFoodView];
     
-    //NSLog(@"shop id %@",self.shopID);
+    NSLog(@"shop id %@",self.shopID);
     //[[self navigationController] setNavigationBarHidden:YES animated:NO];
     [self initNavigationBar];
-  
+    self.currentTitle = @"Food";
 }
 
 -(void)initNavigationBar{
@@ -145,7 +146,7 @@
     NSArray *viewArray = @[self.foodView, self.commentView, self.shopView];
     self.slideMultiViewController = [[SlideMultiViewController alloc]init];
     self.slideMultiViewController.view.frame =CGRectMake(0, sdNavigationBarHeight + sdSegmentViewHeight, self.view.frame.size.width, self.view.frame.size.height);
-    
+    self.slideMultiViewController.delegate = self;
     
     [self addChildViewController:self.slideMultiViewController];
     [self.slideMultiViewController initSlideMultiView:viewArray withTitle:title];
@@ -299,17 +300,33 @@
             NSLog(@"state begin false");
             
             NSNumber *y = [NSNumber numberWithFloat:0.0];
-            [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionFood" object:y];
+            if ([self.currentTitle  isEqualToString: @"Food"]) {
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionFood" object:y];
+            }else if([self.currentTitle isEqualToString:@"Comment"]){
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionComment" object:y];
+            }
+            
             self.gestureStateBegin = false;
             self.tempTranslatedPoint = translatedPoint;
         }
         // when sroll segment view up out of screen,
         if (velocity.y<0) {
             NSNumber *y = [NSNumber numberWithFloat:translatedPoint.y - self.tempTranslatedPoint.y];
-            [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionFood" object:y];
+            if ([self.currentTitle  isEqualToString: @"Food"]) {
+                    [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionFood" object:y];
+            }else if([self.currentTitle isEqualToString:@"Comment"]){
+                    [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionComment" object:y];
+            }
+            
+            
         }else{
             NSNumber *y = [NSNumber numberWithFloat:translatedPoint.y];
-            [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionFood" object:y];
+            if ([self.currentTitle  isEqualToString: @"Food"]) {
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionFood" object:y];
+            }else if([self.currentTitle isEqualToString:@"Comment"]){
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionComment" object:y];
+            }
+            
         }
         
         //NSNumber *y = [NSNumber numberWithFloat:translatedPoint.y - self.tempTranslatedPoint.y];
@@ -371,4 +388,10 @@
     [self performSegueWithIdentifier:@"foodDetailSegue" sender:nil];
 }
 
+#pragma mark -- SlideMultiViewDelegate
+
+-(void) slideButtionClicked:(NSString *)title{
+    self.currentTitle = title;
+    
+}
 @end
