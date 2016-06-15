@@ -65,7 +65,7 @@ function login(e) {
                 if (data.code == 200) {
                     alert("登录成功");
                     localStorage.setItem('accountId', data.accountId);
-                    window.location = "/user/upload";
+                    window.location = "/user/account/index";
                 } else if (data.code == 400) {
                     alert("登录失败");
                 }

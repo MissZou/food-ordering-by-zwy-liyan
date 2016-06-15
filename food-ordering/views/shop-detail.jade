@@ -1,0 +1,86 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title shop-detail
+    link(rel='stylesheet', href='/stylesheets/normalize.css')
+    link(rel='stylesheet', href='/stylesheets/shop-detail.css')
+  body
+    - if (!Array.prototype.includes) {
+    -   Array.prototype.includes = function(searchElement /*, fromIndex*/ ) {
+    -     'use strict';
+    -     var O = Object(this);
+    -     var len = parseInt(O.length) || 0;
+    -     if (len === 0) {
+    -       return false;
+    -     }
+    -     var n = parseInt(arguments[1]) || 0;
+    -     var k;
+    -     if (n >= 0) {
+    -       k = n;
+    -     } else {
+    -       k = len + n;
+    -       if (k < 0) {k = 0;}
+    -     }
+    -     var currentElement;
+    -     while (k < len) {
+    -       currentElement = O[k];
+    -       if (searchElement === currentElement ||(searchElement !== searchElement && currentElement !== currentElement)) {
+    -         return true;
+    -       }
+    -       k++;
+    -     }
+    -     return false;
+    -   };
+    - }
+
+    //- var values = [{'dishName':'dish1','price':23,'dishPic':'gdrgdrg','category':'lalalasil'}, {'dishName':'dish2','price':23,'dishPic':'www.baidu.com','category':'lalalasil'},{'dishName':'dish3','price':23,'dishPic':'www.baidu.com','category':'lalalasil'},{'dishName':'dish4','price':23,'dishPic':'www.baidu.com','category':'lalalasi4324l'}];
+    - var values= doc
+
+    - var arr=[];
+    - for (var i = 0; i < values.length; i++){
+    -   if(!arr.includes(values[i].category)){
+    -     arr.push(values[i].category);
+    - }
+    -}
+    
+    .wrapper.clearfix
+      .left-side
+        .shopmenu-nav
+          a.active(href='#item0')= arr[0]
+          - for (var i = 1; i < arr.length; i++)
+            a(href='#item'+i)= arr[i]
+        //- #item1.shopmenu.clearfix
+        - for (var j = 0; j < arr.length; j++){
+          .shopmenu.clearfix(id="item"+j)
+            h3.shopmenu-title= arr[j]
+            - for (var i = 0; i < values.length; i++){
+            -   if(values[i].category==arr[j]){
+                .shopmenu-food
+                  a.rstblock-logo
+                    img.rstblock-logo-icon(src= values[i].dishPic , width='70', height='70', alt= values[i].dishName)
+                  .rstblock-title= values[i].dishName
+                  .star-rating(progress-meter='5')
+                    .star-meter(progress-fill='4.2', style='width: 84%;')
+                  span.color-mute (4)
+                  span.color-mute 月售20份
+                  span.shopmenu-food-price= values[i].price
+                  button.shop-cartbutton 加入购物车
+            -   }
+            - }
+            - }
+    .shop-cart
+      #shopbasket.shop-cartbasket
+        .shop-grouphead.single
+          .shop-grouphead-row
+            | 购物车 
+            a(href='javascript:') [清空]
+      .shop-cartfooter
+        span.icon-cart.shop-carticon
+        p.shop-cartfooter-text.price
+        button.shop-cartfooter-checkout.disabled 购物车是空的
+      .shop-carthelper-opener
+      .shop-flyitem
+  script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
+  script(src='/javascripts/jquery.fly.min.js')
+  script(src='/javascripts/shopDetail.js')

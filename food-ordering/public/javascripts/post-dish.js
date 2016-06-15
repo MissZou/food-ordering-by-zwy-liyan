@@ -37,6 +37,8 @@ $(function() {
                         </div> \
                         <label>Price</label> \
                         <input type="number" class="price"> \
+                        <label>Category</label> \
+                        <input type="text" class="category"> \
                         <label>Introduction</label> \
                         <textarea class="intro" cols="30" rows="10"></textarea></li>')
                 var img = list.find("img");
@@ -76,6 +78,7 @@ $(function() {
             dish[index].tags = tags;
             dish[index].price = $(".price").eq(index).val();
             dish[index].intro = $(".intro").eq(index).val();
+            dish[index].category = $(".category").eq(index).val();
             dish[index].index = index;
         }
         console.log(dish)
