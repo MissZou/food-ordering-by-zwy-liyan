@@ -461,7 +461,7 @@
         NSIndexPath *indexPath = [self.mainViewTableView indexPathForCell:sender];
         NSLog(@"%@",indexPath);
         ShopDetailedViewController *destinationViewController = segue.destinationViewController;
-        destinationViewController.shopID = [self.shopList[indexPath.row] valueForKey:@"shopName"];
+        destinationViewController.shopID = [self.shopList[indexPath.row] valueForKey:@"_idf"];
         
     }
 }

@@ -16,7 +16,9 @@ var formidable = require('formidable');
 var util = require('util');
 var session = require('express-session');
 var fs = require('fs');
+var gm = require('gm');
 
+var imageMagick = gm.subClass({ imageMagick : true });
 
 
 var tokenConfig = {
@@ -84,6 +86,8 @@ router.route('/findshops')
         if (coordinate !=null && distance !=null) {
             var location = [Number(coordinate[0]),Number(coordinate[1])];
             Shop.findNearShops(location,distance,index,count,function(doc){
+              
+
                res.json({
                    shop:doc,
                    code:200,
@@ -255,12 +259,9 @@ router.route('/login')
         res.sendfile(path.join(__dirname, '../../views', 'shop-login.html'));
     })
 .post(function(req, res) {
-    //console.log('login request');
     var email = req.param('email', null);
     var password = req.param('password', null);
-    //console.log(req);
-    //console.log(email, password)
-
+    
     if (null == email || email.length < 1 || null == password || password.length < 1) {
         res.send(400);
         return;
@@ -369,6 +370,7 @@ router.route('/account/edit')
 
 router.route('/createCover')
     .post(function(req, res) {
+
         //var shopId = req.decoded._id;
         var form = new formidable.IncomingForm();
         form.parse(req, function(err, fields, files) {
@@ -387,13 +389,28 @@ router.route('/createCover')
             }
             var targetPath = goalUrl + fields.shopId + '.jpg';
             var tmp_path = files.file.path;
-            fs.rename(tmp_path, targetPath, function(err) {
-                if (err) throw err;
-                // 删除临时文件夹文件, 
-                fs.unlink(tmp_path, function() {
-                    if (err) throw err;
+            
+                imageMagick(tmp_path)
+                .gravity('Center')
+                .resize('640', '480','^>')
+                .crop('640', '480')
+                .autoOrient()
+                .quality(90)
+                .write(targetPath, function(err){
+                    if (err) {
+                        console.log(err);
+                    }
+                    fs.unlink(tmp_path, function() {
+                    });
                 });
-            });
+
+            // fs.rename(tmp_path, targetPath, function(err) {
+            //     if (err) throw err;
+            //     // 删除临时文件夹文件, 
+            //     fs.unlink(tmp_path, function() {
+            //         if (err) throw err;
+            //     });
+            // });
             var url = 'http://' + req.headers.host + '/resources/' + fields.shopId + '.jpg';
             Shop.uploadShopCover(shopId, url, function(err) {
                 if (null == err)
@@ -421,20 +438,22 @@ router.route('/account/dish')
         var dish = req.param('dish', null);
         var dishes=null;
         for (var i = 0; i < dish.length; i++) {
-            Shop.addDish(shopId, dish[i], function(doc) {
-            })
-        }
-Shop.findShopById(shopId,function(doc){
-    dishes=doc.dish;
-     res.json({
-                code: 200,
-                success: true,
-                dishes:dishes
+            (function(i){
+                Shop.addDish(shopId, dish[i], function(doc) {
+                if(i==dish.length-1){
+                    Shop.findShopById(shopId,function(doc){
+                        dishes=doc.dish;
+                            res.json({
+                            code: 200,
+                            success: true,
+                            dishes:dishes
                 
-            });
-});
-        //console.log(dishNames)
-           
+                    });
+                });
+                }
+            })
+            })(i)
+        }  
     })
     .post(function(req, res){
         var shopId = req.decoded._id;
@@ -472,11 +491,26 @@ router.route('/account/createDishPic')
             if (!fs.existsSync(goalUrl + 'dishes/')) {
                 fs.mkdirSync(goalUrl + 'dishes/');
             }
-            console.log(files)
+            //console.log(files)
+
             for (var key in files) {
                 var targetPath = goalUrl + 'dishes/' + fields["dishId"+key]+".jpg";
                 var tmp_path = files[key].path;
-                fs.renameSync(tmp_path, targetPath);
+                var sz = files[key].size;
+                //fs.renameSync(tmp_path, targetPath);
+                imageMagick(tmp_path)
+                .gravity('Center')
+                .resize('640', '480','^>')
+                .crop('640', '480')
+                .autoOrient()
+                .quality(90)
+                .write(targetPath, function(err){
+                    if (err) {
+                        console.log(err);
+                    }
+                    fs.unlink(tmp_path, function() {
+                    });
+                });
                 var url = 'http://' + req.headers.host + '/resources/' +shopId+ '/dishes/' +fields["dishId"+key]+".jpg";
                 Shop.addDishPic(shopId, fields["dishNames"+key], url, function(err) {
                 });

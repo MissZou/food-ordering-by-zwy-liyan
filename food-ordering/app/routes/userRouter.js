@@ -13,8 +13,9 @@ var URL = require('URL');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 var nodemailer = require('nodemailer');
-
 var session = require('express-session');
+var gm = require('gm');
+var imageMagick = gm.subClass({ imageMagick : true });
 //var io = require('socket.io').listen(server);
 
 //var Account = require('../models/Account')(mailConfig, mongoose, nodemailer);
@@ -39,7 +40,7 @@ var upload = require('../models/upload')(mongoose);
 
 var ifMobile = function (req, res, next) {
   var deviceAgent = req.headers["user-agent"].toLowerCase();
-var agentID = deviceAgent.match(/(iphone|ipod|ipad|android)/);
+var agentID = deviceAgent.match(/(iphone|ipod|ipad|android)/)&&(deviceAgent.indexOf("inoc")==-1);
 if(agentID){
 if(/\/m$/.test(req.url) ||req.method!="GET" ){
     next();
@@ -181,13 +182,26 @@ router.route('/avatar')
     // fs.createReadStream(req.files.files.ws.path).pipe(fs.createWriteStream(targetPath));
     //return file url
     var tmp_path = req.files.files.path;
-    fs.rename(tmp_path, targetPath, function(err) {
-        if (err) throw err;
-        // 删除临时文件夹文件, 
-        fs.unlink(tmp_path, function() {
-            if (err) throw err;
-        });
-    });
+    // fs.rename(tmp_path, targetPath, function(err) {
+    //     if (err) throw err;
+    //     // 删除临时文件夹文件, 
+    //     fs.unlink(tmp_path, function() {
+    //         if (err) throw err;
+    //     });
+    // });
+    imageMagick(tmp_path)
+                .gravity('Center')
+                .resize('640', '480','^>')
+                .crop('640', '480')
+                .autoOrient()
+                .quality(90)
+                .write(targetPath, function(err){
+                    if (err) {
+                        console.log(err);
+                    }
+                    fs.unlink(tmp_path, function() {
+                    });
+                });
     var url = 'http://' + req.headers.host + '/resources/avatar/' + req.session.user._id + '.jpg';
 
 
@@ -373,12 +387,21 @@ router.route('/account/web/address')
 
 router.route('/account/address')
 .get(function(req, res){
+
     var accountId = req.decoded._id;
     Account.findAccountById(accountId,function(doc){
-            res.json({
-                success:true,
-                address:doc.address
-            });
+            if (doc) {
+                res.json({
+                    success:true,
+                    address:doc.address
+                });    
+            } else{
+                res.json({
+                    success:false
+                    
+                });    
+            }
+            
         })
 })
 

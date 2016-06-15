@@ -41,10 +41,10 @@
         self.name.text = self.myAccount.name;
     }
     self.email.text = self.myAccount.email;
-    
-    //NSLog(@"%@",self.myAccount.deliverAddress);
-    // Do any additional setup after loading the view.
     [self.myAccount address:GET withAddress:nil];
+    UITapGestureRecognizer *avatarTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(avatarTapEvent)];
+    [self.avatar setUserInteractionEnabled:true];
+    [self.avatar addGestureRecognizer:avatarTapGesture];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -63,14 +63,20 @@
     [self dismissViewControllerAnimated:false completion:nil];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void)avatarTapEvent{
+    UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:@"Change avatar" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action){
+        [actionSheet dismissViewControllerAnimated:true completion:nil];
+    }]];
+    
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Choose Existing" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+        [self performSegueWithIdentifier:@"photo" sender:nil];
+        [actionSheet dismissViewControllerAnimated:true completion:nil];
+    }]];
+    
+    [self presentViewController:actionSheet animated:true completion:nil];
 }
-*/
+
+
 
 @end

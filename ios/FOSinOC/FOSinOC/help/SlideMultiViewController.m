@@ -155,6 +155,8 @@
 {
     NSInteger i  = self.contentScrollView.contentOffset.x / self.view.superview.frame.size.width;
     [self markButtonSelected:i];
+    
+    [self.delegate slideButtionClicked:self.buttonTitle[i]];
 }
 
 

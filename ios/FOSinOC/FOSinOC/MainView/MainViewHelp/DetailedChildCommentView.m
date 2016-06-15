@@ -23,6 +23,7 @@
     // Do any additional setup after loading the view.
     //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disableInteraction) name:@"disableInteractionComment" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(triggerNotificationAction:) name:@"enableInteractionComment" object:nil];
+    //[self disableInteraction];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -31,7 +32,7 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-    self.commentTableView.userInteractionEnabled = false;
+    //self.commentTableView.userInteractionEnabled = false;
 }
 
 -(void)initCommentView{
@@ -59,20 +60,23 @@
 }
 
 -(void)disableInteraction{
-    self.commentTableView.userInteractionEnabled = false;
+    //self.commentTableView.userInteractionEnabled = false;
+    self.commentTableView.scrollEnabled =false;
 }
 
 -(void)enableInteraction{
-    self.commentTableView.userInteractionEnabled = true;
+    //self.commentTableView.userInteractionEnabled = true;
+    self.commentTableView.scrollEnabled =false;
 }
 
 -(void) triggerNotificationAction:(NSNotification *) notification
 {
+    NSLog(@"enableInteractionComment");
     if ([notification.object isKindOfClass:[NSNumber class]])
     {
         [self enableInteraction];
         NSNumber *y = [notification object];
-        //NSLog(@"continu to scroll child %f",[y floatValue]);
+        NSLog(@"continu to scroll commnet %f",[y floatValue]);
         [self.commentTableView setContentOffset:CGPointMake(0,  -[y floatValue])];
     }
     else
@@ -82,23 +86,26 @@
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if (scrollView.contentOffset.y<0 ) {
-        
-        //self.foodTable.bounces = NO;
-        [self disableInteraction];
-        
-        if (self.maxOffset > scrollView.contentOffset.y) {
-            self.maxOffset = scrollView.contentOffset.y;
-            NSNumber *y = [NSNumber numberWithFloat:self.maxOffset];
-            CGPoint velocity = [self.commentTableView.panGestureRecognizer velocityInView:self.commentTableView];
-            NSValue *velocityInValue = [NSValue valueWithCGPoint:velocity];
-            NSArray *scrollParam = [NSArray arrayWithObjects:y,velocityInValue, nil];
-            [[NSNotificationCenter defaultCenter]postNotificationName:@"mainContinueScrollingShop" object:scrollParam];
-
-        }
+//    CGPoint translatedPoint = [[self.commentTableView panGestureRecognizer] translationInView:self.view];
+//    NSLog(@"child comment talbe offset %f",scrollView.contentOffset.y);
+//    NSLog(@"commnet translatedPoint y:%f",translatedPoint.y);
+    if (scrollView.contentOffset.y<=0 ) {
+//        
+//        //self.foodTable.bounces = NO;
+//        [self disableInteraction];
+//        
+//        if (self.maxOffset > scrollView.contentOffset.y) {
+//            self.maxOffset = scrollView.contentOffset.y;
+//            NSNumber *y = [NSNumber numberWithFloat:self.maxOffset];
+//            CGPoint velocity = [self.commentTableView.panGestureRecognizer velocityInView:self.commentTableView];
+//            NSValue *velocityInValue = [NSValue valueWithCGPoint:velocity];
+//            NSArray *scrollParam = [NSArray arrayWithObjects:y,velocityInValue, nil];
+//            [[NSNotificationCenter defaultCenter]postNotificationName:@"mainContinueScrollingShop" object:scrollParam];
+//
+//        }
     }
     else if(scrollView.contentOffset.y>0){
-            [self enableInteraction];
+//            [self enableInteraction];
     }
 
 }

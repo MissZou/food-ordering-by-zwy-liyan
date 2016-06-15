@@ -19,6 +19,7 @@
     "socket.io": "^1.4.5",
     "formidable":"*",
     "request":">2.5",
-    "url":"*"
+    "url":"*",
+    "gm": "*"
   }
 }
