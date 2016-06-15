@@ -2,20 +2,50 @@
 var routeInit = function (app,io,mongoose) {
   var express = require('express');
 //var router = express.Router({ mergeParams: true });
-var Shop = require('../models/Shop')(mailConfig, mongoose, nodemailer);
-var Account = require('../models/Account')(mailConfig, mongoose, nodemailer);
-var Order = require('../models/Order')(mongoose);
-var onlineUser = {};
+var nodemailer = require('nodemailer');
 var mailConfig = {
     host: 'smtp.gmail.com',
     secureConnection: true,
     port: 465,
+    requiresAuth: true,
+    //domains: ["gmail.com", "googlemail.com"],
     auth: {
         user: 'foodtongcom@gmail.com',
         pass: 'comtongfood'
     }
 }
-var nodemailer = require('nodemailer');
+
+var smtpConfig = nodemailer.createTransport({
+host: "smtp.gmail.com",
+secureConnection: false,
+port: 587,
+requiresAuth: true,
+domains: ["gmail.com", "googlemail.com"],
+auth: {
+user: "foodtongcom@gmail.com",
+pass: "comtongfood"
+}
+});
+
+var smtpTransport = nodemailer.createTransport({
+    host: 'smtp.1blu.de',
+    secureConnection: true,
+    port: 465,
+    auth: {
+       user: 'foodtongcom@gmail.com',
+       pass: 'comtongfood'
+    },
+    tls:{
+        secureProtocol: "TLSv1_method"
+    }
+});
+console.log('SMTP Configured');
+
+var Shop = require('../models/Shop')(mailConfig, mongoose, nodemailer);
+var Account = require('../models/Account')(mailConfig, mongoose, nodemailer);
+var Order = require('../models/Order')(mongoose);
+var onlineUser = {};
+
 var router = express.Router();
 
   router.use('/search', require('./searchRouter')(app,io,mongoose,Shop));

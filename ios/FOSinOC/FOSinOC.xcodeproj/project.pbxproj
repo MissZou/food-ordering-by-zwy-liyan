@@ -32,6 +32,10 @@
 		BA21783D1CB67830003402E1 /* CustomizationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = BA21783C1CB67830003402E1 /* CustomizationButton.m */; };
 		BA26A6921CF6A8F80056689B /* FoodViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA26A6911CF6A8F80056689B /* FoodViewController.m */; };
 		BA2A8BF51CF9807300F2161B /* NSNull+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2A8BF41CF9807300F2161B /* NSNull+JSON.m */; };
+		BA2EF38B1D10EF8200944B7D /* AssetGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2EF38A1D10EF8200944B7D /* AssetGridViewController.m */; };
+		BA2EF38E1D10F0D100944B7D /* UICollectionView+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2EF38D1D10F0D100944B7D /* UICollectionView+Convenience.m */; };
+		BA2EF3911D10F1F600944B7D /* NSIndexSet+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2EF3901D10F1F600944B7D /* NSIndexSet+Convenience.m */; };
+		BA2EF3941D10F35D00944B7D /* AssetGridViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2EF3931D10F35D00944B7D /* AssetGridViewCell.m */; };
 		BA6046D01CB8D70400A8FD34 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046CF1CB8D70400A8FD34 /* LoginViewController.m */; };
 		BA6046D61CB8E5CF00A8FD34 /* Account.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046D51CB8E5CF00A8FD34 /* Account.m */; };
 		BA6046D91CBB8B1200A8FD34 /* CreateAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046D81CBB8B1200A8FD34 /* CreateAccountViewController.m */; };
@@ -124,6 +128,14 @@
 		BA26A6911CF6A8F80056689B /* FoodViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoodViewController.m; sourceTree = "<group>"; };
 		BA2A8BF31CF9807300F2161B /* NSNull+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNull+JSON.h"; sourceTree = "<group>"; };
 		BA2A8BF41CF9807300F2161B /* NSNull+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNull+JSON.m"; sourceTree = "<group>"; };
+		BA2EF3891D10EF8200944B7D /* AssetGridViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AssetGridViewController.h; path = FOSinOC/AccountView/AssetGridViewController.h; sourceTree = SOURCE_ROOT; };
+		BA2EF38A1D10EF8200944B7D /* AssetGridViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AssetGridViewController.m; path = FOSinOC/AccountView/AssetGridViewController.m; sourceTree = SOURCE_ROOT; };
+		BA2EF38C1D10F0D100944B7D /* UICollectionView+Convenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UICollectionView+Convenience.h"; sourceTree = "<group>"; };
+		BA2EF38D1D10F0D100944B7D /* UICollectionView+Convenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UICollectionView+Convenience.m"; sourceTree = "<group>"; };
+		BA2EF38F1D10F1F600944B7D /* NSIndexSet+Convenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSIndexSet+Convenience.h"; sourceTree = "<group>"; };
+		BA2EF3901D10F1F600944B7D /* NSIndexSet+Convenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSIndexSet+Convenience.m"; sourceTree = "<group>"; };
+		BA2EF3921D10F35D00944B7D /* AssetGridViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AssetGridViewCell.h; path = FOSinOC/AccountView/AssetGridViewCell.h; sourceTree = SOURCE_ROOT; };
+		BA2EF3931D10F35D00944B7D /* AssetGridViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AssetGridViewCell.m; path = FOSinOC/AccountView/AssetGridViewCell.m; sourceTree = SOURCE_ROOT; };
 		BA6046CE1CB8D70400A8FD34 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		BA6046CF1CB8D70400A8FD34 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		BA6046D41CB8E5CF00A8FD34 /* Account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Account.h; sourceTree = "<group>"; };
@@ -235,6 +247,10 @@
 				BAD808381CC200E500A79DE2 /* AccountAddressViewController.m */,
 				BAD8083D1CC201C000A79DE2 /* EditAddressViewController.h */,
 				BAD8083E1CC201C000A79DE2 /* EditAddressViewController.m */,
+				BA2EF3891D10EF8200944B7D /* AssetGridViewController.h */,
+				BA2EF38A1D10EF8200944B7D /* AssetGridViewController.m */,
+				BA2EF3921D10F35D00944B7D /* AssetGridViewCell.h */,
+				BA2EF3931D10F35D00944B7D /* AssetGridViewCell.m */,
 			);
 			name = AccountView;
 			path = FOSinOC/PersistentLayer/AccountView;
@@ -343,6 +359,10 @@
 				BA771B801CD0580100755613 /* SlideMultiViewController.m */,
 				BA2A8BF31CF9807300F2161B /* NSNull+JSON.h */,
 				BA2A8BF41CF9807300F2161B /* NSNull+JSON.m */,
+				BA2EF38C1D10F0D100944B7D /* UICollectionView+Convenience.h */,
+				BA2EF38D1D10F0D100944B7D /* UICollectionView+Convenience.m */,
+				BA2EF38F1D10F1F600944B7D /* NSIndexSet+Convenience.h */,
+				BA2EF3901D10F1F600944B7D /* NSIndexSet+Convenience.m */,
 			);
 			name = help;
 			path = FOSinOC/help;
@@ -669,6 +689,7 @@
 				BA771B841CD2FEE600755613 /* Shop.m in Sources */,
 				BA771B7B1CCF911E00755613 /* DetailedChildCommentView.m in Sources */,
 				BA771B261CCCF04300755613 /* MainViewController.m in Sources */,
+				BA2EF38B1D10EF8200944B7D /* AssetGridViewController.m in Sources */,
 				BAD8086C1CCB598700A79DE2 /* SortView.m in Sources */,
 				BA771B7E1CCF913000755613 /* DetailedChildShopView.m in Sources */,
 				BA771B6E1CCF38A700755613 /* SearchShopViewController.m in Sources */,
@@ -682,6 +703,7 @@
 				BAD808611CCA151400A79DE2 /* MainViewRootViewController.m in Sources */,
 				BA771B751CCF49A900755613 /* ShopDetailedViewController.m in Sources */,
 				BA6046D61CB8E5CF00A8FD34 /* Account.m in Sources */,
+				BA2EF38E1D10F0D100944B7D /* UICollectionView+Convenience.m in Sources */,
 				BA1DAE7F1CB6635500CDD6E0 /* TutorialPageViewController.m in Sources */,
 				BA1DAE791CB65CF100CDD6E0 /* LaunchScreenViewController.m in Sources */,
 				BA21783D1CB67830003402E1 /* CustomizationButton.m in Sources */,
@@ -693,10 +715,12 @@
 				BAD8083F1CC201C000A79DE2 /* EditAddressViewController.m in Sources */,
 				BA174A531CBF802100419E3B /* CustomizedSegueLeftToRight.m in Sources */,
 				BA1DAE431CB657BE00CDD6E0 /* main.m in Sources */,
+				BA2EF3911D10F1F600944B7D /* NSIndexSet+Convenience.m in Sources */,
 				BA6046D91CBB8B1200A8FD34 /* CreateAccountViewController.m in Sources */,
 				BA2A8BF51CF9807300F2161B /* NSNull+JSON.m in Sources */,
 				BAD8085F1CCA151400A79DE2 /* MainViewCell.m in Sources */,
 				BAD8085C1CCA151400A79DE2 /* LeftMenuViewController.m in Sources */,
+				BA2EF3941D10F35D00944B7D /* AssetGridViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

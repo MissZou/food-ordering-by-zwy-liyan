@@ -38,19 +38,19 @@ app.set('tokenScrete', tokenConfig.secret);
 
 var upload = require('../models/upload')(mongoose);
 
-// var ifMobile = function (req, res, next) {
-//   var deviceAgent = req.headers["user-agent"].toLowerCase();
-// var agentID = deviceAgent.match(/(iphone|ipod|ipad|android)/);
-// if(agentID){
-// if(/\/m$/.test(req.url) ||req.method!="GET" ){
-//     next();
-// }else {
-// res.redirect(req.protocol + '://' + req.get('host') + req.originalUrl+"/m");
-// }
-// }else{
-// next();
-// }
-// };
+var ifMobile = function (req, res, next) {
+  var deviceAgent = req.headers["user-agent"].toLowerCase();
+var agentID = deviceAgent.match(/(iphone|ipod|ipad|android)/)&&(deviceAgent.indexOf("inoc")==-1);
+if(agentID){
+if(/\/m$/.test(req.url) ||req.method!="GET" ){
+    next();
+}else {
+res.redirect(req.protocol + '://' + req.get('host') + req.originalUrl+"/m");
+}
+}else{
+next();
+}
+};
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({
@@ -83,7 +83,7 @@ app.use(function(req, res, next) {
 
 
 var sessionUser="";
-//router.use(ifMobile);
+router.use(ifMobile);
 router.route('/upload')
     .get(function(req, res) {
         if (req.session.user) {
@@ -387,7 +387,7 @@ router.route('/account/web/address')
 
 router.route('/account/address')
 .get(function(req, res){
-    
+
     var accountId = req.decoded._id;
     Account.findAccountById(accountId,function(doc){
             if (doc) {

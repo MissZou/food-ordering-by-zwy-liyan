@@ -438,20 +438,22 @@ router.route('/account/dish')
         var dish = req.param('dish', null);
         var dishes=null;
         for (var i = 0; i < dish.length; i++) {
-            Shop.addDish(shopId, dish[i], function(doc) {
-            })
-        }
-Shop.findShopById(shopId,function(doc){
-    dishes=doc.dish;
-     res.json({
-                code: 200,
-                success: true,
-                dishes:dishes
+            (function(i){
+                Shop.addDish(shopId, dish[i], function(doc) {
+                if(i==dish.length-1){
+                    Shop.findShopById(shopId,function(doc){
+                        dishes=doc.dish;
+                            res.json({
+                            code: 200,
+                            success: true,
+                            dishes:dishes
                 
-            });
-});
-        //console.log(dishNames)
-           
+                    });
+                });
+                }
+            })
+            })(i)
+        }  
     })
     .post(function(req, res){
         var shopId = req.decoded._id;

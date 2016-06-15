@@ -66,9 +66,14 @@
 -(void)avatarTapEvent{
     UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:@"Change avatar" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action){
-        //[self dismissViewControllerAnimated:true completion:nil];
         [actionSheet dismissViewControllerAnimated:true completion:nil];
     }]];
+    
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Choose Existing" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+        [self performSegueWithIdentifier:@"photo" sender:nil];
+        [actionSheet dismissViewControllerAnimated:true completion:nil];
+    }]];
+    
     [self presentViewController:actionSheet animated:true completion:nil];
 }
 
