@@ -78,6 +78,7 @@ $(function() {
             dish[index].intro = $(".intro").eq(index).val();
             dish[index].index = index;
         }
+        console.log(dish)
 
         //data.append('shopDish', dish);
         //data.append('shopName', $("#shopName").val());
@@ -100,19 +101,18 @@ $(function() {
                             newDishes.push(originalDishes[i]._id);
                         }
                     }
-                    console.log(newDishes)
+                    console.log("newDishes",newDishes)
                     var data = new FormData();
                     $.each($(".uploadPic")[0].files, function(i, file) {
                         data.append(i, file);
                         //console.log('photo['+i+']', file)
                     })
                     data.append('shopName', $("#shopName").val());
-                    for (var i = 0; i < dish.length; i++) {
+                    for (var i = 0,len=dish.length; i <len ; i++) {
                         data.append('dishNames' + i, dish[i].dishName);
-                        data.append('dishId' + i, newDishes[i]);
+                        data.append('dishId' + i, newDishes[newDishes.length-len+i]);
                     }
 
-                    /*   data.append('dishNames',dish);*/
                     console.log(dish)
                     $.ajax({
                         url: '/shop/account/createDishPic/',

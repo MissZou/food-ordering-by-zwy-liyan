@@ -129,7 +129,7 @@ font-size: 22px;
     text-align: center;
     color: #42413e;
 }
-#loginUser{
+#loginUser,.wrp{
     text-align: center;
 }
 #loginUser input{
@@ -145,4 +145,16 @@ font-size: 22px;
     text-decoration: none;
     color:#f15a22;
     cursor: pointer;
+}
+.forgetPassBtn{
+    height: 25px;
+    width: 50px;
+    display: inline-block;
+    vertical-align: top;
+    box-sizing:border-box;
+    margin-left:10px;
+}
+.wrp p{
+    margin-bottom: 10px;
+    margin-top: 10px;
 }

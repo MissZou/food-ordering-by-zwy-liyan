@@ -17,9 +17,12 @@ html
 				input#user_loginpassword.strong-password(autocomplete='off', name='user_password', placeholder='Password', size='30', type='password')
 				br
 				input#login_button.signup_button-btn(, name='commit', type='submit', value='Log in') 
+			.wrp
 				a(href="/",class="forgetPass") 忘记密码
+				input#forgetPass(placeholder="input your Email address")
+				button.forgetPassBtn send 
 				p Don't have an account? 
-					a.signuplink(href="/reg") Sign up for free
+					a.signuplink(href="/user/register") Sign up for free
 		.mask
 		.signup-view.clearfix
 			.signup-view-large
