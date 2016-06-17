@@ -50,15 +50,15 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    CGFloat scale = [UIScreen mainScreen].scale;
+    ///CGFloat scale = [UIScreen mainScreen].scale;
     CGRect frame = self.view.frame;
     
-    CGSize cellSize = ((UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout).itemSize;
+    //CGSize cellSize = ((UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout).itemSize;
     
     //AssetGridThumbnailSize = CGSizeMake(cellSize.width * scale, cellSize.height * scale);
     //CGFloat test = (frame.size.width - 20)/4
-    //AssetGridThumbnailSize = CGSizeMake((frame.size.width - 20)/4, (frame.size.width - 20)/4);
-    AssetGridThumbnailSize = CGSizeMake(70, 70);
+    AssetGridThumbnailSize = CGSizeMake((frame.size.width - 32)/4, (frame.size.width - 32)/4);
+    //AssetGridThumbnailSize = CGSizeMake(70, 70);
     //AssetGridThumbnailSize = CGSizeMake(cellSize.width * 1, cellSize.height * 1);
     NSLog(@"%f",frame.size.width);
     NSLog(@"%f,%f",AssetGridThumbnailSize.height,AssetGridThumbnailSize.width);
@@ -170,7 +170,9 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"%@",indexPath);
+    
+    [self.delegate assetChoosedAsset:self.assetsFetchResults[indexPath.item]];
+    [self dismissViewControllerAnimated:true completion:nil];
 }
 
 #pragma mark - UIScrollViewDelegate

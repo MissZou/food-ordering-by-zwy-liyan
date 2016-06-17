@@ -31,8 +31,6 @@
 @property(strong,nonatomic) UIButton *naviMenuButton;
 @property(strong,nonatomic) UIButton *naviShareButton;
 
-
-@property (strong,nonatomic)UIScreenEdgePanGestureRecognizer *edgePanGesture;
 //gesture varibles
 @property CGPoint startLocation;
 @property CGPoint currentLocation;
@@ -60,6 +58,8 @@
 @property(assign,nonatomic) BOOL isContinueScrolling;
 @property(assign,nonatomic) BOOL isNotifyScrolling;
 @property(assign,nonatomic) BOOL isChangeScrollDirection;
+@property(assign,nonatomic) BOOL isChildViewGustureStateBegin;
+
 @end
 
 @implementation ShopDetailedViewController
@@ -75,6 +75,7 @@
     [self initNavigationBar];
     self.currentTitle = @"Food";
 }
+
 
 -(void)initNavigationBar{
     
@@ -110,9 +111,9 @@
     self.navigationItem.backBarButtonItem = backBarButton;
     
     //[self.navigationController.navigationBar lt_setBackgroundColor:[UIColor blueColor]];
-    self.naviShopName.alpha = 0;
-    self.naviRightViewSmall.alpha = 0;
-    self.naviRightViewFull.alpha = 1;
+    //self.naviShopName.alpha = 0;
+    //self.naviRightViewSmall.alpha = 0;
+//    self.naviRightViewFull.alpha = 1;
     //self.naviRightView.alpha = 0;
 }
 
@@ -153,6 +154,7 @@
     [self.view addSubview:self.slideMultiViewController.view];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(triggerNotificationAction:) name:@"mainContinueScrollingShop" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(triggerNotificationAction:) name:@"mainContinueScrollingComment" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(childViewGustureStateBegin:) name:@"childViewGustureStateBegin" object:nil];
     self.isNotifyScrolling = false;
     
     self.scrollSlideViewGesture = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(scrollSlideView:)];
@@ -181,9 +183,11 @@
 
 -(void) triggerNotificationAction:(NSNotification *) notification
 {
+    
     if ([notification.object isKindOfClass:[NSArray class]]){
         NSArray *param = [notification object];
         NSNumber *y = [param objectAtIndex:0];
+        NSLog(@"mainContinueScrollingShop %f",[y floatValue]);
        // NSValue *velocityInValue = [param objectAtIndex:1];
        // CGPoint velocity = velocityInValue.CGPointValue;
         self.slideMenuFrameY = self.slideMultiViewController.view.frame.origin.y;
@@ -191,7 +195,7 @@
         [self hideSegmentView:self.slideMultiViewController.view.frame.origin.y];
         [self hideTopview:self.slideMultiViewController.view.frame.origin.y];
 
-        if(self.slideMultiViewController.view.frame.origin.y > sdNavigationBarHeight+sdSegmentViewHeight)
+        if(self.slideMultiViewController.view.frame.origin.y > sdNavigationBarHeight+sdSegmentViewHeight && self.isChildViewGustureStateBegin == false)
         {
             [UIView animateWithDuration:0.25 animations:^{
                 self.slideMultiViewController.view.frame = CGRectMake(0, sdNavigationBarHeight+sdSegmentViewHeight, self.view.frame.size.width, self.view.frame.size.height - sdNavigationBarHeight-sdSegmentViewHeight);
@@ -209,6 +213,23 @@
     }
 }
 
+-(void)childViewGustureStateBegin:(NSNotification *)notification{
+    if ([notification.object isKindOfClass:[NSNumber class]]){
+        NSNumber *boolValue = [notification object];
+        self.isChildViewGustureStateBegin = [boolValue boolValue];
+    }
+    
+    if(self.slideMultiViewController.view.frame.origin.y > sdNavigationBarHeight+sdSegmentViewHeight && self.isChildViewGustureStateBegin == false)
+    {
+        [UIView animateWithDuration:0.25 animations:^{
+            self.slideMultiViewController.view.frame = CGRectMake(0, sdNavigationBarHeight+sdSegmentViewHeight, self.view.frame.size.width, self.view.frame.size.height - sdNavigationBarHeight-sdSegmentViewHeight);
+            [self hideSegmentView:sdNavigationBarHeight+sdSegmentViewHeight];
+        }];
+        
+    }
+
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -218,8 +239,8 @@
 
 
 -(void)hideTopview:(CGFloat) alpha{
-
-    alpha = (alpha - 64)/100;
+//    NSLog(@"alpha %f",alpha);
+    alpha = (alpha - 64)/70;
     float adjustAlpha;
     if (alpha < 0) {
         alpha = 0;
@@ -235,6 +256,7 @@
         self.naviShopName.alpha =1 - adjustAlpha;
         self.naviRightViewSmall.alpha = 1 - adjustAlpha;
         
+
     }
     if(alpha > 0.5){
         self.navigationItem.rightBarButtonItem = self.rightBarItemFull;
@@ -246,8 +268,17 @@
             adjustAlpha = (alpha - 0.5)/0.5;
         }
         self.naviRightViewFull.alpha = adjustAlpha;
+        
     }
-    
+    //NSLog(@"alpha %f",alpha);
+//    NSLog(@"shopname alpha %f",self.naviShopName.alpha);
+//    NSLog(@"righ view alpha %f",self.naviRightViewFull.alpha);
+//    if (self.naviShopName.alpha < 0.05) {
+//        self.naviShopName.alpha = 0;
+//    }
+//    if (self.naviRightViewFull.alpha < 0.05) {
+//        self.naviRightViewFull.alpha = 0;
+//    }
 }
 
 
@@ -270,25 +301,33 @@
     }
     else
     {
+        
         self.isChangeScrollDirection = true;
+        //self.tempTranslatedPoint = translatedPoint;
     }
     
     self.lastVeclocity = velocity;
+    
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"slideViewFrameY" object:[NSNumber numberWithFloat:self.slideMultiViewController.view.frame.origin.y]];
     
     if (panGesture.state == UIGestureRecognizerStateBegan) {
         self.slideMenuFrameY = self.slideMultiViewController.view.frame.origin.y;
         self.tempTranslatedPoint = translatedPoint;
         self.gestureStateBegin = true;
-        NSLog(@"state begin true");
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"superViewGustureState" object:[NSNumber numberWithBool:true]];
     }
     
 // when the food view is on the top, scroll it to show segment view
-    if (self.slideMultiViewController.view.frame.origin.y <sdNavigationBarHeight+sdSegmentViewHeight + 60  && self.slideMultiViewController.view.frame.origin.y>sdNavigationBarHeight ) {
-        
-        self.slideMultiViewController.view.frame = CGRectMake(0, self.slideMenuFrameY + translatedPoint.y, self.view.frame.size.width, self.view.frame.size.height - sdNavigationBarHeight-sdSegmentViewHeight);
-                if(velocity.y>0){
-            //self.tempTransPointY = self.tempTranslatedPoint.y - translatedPoint.y;
-                    //self.tempTranslatedPoint = CGPointMake(0, 0);
+    if ([self.currentTitle  isEqualToString: @"Food"]) {
+        // 60 is pretent to pan scroll bounce
+        if (self.slideMultiViewController.view.frame.origin.y <sdNavigationBarHeight+sdSegmentViewHeight + 60  && self.slideMultiViewController.view.frame.origin.y>sdNavigationBarHeight ) {
+ 
+            NSLog(@"main scrolling in did scroll");
+            self.slideMultiViewController.view.frame = CGRectMake(0, self.slideMenuFrameY + translatedPoint.y, self.view.frame.size.width, self.view.frame.size.height - sdNavigationBarHeight-sdSegmentViewHeight);
+                    if(velocity.y>0){
+                //self.tempTransPointY = self.tempTranslatedPoint.y - translatedPoint.y;
+                        //self.tempTranslatedPoint = CGPointMake(0, 0);
+            }
         }
     }
     
@@ -297,46 +336,41 @@
         
         self.slideMultiViewController.view.frame = CGRectMake(0, sdNavigationBarHeight, self.view.frame.size.width, self.view.frame.size.height - sdNavigationBarHeight-sdSegmentViewHeight);
         if (self.gestureStateBegin) {
-            NSLog(@"state begin false");
-            
-            NSNumber *y = [NSNumber numberWithFloat:0.0];
-            if ([self.currentTitle  isEqualToString: @"Food"]) {
-                [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionFood" object:y];
-            }else if([self.currentTitle isEqualToString:@"Comment"]){
-                [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionComment" object:y];
-            }
-            
-            self.gestureStateBegin = false;
             self.tempTranslatedPoint = translatedPoint;
         }
         // when sroll segment view up out of screen,
         if (velocity.y<0) {
-            NSNumber *y = [NSNumber numberWithFloat:translatedPoint.y - self.tempTranslatedPoint.y];
+            NSNumber *y;
+            if (self.gestureStateBegin) {
+                y = [NSNumber numberWithFloat:translatedPoint.y - self.tempTranslatedPoint.y];
+            }else{
+                y = [NSNumber numberWithFloat:translatedPoint.y];
+            }
+
             if ([self.currentTitle  isEqualToString: @"Food"]) {
                     [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionFood" object:y];
-            }else if([self.currentTitle isEqualToString:@"Comment"]){
-                    [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionComment" object:y];
             }
+//            else if([self.currentTitle isEqualToString:@"Comment"]){
+//                    [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionComment" object:y];
+//            }
             
             
         }else{
-            NSNumber *y = [NSNumber numberWithFloat:translatedPoint.y];
+            NSNumber *y;
+            y = [NSNumber numberWithFloat:translatedPoint.y];
             if ([self.currentTitle  isEqualToString: @"Food"]) {
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionFood" object:y];
-            }else if([self.currentTitle isEqualToString:@"Comment"]){
-                [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionComment" object:y];
             }
-            
         }
-        
-        //NSNumber *y = [NSNumber numberWithFloat:translatedPoint.y - self.tempTranslatedPoint.y];
-        //NSNumber *y = [NSNumber numberWithFloat:0.0];
-        
-        //[[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionComment" object:y];
-        
+
+        self.gestureStateBegin = false;
     }
-    
+    // when end scrolling, check segment view's postion and adjust it
     if (panGesture.state == UIGestureRecognizerStateEnded) {
+        
+        self.gestureStateBegin = false;
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"superViewGustureState" object:[NSNumber numberWithBool:false]];
+
         
         if(self.slideMultiViewController.view.frame.origin.y > sdNavigationBarHeight+sdSegmentViewHeight)
         {
@@ -346,9 +380,6 @@
         }
         if(self.slideMultiViewController.view.frame.origin.y < sdNavigationBarHeight+sdSegmentViewHeight && self.slideMultiViewController.view.frame.origin.y > sdNavigationBarHeight+20 && velocity.y>0)
         {
-//            CGRect frame = self.view.frame;
-//            frame.size.height = self.superViewHeight;
-//            self.view.frame = frame;
             [UIView animateWithDuration:0.25 animations:^{
                 self.slideMultiViewController.view.frame = CGRectMake(0, sdNavigationBarHeight+sdSegmentViewHeight, self.view.frame.size.width, self.view.frame.size.height - sdNavigationBarHeight-sdSegmentViewHeight);
                 [self hideSegmentView:sdNavigationBarHeight+sdSegmentViewHeight];
@@ -364,12 +395,12 @@
 //    CGRect frame = self.view.frame;
 //    frame.size.height = self.superViewHeight;
 //    self.view.frame = frame;
-//    NSLog(@"translatedPoint y:%f",translatedPoint.y);
-//    NSLog(@"speed y:%f",velocity.y);
-//    NSLog(@"slide y: %f",self.slideMultiViewController.view.frame.origin.y);
-//    NSLog(@"super view superViewHeight %f",self.superViewHeight);
-//    NSLog(@"super view frame height %f",self.view.frame.size.height);
-//    NSLog(@"translatedPoint temp y:%f",self.tempTranslatedPoint.y);
+    //NSLog(@"translatedPoint y:%f",translatedPoint.y);
+    //NSLog(@"speed y:%f",velocity.y);
+    //NSLog(@"slide y: %f",self.slideMultiViewController.view.frame.origin.y);
+    //NSLog(@"super view superViewHeight %f",self.superViewHeight);
+    //NSLog(@"super view frame height %f",self.view.frame.size.height);
+    //NSLog(@"translatedPoint temp y:%f",self.tempTranslatedPoint.y);
 }
 
 -(void)naviMenuButtonClicked{

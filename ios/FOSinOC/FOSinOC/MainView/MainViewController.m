@@ -8,6 +8,8 @@
 #define tableCellTag 1260
 #define mainViewcellHeight 100
 #define floatViewHeight 40
+#define mainHeaderViewHeight 300
+
 
 #import "Account.h"
 #import "Shop.h"
@@ -147,7 +149,7 @@
 
 -(void)initTableViewMainHeaderView{
     
-    UIView *mainHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.mainViewTableView.frame.size.width, 300)];
+    UIView *mainHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.mainViewTableView.frame.size.width, mainHeaderViewHeight)];
     [mainHeaderView setBackgroundColor:[UIColor grayColor]];
     mainHeaderView.layer.shadowOpacity = 0.8;
     mainHeaderView.layer.shadowOffset = CGSizeMake(-2.0, 0.0);
@@ -461,7 +463,8 @@
         NSIndexPath *indexPath = [self.mainViewTableView indexPathForCell:sender];
         NSLog(@"%@",indexPath);
         ShopDetailedViewController *destinationViewController = segue.destinationViewController;
-        destinationViewController.shopID = [self.shopList[indexPath.row] valueForKey:@"_idf"];
+        NSLog(@"%@",self.shopList[indexPath.row]);
+        destinationViewController.shopID = [self.shopList[indexPath.row] valueForKey:@"_id"];
         
     }
 }
@@ -532,8 +535,8 @@
     if (self.coverView == nil && self.catagoryView == nil) {
         
         [UIView animateWithDuration:0.5 animations:^{
-            if (self.mainViewTableView.contentOffset.y < 300 - floatViewHeight ) {
-                [self.mainViewTableView setContentOffset:CGPointMake(0, 300) animated:NO];
+            if (self.mainViewTableView.contentOffset.y < mainHeaderViewHeight - floatViewHeight ) {
+                [self.mainViewTableView setContentOffset:CGPointMake(0, mainHeaderViewHeight - floatViewHeight) animated:NO];
                 
             }
         } completion:^(BOOL finished){
@@ -569,8 +572,8 @@
     
     if (self.coverView == nil && self.sortView == nil) {
         [UIView animateWithDuration:0.5 animations:^{
-            if (self.mainViewTableView.contentOffset.y < 300 - floatViewHeight ) {
-                [self.mainViewTableView setContentOffset:CGPointMake(0, 300) animated:NO];
+            if (self.mainViewTableView.contentOffset.y < mainHeaderViewHeight - floatViewHeight ) {
+                [self.mainViewTableView setContentOffset:CGPointMake(0, mainHeaderViewHeight - floatViewHeight) animated:NO];
                 
             }
         } completion:^(BOOL finished){

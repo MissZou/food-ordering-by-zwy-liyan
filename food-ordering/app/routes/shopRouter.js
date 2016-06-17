@@ -42,9 +42,9 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json());
 
-app.use(bodyParser({
-    uploadDir: './public/upload'
-}));
+// app.use(bodyParser({
+//     uploadDir: './public/upload'
+// }));
 
 // app.use(session({
 //     secret: 'secret',
@@ -73,11 +73,14 @@ router.route('/findshops')
         
         var distance = req.headers["distance"];
         var coordinateTemp = req.headers["location"];
+
+        console.log(distance);
+        console.log(coordinateTemp);
         if (index == null) {
             index = 1;
         }
         if (count == null) {
-            count = 1;
+            count = 10;
         }
         var coordinate = JSON.stringify(coordinateTemp);
         coordinate = coordinate.split(',');
@@ -100,33 +103,9 @@ router.route('/findshops')
                    code:400
                 })
           }
-    })
+    });
 
-    .post(function(req,res){
-        
-        var distance = req.param('distance', null);
-        var coordinateTemp = req.param('location', null);    
-        var coordinate = JSON.stringify(coordinateTemp);
-        coordinate = coordinate.split(',');
-        coordinate[0] = coordinate[0].replace(/[^0-9.]/g,'');
-        coordinate[1] = coordinate[1].replace(/[^0-9.]/g,'');
-        if (coordinate !=null && distance !=null) {
-            var location = [Number(coordinate[0]),Number(coordinate[1])];
-            Shop.queryNearShops(location,distance,function(doc){
-               res.json({
-                   shop:doc,
-                   code:200,
-                   success:true
-                })
-              })  
-          }  
-          else{
-                res.json({
-                   code:400
-                })
-          }
-      
-});
+
 
 router.route('/findItemById')
     .post(function(req, res){

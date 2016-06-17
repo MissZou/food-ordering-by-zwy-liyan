@@ -57,4 +57,5 @@ typedef NS_ENUM(NSUInteger, httpMethod){
 -(void) checkLogin;
 -(void) location:(enum httpMethod)httpMethod withLocation:(NSDictionary *)location;
 -(void)address:(httpMethod)httpMethod withAddress:(NSDictionary *)address;
+-(void)changeAvatar:(NSURL *)filePath;
 @end

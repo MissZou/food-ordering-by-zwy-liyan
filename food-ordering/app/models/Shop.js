@@ -217,7 +217,8 @@ var addDish = function(shopId, newDish, callback) {
           "tags":newDish.tags,
           "price":newDish.price,
           "intro":newDish.intro,
-          "index":newDish.index
+          "index":newDish.index,
+          "category":newDish.category
         }}},{upsert:true},
       function (err,doc) {
         if (err != null) {
