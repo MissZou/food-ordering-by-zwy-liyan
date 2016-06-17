@@ -89,7 +89,7 @@
 }
 
 -(void)finishRefreshAccountData{
-    NSLog(@"finishRefreshAccountData");
+    //NSLog(@"finishRefreshAccountData");
 }
 
 -(void)networkFailed{

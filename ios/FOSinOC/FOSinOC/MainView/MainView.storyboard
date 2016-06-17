@@ -234,7 +234,7 @@
                             <variation key="widthClass=compact">
                                 <mask key="constraints">
                                     <include reference="j2G-zD-Xmd"/>
-                                    <include reference="qlv-9r-ogc"/>
+                                    <exclude reference="qlv-9r-ogc"/>
                                 </mask>
                             </variation>
                             <connections>

@@ -62,8 +62,6 @@ router.route('/findlocation')
           res.charset = 'UTF-8';
           if (response) {
             var result = response.body.result;
-            console.log(result.length);
-            console.log(typeof result);
             for(var i = 0;i<result.length;i++){
                  if (result[i].location == null) {
                     console.log(result[i].name);

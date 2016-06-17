@@ -380,5 +380,44 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     }
 }
 
+-(void)changeAvatar:(NSURL *)filePath{
+    NSURL *url = [NSURL URLWithString:@"account/avatar" relativeToURL:self.baseUrl];
+    NSString *urlString = [baseUrlString stringByAppendingString:@"account/avatar"];
+    
+    NSDictionary *parameters = @{@"token": self.token};
+    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:urlString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileURL:filePath name:@"file" fileName:@"filename.jpg" mimeType:@"image/jpeg" error:nil];
+    } error:nil];
+    
+//        NSUUID *identifierForVendor = [[UIDevice currentDevice] identifierForVendor];
+//        NSString *deviceId = [identifierForVendor UUIDString];
+//        NSString *boundary = [@"Boundary-" stringByAppendingString:deviceId];
+//        [request setValue:[@"multipart/form-data;" stringByAppendingString:boundary] forHTTPHeaderField:@"Content-Type"];
+        [request setValue:self.token forHTTPHeaderField:@"token"];
+    
+    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    
+    NSURLSessionUploadTask *uploadTask;
+//    uploadTask = [manager
+//                  uploadTaskWithStreamedRequest:request
+//                  progress:nil completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+//                      if (error) {
+//                          NSLog(@"Error: %@", error);
+//                      } else {
+//                          NSLog(@"%@ %@", response, responseObject);
+//                      }
+//                  }];
+//    
+    
+    uploadTask = [manager uploadTaskWithRequest:request fromData:[NSData dataWithContentsOfURL:filePath] progress:nil completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+                              if (error) {
+                                  NSLog(@"Error: %@", error);
+                              } else {
+                                  NSLog(@"%@ %@", response, responseObject);
+                              }
+    }];
+    
+    [uploadTask resume];
+   }
 
 @end

@@ -16,6 +16,7 @@ var nodemailer = require('nodemailer');
 var session = require('express-session');
 var gm = require('gm');
 var imageMagick = gm.subClass({ imageMagick : true });
+//var formidable = require('formidable');
 //var io = require('socket.io').listen(server);
 
 //var Account = require('../models/Account')(mailConfig, mongoose, nodemailer);
@@ -53,15 +54,14 @@ next();
 };
 
 app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-
-app.use(bodyParser.json());
-
-app.use(bodyParser({
+app.use(bodyParser.json({
     uploadDir: './public/upload'
 }));
+// app.use(bodyParser.urlencoded({
+//     uploadDir: './public/upload'
+// }));
+app.use(bodyParser.json({limit: "50mb"}));
+app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000},{extended:true}));
 
 app.use(session({
     secret: 'secret',
@@ -96,7 +96,6 @@ router.route('/upload')
             });
         }
     });
-
 
 
 router.route('/confirm')
@@ -174,21 +173,10 @@ router.route('/avatar')
     })
 
 .post(multipart(), function(req, res) { //create avatar
-    //copy file to a public directory
     console.log("avatar");
-    console.log(req.files);
+    //console.log(req.file);
     var targetPath = './public/resources/avatar/' + req.session.user._id + '.jpg';
-    //copy file
-    // fs.createReadStream(req.files.files.ws.path).pipe(fs.createWriteStream(targetPath));
-    //return file url
     var tmp_path = req.files.files.path;
-    // fs.rename(tmp_path, targetPath, function(err) {
-    //     if (err) throw err;
-    //     // 删除临时文件夹文件, 
-    //     fs.unlink(tmp_path, function() {
-    //         if (err) throw err;
-    //     });
-    // });
     imageMagick(tmp_path)
                 .gravity('Center')
                 .resize('640', '480','^>')
@@ -205,10 +193,10 @@ router.route('/avatar')
     var url = 'http://' + req.headers.host + '/resources/avatar/' + req.session.user._id + '.jpg';
 
 
+    
     var accountId = req.session.user._id;
     console.log(accountId);
     Account.uploadAvatar(accountId, url, function(err) {
-        //console.log("save image");
         if (null == err)
             res.json({
                 code: 200,
@@ -313,7 +301,7 @@ router.route('/login')
 });
 
 router.use("/account", function(req, res, next) {
-
+    //console.log(req);
     // check header or url parameters or post parameters for token
     var token = req.body.token || req.param('token') || req.headers['token'] || req.session.userToken;
     // decode token
@@ -581,9 +569,17 @@ router.route('/account/location')
         });
     }
 });
-router.route('/account/web/cart')
+router.route('/account/web/cart/:shopId')
     .get(function(req, res) {
-         res.sendfile(path.join(__dirname, '../../views', 'shop-detail.html'));
+        console.log(req.params.shopId)
+        Shop.findShopById(req.params.shopId,function(doc){
+            console.log(doc.dish);
+             res.render('shop-detail', {
+                doc: doc.dish
+            });
+        })
+         //res.render('shop-detail.jade');
+        
     });
 
 router.route('/account/cart')
@@ -856,14 +852,48 @@ router.route('/account/favoriteitem')
             //res.send(doc)
         })
 
+    });
+
+
+
+
+
+//router.route('/account/avatar',bodyParser.json({limit: '5mb'}))
+router.route('/account/avatar')
+.post(multipart(), function(req, res) { //create avatar
+    //var incomingForm = req.form;
+    //console.log(incomingForm);
+    var accountId = req.decoded._id;
+    console.log("avatar");
+    console.log(req);
+    var targetPath = './public/resources/avatar/' + accountId + '.jpg';
+    var tmp_path = req.files.files.path;
+    imageMagick(tmp_path)
+                .gravity('Center')
+                .resize('640', '480','^>')
+                .crop('640', '480')
+                .autoOrient()
+                .quality(90)
+                .write(targetPath, function(err){
+                    if (err) {
+                        console.log(err);
+                    }
+                    fs.unlink(tmp_path, function() {
+                    });
+                });
+    var url = 'http://' + req.headers.host + '/resources/avatar/' + accountId + '.jpg';
+    
+    Account.uploadAvatar(accountId, url, function(err) {
+        if (null == err)
+            res.json({
+                code: 200,
+                msg: {
+                    url: url
+                }
+            });
     })
 
-
-
-
-
-
-
+});
 
 
 

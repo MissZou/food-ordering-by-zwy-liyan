@@ -37,17 +37,27 @@ static Shop *sharedManager = nil;
 
 -(void)searchShopByLocation:(NSArray *)location withdistance:(NSNumber *)distance{
     NSURL *url = [NSURL URLWithString:@"findshops" relativeToURL:self.baseUrl];
-    NSDictionary *parameters = @{@"location": location, @"distance": distance};
-    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
+
+    NSString *locationString1 = [location[0] valueForKey:@"description"];
+    NSString *locationString = [[locationString1 stringByAppendingString:@","] stringByAppendingString:[location[1] valueForKey:@"description"]];
+    //[locationString stringByAppendingString:[location[1] valueForKey:@"description"]];
     
-    [manager POST:[url absoluteString] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    NSLog(@"location string %@",locationString);
+    
+    NSString *distanceString = [distance stringValue];
+    [manager.requestSerializer setValue:locationString  forHTTPHeaderField:@"location"];
+    [manager.requestSerializer setValue:distanceString  forHTTPHeaderField:@"distance"];
+    
+    
+    
+    
+    [manager GET:[url absoluteString] parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
-            NSDictionary *responseDict = responseObject;
-            //NSLog(@"%@",responseDict);
-            [self.delegate finishSearchShops:responseDict];
+            //NSLog(@"%@", responseObject);
+            [self.delegate finishSearchShops:responseObject];
+            
         } else {
             NSLog(@"%@", responseObject);
         }

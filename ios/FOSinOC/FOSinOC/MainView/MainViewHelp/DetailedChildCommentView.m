@@ -6,7 +6,10 @@
 //  Copyright © 2016年 李龑. All rights reserved.
 //
 #define shopMarkViewHeight 200
-
+#define catagoryTalbeWidth 80
+#define slideTitleHeight 40
+#define navigationBarHeight 64
+#define segmentHeight 70
 #import "DetailedChildCommentView.h"
 
 @interface DetailedChildCommentView ()<UITableViewDelegate, UITableViewDataSource>
@@ -22,8 +25,8 @@
     [self initCommentView];
     // Do any additional setup after loading the view.
     //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disableInteraction) name:@"disableInteractionComment" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(triggerNotificationAction:) name:@"enableInteractionComment" object:nil];
-    //[self disableInteraction];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(triggerNotificationAction:) name:@"enableInteractionComment" object:nil];
+//    [self disableInteraction];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -33,6 +36,7 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     //self.commentTableView.userInteractionEnabled = false;
+    self.commentTableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height  - navigationBarHeight - segmentHeight - segmentHeight);
 }
 
 -(void)initCommentView{
@@ -66,47 +70,47 @@
 
 -(void)enableInteraction{
     //self.commentTableView.userInteractionEnabled = true;
-    self.commentTableView.scrollEnabled =false;
+    self.commentTableView.scrollEnabled =true;
 }
 
--(void) triggerNotificationAction:(NSNotification *) notification
-{
-    NSLog(@"enableInteractionComment");
-    if ([notification.object isKindOfClass:[NSNumber class]])
-    {
-        [self enableInteraction];
-        NSNumber *y = [notification object];
-        NSLog(@"continu to scroll commnet %f",[y floatValue]);
-        [self.commentTableView setContentOffset:CGPointMake(0,  -[y floatValue])];
-    }
-    else
-    {
-        NSLog(@"Error, object not recognised.");
-    }
-}
+//-(void) triggerNotificationAction:(NSNotification *) notification
+//{
+//    NSLog(@"enableInteractionfood");
+//    if ([notification.object isKindOfClass:[NSNumber class]])
+//    {
+//        [self enableInteraction];
+//        NSNumber *y = [notification object];
+//        //NSLog(@"continu to scroll commnet %f",[y floatValue]);
+//        [self.commentTableView setContentOffset:CGPointMake(0,  -[y floatValue])];
+//    }
+//    else
+//    {
+//        NSLog(@"Error, object not recognised.");
+//    }
+//}
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
 //    CGPoint translatedPoint = [[self.commentTableView panGestureRecognizer] translationInView:self.view];
 //    NSLog(@"child comment talbe offset %f",scrollView.contentOffset.y);
 //    NSLog(@"commnet translatedPoint y:%f",translatedPoint.y);
-    if (scrollView.contentOffset.y<=0 ) {
+//    if (scrollView.contentOffset.y<=0 ) {
 //        
-//        //self.foodTable.bounces = NO;
+//
 //        [self disableInteraction];
-//        
+//
 //        if (self.maxOffset > scrollView.contentOffset.y) {
 //            self.maxOffset = scrollView.contentOffset.y;
 //            NSNumber *y = [NSNumber numberWithFloat:self.maxOffset];
 //            CGPoint velocity = [self.commentTableView.panGestureRecognizer velocityInView:self.commentTableView];
 //            NSValue *velocityInValue = [NSValue valueWithCGPoint:velocity];
 //            NSArray *scrollParam = [NSArray arrayWithObjects:y,velocityInValue, nil];
-//            [[NSNotificationCenter defaultCenter]postNotificationName:@"mainContinueScrollingShop" object:scrollParam];
+//            [[NSNotificationCenter defaultCenter]postNotificationName:@"mainContinueScrollingComment" object:scrollParam];
 //
 //        }
-    }
-    else if(scrollView.contentOffset.y>0){
+//    }
+//    else if(scrollView.contentOffset.y>0){
 //            [self enableInteraction];
-    }
+//    }
 
 }
 
