@@ -897,17 +897,6 @@ router.route('/account/avatar')
 
 
 
-
-io.on('connection', function(socket) {
-var nickname=sessionUser;
-onlineUser[nickname]=socket.id;
-    socket.on('say to someone', function(id, msg) {
-    io.sockets.connected[onlineUser[id]].emit("my message", msg)
-    });
-    console.log("user",onlineUser)
-});
-
-
   return router;
 };
 

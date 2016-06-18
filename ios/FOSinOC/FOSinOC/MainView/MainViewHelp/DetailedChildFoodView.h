@@ -18,6 +18,7 @@
 @interface DetailedChildFoodView : UIViewController
 @property(copy,nonatomic)NSString *shopID;
 @property(assign,nonatomic)BOOL isEnableInteraction;
+@property(strong,nonatomic)UIView *cartView;// set to public for adjust view origin y
 
 @property(weak)id <DetailedChildFoodViewDelegate> delegate;
 @end

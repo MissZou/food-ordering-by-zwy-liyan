@@ -103,8 +103,33 @@ router.route('/findshops')
                    code:400
                 })
           }
-    });
+    })
 
+    .post(function(req,res){
+        
+         var distance = req.param('distance', null);
+        var coordinateTemp = req.param('location', null);    
+        var coordinate = JSON.stringify(coordinateTemp);
+        coordinate = coordinate.split(',');
+        coordinate[0] = coordinate[0].replace(/[^0-9.]/g,'');
+         coordinate[1] = coordinate[1].replace(/[^0-9.]/g,'');
+         if (coordinate !=null && distance !=null) {
+            var location = [Number(coordinate[0]),Number(coordinate[1])];
+             Shop.queryNearShops(location,distance,function(doc){
+               res.json({
+                   shop:doc,
+                    code:200,
+                   success:true
+                 })
+               })  
+         }  
+           else{
+                 res.json({
+                    code:400
+                 })
+           }
+       
+ });
 
 
 router.route('/findItemById')
@@ -637,14 +662,7 @@ router.route('/account/testAddShop')
     }
 });
 
-io.on('connection', function(socket) {
-var nickname=sessionShop;
-onlineUser[nickname]=socket.id;
-  /*  socket.on('say to someone', function(id, msg) {
-    io.sockets.connected[onlineUser[id]].emit("my message", msg)
-    });*/
-       console.log("shop",onlineUser)
-});
+
 
   return router;
 };

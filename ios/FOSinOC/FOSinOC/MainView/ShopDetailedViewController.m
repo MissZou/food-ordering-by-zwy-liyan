@@ -8,6 +8,7 @@
 #define sdNavigationBarHeight 64
 #define sdSegmentViewHeight 70
 #define slideTitleHeight 40
+#define cartViewHeight 70
 
 #import "ShopDetailedViewController.h"
 #import "SlideMultiViewController.h"
@@ -48,6 +49,7 @@
 @property(strong,nonatomic)  DetailedChildCommentView *commentView;
 @property(strong,nonatomic) UIPanGestureRecognizer *scrollSlideViewGesture;
 @property(assign,nonatomic) CGFloat slideMenuFrameY;
+@property(assign,nonatomic) CGFloat slideMenuFrameInitY;
 @property(assign,nonatomic) CGPoint lastVeclocity;
 
 //segment view ====================================
@@ -60,13 +62,16 @@
 @property(assign,nonatomic) BOOL isChangeScrollDirection;
 @property(assign,nonatomic) BOOL isChildViewGustureStateBegin;
 
+//cartview
+@property(assign,nonatomic) CGFloat cartViewInitFrameY;
+
 @end
 
 @implementation ShopDetailedViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height + sdSegmentViewHeight);
+    //self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height + sdSegmentViewHeight);
     self.superViewHeight = self.view.frame.size.height;
     [self initDetailedChildFoodView];
     
@@ -74,6 +79,7 @@
     //[[self navigationController] setNavigationBarHidden:YES animated:NO];
     [self initNavigationBar];
     self.currentTitle = @"Food";
+    self.cartViewInitFrameY = self.foodView.cartView.frame.origin.y;
 }
 
 
@@ -82,39 +88,45 @@
     self.naviShopName = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 200, 30)];
     self.naviShopName.text = @"shopName";
     self.naviShopName.textAlignment = NSTextAlignmentCenter;
-    //self.naviShopName.backgroundColor = [UIColor redColor];
+    
     
     self.navigationItem.titleView = self.naviShopName;
-    self.naviRightViewSmall = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 40, 30)];
+    //self.naviRightViewSmall = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 40, 30)];
     //self.naviRightViewSmall.backgroundColor = [UIColor blueColor];
     
     self.naviMenuButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40, 30)];
     [self.naviMenuButton setTitle:@"..." forState:UIControlStateNormal];
     [self.naviMenuButton addTarget:self action:@selector(naviMenuButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.naviMenuButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    [self.naviRightViewSmall addSubview:self.naviMenuButton];
-    self.rightBarItemSmall = [[UIBarButtonItem alloc]initWithCustomView:self.naviRightViewSmall];
+    //[self.naviRightViewSmall addSubview:self.naviMenuButton];
+    //self.rightBarItemSmall = [[UIBarButtonItem alloc]initWithCustomView:self.naviRightViewSmall];
     //self.navigationItem.rightBarButtonItem = self.rightBarItemSmall;
     
-    self.naviRightViewFull = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 160, 30)];
+    self.naviRightViewFull = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 40, 30)];
     //self.naviRightViewFull.backgroundColor = [UIColor blackColor];
-    self.naviShareButton = [[UIButton alloc]initWithFrame:CGRectMake(120, 0, 40, 30)];
+    self.naviShareButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40, 30)];
     [self.naviShareButton setTitle:@"share" forState:UIControlStateNormal];
     [self.naviShareButton addTarget:self action:@selector(naviShareButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.naviShareButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    
     [self.naviRightViewFull addSubview:self.naviShareButton];
+    [self.naviRightViewFull addSubview:self.naviMenuButton];
+    
     self.rightBarItemFull = [[UIBarButtonItem alloc]initWithCustomView:self.naviRightViewFull];
     self.navigationItem.rightBarButtonItem = self.rightBarItemFull;
+//    self.navigationItem.rightBarButtonItem = self.rightBarItemSmall;
     
     UIBarButtonItem *backBarButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:NULL];
     
     self.navigationItem.backBarButtonItem = backBarButton;
     
-    //[self.navigationController.navigationBar lt_setBackgroundColor:[UIColor blueColor]];
+    
     //self.naviShopName.alpha = 0;
     //self.naviRightViewSmall.alpha = 0;
 //    self.naviRightViewFull.alpha = 1;
     //self.naviRightView.alpha = 0;
+    [self.naviMenuButton setHidden:true];
+    [self.naviShopName setHidden:true];
 }
 
 -(void)initDetailedChildFoodView{
@@ -161,17 +173,26 @@
     [self.view addGestureRecognizer:self.scrollSlideViewGesture];
 }
 
+//-(void)initCartView{
+//    //self.view.frame.size.height - cartViewHeight
+//    self.cartView = [[UIView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height - sdNavigationBarHeight-sdSegmentViewHeight-slideTitleHeight-cartViewHeight, self.view.frame.size.width, cartViewHeight)];
+//    self.cartView.backgroundColor = [UIColor redColor];
+//    [self.view addSubview:self.cartView];
+//}
+
+
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-     self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height + sdSegmentViewHeight);
+//    [self initNavigationBar];
+    self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height + sdSegmentViewHeight);
     
     //NSLog(@"shop detail %f",self.slideMultiViewController.view.frame.size.height);
     //NSLog(@"shop detail %f",self.view.frame.size.height);
        // [self initNavigationBar];
-    self.naviShopName.alpha = 0;
-    self.naviRightViewSmall.alpha = 0;
-    self.naviRightViewFull.alpha = 1;
-    
+//    self.naviShopName.alpha = 0;
+//    self.naviRightViewSmall.alpha = 0;
+//    self.naviRightViewFull.alpha = 1;
+    self.slideMenuFrameInitY = self.slideMultiViewController.view.frame.origin.y;
     
 }
 
@@ -197,9 +218,11 @@
 
         if(self.slideMultiViewController.view.frame.origin.y > sdNavigationBarHeight+sdSegmentViewHeight && self.isChildViewGustureStateBegin == false)
         {
+            //[self adjustCartViewFrameY:-self.slideMultiViewController.view.frame.origin.y + self.slideMenuFrameInitY];
             [UIView animateWithDuration:0.25 animations:^{
                 self.slideMultiViewController.view.frame = CGRectMake(0, sdNavigationBarHeight+sdSegmentViewHeight, self.view.frame.size.width, self.view.frame.size.height - sdNavigationBarHeight-sdSegmentViewHeight);
                 [self hideSegmentView:sdNavigationBarHeight+sdSegmentViewHeight];
+                
             }];
 
         }
@@ -221,9 +244,16 @@
     
     if(self.slideMultiViewController.view.frame.origin.y > sdNavigationBarHeight+sdSegmentViewHeight && self.isChildViewGustureStateBegin == false)
     {
+        if (self.slideMultiViewController.view.frame.origin.y<self.slideMenuFrameInitY) {
+            [self adjustCartViewFrameY:-self.slideMultiViewController.view.frame.origin.y + self.slideMenuFrameInitY];
+        }else{
+            CGRect cartFrame = self.foodView.cartView.frame;
+            self.foodView.cartView.frame = CGRectMake(cartFrame.origin.x, self.cartViewInitFrameY, cartFrame.size.width, cartFrame.size.height);
+        }
         [UIView animateWithDuration:0.25 animations:^{
             self.slideMultiViewController.view.frame = CGRectMake(0, sdNavigationBarHeight+sdSegmentViewHeight, self.view.frame.size.width, self.view.frame.size.height - sdNavigationBarHeight-sdSegmentViewHeight);
             [self hideSegmentView:sdNavigationBarHeight+sdSegmentViewHeight];
+
         }];
         
     }
@@ -236,49 +266,36 @@
     
 }
 
-
-
 -(void)hideTopview:(CGFloat) alpha{
-//    NSLog(@"alpha %f",alpha);
     alpha = (alpha - 64)/70;
     float adjustAlpha;
-    if (alpha < 0) {
-        alpha = 0;
-    }
+    
     if (alpha < 0.5) {
-        self.navigationItem.rightBarButtonItem = self.rightBarItemSmall;
-        self.navigationItem.titleView = self.naviShopName;
-        self.naviShopName.frame = CGRectMake(0, 0, 200, 30);
-        self.naviShopName.alpha =0;
-        self.naviRightViewSmall.alpha = 0;
+        [self.naviMenuButton setHidden:false];
+        [self.naviShopName setHidden:false];
+        [self.naviShareButton setHidden:true];
         
         adjustAlpha = (alpha)/0.5;
         self.naviShopName.alpha =1 - adjustAlpha;
-        self.naviRightViewSmall.alpha = 1 - adjustAlpha;
+        self.naviMenuButton.alpha = 1-adjustAlpha;
         
-
+        
     }
     if(alpha > 0.5){
-        self.navigationItem.rightBarButtonItem = self.rightBarItemFull;
-        self.navigationItem.titleView = nil;
+        [self.naviMenuButton setHidden:true];
+        [self.naviShopName setHidden:true];
+        [self.naviShareButton setHidden:false];
         if (alpha>1) {
             adjustAlpha = 1;
         }
         else{
             adjustAlpha = (alpha - 0.5)/0.5;
         }
-        self.naviRightViewFull.alpha = adjustAlpha;
-        
+        self.naviShareButton.alpha = adjustAlpha;
     }
-    //NSLog(@"alpha %f",alpha);
+//    
 //    NSLog(@"shopname alpha %f",self.naviShopName.alpha);
 //    NSLog(@"righ view alpha %f",self.naviRightViewFull.alpha);
-//    if (self.naviShopName.alpha < 0.05) {
-//        self.naviShopName.alpha = 0;
-//    }
-//    if (self.naviRightViewFull.alpha < 0.05) {
-//        self.naviRightViewFull.alpha = 0;
-//    }
 }
 
 
@@ -318,18 +335,19 @@
     }
     
 // when the food view is on the top, scroll it to show segment view
-    if ([self.currentTitle  isEqualToString: @"Food"]) {
+    //if ([self.currentTitle  isEqualToString: @"Food"]) {
         // 60 is pretent to pan scroll bounce
         if (self.slideMultiViewController.view.frame.origin.y <sdNavigationBarHeight+sdSegmentViewHeight + 60  && self.slideMultiViewController.view.frame.origin.y>sdNavigationBarHeight ) {
  
-            NSLog(@"main scrolling in did scroll");
+            
             self.slideMultiViewController.view.frame = CGRectMake(0, self.slideMenuFrameY + translatedPoint.y, self.view.frame.size.width, self.view.frame.size.height - sdNavigationBarHeight-sdSegmentViewHeight);
+
                     if(velocity.y>0){
                 //self.tempTransPointY = self.tempTranslatedPoint.y - translatedPoint.y;
                         //self.tempTranslatedPoint = CGPointMake(0, 0);
             }
         }
-    }
+    //}
     
     if(self.slideMultiViewController.view.frame.origin.y <= sdNavigationBarHeight)
     {
@@ -361,6 +379,9 @@
             if ([self.currentTitle  isEqualToString: @"Food"]) {
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionFood" object:y];
             }
+//            else if([self.currentTitle isEqualToString:@"Comment"]){
+//                [[NSNotificationCenter defaultCenter]postNotificationName:@"enableInteractionComment" object:y];
+//            }
         }
 
         self.gestureStateBegin = false;
@@ -383,6 +404,7 @@
             [UIView animateWithDuration:0.25 animations:^{
                 self.slideMultiViewController.view.frame = CGRectMake(0, sdNavigationBarHeight+sdSegmentViewHeight, self.view.frame.size.width, self.view.frame.size.height - sdNavigationBarHeight-sdSegmentViewHeight);
                 [self hideSegmentView:sdNavigationBarHeight+sdSegmentViewHeight];
+                //[self adjustCartViewFrameY:-self.slideMultiViewController.view.frame.origin.y + self.slideMenuFrameInitY];
             }];
             
         }
@@ -392,14 +414,26 @@
     
     [self hideSegmentView:self.slideMultiViewController.view.frame.origin.y];
     [self hideTopview:self.slideMultiViewController.view.frame.origin.y];
+    if (self.slideMultiViewController.view.frame.origin.y<self.slideMenuFrameInitY) {
+            [self adjustCartViewFrameY:-self.slideMultiViewController.view.frame.origin.y + self.slideMenuFrameInitY];
+    }else{
+        CGRect cartFrame = self.foodView.cartView.frame;
+        self.foodView.cartView.frame = CGRectMake(cartFrame.origin.x, self.cartViewInitFrameY, cartFrame.size.width, cartFrame.size.height);
+    }
+
+    
+
 //    CGRect frame = self.view.frame;
 //    frame.size.height = self.superViewHeight;
 //    self.view.frame = frame;
     //NSLog(@"translatedPoint y:%f",translatedPoint.y);
     //NSLog(@"speed y:%f",velocity.y);
-    //NSLog(@"slide y: %f",self.slideMultiViewController.view.frame.origin.y);
-    //NSLog(@"super view superViewHeight %f",self.superViewHeight);
-    //NSLog(@"super view frame height %f",self.view.frame.size.height);
+//    NSLog(@"slide y: %f",self.slideMultiViewController.view.frame.origin.y);
+//    NSLog(@"slide init y: %f",self.slideMenuFrameInitY);
+//    NSLog(@"food view origin y: %f",self.foodView.view.frame.origin.y);
+//    NSLog(@"food view size height: %f",self.foodView.view.frame.size.height);
+    NSLog(@"super view superViewHeight %f",self.superViewHeight);
+    NSLog(@"view frame height %f",self.view.frame.size.height);
     //NSLog(@"translatedPoint temp y:%f",self.tempTranslatedPoint.y);
 }
 
@@ -419,10 +453,16 @@
     [self performSegueWithIdentifier:@"foodDetailSegue" sender:nil];
 }
 
+-(void)adjustCartViewFrameY:(CGFloat)adjustValue{
+    CGRect cartFrame = self.foodView.cartView.frame;
+    CGFloat y = self.cartViewInitFrameY+adjustValue;
+    self.foodView.cartView.frame = CGRectMake(cartFrame.origin.x, y, cartFrame.size.width, cartFrame.size.height);
+}
+
 #pragma mark -- SlideMultiViewDelegate
 
 -(void) slideButtionClicked:(NSString *)title{
     self.currentTitle = title;
-    
+    self.tempTranslatedPoint = CGPointMake(0, 0);
 }
 @end
