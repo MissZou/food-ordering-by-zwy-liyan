@@ -25,7 +25,7 @@
     [self initCommentView];
     // Do any additional setup after loading the view.
     //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disableInteraction) name:@"disableInteractionComment" object:nil];
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(triggerNotificationAction:) name:@"enableInteractionComment" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(triggerNotificationAction:) name:@"enableInteractionComment" object:nil];
 //    [self disableInteraction];
 }
 
@@ -36,7 +36,7 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     //self.commentTableView.userInteractionEnabled = false;
-    self.commentTableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height  - navigationBarHeight - segmentHeight - segmentHeight);
+    self.commentTableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height  - navigationBarHeight - segmentHeight );
 }
 
 -(void)initCommentView{
@@ -73,26 +73,24 @@
     self.commentTableView.scrollEnabled =true;
 }
 
-//-(void) triggerNotificationAction:(NSNotification *) notification
-//{
-//    NSLog(@"enableInteractionfood");
-//    if ([notification.object isKindOfClass:[NSNumber class]])
-//    {
-//        [self enableInteraction];
-//        NSNumber *y = [notification object];
-//        //NSLog(@"continu to scroll commnet %f",[y floatValue]);
-//        [self.commentTableView setContentOffset:CGPointMake(0,  -[y floatValue])];
-//    }
-//    else
-//    {
-//        NSLog(@"Error, object not recognised.");
-//    }
-//}
+-(void) triggerNotificationAction:(NSNotification *) notification
+{
+    NSLog(@"enableInteractionfood");
+    if ([notification.object isKindOfClass:[NSNumber class]])
+    {
+        [self enableInteraction];
+        NSNumber *y = [notification object];
+        //NSLog(@"continu to scroll commnet %f",[y floatValue]);
+        [self.commentTableView setContentOffset:CGPointMake(0,  -[y floatValue])];
+    }
+    else
+    {
+        NSLog(@"Error, object not recognised.");
+    }
+}
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-//    CGPoint translatedPoint = [[self.commentTableView panGestureRecognizer] translationInView:self.view];
-//    NSLog(@"child comment talbe offset %f",scrollView.contentOffset.y);
-//    NSLog(@"commnet translatedPoint y:%f",translatedPoint.y);
+
 //    if (scrollView.contentOffset.y<=0 ) {
 //        
 //
