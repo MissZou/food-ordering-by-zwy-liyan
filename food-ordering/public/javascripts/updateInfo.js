@@ -18,7 +18,7 @@ $(document).ready(function() {
         });
     });
 
-    $("#updateAddress button").on("click", function() {
+    $("#save").on("click", function() {
         $.ajax({
             url: '/user/account/address',
             type: 'PUT',
@@ -33,16 +33,17 @@ $(document).ready(function() {
                     alert("上传成功");
                     console.log(data)
                     var newAddr=data.address[data.address.length-1];
-                   // console.log(data.address)
-                    $('<li class="address">  \
-                    <div class="delete">delete</div> \
-                    <div class="update">update</div> \
-                    <p class="name">'+newAddr.name+'</p> \
-                    <p class="type">'+newAddr.type+'</p> \
-                    <p class="phone">'+newAddr.phone+'</p> \
-                    <p class="addr">'+newAddr.addr+'</p> \
-                    <input type="hidden" value='+newAddr._id+' class="addr_id"> \
-                    </li>').appendTo("ul")
+                   $('<div class="desktop-addressblock"> \
+                    <div class="desktop-addressblock-buttons"> \
+                    <button class="desktop-addressblock-button update">修改</button> \
+                    <button class="desktop-addressblock-button delete">删除</button> \
+                    </div><div class="desktop-addressblock-name">'+newAddr.name+'</div> \
+                    <div class="desktop-addressblock-address">'+newAddr.addr+'</div> \
+                    <div class="desktop-addressblock-mobile">'+newAddr.phone+'</div> \
+                    <div class="type">'+newAddr.type+'</div> \
+                    <input type="hidden" value='+newAddr._id+'class="addr_id"></div>').insertBefore(".desktop-addressblock.desktop-addressblock-addblock");
+                $(".addressdialog").hide();
+        $(".mask").hide();
                 }
             },
             error: function(data, status) {
@@ -55,15 +56,16 @@ $(document).ready(function() {
 
 
     $(".delete").live("click", function() {
-        var parent = $(this).parent();
+        var parent = $(this).parents(".desktop-addressblock");
+        console.log(parent)
         $.ajax({
             url: '/user/account/address',
             type: 'DELETE',
             data: {
-                "name": parent.find(".name").text(),
-                "phone": parent.find(".phone").text(),
-                "type": parent.find(".type").text(),
-                "address": parent.find(".addr").text()
+                "name": parent.find(".desktop-addressblock-name").text(),
+                "address": parent.find(".desktop-addressblock-address").text(),
+               "type": parent.find(".type").text(),
+                "phone": parent.find(".desktop-addressblock-mobile").text()
             },
             success: function(data, status) {
                 if (data.success == true) {
@@ -113,5 +115,22 @@ $(document).ready(function() {
             }
         });
     })
+
+    $(".addressdialog-close").on("click", function() {
+        $(this).parent().hide();
+        $(".mask").hide();
+    });
+    $(".addressform-buttons").find("button").eq(1).on("click", function() {
+        $(this).parents(".addressdialog").hide();
+        $(".mask").hide();
+    });
+    $(".update").on("click", function() {
+        $(".mask").show();
+        $(".addressdialog").show();
+    });
+    $(".desktop-addressblock.desktop-addressblock-addblock").on("click", function() {
+        $(".mask").show();
+        $(".addressdialog").show();
+    });
 
 })

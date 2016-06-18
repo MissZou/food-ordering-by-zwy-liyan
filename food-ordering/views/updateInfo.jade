@@ -6,33 +6,25 @@ html
 		link(rel='stylesheet', href='/stylesheets/normalize.css')
 		link(rel='stylesheet', href='/stylesheets/updateAddress.css')
 	body
+		include addAddress.jade
 		if (items)
 			.desktop-addresslist.clearfix
-			each val in items
-				.desktop-addressblock
-					.desktop-addressblock-buttons
-						button.desktop-addressblock-button.update 修改
-						button.desktop-addressblock-button.delete 删除
-					.desktop-addressblock-name= val.name
-					.desktop-addressblock-address= val.addr
-					.desktop-addressblock-mobile= val.phone
-					input.addr_id(type="hidden",value= val._id )
+				each val in items
+					.desktop-addressblock
+						.desktop-addressblock-buttons
+							button.desktop-addressblock-button.update 修改
+							button.desktop-addressblock-button.delete 删除
+						.desktop-addressblock-name= val.name
+						.desktop-addressblock-address= val.addr
+						.desktop-addressblock-mobile= val.phone
+						.type= val.type
+						input.addr_id(type="hidden",value= val._id )
+				button.desktop-addressblock.desktop-addressblock-addblock 添加新地址
 		else
-			p woshishui
+			.desktop-addresslist.clearfix
 		div#updateInfo
 			label(for='location') update location
 			input#location(type='text')
-			button submit
-
-		div#updateAddress
-			label(for='username') name
-			input#username(type="text")
-			label(for='phone') phone
-			input#phone(type="text")
-			label(for='type') type
-			input#type(type="text")
-			label(for='address') address
-			input#address(type="text")
 			button submit
 
 		div#updExistingAddr
