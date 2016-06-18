@@ -1,6 +1,6 @@
 $(function() {
     var accountId=localStorage.getItem('accountId');
-    var shopId=window.location.search.split("=")[1]; //非常不健壮
+    var shopId=window.location.pathname.split("/")[5]; //非常不健壮
     localStorage.setItem('shopId',shopId);
     console.log("accountId",accountId)
     console.log("shopId",shopId)

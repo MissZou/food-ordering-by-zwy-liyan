@@ -1,4 +1,5 @@
 $(function() {
+    var shopId=localStorage.getItem("socketShop")
     var tagAction = {
         remove: function() {
             $(this).parent(".tag-wrp").remove();
@@ -153,9 +154,10 @@ $(function() {
             return false;
         }
     });
-    var socket = io();
 
+var socket = io();
 
+socket.emit('set nickname',shopId)
     socket.on('my message', function(msg) {
         // 首先，让我们检查我们是否有权限发出通知
         // 如果没有，我们就请求获得权限

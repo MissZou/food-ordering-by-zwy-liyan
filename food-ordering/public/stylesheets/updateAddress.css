@@ -1,0 +1,49 @@
+body, button, input, select, textarea {
+    font: 400 1em/1.5 PingFang SC,Lantinghei SC,Helvetica Neue,Microsoft Yahei,Hiragino Sans GB,Microsoft Sans Serif,WenQuanYi Micro Hei,sans;
+}
+.desktop-addresslist {
+    padding-top: 15px;
+    margin-right: -10px;
+    overflow: hidden;
+}
+.desktop-addressblock {
+    position: relative;
+    display: inline-block;
+    width: 242px;
+    height: 110px;
+    padding: 16px 12px 16px 20px;
+    margin-right: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+}
+.desktop-addressblock-buttons {
+    position: absolute;
+    right: 12px;
+    top: 14px;
+}
+.desktop-addressblock-button {
+    font-size: 12px;
+    color: #bbb;
+    border: 0;
+    background: 0 0;
+    cursor: pointer;
+    width: 30px;
+}
+button, input {
+    line-height: normal;
+}
+.desktop-addressblock-address, .desktop-addressblock-mobile, .desktop-addressblock-name {
+    height: 22px;
+    cursor: default;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.desktop-addressblock-name {
+    color: #333;
+    margin-bottom: 10px;
+    padding-right: 60px;
+}
+.desktop-addressblock-address, .desktop-addressblock-mobile {
+    color: #666;
+}

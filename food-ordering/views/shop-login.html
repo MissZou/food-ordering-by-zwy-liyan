@@ -23,6 +23,7 @@
             success: function(data, status) {
             	if(data.code==200){
                     console.log("shop-id",data.shopId)
+                    localStorage.setItem("socketShop",data.shopId)
             		alert("login Success")
 
                     window.location="/shop/account/web/dish";

@@ -31,6 +31,7 @@ $(document).ready(function() {
             success: function(data, status) {
                 if (data.success == true) {
                     alert("上传成功");
+                    console.log(data)
                     var newAddr=data.address[data.address.length-1];
                    // console.log(data.address)
                     $('<li class="address">  \

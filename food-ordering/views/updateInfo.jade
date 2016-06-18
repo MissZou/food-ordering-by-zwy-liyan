@@ -3,21 +3,22 @@ html
 	head
 		meta(charset='UTF-8')   
 		title updateInfo   
+		link(rel='stylesheet', href='/stylesheets/normalize.css')
+		link(rel='stylesheet', href='/stylesheets/updateAddress.css')
 	body
 		if (items)
-			ul
-				each val in items
-					li.address
-						div.delete delete
-						div.update update
-						p.name= val.name
-						p.type= val.type
-						p.phone= val.phone
-						p.addr= val.addr
-						input.addr_id(type="hidden",value= val._id )
+			.desktop-addresslist.clearfix
+			each val in items
+				.desktop-addressblock
+					.desktop-addressblock-buttons
+						button.desktop-addressblock-button.update 修改
+						button.desktop-addressblock-button.delete 删除
+					.desktop-addressblock-name= val.name
+					.desktop-addressblock-address= val.addr
+					.desktop-addressblock-mobile= val.phone
+					input.addr_id(type="hidden",value= val._id )
 		else
 			p woshishui
-
 		div#updateInfo
 			label(for='location') update location
 			input#location(type='text')
