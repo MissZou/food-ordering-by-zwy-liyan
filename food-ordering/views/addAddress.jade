@@ -32,12 +32,9 @@
           input#phone(placeholder='请输入您的手机号')
           .addressformfield-hint
             span
-        .addressformfield.phonebkfield(style='display: none;')
-          label
-          input(placeholder='固话、手机短号')
-          button 删除
-          .addressformfield-hint
-            span
+        input#addr_id(type="hidden")
+        input#index(type="hidden")
       .addressform-buttons
         button#save 保存
+        button#updateBtn 保存修改
         button 取消
