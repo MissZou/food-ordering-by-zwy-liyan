@@ -1,4 +1,5 @@
 $(function() {
+    var shopId=localStorage.getItem("socketShop")
     var tagAction = {
         remove: function() {
             $(this).parent(".tag-wrp").remove();
@@ -37,6 +38,8 @@ $(function() {
                         </div> \
                         <label>Price</label> \
                         <input type="number" class="price"> \
+                        <label>Category</label> \
+                        <input type="text" class="category"> \
                         <label>Introduction</label> \
                         <textarea class="intro" cols="30" rows="10"></textarea></li>')
                 var img = list.find("img");
@@ -76,6 +79,7 @@ $(function() {
             dish[index].tags = tags;
             dish[index].price = $(".price").eq(index).val();
             dish[index].intro = $(".intro").eq(index).val();
+            dish[index].category = $(".category").eq(index).val();
             dish[index].index = index;
         }
         console.log(dish)
@@ -150,9 +154,10 @@ $(function() {
             return false;
         }
     });
-    var socket = io();
 
+var socket = io();
 
+socket.emit('set nickname',shopId)
     socket.on('my message', function(msg) {
         // 首先，让我们检查我们是否有权限发出通知
         // 如果没有，我们就请求获得权限

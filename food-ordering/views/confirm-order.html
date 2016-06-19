@@ -500,7 +500,8 @@ $(function() {
 
     var socket = io();
     var id = localStorage.getItem("shopId");
-    console.log(id)
+    var userId=localStorage.getItem('accountId')
+   // console.log(id)
 
     socket.on('my message', function(msg) {
         // 首先，让我们检查我们是否有权限发出通知
@@ -560,6 +561,9 @@ $(function() {
     $(".btn-stress").on("click", confirmOrder);
 
     function confirmOrder() {
+       /* console.log(id)
+        console.log(localStorage.getItem('accountId'))*/
+        socket.emit('set nickname',userId)
         socket.emit('say to someone', id, "Someone orders!"); //to id
     }
 })

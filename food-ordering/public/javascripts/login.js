@@ -65,7 +65,7 @@ function login(e) {
                 if (data.code == 200) {
                     alert("登录成功");
                     localStorage.setItem('accountId', data.accountId);
-                    window.location = "/user/upload";
+                    window.location = "/user/account/index";
                 } else if (data.code == 400) {
                     alert("登录失败");
                 }
@@ -100,8 +100,10 @@ function addUser(e) {
             data: newUser,
             url: "/user/register",
             success: function(data, status) {
-                if (status == "success") {
+                if (data.success == true) {
                     alert("注册成功、。。。")
+                }else{
+                    alert("您已使用过此邮箱！")
                 }
             },
             error: function(data, err) {
