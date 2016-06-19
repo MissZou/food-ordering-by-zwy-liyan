@@ -230,7 +230,7 @@
         }
         
         
-    } else{
+    } else if(tableView == self.foodTable){
         //select food
         NSArray *food = [self.foodlist valueForKey:self.catagory[indexPath.section]];
         NSLog(@"%@",food[indexPath.row]);
@@ -325,7 +325,7 @@
            
         }
         
-    }else{
+    }else if(scrollView == self.foodTable){
         CGPoint translatedPoint = [[self.foodTable panGestureRecognizer] translationInView:self.view];
         CGPoint velocity = [[self.foodTable panGestureRecognizer ]velocityInView:self.view];
 //        NSLog(@"child food talbe offset %f",scrollView.contentOffset.y);
