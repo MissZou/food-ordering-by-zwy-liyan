@@ -23,10 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initCommentView];
-    // Do any additional setup after loading the view.
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disableInteraction) name:@"disableInteractionComment" object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(triggerNotificationAction:) name:@"enableInteractionComment" object:nil];
-//    [self disableInteraction];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(shopFinishFetchDataNotify) name:@"shopFinishFetchComment" object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -126,6 +123,10 @@
     cell.textLabel.text = @"comment";
     
     return cell;
+}
+
+-(void)shopFinishFetchDataNotify{
+    NSLog(@"comment view notification");
 }
 
 @end

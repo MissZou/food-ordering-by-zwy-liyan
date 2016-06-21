@@ -9,14 +9,17 @@
 #define catagoryTalbeWidth 80
 #define slideTitleHeight 40
 #define navigationBarHeight 64
-#define segmentHeight 70
-#define cartViewHeight 70
+#define segmentHeight 100
+#define cartViewHeight 50
+#define categoryCellHeigh 40
+#define foodCellHeigh 70
 
 #import "DetailedChildFoodView.h"
-
+#import "Shop.h"
 @interface DetailedChildFoodView ()<UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate >
 @property(strong,nonatomic)UITableView *catagoryTable;
 @property(strong,nonatomic)UITableView *foodTable;
+@property(strong,nonatomic)Shop *myShop;
 //@property(strong,nonatomic)UIView *cartView;
 
 @property(assign,nonatomic)NSInteger lastSelectSection;
@@ -27,10 +30,9 @@
 @property(assign,nonatomic)CGFloat minOffset;
 @property(assign,nonatomic)CGFloat didSelectCatogoryFoodTableYRecord;
 
-//@property(strong,nonatomic)UIPanGestureRecognizer *foodTablePanGesture;
+
 //test
-@property(strong,nonatomic)NSDictionary *foodlist;
-@property(strong,nonatomic)NSArray *catagory;
+
 
 @property(strong,nonatomic) UIPanGestureRecognizer *assistantGesture;
 @property(assign,nonatomic) BOOL assistantGestureBegin;
@@ -40,37 +42,37 @@
 
 @property(assign,nonatomic) CGFloat foodTableViewScrollOffset;
 @property(assign,nonatomic)CGFloat slideViewFrameY;
+
+
 @end
 
 @implementation DetailedChildFoodView
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"food view did load %f",self.view.frame.size.height);
-
-
-    NSArray *food1 = @[@"c1 food one",@"c1 food two",@"c1 food three",@"food four",@"food five"];
-    NSArray *food2 = @[@"c2 food one",@"c2 food two",@"food three",@"food four",@"food five"];
-    NSArray *food3 = @[@"c3 food one",@"c3 food two",@"food three",@"food four",@"food five"];
-    NSArray *food4 = @[@"c4 food one",@"c4 food two",@"food three",@"food four",@"food five"];
-    NSArray *food5 = @[@"c5 food one",@"c5 food two",@"food three",@"food four",@"food five"];
-    NSDictionary *catagory = @{@"one":food1,@"two":food2,@"three":food3,@"four":food4,@"five":food5};
-    self.foodlist = catagory;
-    self.catagory = [self.foodlist allKeys];
-
+    self.myShop = [Shop sharedManager];
+    
+    
+    NSArray *food1 = @[@"c1 food one"];
+    NSDictionary *catagory = @{@"category":food1};
+    //self.itemList = catagory;
+    //self.catagory = [self.itemList allKeys];
     [self initTableViews];
     [self initCartView];
-    
+
+    //notifications for table view behavior
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(triggerNotificationAction:) name:@"enableInteractionFood" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(triggerNotificationDisable:) name:@"disableInteractionFood" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(superViewGustureState:) name:@"superViewGustureState" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(slideViewFrameY:) name:@"slideViewFrameY" object:nil];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(shopFinishFetchDataNotify) name:@"shopFinishFetchData" object:nil];
     [self.foodTable setScrollEnabled:false];
     
+    //assistantGuseture to pull down the tableview when it's stick to the top
     self.assistantGesture = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(assistantScrollGesture:)];
     self.assistantGesture.delegate = self;
     [self.view addGestureRecognizer:self.assistantGesture];
+    
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -82,8 +84,8 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     
-    self.foodTable.frame = CGRectMake(catagoryTalbeWidth, 0, self.view.frame.size.width - catagoryTalbeWidth, self.view.frame.size.height  - navigationBarHeight - segmentHeight);
-    self.catagoryTable.frame = CGRectMake(0, 0,catagoryTalbeWidth, self.view.frame.size.height- navigationBarHeight - segmentHeight);
+    self.foodTable.frame = CGRectMake(catagoryTalbeWidth, 0, self.view.frame.size.width - catagoryTalbeWidth, self.view.frame.size.height  - navigationBarHeight - segmentHeight+cartViewHeight);
+    self.catagoryTable.frame = CGRectMake(0, 0,catagoryTalbeWidth, self.view.frame.size.height- navigationBarHeight - segmentHeight+cartViewHeight);
     self.isSuperViewGustureStart = false;
     [self.assistantGesture setEnabled:false];
     self.assistantGestureBegin = false;
@@ -136,7 +138,7 @@
     //self.view.frame.size.height - cartViewHeight
     self.cartView = [[UIView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height - navigationBarHeight-segmentHeight-slideTitleHeight-cartViewHeight, self.view.frame.size.width, cartViewHeight)];
     self.cartView.backgroundColor = [UIColor redColor];
-    UIButton *buy = [[UIButton alloc]initWithFrame:CGRectMake(0, 30, 40, 40)];
+    UIButton *buy = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40, 40)];
     [buy setBackgroundColor:[UIColor whiteColor]];
     [buy setTitle:@"buy" forState:UIControlStateNormal];
     [buy addTarget:self action:@selector(buyButtonHandle) forControlEvents:UIControlEventTouchUpInside];
@@ -148,26 +150,26 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if (tableView == self.catagoryTable) {
         return 1;
-    } else{
-        return self.foodlist.count;
+    } else  {
+        return self.itemList.count;
     }
     
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.catagoryTable) {
-        return [self.foodlist allKeys].count;
+        return [self.itemList allKeys].count;
     } else{
-        NSArray *foods = [self.foodlist valueForKey: self.catagory[section]];
+        NSArray *foods = [self.itemList valueForKey: self.catagory[section]];
         return foods.count;
     }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (tableView == self.catagoryTable) {
-        return 40;
+        return categoryCellHeigh;
     } else{
-        return 70;
+        return foodCellHeigh;
     }
 }
 
@@ -182,8 +184,8 @@
 
     } else{
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"foodCell" forIndexPath:indexPath];
-        NSArray *food = [self.foodlist valueForKey:self.catagory[indexPath.section]];
-        cell.textLabel.text = food[indexPath.row];
+        NSArray *food = [self.itemList valueForKey:self.catagory[indexPath.section]];
+        cell.textLabel.text = [food[indexPath.row] valueForKey:@"dishName"];
         return cell;
     }
 }
@@ -230,9 +232,9 @@
         }
         
         
-    } else{
+    } else if(tableView == self.foodTable){
         //select food
-        NSArray *food = [self.foodlist valueForKey:self.catagory[indexPath.section]];
+        NSArray *food = [self.itemList valueForKey:self.catagory[indexPath.section]];
         NSLog(@"%@",food[indexPath.row]);
         
         [self.delegate DetailedChildFoodDidSelectFood:@"foodId"];
@@ -240,13 +242,6 @@
     }
 }
 
-//-(void)scrollFoodTalbe:(UIPanGestureRecognizer *)panGesture{
-//    CGPoint velocity = [panGesture velocityInView:self.view];
-//    CGPoint translatedPoint = [panGesture translationInView:self.view];
-//    NSLog(@"translated y:%f",translatedPoint.y);
-//    NSLog(@"food speed y:%f",velocity.y);
-//    NSLog(@"food slide y: %f",self.foodTable.contentOffset.y);
-//}
 
 -(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
     self.isSelectCatagory = false;
@@ -259,9 +254,10 @@
     {
         [self enableInteraction];
         NSNumber *y = [notification object];
-//        NSLog(@"continu to scroll child %f",[y floatValue]);
-//        NSLog(@"food table content offset,%f",self.foodTable.contentOffset.y);
+        NSLog(@"continu to scroll child %f",[y floatValue]);
+        NSLog(@"food table content offset,%f",self.foodTable.contentOffset.y);
         [self.foodTable setContentOffset:CGPointMake(0,  -[y floatValue] + self.didSelectCatogoryFoodTableYRecord)];
+    
     }
     else
     {
@@ -292,7 +288,7 @@
     {
         NSNumber *number = [notification object];
         self.isSuperViewGustureStart = [number boolValue];
-        NSLog(self.isSuperViewGustureStart? @"isSuperViewGustureStart true":@"isSuperViewGustureStart no");
+        //NSLog(self.isSuperViewGustureStart? @"isSuperViewGustureStart true":@"isSuperViewGustureStart no");
     }
 }
 
@@ -308,10 +304,6 @@
             [self.assistantGesture setEnabled:false];
 
         }
-
-//        if (self.slideViewFrameY>segmentHeight+navigationBarHeight + 60) {
-//            [self.assistantGesture setEnabled:false];
-//        }
     }
 }
 
@@ -325,9 +317,9 @@
            
         }
         
-    }else{
-        CGPoint translatedPoint = [[self.foodTable panGestureRecognizer] translationInView:self.view];
-        CGPoint velocity = [[self.foodTable panGestureRecognizer ]velocityInView:self.view];
+    }else if(scrollView == self.foodTable){
+//        CGPoint translatedPoint = [[self.foodTable panGestureRecognizer] translationInView:self.view];
+//        CGPoint velocity = [[self.foodTable panGestureRecognizer ]velocityInView:self.view];
 //        NSLog(@"child food talbe offset %f",scrollView.contentOffset.y);
 //        NSLog(@"shop translatedPoint y:%f",translatedPoint.y);
 //        NSLog(@"speed y:%f",velocity.y);
@@ -342,9 +334,9 @@
             //NSLog(@"scrollview offset %f",scrollView.contentOffset.y);
             //scrollview will have bounce and the contentoffset will change to opposite direction, so use a maxoffest to keep the scroll direction
             NSNumber *y;
-            NSLog(@"foodTableViewScrollOffset %f",self.foodTableViewScrollOffset);
-            NSLog(@"max offset %f",self.maxOffset);
-            NSLog(@"min offset %f",self.minOffset);
+//            NSLog(@"foodTableViewScrollOffset %f",self.foodTableViewScrollOffset);
+//            NSLog(@"max offset %f",self.maxOffset);
+//            NSLog(@"min offset %f",self.minOffset);
             if (self.maxOffset > scrollView.contentOffset.y) {
                 
                 self.maxOffset = scrollView.contentOffset.y;
@@ -357,8 +349,8 @@
             }
 //            if (fabs(self.minOffset) < fabs(scrollView.contentOffset.y)) {
 //                
-//                //self.minOffset = scrollView.contentOffset.y;
-//                //y = [NSNumber numberWithFloat:self.minOffset];
+//                self.minOffset = scrollView.contentOffset.y;
+//                y = [NSNumber numberWithFloat:self.minOffset];
 //                //y = [NSNumber numberWithFloat:scrollView.contentOffset.y];
 //                CGPoint velocity = [self.foodTable.panGestureRecognizer velocityInView:self.foodTable];
 //                NSValue *velocityInValue = [NSValue valueWithCGPoint:velocity];
@@ -375,25 +367,27 @@
             self.foodTable.bounces = YES;
         }
         
-        
-        NSIndexPath *firstVisibleIndexPath = [[self.foodTable indexPathsForVisibleRows] objectAtIndex:0];
-        
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:firstVisibleIndexPath.section inSection:0];
-        if (self.lastSelectSection+1) {
-            NSIndexPath *lastIndexPath = [NSIndexPath indexPathForRow:self.lastSelectSection inSection:0];
-            UITableViewCell *cell = [self.catagoryTable cellForRowAtIndexPath:lastIndexPath];
-            if (!self.isSelectCatagory) {
-                cell.contentView.backgroundColor = [UIColor grayColor];
-                cell.textLabel.backgroundColor = [UIColor grayColor];
+        if ([self.foodTable indexPathsForVisibleRows].count != 0) {
+            NSIndexPath *firstVisibleIndexPath = [[self.foodTable indexPathsForVisibleRows] objectAtIndex:0];
+            
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:firstVisibleIndexPath.section inSection:0];
+            if (self.lastSelectSection+1) {
+                NSIndexPath *lastIndexPath = [NSIndexPath indexPathForRow:self.lastSelectSection inSection:0];
+                UITableViewCell *cell = [self.catagoryTable cellForRowAtIndexPath:lastIndexPath];
+                if (!self.isSelectCatagory) {
+                    cell.contentView.backgroundColor = [UIColor grayColor];
+                    cell.textLabel.backgroundColor = [UIColor grayColor];
+                }
             }
+            
+            UITableViewCell *cell = [self.catagoryTable cellForRowAtIndexPath:indexPath];
+            if (!self.isSelectCatagory) {
+                cell.contentView.backgroundColor = [UIColor whiteColor];
+                cell.textLabel.backgroundColor = [UIColor whiteColor];
+            }
+            self.lastSelectSection = indexPath.row;
         }
         
-        UITableViewCell *cell = [self.catagoryTable cellForRowAtIndexPath:indexPath];
-        if (!self.isSelectCatagory) {
-            cell.contentView.backgroundColor = [UIColor whiteColor];
-            cell.textLabel.backgroundColor = [UIColor whiteColor];
-        }
-        self.lastSelectSection = indexPath.row;
         
     }
 }
@@ -410,19 +404,24 @@
         self.assistantGestureBegin = true;
         [[NSNotificationCenter defaultCenter]postNotificationName:@"childViewGustureStateBegin" object:[NSNumber numberWithBool:true]];
     }
-    //NSLog(@"slide y: %f",_slideViewFrameY);
-    if (self.foodTableViewScrollOffset == 0 && velocity.y>0  && self.foodTable.isScrollEnabled == false
+    NSLog(@"slide y: %f",_slideViewFrameY);
+    if (velocity.y>0  && self.foodTable.isScrollEnabled == false
         && _slideViewFrameY<segmentHeight+navigationBarHeight) {
         
         if ( self.gestureStateBegin == true) {
+            if (self.slideViewFrameY<navigationBarHeight+segmentHeight) {
+                
+            }
+            
             self.gestureStateBegin = false;
             self.tempTranslatedPoint = translatedPoint;
         }
         
-       // NSLog(@"assistant temp y:%f",self.tempTranslatedPoint.y);
+        NSLog(@"assistant temp y:%f",self.tempTranslatedPoint.y);
     }
     else{
-        self.tempTranslatedPoint = CGPointMake(0, 0);
+        
+        [panGesture setTranslation:CGPointMake(0, 0) inView:self.view];
     }
     
     if (self.isSuperViewGustureStart == false  &&self.foodTableViewScrollOffset <= 0 &&velocity.y>0 && self.foodTable.isScrollEnabled == false && self.slideViewFrameY<segmentHeight+navigationBarHeight) {
@@ -431,6 +430,7 @@
         NSLog(@"assistant scroll %f",- translatedPoint.y + _tempTranslatedPoint.y);
         if (-translatedPoint.y + self.tempTranslatedPoint.y > -(segmentHeight+navigationBarHeight)) {
             NSNumber *y = [NSNumber numberWithFloat: - translatedPoint.y + _tempTranslatedPoint.y];
+            //NSNumber *y = [NSNumber numberWithFloat: - translatedPoint.y];
             CGPoint velocity = [self.foodTable.panGestureRecognizer velocityInView:self.foodTable];
             NSValue *velocityInValue = [NSValue valueWithCGPoint:velocity];
             NSArray *scrollParam = [NSArray arrayWithObjects:y,velocityInValue, nil];
@@ -442,7 +442,7 @@
     }
     if (panGesture.state == UIGestureRecognizerStateEnded) {
         self.assistantGestureBegin = false;
-        self.tempTranslatedPoint = CGPointMake(0, 0);
+        //self.tempTranslatedPoint = CGPointMake(0, 0);
         [[NSNotificationCenter defaultCenter]postNotificationName:@"childViewGustureStateBegin" object:[NSNumber numberWithBool:false]];
     }
 }
@@ -464,6 +464,22 @@
     }
     
 }
+#pragma mark -- load data into tableview
+-(void)shopFinishFetchDataNotify{
+    //NSLog(@"chilf food %@",[self.myShop.shopItems class]);
+    
+    if (self.myShop.shopItems.count !=0) {
+        self.itemList = self.myShop.shopItems;
+        self.catagory = [self.itemList allKeys];
+        [self.catagoryTable reloadData];
+        [self.foodTable reloadData];
+        NSArray *food = [self.itemList valueForKey:self.catagory[0]];
+        NSLog(@"food array %@",food[0]);
+    }
+    
+    
+}
+
 
 -(void)buyButtonHandle{
     NSLog(@"buyButtonHandle");

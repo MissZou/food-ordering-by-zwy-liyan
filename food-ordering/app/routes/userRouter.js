@@ -16,19 +16,6 @@ var nodemailer = require('nodemailer');
 var session = require('express-session');
 var gm = require('gm');
 var imageMagick = gm.subClass({ imageMagick : true });
-//var formidable = require('formidable');
-//var io = require('socket.io').listen(server);
-
-//var Account = require('../models/Account')(mailConfig, mongoose, nodemailer);
-// var mailConfig = {
-//     host: 'smtp.gmail.com',
-//     secureConnection: true,
-//     port: 465,
-//     auth: {
-//         user: 'foodtongcom@gmail.com',
-//         pass: 'comtongfood'
-//     }
-// }
 
 app.set('view engine', 'jade');
 var tokenConfig = {
@@ -648,8 +635,14 @@ router.route('/account/cart')
 
 router.route('/account/web/order')
 .get(function(req, res) {
-         res.sendfile(path.join(__dirname, '../../views', 'confirm-order.html'));
+var accountId = req.decoded._id;
+        Account.findAccountById(accountId, function(doc) {
+            res.render('confirm-order.jade', {
+                items: doc.address
+            });
+        })
     });
+
 
 router.route('/account/order')
     .get(function(req, res){

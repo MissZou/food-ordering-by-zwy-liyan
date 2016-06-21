@@ -10,6 +10,7 @@ use_frameworks!
 
 pod 'AFNetworking', '~> 3.0'
 pod 'SSKeychain'
+pod 'SDWebImage', '~>3.8'
 end
 
 target 'FOSinOC' do

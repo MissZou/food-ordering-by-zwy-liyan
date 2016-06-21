@@ -122,9 +122,11 @@ io.on('connection', function(socket){
         onlineUser[name] = socket.id;
         console.log(onlineUser)
     });
-    socket.on('say to someone', function (id, msg) {
+     socket.on('say to someone', function (id, msg) {
      /*   sockets[id].emit(msg);*/
-     io.sockets.connected[onlineUser[id]].emit("my message", msg)
+     if(io.sockets.connected[onlineUser[id]]){
+        io.sockets.connected[onlineUser[id]].emit("my message", msg)
+     }
     });
 });
 app.use(require('./app/routes/index')(app,io,mongoose));

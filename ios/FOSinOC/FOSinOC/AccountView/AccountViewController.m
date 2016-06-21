@@ -87,8 +87,6 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"photo"]) {
-
-        
         AssetGridViewController *controller = segue.destinationViewController;
         controller.delegate = self;
     }
@@ -124,7 +122,7 @@
         
         // Save image.
         [UIImagePNGRepresentation(uploadImage) writeToFile:filePath atomically:YES];
-        CGFloat filesize = [[[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil] fileSize];
+        //CGFloat filesize = [[[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil] fileSize];
         
         self.avatar.image = result;
         [self.myAccount changeAvatar:[NSURL URLWithString:filePath]];

@@ -132,6 +132,82 @@ router.route('/findshops')
  });
 
 
+router.route('/findshopbyid')
+    .get(function(req,res){
+        
+        var shopId = req.headers["shopid"];// head can not sensitive uppercase
+        console.log(shopId);
+        
+        if (shopId != null) {
+            Shop.findShopById(shopId, function(doc) {
+
+            if (null != doc){
+                
+                var category = [];
+                var categoriedDish = [];
+                var dishes = {};
+                if (doc.dish != null) {
+                    // to find all categories in dish
+                    for (var i = doc.dish.length - 1; i >= 0; i--) {
+                        var obj = doc.dish[i];
+                        
+                         category.push(obj.category);
+                     }
+                     for (var i = category.length - 1; i >= 0; i--) {
+                        for (var j = i-1; j >= 0; j--) {
+                            if (category[i] == category[j]) {
+                                 category.splice(i, 1);
+                            }
+                        }
+                            
+                     }
+                     console.log(category);  
+                     //after get all categories, classify dishs
+                     for (var i = category.length - 1; i >= 0; i--) {
+                        var items = [];
+                        for (var j = doc.dish.length - 1; j >= 0; j--) {
+                            var obj = doc.dish[j];
+                            if (obj.category == category[i]) {
+                                items.push(obj);
+                            }    
+                        }
+                         categoriedDish[category[i]] = items;
+                        
+                     }
+                     //console.log(categoriedDish);
+                }
+                
+               for (var i = category.length - 1; i >= 0; i--) {
+                    dishes[category[i]] = categoriedDish[category[i]] 
+               }
+
+                res.json({
+                    shopId: doc._id,
+                    address: doc.address,
+                    shopName: doc.shopName,
+                    location: doc.location,
+                    dish:dishes,
+                    shopPicUrl:doc.shopPicUrl,
+                    mark:doc.mark,
+                    shopType:doc.shopType,
+                    success: true
+                })
+            
+            }else {
+                res.json({
+                    success: false
+                })
+            }
+        })
+        }
+        else {
+            res.json({
+                success: false
+            })
+        }
+
+    });
+
 router.route('/findItemById')
     .post(function(req, res){
         var shopId = req.param('shopId', null);
@@ -347,6 +423,9 @@ router.route('/account')
                     location: doc.location,
                     dish:doc.dish,
                     order:doc.order,
+                    shopPicUrl:doc.shopPicUrl,
+                    mark:doc.mark,
+                    shopType:doc.shopType,
                     success: true
                 })
             else {
@@ -392,6 +471,8 @@ router.route('/createCover')
                 fs.mkdirSync(goalUrl);
             }
             var targetPath = goalUrl + fields.shopId + '.jpg';
+            console.log("target path !!");
+            console.log(targetPath);
             var tmp_path = files.file.path;
             
                 imageMagick(tmp_path)
@@ -415,7 +496,7 @@ router.route('/createCover')
             //         if (err) throw err;
             //     });
             // });
-            var url = 'http://' + req.headers.host + '/resources/' + fields.shopId + '.jpg';
+            var url = 'http://' + req.headers.host + '/resources/' + fields.shopId +'/'+fields.shopId+ '.jpg';
             Shop.uploadShopCover(shopId, url, function(err) {
                 if (null == err)
                     res.json({
@@ -495,12 +576,10 @@ router.route('/account/createDishPic')
             if (!fs.existsSync(goalUrl + 'dishes/')) {
                 fs.mkdirSync(goalUrl + 'dishes/');
             }
-            //console.log(files)
-
+            console.log(files)
             for (var key in files) {
                 var targetPath = goalUrl + 'dishes/' + fields["dishId"+key]+".jpg";
                 var tmp_path = files[key].path;
-                var sz = files[key].size;
                 //fs.renameSync(tmp_path, targetPath);
                 imageMagick(tmp_path)
                 .gravity('Center')
@@ -526,7 +605,6 @@ router.route('/account/createDishPic')
             }
         })
     });
-
 
 
 router.route('/account/order')

@@ -8,6 +8,8 @@
 
 #import "Shop.h"
 #import "AFNetworking/AFNetworking.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+
 static NSString *baseUrlString = @"http://localhost:8080/shop/";
 
 @interface Shop ()
@@ -35,6 +37,42 @@ static Shop *sharedManager = nil;
     return self;
 }
 
+-(void)reloadShop{
+    self.shopID = nil;
+    self.shopPicUrl = nil;
+    self.shopName = nil;
+    self.shopAddress = nil;
+    self.shopCatagory = nil;
+    self.shopItems = nil;
+    self.startPrice = nil;
+    self.shopMark = nil;
+    self.distance = nil;
+    self.shopComments = nil;
+    self.shopImage = nil;
+    
+}
+
+-(void)loadData:(NSDictionary *)data{
+    if ([data valueForKey:@"shopName"] != nil) {
+        self.shopName = [data valueForKey:@"shopName"];
+    }
+    if ([data valueForKey:@"shopPicUrl"] != nil) {
+        self.shopPicUrl = [data valueForKey:@"shopPicUrl"];
+    }
+    if ([data valueForKey:@"shopAddress"] != nil) {
+        self.shopCatagory = [data valueForKey:@"shopType"];
+    }
+    if ([data valueForKey:@"dish"] != nil) {
+        self.shopItems = [data valueForKey:@"dish"];
+    }
+//    if ([data valueForKey:@"shopName"] != nil) {
+//        self.shopName = [data valueForKey:@"shopName"];
+//    }
+//    if ([data valueForKey:@"shopName"] != nil) {
+//        self.shopName = [data valueForKey:@"shopName"];
+//    }
+}
+
 -(void)searchShopByLocation:(NSArray *)location withdistance:(NSNumber *)distance{
     NSURL *url = [NSURL URLWithString:@"findshops" relativeToURL:self.baseUrl];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -56,7 +94,12 @@ static Shop *sharedManager = nil;
         
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
             //NSLog(@"%@", responseObject);
-            [self.delegate finishSearchShops:responseObject];
+            if ([[responseObject valueForKey:@"success"] boolValue] == YES) {
+                    [self.delegate finishSearchShops:responseObject];
+            }else{
+                NSLog(@"%@", responseObject);
+            }
+            
             
         } else {
             NSLog(@"%@", responseObject);
@@ -67,6 +110,29 @@ static Shop *sharedManager = nil;
     }];
 }
 
-
+-(void)fetchShopData:(NSString *)shopId{
+    NSURL *url = [NSURL URLWithString:@"findshopbyid" relativeToURL:self.baseUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager.requestSerializer setValue:shopId  forHTTPHeaderField:@"shopid"];
+    
+    [manager GET:[url absoluteString] parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            NSLog(@"shop data: %@",responseObject);
+            if ([[responseObject valueForKey:@"success"] boolValue] == YES) {
+                [self loadData:responseObject];
+                [self.delegate shopFinishFetchData];
+            }else{
+                NSLog(@"%@", responseObject);
+            }
+            
+        } else {
+            NSLog(@"%@", responseObject);
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"%@", error);
+    }];
+}
 
 @end

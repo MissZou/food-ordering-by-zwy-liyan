@@ -11,7 +11,8 @@ module.exports = function(config, mongoose, nodemailer) {
     mark:  { type: Number},
     open:{type:Boolean},
     shopType:{type:String},
-    
+    intro:{type:String},
+    billboard:{type:String},
     dish:   {type: [{
       dishName: { type: String},
       tags: { type: Array},
@@ -146,7 +147,7 @@ var changeShopInfo = function(shopId,shop,callback){
                         obj["dish"]=doc[i].dish[j].dishName;
                         obj["dishId"]=doc[i].dish[j]._id;
                       if (!isFindShop) {
-                          obj[doc[i].shopName]=doc[i]._id;
+                          obj["shopId"]=doc[i]._id;
                       }
                    }
                }
@@ -165,7 +166,13 @@ var changeShopInfo = function(shopId,shop,callback){
 
   var findShopById = function(id, callback) {
     Shop.findOne({_id:id}, function(err, doc){
-      callback(doc);
+      if (err) {
+        callback(err)
+      }else{
+        doc.password = undefined;
+        callback(doc);  
+      }
+      
     })
   }
   var changePassword = function(shopId, newpassword) {
@@ -308,15 +315,20 @@ var findNearShops = function(loc,distance,index,count,callback){
           console.log(err);
           callback(err);
         }
-        //console.log(doc);
-        for (var i = doc.length - 1; i >= 0; i--) {
-            doc[i].dish = undefined;
-            doc[i].orders = undefined;
-            doc[i].email = undefined;
-            doc[i].password = undefined;
+        else{
+          if (doc.length != null) {
+                for (var i = doc.length - 1; i >= 0; i--) {
+                doc[i].dish = undefined;
+                doc[i].orders = undefined;
+                doc[i].email = undefined;
+                doc[i].password = undefined;
+                
+            }
             
+          }
+          callback(doc);
         }
-        callback(doc);
+        
       });
 };
 
