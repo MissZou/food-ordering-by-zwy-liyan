@@ -625,9 +625,6 @@
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                             <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
-                                            <variation key="widthClass=compact" misplaced="YES">
-                                                <rect key="frame" x="10" y="0.0" width="222" height="75"/>
-                                            </variation>
                                         </label>
                                     </subviews>
                                     <constraints>

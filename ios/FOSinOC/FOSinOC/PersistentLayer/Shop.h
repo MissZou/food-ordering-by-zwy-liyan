@@ -11,7 +11,8 @@
 @protocol ShopDelegate
 @optional
 -(void)finishSearchShops:(NSDictionary *)shops;
-
+-(void)shopFinishFetchData;
+-(void)shopFinishFetchComment;
 @end
 
 @interface Shop : NSObject
@@ -21,14 +22,16 @@
 @property(copy,nonatomic) NSString* shopAddress;
 
 @property(strong,nonatomic) NSMutableArray *shopCatagory;
-@property(strong,nonatomic) NSMutableArray *shopFoods;
+@property(strong,nonatomic) NSDictionary *shopItems;
 @property(copy,nonatomic) NSString* startPrice;
 @property(strong,nonatomic) NSNumber *shopMark;
 @property(strong,nonatomic) NSNumber *distance;
 @property(strong,nonatomic) NSMutableArray *shopComments;
 
+@property(strong,nonatomic) UIImage *shopImage;
 @property(weak)id <ShopDelegate> delegate;
 
 +(Shop *) sharedManager;
 -(void)searchShopByLocation:(NSArray *)location withdistance:(NSNumber *)distance;
+-(void)fetchShopData:(NSString *)shopId;
 @end

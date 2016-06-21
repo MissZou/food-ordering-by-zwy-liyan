@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'B4083B0ECD19648F8BBC9B79'
+               BlueprintIdentifier = 'FE144796FC13922DB8AF4742'
                BlueprintName = 'Pods-FOSinOC'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'Pods_FOSinOC.framework'>

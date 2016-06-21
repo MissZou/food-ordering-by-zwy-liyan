@@ -20,5 +20,8 @@
 @property(assign,nonatomic)BOOL isEnableInteraction;
 @property(strong,nonatomic)UIView *cartView;// set to public for adjust view origin y
 
+@property(strong,nonatomic)NSDictionary *itemList;
+@property(strong,nonatomic)NSArray *catagory;
+
 @property(weak)id <DetailedChildFoodViewDelegate> delegate;
 @end

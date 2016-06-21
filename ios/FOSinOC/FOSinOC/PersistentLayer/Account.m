@@ -381,7 +381,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
 }
 
 -(void)changeAvatar:(NSURL *)filePath{
-    NSURL *url = [NSURL URLWithString:@"account/avatar" relativeToURL:self.baseUrl];
+    //NSURL *url = [NSURL URLWithString:@"account/avatar" relativeToURL:self.baseUrl];
     NSString *urlString = [baseUrlString stringByAppendingString:@"account/avatar"];
     
     NSDictionary *parameters = @{@"token": self.token};

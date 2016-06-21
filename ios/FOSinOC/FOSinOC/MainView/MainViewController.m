@@ -24,6 +24,8 @@
 #import "UINavigationBar+Awesome.h"
 #import "CustomizedSegueLeftToRight.h"
 #import "ShopDetailedViewController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+
 
 @interface MainViewController ()<UITableViewDelegate, UITableViewDataSource,UISearchBarDelegate,UISearchResultsUpdating,SearchViewHelpControllerDelegate,DropDownViewDelegate,CatagoryViewDelegate,SortViewDelegate,ShopDelegate, AccountDelegate>
 @property(strong,nonatomic) Account *myAccount;
@@ -108,6 +110,7 @@
     self.navigationItem.backBarButtonItem.tintColor = [UIColor whiteColor];
     
     [self initLocation];
+    
 }
 
 
@@ -232,7 +235,7 @@
     [self.myAccount checkLogin];
     NSMutableArray *locations = [self.myAccount.location mutableCopy];
     if (locations == nil) {
-        locations = @[@"New location"];
+        locations = [@[@"New location"] mutableCopy];
     }else{
         [locations insertObject:@"New location" atIndex:0];    
     }
@@ -358,7 +361,8 @@
 
 -(void)finishSearchShops:(NSDictionary *)shops{
     if ([shops valueForKey:@"shop"] != NULL) {
-            self.shopList = [[shops valueForKey:@"shop"] mutableCopy];
+        self.shopList = [[shops valueForKey:@"shop"] mutableCopy];
+        //NSLog(@"main view shop list:%@",self.shopList);
     }else{
         NSLog(@"shop list = null");
     }
@@ -409,17 +413,23 @@
         distance.tag = tableCellTag+4;
         
         heat.tag = tableCellTag+5;
-        heat.backgroundColor = [UIColor colorWithRed:255/255.0 green:95/255.0 blue:94/255.0 alpha:1];
+        heat.backgroundColor = [UIColor colorWithRed:255/255.0 green:95/255.0 blue:94/255.0 alpha:1];//mark need to use image replace background color, when cell selected, the backgroud will be transparent.
         
-        imageView.image = [UIImage imageNamed:@"favoriteGreen.png"];
+        //imageView.image = [UIImage imageNamed:@"favoriteGreen.png"];
         imageView.tag = tableCellTag+6;
-        name.text = [self.shopList[indexPath.row] valueForKey:@"shopName"];
-//        if (self.testString !=nil) {
-//            name.text = self.testString;
-//        }
-//        else{
-//            name.text = @"shop";
-//        }
+        imageView.clipsToBounds = true;
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        if ([self.shopList[indexPath.row] valueForKey:@"shopName"] != nil) {
+            name.text = [self.shopList[indexPath.row] valueForKey:@"shopName"];
+        }
+        
+        if ([self.shopList[indexPath.row] valueForKey:@"shopPicUrl"] != nil) {
+            
+            [imageView sd_setImageWithURL:[NSURL URLWithString:[self.shopList[indexPath.row] valueForKey:@"shopPicUrl"]] placeholderImage:[UIImage imageNamed:@"favoriteGreen.png"]];
+            
+            //imageView.contentMode = UIViewContentModeScaleAspectFit;
+            
+        }
         
         catagory.text = @"catagory";
         price.text = @"price";
@@ -439,33 +449,28 @@
         UILabel *price = (UILabel *)[cell.contentView viewWithTag: tableCellTag+3];
         UILabel *distance = (UILabel *)[cell.contentView viewWithTag: tableCellTag+4];
         UIImageView *heat = (UIImageView *)[cell.contentView viewWithTag: tableCellTag+5];
-        UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag: tableCellTag+5];
+        UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag: tableCellTag+6];
         if ([self.shopList[indexPath.row] valueForKey:@"shopName"]) {
-            NSLog(@"shop name is null");
-        }
-        else{
             name.text = [self.shopList[indexPath.row] valueForKey:@"shopName"];
         }
         
-//        if (self.testString !=nil) {
-//            name.text = self.testString;
-//        }
-//        else{
-//            name.text = @"shop";
-//        }
+        if ([self.shopList[indexPath.row] valueForKey:@"shopPicUrl"] != nil) {
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//            imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[self.shopList[indexPath.row] valueForKey:@"shopPicUrl"]]]];
+//
+//            });
+            [imageView sd_setImageWithURL:[NSURL URLWithString:[self.shopList[indexPath.row] valueForKey:@"shopPicUrl"]] placeholderImage:[UIImage imageNamed:@"favoriteGreen.png"]];
+        }
+        
     }
     return cell;
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqual: @"shopDetail"]) {
-        
         NSIndexPath *indexPath = [self.mainViewTableView indexPathForCell:sender];
-        NSLog(@"%@",indexPath);
         ShopDetailedViewController *destinationViewController = segue.destinationViewController;
-        NSLog(@"%@",self.shopList[indexPath.row]);
         destinationViewController.shopID = [self.shopList[indexPath.row] valueForKey:@"_id"];
-        
     }
 }
 
