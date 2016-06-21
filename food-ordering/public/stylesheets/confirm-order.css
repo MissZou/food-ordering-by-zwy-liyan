@@ -1,0 +1,372 @@
+html {
+        color: #333;
+        background: #fff;
+        text-rendering: optimizelegibility;
+        box-sizing: border-box;
+    }
+    
+    body,
+    button,
+    input,
+    select,
+    textarea {
+        font: 400 1em/1.5 PingFang SC, Lantinghei SC, Helvetica Neue, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans;
+    }
+    
+    .container {
+        font-size: 14px;
+        width: 960px;
+        margin: 0 auto;
+    }
+    
+    .checkoutcart-container {
+        border: 1px solid #e0e0e0;
+        line-height: 1;
+        float: left;
+        width: 34%;
+        margin-top: 12px;
+    }
+    
+    .checkoutcart-title {
+        position: relative;
+        padding: 20px;
+        height: 60px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .checkoutcart-title h2 {
+        font-size: 16px;
+        font-weight: 700;
+        color: #333;
+    }
+    
+    .checkoutcart-title a {
+        position: absolute;
+        top: 22px;
+        right: 28px;
+        font-size: 12px;
+        color: #666;
+    }
+    
+    a {
+        text-decoration: none;
+    }
+    
+    ul,
+    li {
+        list-style: none;
+    }
+    
+    .checkoutcart-tablerow {
+        display: table;
+        table-layout: fixed;
+        background-color: #fcfaf8;
+        height: 48px;
+        line-height: 48px;
+        padding: 0 18px 0 20px;
+        width: 100%;
+        font-size: 14px;
+        color: #666;
+    }
+    
+    .checkoutcart-tablerow.tablehead {
+        background-color: #fff;
+        font-size: 12px;
+        font-weight: 700;
+        color: #999;
+    }
+    
+    .checkoutcart-tablerow.extra .cell,
+    .checkoutcart-tablerow.tablehead .cell {
+        border: 0;
+    }
+    
+    .checkoutcart-tablerow .cell {
+        display: table-cell;
+        border-bottom: 1px solid #eee;
+        vertical-align: middle;
+    }
+    
+    .checkoutcart-tablerow .itemname {
+        padding: 5px 0 3px 10px;
+        width: 45%;
+        font-size: 12px;
+        line-height: 1.3;
+    }
+    
+    .checkoutcart-tablerow .itemquantity {
+        width: 30%;
+        text-align: center;
+        white-space: nowrap;
+    }
+    
+    .checkoutcart-tablerow .itemtotal {
+        padding-right: 10px;
+        text-align: right;
+        width: 25%;
+    }
+    
+    .checkoutcart-grouptitle {
+        border-bottom: 1px solid #eee;
+        padding-left: 30px;
+        height: 48px;
+        line-height: 48px;
+        font-size: 14px;
+        font-weight: 700;
+        color: #333;
+    }
+    
+    .checkoutcart-total {
+        padding: 52px 28px 10px;
+        font-size: 24px;
+        text-align: right;
+    }
+    
+    .color-stress {
+        color: #f74342;
+    }
+    
+    .checkoutcart-total .num {
+        font-size: 46px;
+    }
+    
+    .checkoutcart-totalextra {
+        padding: 0 30px 22px;
+        font-size: 12px;
+        color: #666;
+        text-align: right;
+    }
+    
+    .checkout-content {
+        padding: 25px 20px 50px 30px;
+        float: right;
+        width: 65%;
+        border: 1px solid #e0e0e0;
+    }
+    
+    .checkout-cart,
+    .checkout-content {
+        margin-top: 12px;
+        background-color: #fff;
+    }
+    
+    .checkout-select {
+        margin-bottom: 40px;
+    }
+    
+    .checkout-content h2 {
+        margin-bottom: 15px;
+        font-size: 16px;
+        font-weight: 700;
+    }
+    
+    .checkout-addaddress {
+        float: right;
+        text-decoration: underline;
+        font-size: 14px;
+        font-weight: 400;
+    }
+    
+    .checkout-noaddress {
+        display: block;
+        line-height: 72px;
+        background: #f1f1f1;
+        text-align: center;
+        color: #666;
+    }
+    
+    .checkout-pay-tip {
+        margin-left: 16px;
+        font-size: 12px;
+        font-weight: 400;
+    }
+    
+    .color-tip {
+        color: #ff9c00;
+    }
+    
+    .checkout-pay.active ,.desktop-addressblock.active{
+        border-color: #0089dc;
+        background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAiCAMAAAANmfvwAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAA9lBMVEUAAAAeieAeieAeieAeieAeieAeieAeieAeieAeieAeieAeieAhi+ANgN4Hfd0giuAfieAEe9w4luNMoeYKf90dieAdiOAAedwbiODm8vv///9Jn+YIfd0hi+ERg94BetwXhd8bh+Db7Prk8fszlOMNgN0Rgt4/muSFv+4Sg9/c7PrZ6/oZht8EfNwYhuDQ5vin0fMAeNwRgd4Cetzc7foYht8ciOAOgd5bqej+/v+p0vMAb9kSgt/d7frY6voeiuAAdNpHn+X9/v6izvLI4/jX6vpHnuX8/f7W6voWhd9In+Xi8PtPo+c0leMFe90Gfd0OgN4AAABS6aalAAAAC3RSTlMAdI6A/PDykHP35u7NkAkAAAABYktHRACIBR1IAAAACXBIWXMAAAsSAAALEgHS3X78AAABBElEQVQ4y4XR2VrCMBAF4GoFhIk2ClIdQFBEZREFZXFlcWFR0Pd/GtsG0jakyVz/XyZzjmHoZksrtkEnTNjRCohpBcS1Qk08oSRMqMhKKMhaRBMuIokvokhARJCgkJOQkJKwkBEuyN6+RWXEFweH6YwlISYcZZmwj08wl98kJhROiyXiirNzLF9UNoiz5fLqulopOG/UsN64ISJxRDN/i3et9n32Aesdm4gXuT/t9vqP+PT88opvTISIdwsdDEdjfP/AzxITQbK6lsLwa4I4nRWJGB3PwzFz/ObCJ4HUKdg/iyURCwj1Qq3fPy7WRGhOUqNKMKIUHlELlyRAM8YuJOPKSf0D2NEjZKfWInYAAAAASUVORK5CYII=) right bottom no-repeat;
+    }
+    
+    .checkout-pay:first-child {
+        margin-right: 1.6%;
+    }
+    
+    .checkout-pay {
+        float: left;
+        padding: 11px 20px;
+        width: 49.2%;
+        height: 90px;
+        border: 1px solid #eee;
+        cursor: pointer;
+    }
+    
+    .checkout-pay p:first-child {
+        margin-bottom: 4px;
+    }
+    
+    .color-mute {
+        color: #999;
+    }
+    
+    .btn-stress {
+        background-color: #f74342;
+        color: #fff;
+    }
+    
+    .btn-stress:hover {
+        background-color: #e62625;
+    }
+    
+    .btn-lg {
+        padding: 12px 30px;
+        font-size: 16px;
+    }
+    
+    [class*=" btn-"] {
+        display: inline-block;
+        padding: 8px 17px;
+        line-height: 1;
+        border: none;
+        border-radius: 2px;
+        outline: 0;
+        cursor: pointer;
+        font-size: 14px;
+        text-align: center;
+    }
+    
+    .addressdialog {
+        position: fixed;
+        background: #fff;
+        padding: 0;
+    }
+    
+    .addressdialog-close {
+        display: inline-block;
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        width: 12px;
+        height: 12px;
+        cursor: pointer;
+        color: #ccc;
+        font-size: 12px;
+        line-height: 20px;
+        text-align: center;
+        background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAW1JREFUWAntl0FugzAQRaELJNg3Z0DqHSylB28lJI4QiTtkDxIb4r9wNSEz+I/TSl3EEsLYM/8/GxiSqnq1/7YDwzC84/htrnEcT5rumzRCQNu23zi0YBnr6UOraZovTfcOIInWdf2hBad5zzktCppaXr0flAnbtl2WZTmHEK77OOaa0XoAgDCTmANgNVSAZyFYc/iYAKUQHvMsgBfCa04BsBAl5jRADqLU3AVgQWAcNQPveclre/gQQnzf5Grj3BRNq2jel5hD2w2AJEB0XTfEbo/raD7FghXrlb9gqaUYormGlacWdyB13Wc3gLgF2PYpOuLoS78dLgBhnh64MM9zwP3HQ1gCQe+dYv7zkTqay90TCoAxYGI0mCyAR9gTm2AOAUoEvTkmgFcorQhnT64K4BGQxrLPajwAsInSzOozWncATIJlZo3nNNVChMLyzI9RCYPvw7qun9CU42bf+gNhJpATf6VL2r/C7B24AaM38w9UaoY7AAAAAElFTkSuQmCC") center center no-repeat;
+    }
+    
+    .addressdialog-header {
+        font-size: 18px;
+        font-weight: 600;
+        padding: 15px;
+        color: #333;
+    }
+    
+    .addressdialog-content {
+        padding: 15px 15px 30px;
+        overflow-x: hidden;
+    }
+    
+    .addressform {
+        width: 760px;
+    }
+    
+    .addressform {
+        position: relative;
+    }
+    
+    .addressdialog-content {
+        padding: 15px 15px 30px;
+        overflow-x: hidden;
+    }
+    
+    .addressformfield {
+        position: relative;
+        padding-bottom: 25px;
+        font-size: 14px;
+    }
+    
+    .addressformfield>label {
+        float: left;
+        display: inline-block;
+        width: 65px;
+        height: 38px;
+        margin-right: 20px;
+        line-height: 38px;
+        text-align: right;
+        color: #666;
+    }
+    
+    .addressformfield>input,
+    .addressformfield>input[type=text] {
+        vertical-align: baseline;
+        border: 1px solid #dedede;
+        box-sizing: border-box;
+        width: 300px;
+        height: 42px;
+        line-height: 38px;
+        padding-left: 10px;
+        border-radius: 2px;
+    }
+    
+    .sexfield label+div {
+        line-height: 38px;
+    }
+    
+    .sexfield input+label {
+        display: inline-block;
+        margin-left: 5px;
+        width: 60px;
+        cursor: pointer;
+    }
+    
+    .addressform-buttons {
+        margin-left: 84px;
+    }
+    
+    .addressformfield-hint {
+        position: absolute;
+        font-size: 12px;
+        line-height: 20px;
+        bottom: 5px;
+        margin-left: 88px;
+    }
+    
+    .addressformfield-hint .icon-dot-error {
+        color: #ff464c;
+    }
+    
+    .addressformfield.validate-error input {
+        border-color: #ff464c;
+    }
+    
+    .addressform-buttons button {
+        font-size: 14px;
+        box-sizing: border-box;
+        background: 0 0;
+        border: none;
+        padding: 0 20px;
+        color: #9f9f9f;
+        height: 42px;
+        border-radius: 2px;
+        cursor: pointer;
+    }
+    
+    .addressform-buttons button:first-child {
+        margin-right: 10px;
+        border: 1px solid #0089dc;
+        background-color: #0089dc;
+        color: #fff;
+        width: 160px;
+    }
+    .desktop-addressblock:hover {
+
+    cursor: pointer;
+}
+.desktop-addressblock div:hover{
+ cursor: pointer;
+}
+

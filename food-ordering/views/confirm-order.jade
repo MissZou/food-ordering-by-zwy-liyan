@@ -1,0 +1,105 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title Confirm Order
+    link(rel='stylesheet', href='/stylesheets/normalize.css')
+    link(rel='stylesheet', href='/stylesheets/confirm-order.css')
+    link(rel='stylesheet', href='/stylesheets/updateAddress.css')
+  body
+    .mask(style='position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; opacity: 0.5; z-index: 1000; background: rgb(0, 0, 0);display:none;')
+    .addressdialog(style='left: 166px; top: 96px; z-index: 1001;display:none;')
+      .addressdialog-close
+      .addressdialog-header 添加新地址
+      .addressdialog-content
+        .addressform
+          div
+            .addressformfield.validate-error
+              label 姓名
+              input(placeholder='请输入您的姓名')
+              .addressformfield-hint
+                span.icon-dot-error 请输入收外卖人的姓名
+            .addressformfield.sexfield
+              label 性别
+              div
+                input#sexfield-1-male(name='sex', type='radio', value='1')
+                label(for='sexfield-1-male') 先生
+                input#sexfield-1-female(type='radio', name='sex', value='2')
+                label(for='sexfield-1-female') 女士
+              .addressformfield-hint
+                span
+            .addressformfield.addressfield
+              label 位置
+              input(placeholder='请输入小区、大厦或学校')
+              .address-suggestlist
+                ul
+              .addressformfield-hint
+                span
+            .addressformfield
+              label 详细地址
+              input(placeholder='单元、门牌号')
+              .addressformfield-hint
+                span
+            .addressformfield.phonefield
+              label 手机号
+              input(placeholder='请输入您的手机号')
+              .addressformfield-hint
+                span
+            .addressformfield.phonebkfield(style='display: none;')
+              label
+              input(placeholder='固话、手机短号')
+              button 删除
+              .addressformfield-hint
+                span
+          .addressform-buttons
+            button 保存
+            button 取消
+    .container.clearfix
+      .checkoutcart-container
+        .checkoutcart-title
+          h2 订单详情
+          a(href='/shop/721746') < 返回商家修改
+        .checkoutcart-tablerow.tablehead
+          .cell.itemname 商品
+          .cell.itemquantity 份数
+          .cell.itemtotal 小计（元）
+        ul.checkoutcart-group
+        .checkoutcart-total.color-stress
+          | ¥
+          span.num
+        .checkoutcart-totalextra
+          | 共 
+          span
+          |  份商品
+      .checkout-content
+        .checkout-select
+          h2 收货地址
+          if (items)
+            .desktop-addresslist.clearfix
+              each val in items
+                .desktop-addressblock
+                  .desktop-addressblock-name= val.name
+                  .desktop-addressblock-address= val.addr
+                  .desktop-addressblock-mobile= val.phone
+                  .type= val.type
+                  input.addr_id(type="hidden",value= val._id )
+          else
+            .desktop-addresslist.clearfix
+          a.checkout-noaddress(href='javascript:') + 添加新地址
+        .checkout-select
+          h2.checkout-title
+            | 付款方式
+            span.color-tip.checkout-pay-tip 推荐使用在线支付，不用找零
+          ul.clearfix
+            li.checkout-pay.active
+              p 在线支付
+              p.color-mute 支持微信、支付宝、QQ钱包及大部分银行卡
+            li.checkout-pay
+              p 货到付款
+              p.color-mute 送货上门后再付款
+        div
+          button.btn-stress.btn-lg 确认下单
+  script(src='/javascripts/socket.io.js')
+  script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
+  script(src='/javascripts/jquery.tmpl.min.js')
+  script(src='/javascripts/confirm-order.js')
