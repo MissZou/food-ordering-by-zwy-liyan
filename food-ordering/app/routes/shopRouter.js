@@ -212,13 +212,16 @@ router.route('/findItemById')
     .post(function(req, res){
         var shopId = req.param('shopId', null);
         var itemId = req.param('itemId', null); 
+        var shopName="";
         console.log(shopId);
         console.log(itemId);
-
-        if (itemId != null && shopId !=null) {
+        Shop.findShopById(shopId,function(doc){
+            shopName=doc.shopName;
+            if (itemId != null && shopId !=null) {
             Shop.findItemById(shopId,itemId,function(doc){
                 res.json({
                     doc:doc,
+                    shopName:shopName,
                     success:true
                 })
             });
@@ -228,6 +231,9 @@ router.route('/findItemById')
                 success:false
             })
         }
+        })
+
+        
     });
 
 router.route('/register')
