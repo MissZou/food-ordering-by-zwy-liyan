@@ -81,31 +81,31 @@ $(document).ready(function() {
     });
 
 
-    $(".update").live("click", function() {
-        var parent = $(this).parent();
-        $("#usernamee").val(parent.find(".name").text());
-        $("#phonee").val(parent.find(".phone").text());
-        $("#typee").val(parent.find(".type").text());
-        $("#addresse").val(parent.find(".addr").text());
-        $("#addr_id").val(parent.find(".addr_id").val());
-    });
-
-
-    $("#updExistingAddr button").on("click", function() {
+    $("#updateBtn").on("click", function() {
+        console.log("update")
         $.ajax({
             url: '/user/account/address',
             type: 'POST',
             data: {
-                "name": $("#usernamee").val(),
-                "phone": $("#phonee").val(),
-                "type": $("#typee").val(),
-                "address": $("#addresse").val(),
+                "name": $("#username").val(),
+                "phone": $("#phone").val(),
+                "type": $("#type").val(),
+                "address": $("#address").val(),
                 "addrId": $("#addr_id").val()
             },
             success: function(data, status) {
                 if (data.success == true) {
                     alert("上传成功");
-                    console.log(data.doc)
+                    var currentUpdate=$(".desktop-addressblock").eq(+$("#index").val());
+                    currentUpdate.find(".desktop-addressblock-name").text($("#username").val());
+                    currentUpdate.find(".desktop-addressblock-mobile").text($("#phone").val());
+                    currentUpdate.find(".type").text($("#type").val());
+                    currentUpdate.find(".desktop-addressblock-address").text($("#address").val());
+                    currentUpdate.find(".addr_id").text($("#addr_id").val());
+
+                    $(".addressdialog").hide();
+                    $(".mask").hide();
+
                 }
             },
             error: function(data, status) {
@@ -115,22 +115,39 @@ $(document).ready(function() {
             }
         });
     })
-
     $(".addressdialog-close").on("click", function() {
         $(this).parent().hide();
         $(".mask").hide();
     });
-    $(".addressform-buttons").find("button").eq(1).on("click", function() {
+    $(".addressform-buttons").find("button").last().on("click", function() {
         $(this).parents(".addressdialog").hide();
         $(".mask").hide();
     });
-    $(".update").on("click", function() {
+    $(".update").live("click", function() {
         $(".mask").show();
+        $("#updateBtn").show();
+        $("#save").hide();
         $(".addressdialog").show();
+        var parent = $(this).parents(".desktop-addressblock");
+        console.log(parent.index())
+        $("#username").val(parent.find(".desktop-addressblock-name").text());
+        $("#phone").val(parent.find(".desktop-addressblock-mobile").text());
+        $("#type").val(parent.find(".type").text());
+        $("#address").val(parent.find(".desktop-addressblock-address").text());
+        $("#addr_id").val(parent.find(".addr_id").val());
+        $("#index").val(parent.index())
+
     });
     $(".desktop-addressblock.desktop-addressblock-addblock").on("click", function() {
         $(".mask").show();
+        $("#username").val("");
+        $("#phone").val("");
+        $("#type").val("");
+        $("#address").val("");
+        $("#addr_id").val("");
+        $("#index").val("")
+        $("#updateBtn").hide();
+        $("#save").show();
         $(".addressdialog").show();
     });
-
 })

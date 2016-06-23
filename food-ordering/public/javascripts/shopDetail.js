@@ -47,6 +47,7 @@ $(function() {
         if ($(this).text() == "加入购物车") {
             var title = $(this).parent().find(".rstblock-title").text(),
                 price = $(this).parent().find(".shopmenu-food-price").text(),
+                dishId=$(this).parent().find("input").val(),
                 flyer = $('<div id="circle"></div>'),
                 id = $(this).parent().attr("id"),
 
@@ -69,6 +70,7 @@ $(function() {
                     <button class="add">+</button> \
                 </div> \
                 <div class="cell itemtotal" data-single=' + price + '>' + price + '</div> \
+                <input type="hidden" value=' +dishId+'> \
             </div>');
                     $(".shop-cartbasket").animate({
                         "top": "-=44px"
@@ -147,10 +149,12 @@ $(function() {
             var dishName=$(this).find(".itemname").text(),
                 num= +$(this).find("input").attr("value"),
                 singlePrice = +$(this).find(".itemtotal").attr("data-single"),
+                dishId=$(this).find("input[type='hidden']").val(),
                 order={};
                 order.dishName=dishName;
                 order.num=num;
                 order.price=singlePrice*num;
+                order.dishId=dishId;
                 orderList.push(order);
         });
 

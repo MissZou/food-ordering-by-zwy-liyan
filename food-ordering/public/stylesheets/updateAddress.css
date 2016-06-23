@@ -175,7 +175,7 @@ button, input {
         cursor: pointer;
     }
     
-    .addressform-buttons button:first-child {
+    #save,#updateBtn {
         margin-right: 10px;
         border: 1px solid #0089dc;
         background-color: #0089dc;

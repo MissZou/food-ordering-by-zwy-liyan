@@ -663,6 +663,11 @@ var accountId = req.decoded._id;
         })
     });
 
+router.route('/account/web/myorder')
+.get(function(req, res) {
+ res.sendfile(path.join(__dirname, '../../views', 'myorder.html'));
+    });
+
 
 router.route('/account/order')
     .get(function(req, res){
