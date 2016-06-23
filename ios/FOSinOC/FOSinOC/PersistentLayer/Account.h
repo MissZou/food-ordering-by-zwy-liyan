@@ -18,6 +18,7 @@
 -(BOOL)finishFetchAccountData:(NSDictionary *)result withAccount:(Account *)myAccount;
 -(void)finishRefreshAccountData;
 -(void)networkFailed;
+-(void)accountFinishUpdateCart;
 @end
 
 @interface Account : NSObject

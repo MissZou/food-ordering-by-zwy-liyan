@@ -381,23 +381,27 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
 }
 
 -(void)changeAvatar:(NSURL *)filePath{
-    //NSURL *url = [NSURL URLWithString:@"account/avatar" relativeToURL:self.baseUrl];
+    NSURL *url = [NSURL URLWithString:@"account/avatar" relativeToURL:self.baseUrl];
     NSString *urlString = [baseUrlString stringByAppendingString:@"account/avatar"];
     
-    NSDictionary *parameters = @{@"token": self.token};
-    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:urlString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        [formData appendPartWithFileURL:filePath name:@"file" fileName:@"filename.jpg" mimeType:@"image/jpeg" error:nil];
-    } error:nil];
-    
+//    NSDictionary *parameters = @{@"token": self.token};
+//    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:urlString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+//        [formData appendPartWithFileURL:filePath name:@"file" fileName:@"filename.jpg" mimeType:@"image/jpeg" error:nil];
+//    } error:nil];
+//    
 //        NSUUID *identifierForVendor = [[UIDevice currentDevice] identifierForVendor];
 //        NSString *deviceId = [identifierForVendor UUIDString];
 //        NSString *boundary = [@"Boundary-" stringByAppendingString:deviceId];
-//        [request setValue:[@"multipart/form-data;" stringByAppendingString:boundary] forHTTPHeaderField:@"Content-Type"];
-        [request setValue:self.token forHTTPHeaderField:@"token"];
-    
-    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    
-    NSURLSessionUploadTask *uploadTask;
+//    
+//        //[request setValue:[@"multipart/form-data;" stringByAppendingString:boundary] forHTTPHeaderField:@"Content-Type"];
+//        [request setValue:[@"multipart/form-data;" stringByAppendingString:boundary] forHTTPHeaderField:@"enctype"];
+//        //[request setValue:@"multipart/form-data" forHTTPHeaderField:@"Content-Type"];
+//        //[request setValue:@"multipart/form-data" forHTTPHeaderField:@"enctype"];
+//        [request setValue:self.token forHTTPHeaderField:@"token"];
+//        request.HTTPBody = [self createBodyWithParameters:filePath withBoundary:boundary];
+//    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+//    
+//    NSURLSessionUploadTask *uploadTask;
 //    uploadTask = [manager
 //                  uploadTaskWithStreamedRequest:request
 //                  progress:nil completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
@@ -408,16 +412,69 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
 //                      }
 //                  }];
 //    
+//    
+////    uploadTask = [manager uploadTaskWithRequest:request fromData:[NSData dataWithContentsOfURL:filePath] progress:nil completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+////                              if (error) {
+////                                  NSLog(@"Error: %@", error);
+////                              } else {
+////                                  NSLog(@"%@ %@", response, responseObject);
+////                              }
+////    }];
     
-    uploadTask = [manager uploadTaskWithRequest:request fromData:[NSData dataWithContentsOfURL:filePath] progress:nil completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-                              if (error) {
-                                  NSLog(@"Error: %@", error);
-                              } else {
-                                  NSLog(@"%@ %@", response, responseObject);
-                              }
+//    [uploadTask resume];
+    
+    NSLog(@"%@",[filePath absoluteString]);
+    NSUUID *identifierForVendor = [[UIDevice currentDevice] identifierForVendor];
+    NSString *deviceId = [identifierForVendor UUIDString];
+    NSString *boundary = [@"Boundary-" stringByAppendingString:deviceId];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPMethod = @"POST";
+    //[request setValue:[@"multipart/form-data; boundary=" stringByAppendingString:boundary] forHTTPHeaderField:@"Content-Type"];
+    [request setValue:[@"multipart/form-data; boundary=" stringByAppendingString:boundary] forHTTPHeaderField:@"enctype"];
+    [request setValue:self.token forHTTPHeaderField:@"token"];
+    request.HTTPBody = [self createBodyWithParameters:filePath withBoundary:boundary];
+    
+    NSURLSession *urlSession = [NSURLSession sharedSession];
+    NSLog(@"%@",request.HTTPBody );
+    
+    
+    NSURLSessionDataTask *task = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+                NSLog(@"upload response %@",response);
+                NSLog(@"upload data %@",data);
     }];
     
-    [uploadTask resume];
+    [task resume];
+
    }
+
+-(NSData *)createBodyWithParameters:(NSURL *)filePath withBoundary:(NSString *)boundary{
+    NSMutableData *body = [NSMutableData alloc];
+    NSString *filePathString = [filePath absoluteString];
+    NSString *fileName = [filePath lastPathComponent];
+    NSData *picData = [NSData dataWithContentsOfURL:filePath];
+    
+    NSString *mimetype = [NSString stringWithFormat:@"Content-Type: image/jpg\r\n\r\n"];
+    
+    
+    NSString *newBoundary = [NSString stringWithFormat:@"--%@\r\n",boundary];
+    //NSString *appenString = [NSString stringWithFormat:@"Content-Disposition: form-data; name=\"@%\";filename=\"@%\"\r\n",filePathString,fileName];
+    
+    NSString *appenString1 = [NSString stringWithFormat:@"Content-Disposition: form-data; name=%@%@",filePathString,@";"];
+    NSString *appenString2 = [NSString stringWithFormat:@"filename=%@%@",fileName,@"\r\n"];
+    
+    [body appendData:[newBoundary dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[appenString1 dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[appenString2 dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[mimetype dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:picData];
+    [body appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+    newBoundary = [NSString stringWithFormat:@"--%@--\r\n",boundary];
+    [body appendData:[newBoundary dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    return body;
+}
+
+
 
 @end

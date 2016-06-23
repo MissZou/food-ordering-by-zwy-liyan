@@ -21,6 +21,7 @@
     "request":">2.5",
     "url":"*",
     "gm": "*",
-    "formidable":"~1.0.14"
+    "formidable":"~1.0.14",
+    "multer":"~1.1.0"
   }
 }

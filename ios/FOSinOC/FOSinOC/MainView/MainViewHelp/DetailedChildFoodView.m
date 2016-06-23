@@ -18,15 +18,24 @@
 #define tableCellTag 1460
 #define myBlueColor [UIColor colorWithRed:69/255.0 green:83/255.0 blue:153/255.0 alpha:1]
 #define myCategoryColor [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1]
+#define myGreenColor [UIColor colorWithRed:91/255.0 green:207/255.0 blue:122/255.0 alpha:1]
+#define myGreenColorHighlight [UIColor colorWithRed:76/255.0 green:134/255.0 blue:91/255.0 alpha:1]
+#define myBlackColor [UIColor colorWithRed:61/255.0 green:61/255.0 blue:61/255.0 alpha:1]
+#define myRedColor [UIColor colorWithRed:213/255.0 green:64/255.0 blue:58/255.0 alpha:1]
+
 #import "DetailedChildFoodView.h"
 #import "Shop.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "Account.h"
+#import "ThrowLineTool.h"
 
 @interface DetailedChildFoodView ()<UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate >
 @property(strong,nonatomic) UITableView *catagoryTable;
 @property(strong,nonatomic) UITableView *foodTable;
 @property(strong,nonatomic) UIImageView *categoryMarkView;
 @property(strong,nonatomic) Shop *myShop;
+@property(strong,nonatomic) Account *myAccount;
+
 //@property(strong,nonatomic)UIView *cartView;
 
 @property(assign,nonatomic)NSInteger lastSelectSection;
@@ -130,7 +139,7 @@
     //self.catagoryTable.cellLayoutMarginsFollowReadableWidth = false;
     //self.catagoryTable.layoutMargins=UIEdgeInsetsZero;
     //self.catagoryTable.preservesSuperviewLayoutMargins = false;
-    //[self.catagoryTable setSeparatorColor:[UIColor blueColor]];
+    
     
     self.catagoryTable.backgroundColor = myCategoryColor;
     [self.view addSubview:self.catagoryTable];
@@ -150,13 +159,13 @@
 -(void)initCartView{
     //self.view.frame.size.height - cartViewHeight
     self.cartView = [[UIView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height - navigationBarHeight-segmentHeight-slideTitleHeight-cartViewHeight, self.view.frame.size.width, cartViewHeight)];
-    self.cartView.backgroundColor = [UIColor blackColor];
+    self.cartView.backgroundColor = myBlackColor;
 //    
 //    self.cartView.opaque = false;
 //    self.cartView.alpha = 0.7;
 //    
     self.buyButton = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 120, 0, 120, cartViewHeight)];
-    [self.buyButton setBackgroundColor:[UIColor greenColor]];
+    [self.buyButton setBackgroundColor:myGreenColor];
     [self.buyButton setTitle:@"buy" forState:UIControlStateNormal];
     [self.buyButton addTarget:self action:@selector(buyButtonHandle) forControlEvents:UIControlEventTouchUpInside];
     [self.buyButton addTarget:self action:@selector(buyButtonHighlight) forControlEvents:UIControlEventTouchDown];
@@ -167,14 +176,14 @@
     [self.cartButton setImage:[UIImage imageNamed:@"cart.png"] forState:UIControlStateNormal];
     self.cartButton.imageView.clipsToBounds = true;
     self.cartButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
-    [self.cartButton setBackgroundColor:[UIColor blackColor]];
+    [self.cartButton setBackgroundColor:myBlackColor];
     [self.cartButton addTarget:self action:@selector(cartButtonHandle) forControlEvents:UIControlEventTouchUpInside];
     [self.cartView addSubview:self.cartButton];
     
     self.cartBadge = [[UILabel alloc]initWithFrame:CGRectMake(40, 2, 17, 17)];
     self.cartBadge.layer.cornerRadius = 8;
     self.cartBadge.layer.masksToBounds = true;
-    self.cartBadge.backgroundColor = [UIColor redColor];
+    self.cartBadge.backgroundColor = myRedColor;
     [self.cartView addSubview:self.cartBadge];
     
     self.totalPrice = [[UILabel alloc]initWithFrame:CGRectMake(80, 5, 80, 40)];
@@ -611,11 +620,11 @@
 
 -(void)buyButtonHandle{
     NSLog(@"buyButtonHandle");
-    [self.buyButton setBackgroundColor:[UIColor greenColor]];
+    [self.buyButton setBackgroundColor:myGreenColor];
 }
 
 -(void)buyButtonHighlight{
-    [self.buyButton setBackgroundColor:[UIColor redColor]];
+    [self.buyButton setBackgroundColor:myGreenColorHighlight];
 }
 
 -(void)cartButtonHandle{
@@ -632,7 +641,7 @@
     NSLog(@"Selected row: %ld,%ld", (long)indexPath.section,(long)indexPath.row);
     NSArray *food = [self.itemList valueForKey:self.catagory[indexPath.section]];
     NSLog(@"select food %@",food[indexPath.row]);
-    
+    //self.cartBadge.text =
     
 }
 @end

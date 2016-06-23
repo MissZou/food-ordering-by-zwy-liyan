@@ -40,6 +40,7 @@
 		BA3C9AF81D1AB9FA003F484D /* markViewBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = BA3C9AF61D1AB9FA003F484D /* markViewBlue.png */; };
 		BA3C9AF91D1AB9FA003F484D /* markViewRed.png in Resources */ = {isa = PBXBuildFile; fileRef = BA3C9AF71D1AB9FA003F484D /* markViewRed.png */; };
 		BA3C9AFB1D1AC097003F484D /* separateLine.png in Resources */ = {isa = PBXBuildFile; fileRef = BA3C9AFA1D1AC097003F484D /* separateLine.png */; };
+		BA3C9AFE1D1B8692003F484D /* ThrowLineTool.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3C9AFD1D1B8692003F484D /* ThrowLineTool.m */; };
 		BA6046D01CB8D70400A8FD34 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046CF1CB8D70400A8FD34 /* LoginViewController.m */; };
 		BA6046D61CB8E5CF00A8FD34 /* Account.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046D51CB8E5CF00A8FD34 /* Account.m */; };
 		BA6046D91CBB8B1200A8FD34 /* CreateAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046D81CBB8B1200A8FD34 /* CreateAccountViewController.m */; };
@@ -144,6 +145,8 @@
 		BA3C9AF61D1AB9FA003F484D /* markViewBlue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = markViewBlue.png; sourceTree = "<group>"; };
 		BA3C9AF71D1AB9FA003F484D /* markViewRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = markViewRed.png; sourceTree = "<group>"; };
 		BA3C9AFA1D1AC097003F484D /* separateLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = separateLine.png; sourceTree = "<group>"; };
+		BA3C9AFC1D1B8692003F484D /* ThrowLineTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThrowLineTool.h; sourceTree = "<group>"; };
+		BA3C9AFD1D1B8692003F484D /* ThrowLineTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThrowLineTool.m; sourceTree = "<group>"; };
 		BA6046CE1CB8D70400A8FD34 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		BA6046CF1CB8D70400A8FD34 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		BA6046D41CB8E5CF00A8FD34 /* Account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Account.h; sourceTree = "<group>"; };
@@ -375,6 +378,8 @@
 				BA2EF38D1D10F0D100944B7D /* UICollectionView+Convenience.m */,
 				BA2EF38F1D10F1F600944B7D /* NSIndexSet+Convenience.h */,
 				BA2EF3901D10F1F600944B7D /* NSIndexSet+Convenience.m */,
+				BA3C9AFC1D1B8692003F484D /* ThrowLineTool.h */,
+				BA3C9AFD1D1B8692003F484D /* ThrowLineTool.m */,
 			);
 			name = help;
 			path = FOSinOC/help;
@@ -702,6 +707,7 @@
 				BA771B811CD0580100755613 /* SlideMultiViewController.m in Sources */,
 				BAD8085D1CCA151400A79DE2 /* LeftViewTableController.m in Sources */,
 				BA771B721CCF478500755613 /* UINavigationBar+Awesome.m in Sources */,
+				BA3C9AFE1D1B8692003F484D /* ThrowLineTool.m in Sources */,
 				BA771B841CD2FEE600755613 /* Shop.m in Sources */,
 				BA771B7B1CCF911E00755613 /* DetailedChildCommentView.m in Sources */,
 				BA771B261CCCF04300755613 /* MainViewController.m in Sources */,

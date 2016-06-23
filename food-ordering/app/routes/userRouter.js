@@ -4,6 +4,7 @@ var
   express = require('express'),
   router = express.Router();
 var multipart = require('connect-multiparty');
+var multer  = require('multer');
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var path = require('path');
 var formidable = require('formidable');
@@ -24,7 +25,8 @@ var tokenConfig = {
 }
 app.set('tokenScrete', tokenConfig.secret);
 
-var upload = require('../models/upload')(mongoose);
+//var upload = require('../models/upload')(mongoose);
+var upload = multer({ dest: './public/upload' });
 
 var ifMobile = function (req, res, next) {
   var deviceAgent = req.headers["user-agent"].toLowerCase();
@@ -617,6 +619,24 @@ router.route('/account/cart')
         })
     })
 
+
+     .post(function(req, res) {
+        var accountId = req.decoded._id;
+        var cartId = req.param("cartId", null);
+        var amount = req.param("amount", null);
+        Account.modifyItemToCart(accountId,cartId,amount,function(err){
+            if (err == null) {
+                Account.findAccountById(accountId,function(doc){
+                    res.json({
+                        accountId: doc._id,
+                        cart: doc.cart,
+                        success: true
+                    })
+                })
+            }
+        })
+    })
+
      .delete(function(req, res){
         var accountId = req.decoded._id;
         var _id = req.param("_id", null);
@@ -852,44 +872,85 @@ router.route('/account/favoriteitem')
 
 
 //router.route('/account/avatar',bodyParser.json({limit: '5mb'}))
-router.route('/account/avatar')
-.post(multipart(), function(req, res) { //create avatar
-    //var incomingForm = req.form;
-    //console.log(incomingForm);
-    var accountId = req.decoded._id;
-    console.log("avatar");
-    console.log(req);
-    var targetPath = './public/resources/avatar/' + accountId + '.jpg';
-    var tmp_path = req.files.files.path;
-    imageMagick(tmp_path)
-                .gravity('Center')
-                .resize('640', '480','^>')
-                .crop('640', '480')
-                .autoOrient()
-                .quality(90)
-                .write(targetPath, function(err){
-                    if (err) {
-                        console.log(err);
-                    }
-                    fs.unlink(tmp_path, function() {
-                    });
-                });
-    var url = 'http://' + req.headers.host + '/resources/avatar/' + accountId + '.jpg';
+//router.route('/account/avatar')
+// .post(multipart(), function(req, res) { //create avatar
+//     //var incomingForm = req.form;
     
-    Account.uploadAvatar(accountId, url, function(err) {
-        if (null == err)
-            res.json({
-                code: 200,
-                msg: {
-                    url: url
-                }
-            });
-    })
 
-});
+//     var accountId = req.decoded._id;
+//     console.log("avatar");
+//     console.log(req.file);
+//     //console.log(req);
+//     var targetPath = './public/resources/avatar/' + accountId + '.jpg';
+//     var tmp_path = req.files.files.path;
+//     imageMagick(tmp_path)
+//                 .gravity('Center')
+//                 .resize('640', '480','^>')
+//                 .crop('640', '480')
+//                 .autoOrient()
+//                 .quality(90)
+//                 .write(targetPath, function(err){
+//                     if (err) {
+//                         console.log(err);
+//                     }
+//                     fs.unlink(tmp_path, function() {
+//                     });
+//                 });
+//     var url = 'http://' + req.headers.host + '/resources/avatar/' + accountId + '.jpg';
+    
+//     Account.uploadAvatar(accountId, url, function(err) {
+//         if (null == err)
+//             res.json({
+//                 code: 200,
+//                 msg: {
+//                     url: url
+//                 }
+//             });
+//     })
 
+// });
+// .post(upload.single('file'), function(req, res) { //create avatar
 
+//     var accountId = req.decoded._id;
+//     console.log("avatar");
+//     console.log(req.file);
+//     //console.log(req);
+//     var targetPath = './public/resources/avatar/' + accountId + '.jpg';
+//     var tmp_path = req.files.files.path;
+//     imageMagick(tmp_path)
+//                 .gravity('Center')
+//                 .resize('640', '480','^>')
+//                 .crop('640', '480')
+//                 .autoOrient()
+//                 .quality(90)
+//                 .write(targetPath, function(err){
+//                     if (err) {
+//                         console.log(err);
+//                     }
+//                     fs.unlink(tmp_path, function() {
+//                     });
+//                 });
+//     var url = 'http://' + req.headers.host + '/resources/avatar/' + accountId + '.jpg';
+    
+//     Account.uploadAvatar(accountId, url, function(err) {
+//         if (null == err)
+//             res.json({
+//                 code: 200,
+//                 msg: {
+//                     url: url
+//                 }
+//             });
+//     })
 
+// });
+
+app.post('/user/account/avatar', upload.single('avatar.png'), function (req, res, next) {
+  // req.file is the `avatar` file
+  // req.body will hold the text fields, if there were any
+       console.log(req.file);
+       console.log(req.files);
+       console.log('body:', req.body);
+})
   return router;
 };
 
