@@ -1,40 +1,64 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset="UTF-8">
-    <title>my order</title>
-    <link rel="stylesheet" href="/stylesheets/normalize.css">
-    <style>
-    .order-div ul,
-    .dish ul {
-        margin-bottom: 20px;
-    }
-    </style>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <script src="/javascripts/jquery.tmpl.min.js"></script>
-    <script>
-    function moreOrder(index) {
-        $.ajax({
-            url: '/user/account/order',
+	<meta charset="UTF-8">
+	<title>shopOrder</title>
+	<link rel="stylesheet" href="/stylesheets/normalize.css">
+	<style>
+	.orders{
+		margin-bottom: 20px;
+	}
+	body{
+		height: 100%;
+		overflow: hidden;
+	}
+	.mask{
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom:0;
+		background: rgba(255,255,255,0.8);
+
+	}
+	</style>
+</head>
+<body>
+<div class="mask"></div>
+	<h1>shopOrder</h1>
+	<div class="order-div">
+	</div>
+</body>
+<script src="/javascripts/socket.io.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/javascripts/jquery.tmpl.min.js"></script>
+<script>
+	$(function(){
+		$.ajax({
+            url: '/shop/account/order',
             type: 'GET',
             headers: {
-                'index': index,
+                'index': 1,
                 'count': 9999
-            },
+                },
             success: function(data, status) {
-                if (data.success) {
-                    var markup = '<ul> \
-        <li>price: <span class="price">${order.price}</span></li> \
-        <li>下单时间：${order.date}</li> \
-        <li>个人信息：${order.address.name} ${order.address.phone} ${order.address.addr}</li> \
-        <li>状态：${order.status}</li> \
-        <li class="content">订单内容：XXX  1  price</li> \
-        <li>留言：${order.message}</li> \
-    </ul>'
+                if(data.success){
+                	console.log(data.order)
+                	var markup = '<div class="order-item"> \
+			<p class="username">username: ${order.address.name}</p> \
+			<p>address: ${order.address.addr}</p> \
+			<p>phone: ${order.address.phone}</p> \
+			<p>price ${order.price}</p> \
+			<p>date:${order.date}</p> \
+			<p>message: ${order.message}</p> \
+			<p>current statue: ${order.status}</p> \
+			<button>取消订单</button> \
+			<button>运送中</button> \
+		</div>'
                     $.template("orderTemplate", markup);
                     $.tmpl("orderTemplate", data.order).appendTo(".order-div");
-                    console.log(data.order);
+
+
                     var orderLen = data.order.length;
                     var dishObj = {};
                     var amount = {};
@@ -74,7 +98,7 @@
                                                         </div> \
                                                     </ul>';
                                                     $.template("dishTemplate", dish);
-                                                    $(".content").eq(n).append($.tmpl("dishTemplate", dishObj[n]));
+                                                    $(".order-item").eq(n).prepend($.tmpl("dishTemplate", dishObj[n]));
                                                     var indexNum = 0;
                                                     for (var t = 0; t < orderLen; t++) {
                                                         for (var m = 0; m < data.order[t].order.dishs.length; m++) {
@@ -86,31 +110,73 @@
                                                     }
                                                     console.log("indexNum", indexNum)
                                                 }
+                                                //mask remove
+					                    $(".mask").hide();
+					                    $("body").css({"height":"auto","overflow":"auto"});
                                             }
+                                            
                                         }
+
                                     }
                                 });
                             })(i, j)
                         }
                     }
+                    
                 }
             }
         });
-    }
-    moreOrder(1);
-    </script>
-</head>
 
-<body>
-    <h1>hello my order</h1>
-    <div class="shopName"></div>
-    <div class="wrp">
-        <div class="order-div">
-        </div>
-    </div>
-    <button>More</button>
-</body>
-<script>
+		var shopId=localStorage.getItem("socketShop")
+var socket = io();
+
+socket.emit('set nickname',shopId)
+    socket.on('my message', function(msg) {
+        // 首先，让我们检查我们是否有权限发出通知
+        // 如果没有，我们就请求获得权限
+        if (window.Notification && Notification.permission !== "granted") {
+            Notification.requestPermission(function(status) {
+                if (Notification.permission !== status) {
+                    Notification.permission = status;
+                }
+            });
+        }
+
+        // 如果用户同意就创建一个通知
+        if (window.Notification && Notification.permission === "granted") {
+            var n = new Notification(msg);
+        }
+
+        // 如果用户没有选择是否显示通知
+        // 注：因为在 Chrome 中我们无法确定 permission 属性是否有值，因此
+        // 检查该属性的值是否是 "default" 是不安全的。
+        else if (window.Notification && Notification.permission !== "denied") {
+            Notification.requestPermission(function(status) {
+                if (Notification.permission !== status) {
+                    Notification.permission = status;
+                }
+
+                // 如果用户同意了
+                if (status === "granted") {
+                    var n = new Notification(msg);
+                }
+
+                // 否则，我们可以让步的使用常规模态的 alert
+                else {
+                    alert(msg);
+                }
+            });
+        }
+
+        // 如果用户拒绝接受通知
+        else {
+            // 我们可以让步的使用常规模态的 alert
+            alert(msg);
+        }
+
+        //$('body').append($('<li>').text(msg));
+
+    });
+	})
 </script>
-
 </html>
