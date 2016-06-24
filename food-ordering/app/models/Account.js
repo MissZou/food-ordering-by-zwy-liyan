@@ -207,6 +207,24 @@ var addItemToCart = function(accountId,shopId,itemId,amount,callback){
       function (err) {
         callback(err);
     });
+
+}
+
+var modifyItemToCart = function(accountId,cartId,amount,callback){
+      Account.findOne({_id:accountId},function(err,account){
+      if (account!=null) {
+           console.log(account);
+            account.cart.forEach(function(cart){
+            if(cart._id == cartId){
+              cart.amount = amount
+            }
+
+          });
+          account.save(function(err){
+            callback(err);
+          });
+      }
+  });
 }
 
 var findCartItem = function(accountId,index,count,callback){
@@ -630,6 +648,7 @@ var deleteFavoriteItem = function(accountId,shopId,itemId,callback){
     deleteLocation:deleteLocation,
     addItemToCart:addItemToCart,
     findCartItem:findCartItem,
+    modifyItemToCart:modifyItemToCart,
     deleteItemOfCart:deleteItemOfCart,
     addOrder:addOrder,
     deleteOrder:deleteOrder,

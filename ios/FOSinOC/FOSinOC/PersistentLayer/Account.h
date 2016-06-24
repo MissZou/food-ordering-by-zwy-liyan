@@ -18,6 +18,7 @@
 -(BOOL)finishFetchAccountData:(NSDictionary *)result withAccount:(Account *)myAccount;
 -(void)finishRefreshAccountData;
 -(void)networkFailed;
+-(void)accountFinishUpdateCart;
 @end
 
 @interface Account : NSObject
@@ -58,4 +59,5 @@ typedef NS_ENUM(NSUInteger, httpMethod){
 -(void) location:(enum httpMethod)httpMethod withLocation:(NSDictionary *)location;
 -(void)address:(httpMethod)httpMethod withAddress:(NSDictionary *)address;
 -(void)changeAvatar:(NSURL *)filePath;
+-(void)cart:(httpMethod)httpMethod withShopId:(NSString *)shopId itemId:(NSString *)itemId amount:(NSNumber *) amount cartId:(NSString *)cartId;
 @end

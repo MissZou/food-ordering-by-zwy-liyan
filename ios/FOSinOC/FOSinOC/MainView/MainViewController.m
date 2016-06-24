@@ -9,7 +9,7 @@
 #define mainViewcellHeight 100
 #define floatViewHeight 40
 #define mainHeaderViewHeight 300
-
+#define myBlueColor [UIColor colorWithRed:69/255.0 green:83/255.0 blue:153/255.0 alpha:1]
 
 #import "Account.h"
 #import "Shop.h"
@@ -106,9 +106,10 @@
     
 
     UIBarButtonItem *backBarButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:NULL];
+    
     self.navigationItem.backBarButtonItem = backBarButton;
     self.navigationItem.backBarButtonItem.tintColor = [UIColor whiteColor];
-    
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:69/255.0 green:83/255.0 blue:153/255.0 alpha:1];
     [self initLocation];
     
 }
@@ -413,7 +414,7 @@
         distance.tag = tableCellTag+4;
         
         heat.tag = tableCellTag+5;
-        heat.backgroundColor = [UIColor colorWithRed:255/255.0 green:95/255.0 blue:94/255.0 alpha:1];//mark need to use image replace background color, when cell selected, the backgroud will be transparent.
+        heat.image = [UIImage imageNamed:@"markViewRed"];//mark need to use image replace background color, when cell selected, the backgroud will be transparent.
         
         //imageView.image = [UIImage imageNamed:@"favoriteGreen.png"];
         imageView.tag = tableCellTag+6;
