@@ -41,6 +41,7 @@
 		BA3C9AF91D1AB9FA003F484D /* markViewRed.png in Resources */ = {isa = PBXBuildFile; fileRef = BA3C9AF71D1AB9FA003F484D /* markViewRed.png */; };
 		BA3C9AFB1D1AC097003F484D /* separateLine.png in Resources */ = {isa = PBXBuildFile; fileRef = BA3C9AFA1D1AC097003F484D /* separateLine.png */; };
 		BA3C9AFE1D1B8692003F484D /* ThrowLineTool.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3C9AFD1D1B8692003F484D /* ThrowLineTool.m */; };
+		BA3C9B041D1D204A003F484D /* minus.png in Resources */ = {isa = PBXBuildFile; fileRef = BA3C9B031D1D204A003F484D /* minus.png */; };
 		BA6046D01CB8D70400A8FD34 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046CF1CB8D70400A8FD34 /* LoginViewController.m */; };
 		BA6046D61CB8E5CF00A8FD34 /* Account.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046D51CB8E5CF00A8FD34 /* Account.m */; };
 		BA6046D91CBB8B1200A8FD34 /* CreateAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046D81CBB8B1200A8FD34 /* CreateAccountViewController.m */; };
@@ -147,6 +148,7 @@
 		BA3C9AFA1D1AC097003F484D /* separateLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = separateLine.png; sourceTree = "<group>"; };
 		BA3C9AFC1D1B8692003F484D /* ThrowLineTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThrowLineTool.h; sourceTree = "<group>"; };
 		BA3C9AFD1D1B8692003F484D /* ThrowLineTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThrowLineTool.m; sourceTree = "<group>"; };
+		BA3C9B031D1D204A003F484D /* minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = minus.png; sourceTree = "<group>"; };
 		BA6046CE1CB8D70400A8FD34 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		BA6046CF1CB8D70400A8FD34 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		BA6046D41CB8E5CF00A8FD34 /* Account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Account.h; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 				BA174A3A1CBE496E00419E3B /* account.png */,
 				BA3C9AF21D1A4377003F484D /* cart.png */,
 				BA3C9AF41D1A736A003F484D /* plus.png */,
+				BA3C9B031D1D204A003F484D /* minus.png */,
 				BA174A3B1CBE496E00419E3B /* addGreen.png */,
 				BA3C9AF61D1AB9FA003F484D /* markViewBlue.png */,
 				BA3C9AFA1D1AC097003F484D /* separateLine.png */,
@@ -621,6 +624,7 @@
 				BAD808411CC23ED200A79DE2 /* heatBar.png in Resources */,
 				BA3C9AF31D1A4377003F484D /* cart.png in Resources */,
 				BA1DAE511CB657BE00CDD6E0 /* LaunchScreen.storyboard in Resources */,
+				BA3C9B041D1D204A003F484D /* minus.png in Resources */,
 				BA174A4D1CBF7A9600419E3B /* AccountView.storyboard in Resources */,
 				BA174A461CBE496E00419E3B /* nameIndicator.png in Resources */,
 				BA81F6441CB668CB007A8832 /* introductionPic3.jpg in Resources */,

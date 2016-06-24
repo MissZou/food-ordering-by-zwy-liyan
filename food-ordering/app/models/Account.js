@@ -248,27 +248,27 @@ var findCartItem = function(accountId,index,count,callback){
            var myEventEmitter = new eventEmitter;
            myEventEmitter.on('next',addResult);
            function addResult(){
-              
+              obj["amount"] = array[j].amount;
+              j++;
               result.push(obj)
               obj = {};
-              j++;
+              
               if (j == array.length) {
                 callback(result);
               }
            }         
+           
            for (var i = 0; i <array.length ; i++) {
                 var ii = i;
                 populateCartItem(accountId,array[ii],function(doc){
-                  obj["amount"] = array[ii].amount;
+                  var iii = ii;
                   obj["dishName"] = doc["dishName"];
                   obj["price"] = doc["price"];
                   obj["intro"] = doc["intro"];
                   obj["_id"] = doc["_id"];
                   obj["dishPic"] = doc["dishPic"];
-                  obj["comment"] = doc["comment"];
+                  //obj["comment"] = doc["comment"];
                   obj["tags"] = doc["tags"];
-
-                  //obj = doc;
                   myEventEmitter.emit("next");
                 })
            }
@@ -450,7 +450,7 @@ var findFavoriteShop = function(accountId,index,count,callback){
                     array[i].shopId.orders = undefined;
                     array[i].shopId.email = undefined;
                     array[i].shopId.password = undefined;
-                    array[i].shopId._id = undefined;
+                    //array[i].shopId._id = undefined;
                     array[i]._id = undefined;
 
                 }

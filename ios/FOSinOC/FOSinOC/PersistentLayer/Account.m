@@ -45,6 +45,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     self.favoriteShop = nil;
     self.favoriteItem = nil;
     self.cart = nil;
+    self.cartDetail = nil;
     self.order = nil;
     self.token = nil;
     
@@ -135,7 +136,9 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     if ([result valueForKey:@"cart"] != nil) {
         self.cart = [result valueForKey:@"cart"];
     }
-    
+    if ([result valueForKey:@"cartDetail"] != nil) {
+        self.cartDetail = [result valueForKey:@"cartDetail"];
+    }
     [self.delegate finishRefreshAccountData];
 }
 
@@ -478,7 +481,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     
     return body;
 }
--(void)cart:(httpMethod)httpMethod withShopId:(NSString *)shopId itemId:(NSString *)itemId amount:(NSNumber *) amount cartId:(NSString *)cartId{
+-(void)cart:(httpMethod)httpMethod withShopId:(NSString *)shopId itemId:(NSString *)itemId amount:(NSNumber *) amount cartId:(NSString *)cartId index:(NSInteger)index count:(NSInteger)count{
     NSString *token = self.token;
     NSDictionary *parameters;
     
@@ -503,7 +506,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
             if ([responseObject isKindOfClass:[NSDictionary class]]) {
                 
                 [self updateAccount:responseObject];
-                [self.delegate finishFetchAccountData:responseObject withAccount:Account.sharedManager];
+                
             } else {
                 NSLog(@"%@", responseObject);
             }
@@ -517,7 +520,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
             if ([responseObject isKindOfClass:[NSDictionary class]]) {
                 
                 [self updateAccount:responseObject];
-                //[self.delegate finishFetchAccountData:responseObject withAccount:Account.sharedManager];
+                
             } else {
                 NSLog(@"%@", responseObject);
             }
@@ -532,7 +535,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
             if ([responseObject isKindOfClass:[NSDictionary class]]) {
                 
                 [self updateAccount:responseObject];
-                //[self.delegate finishFetchAccountData:responseObject withAccount:Account.sharedManager];
+                
             } else {
                 NSLog(@"%@", responseObject);
             }
@@ -542,14 +545,18 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
         }];
     }
     else if(httpMethod == GET){
+        NSString *count1 = [NSString stringWithFormat:@"%ld",(long)count];
+        NSString *index1 = [NSString stringWithFormat:@"%ld",(long)index];
         [manager.requestSerializer setValue:self.token forHTTPHeaderField:@"token"];
+        [manager.requestSerializer setValue:count1 forHTTPHeaderField:@"count"];
+        [manager.requestSerializer setValue:index1 forHTTPHeaderField:@"index"];
         
         [manager GET:[url absoluteString] parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             
             if ([responseObject isKindOfClass:[NSDictionary class]]) {
                 //NSLog(@"%@",responseObject);
                 [self updateAccount:responseObject];
-                //[self.delegate finishFetchAccountData:responseObject withAccount:Account.sharedManager];
+                
             } else {
                 NSLog(@"%@", responseObject);
             }

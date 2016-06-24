@@ -38,7 +38,7 @@
 /**
  *  抛物线结束的回调
  */
-- (void)animationDidFinish;
+- (void)throwLineToolanimationDidFinish;
 
 @end
 

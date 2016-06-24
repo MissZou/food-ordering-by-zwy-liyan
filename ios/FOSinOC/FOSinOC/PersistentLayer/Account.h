@@ -39,6 +39,7 @@
 @property(strong,nonatomic)NSMutableArray *favoriteShop;
 @property(strong,nonatomic)NSMutableArray *favoriteItem;
 @property(strong,nonatomic)NSMutableArray *cart;
+@property(strong,nonatomic)NSMutableArray *cartDetail;
 @property(strong,nonatomic)NSMutableArray *order;
 @property(copy,nonatomic)NSString *token;
 
@@ -59,5 +60,5 @@ typedef NS_ENUM(NSUInteger, httpMethod){
 -(void) location:(enum httpMethod)httpMethod withLocation:(NSDictionary *)location;
 -(void)address:(httpMethod)httpMethod withAddress:(NSDictionary *)address;
 -(void)changeAvatar:(NSURL *)filePath;
--(void)cart:(httpMethod)httpMethod withShopId:(NSString *)shopId itemId:(NSString *)itemId amount:(NSNumber *) amount cartId:(NSString *)cartId;
+-(void)cart:(httpMethod)httpMethod withShopId:(NSString *)shopId itemId:(NSString *)itemId amount:(NSNumber *) amount cartId:(NSString *)cartId index:(NSInteger)index count:(NSInteger)count;
 @end

@@ -564,7 +564,8 @@ router.route('/account/web/cart/:shopId')
         Shop.findShopById(req.params.shopId,function(doc){
             console.log(doc.dish);
              res.render('shop-detail', {
-                doc: doc.dish
+                doc: doc.dish,
+                shopName:doc.shopName
             });
         })
          //res.render('shop-detail.jade');
@@ -578,6 +579,7 @@ router.route('/account/cart')
         var accountId = req.decoded._id;
         var index = req.headers["index"];
         var count = req.headers["count"];
+        var cart = {};
         //console.log(index);
         if (index == null || index == 0) {
             index = 1;
@@ -587,16 +589,22 @@ router.route('/account/cart')
         }
 
         Account.findCartItem(accountId,index,count,function(doc){
-            if (doc != null) {
-                res.json({
-                    success:true,
-                    doc:doc
-                })
-            }else{
-                res.json({
-                    success:false
-                })
-            }
+            Account.findAccountById(accountId, function(account) {
+                    cart = account.cart;
+                    if (doc != null) {
+                        res.json({
+                            success:true,
+                            cartDetail:doc,
+                            cart:cart
+                        })
+                    }else{
+                        res.json({
+                            success:false
+                        })
+                    }
+                });
+
+
         })
 
      })
@@ -751,7 +759,13 @@ router.route('/account/order')
         });
     })
 
+router.route('/account/web/mylike')
 
+.get(function(req, res) {
+
+ res.sendfile(path.join(__dirname, '../../views', 'mylike.html'));
+
+    });
 
 router.route('/account/favoriteshop')
 
