@@ -613,6 +613,12 @@ router.route('/account/createDishPic')
     });
 
 
+router.route('/account/web/order')
+.get(function(req, res) {
+        res.sendfile(path.join(__dirname, '../../views', 'shopOrder.html'));
+    })
+
+
 router.route('/account/order')
     .get(function(req, res){
         var shopId = req.decoded._id;
