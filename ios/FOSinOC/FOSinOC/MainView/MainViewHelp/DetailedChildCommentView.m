@@ -9,7 +9,7 @@
 #define catagoryTalbeWidth 80
 #define slideTitleHeight 40
 #define navigationBarHeight 64
-#define segmentHeight 70
+#define segmentHeight 100
 #import "DetailedChildCommentView.h"
 
 @interface DetailedChildCommentView ()<UITableViewDelegate, UITableViewDataSource>
@@ -23,7 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initCommentView];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(shopFinishFetchDataNotify) name:@"shopFinishFetchComment" object:nil];
+   
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,44 +70,8 @@
     self.commentTableView.scrollEnabled =true;
 }
 
--(void) triggerNotificationAction:(NSNotification *) notification
-{
-    NSLog(@"enableInteractionfood");
-    if ([notification.object isKindOfClass:[NSNumber class]])
-    {
-        [self enableInteraction];
-        NSNumber *y = [notification object];
-        //NSLog(@"continu to scroll commnet %f",[y floatValue]);
-        [self.commentTableView setContentOffset:CGPointMake(0,  -[y floatValue])];
-    }
-    else
-    {
-        NSLog(@"Error, object not recognised.");
-    }
-}
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView{
 
-//    if (scrollView.contentOffset.y<=0 ) {
-//        
-//
-//        [self disableInteraction];
-//
-//        if (self.maxOffset > scrollView.contentOffset.y) {
-//            self.maxOffset = scrollView.contentOffset.y;
-//            NSNumber *y = [NSNumber numberWithFloat:self.maxOffset];
-//            CGPoint velocity = [self.commentTableView.panGestureRecognizer velocityInView:self.commentTableView];
-//            NSValue *velocityInValue = [NSValue valueWithCGPoint:velocity];
-//            NSArray *scrollParam = [NSArray arrayWithObjects:y,velocityInValue, nil];
-//            [[NSNotificationCenter defaultCenter]postNotificationName:@"mainContinueScrollingComment" object:scrollParam];
-//
-//        }
-//    }
-//    else if(scrollView.contentOffset.y>0){
-//            [self enableInteraction];
-//    }
-
-}
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 25;

@@ -53,7 +53,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
 -(id) init {
     if(self = [super init]){
         self.baseUrl = [NSURL URLWithString:baseUrlString];
-        self.serviceName = @"com.HKU.FoodOrderingYystem";
+        self.serviceName = @"com.HKU.FoodOrderingSystem";
         self.serviceAccount = @"fosAccount";
         self.servicePassword = @"fosPassword";
         self.serviceToken = @"fosToken";
@@ -130,6 +130,10 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     
     if ([result valueForKey:@"favoriteShop"] != nil) {
         self.favoriteItem = [result valueForKey:@"favoriteShop"];
+    }
+    
+    if ([result valueForKey:@"cart"] != nil) {
+        self.cart = [result valueForKey:@"cart"];
     }
     
     [self.delegate finishRefreshAccountData];
@@ -381,23 +385,27 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
 }
 
 -(void)changeAvatar:(NSURL *)filePath{
-    //NSURL *url = [NSURL URLWithString:@"account/avatar" relativeToURL:self.baseUrl];
+    NSURL *url = [NSURL URLWithString:@"account/avatar" relativeToURL:self.baseUrl];
     NSString *urlString = [baseUrlString stringByAppendingString:@"account/avatar"];
     
-    NSDictionary *parameters = @{@"token": self.token};
-    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:urlString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        [formData appendPartWithFileURL:filePath name:@"file" fileName:@"filename.jpg" mimeType:@"image/jpeg" error:nil];
-    } error:nil];
-    
+//    NSDictionary *parameters = @{@"token": self.token};
+//    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:urlString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+//        [formData appendPartWithFileURL:filePath name:@"file" fileName:@"filename.jpg" mimeType:@"image/jpeg" error:nil];
+//    } error:nil];
+//    
 //        NSUUID *identifierForVendor = [[UIDevice currentDevice] identifierForVendor];
 //        NSString *deviceId = [identifierForVendor UUIDString];
 //        NSString *boundary = [@"Boundary-" stringByAppendingString:deviceId];
-//        [request setValue:[@"multipart/form-data;" stringByAppendingString:boundary] forHTTPHeaderField:@"Content-Type"];
-        [request setValue:self.token forHTTPHeaderField:@"token"];
-    
-    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    
-    NSURLSessionUploadTask *uploadTask;
+//    
+//        //[request setValue:[@"multipart/form-data;" stringByAppendingString:boundary] forHTTPHeaderField:@"Content-Type"];
+//        [request setValue:[@"multipart/form-data;" stringByAppendingString:boundary] forHTTPHeaderField:@"enctype"];
+//        //[request setValue:@"multipart/form-data" forHTTPHeaderField:@"Content-Type"];
+//        //[request setValue:@"multipart/form-data" forHTTPHeaderField:@"enctype"];
+//        [request setValue:self.token forHTTPHeaderField:@"token"];
+//        request.HTTPBody = [self createBodyWithParameters:filePath withBoundary:boundary];
+//    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+//    
+//    NSURLSessionUploadTask *uploadTask;
 //    uploadTask = [manager
 //                  uploadTaskWithStreamedRequest:request
 //                  progress:nil completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
@@ -408,16 +416,150 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
 //                      }
 //                  }];
 //    
+//    
+////    uploadTask = [manager uploadTaskWithRequest:request fromData:[NSData dataWithContentsOfURL:filePath] progress:nil completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+////                              if (error) {
+////                                  NSLog(@"Error: %@", error);
+////                              } else {
+////                                  NSLog(@"%@ %@", response, responseObject);
+////                              }
+////    }];
     
-    uploadTask = [manager uploadTaskWithRequest:request fromData:[NSData dataWithContentsOfURL:filePath] progress:nil completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-                              if (error) {
-                                  NSLog(@"Error: %@", error);
-                              } else {
-                                  NSLog(@"%@ %@", response, responseObject);
-                              }
+//    [uploadTask resume];
+    
+    NSLog(@"%@",[filePath absoluteString]);
+    NSUUID *identifierForVendor = [[UIDevice currentDevice] identifierForVendor];
+    NSString *deviceId = [identifierForVendor UUIDString];
+    NSString *boundary = [@"Boundary-" stringByAppendingString:deviceId];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPMethod = @"POST";
+    //[request setValue:[@"multipart/form-data; boundary=" stringByAppendingString:boundary] forHTTPHeaderField:@"Content-Type"];
+    [request setValue:[@"multipart/form-data; boundary=" stringByAppendingString:boundary] forHTTPHeaderField:@"enctype"];
+    [request setValue:self.token forHTTPHeaderField:@"token"];
+    request.HTTPBody = [self createBodyWithParameters:filePath withBoundary:boundary];
+    
+    NSURLSession *urlSession = [NSURLSession sharedSession];
+    NSLog(@"%@",request.HTTPBody );
+    
+    
+    NSURLSessionDataTask *task = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error){
+                NSLog(@"upload response %@",response);
+                NSLog(@"upload data %@",data);
     }];
     
-    [uploadTask resume];
+    [task resume];
+
    }
+
+-(NSData *)createBodyWithParameters:(NSURL *)filePath withBoundary:(NSString *)boundary{
+    NSMutableData *body = [NSMutableData alloc];
+    NSString *filePathString = [filePath absoluteString];
+    NSString *fileName = [filePath lastPathComponent];
+    NSData *picData = [NSData dataWithContentsOfURL:filePath];
+    
+    NSString *mimetype = [NSString stringWithFormat:@"Content-Type: image/jpg\r\n\r\n"];
+    
+    
+    NSString *newBoundary = [NSString stringWithFormat:@"--%@\r\n",boundary];
+    //NSString *appenString = [NSString stringWithFormat:@"Content-Disposition: form-data; name=\"@%\";filename=\"@%\"\r\n",filePathString,fileName];
+    
+    NSString *appenString1 = [NSString stringWithFormat:@"Content-Disposition: form-data; name=%@%@",filePathString,@";"];
+    NSString *appenString2 = [NSString stringWithFormat:@"filename=%@%@",fileName,@"\r\n"];
+    
+    [body appendData:[newBoundary dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[appenString1 dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[appenString2 dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[mimetype dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:picData];
+    [body appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+    newBoundary = [NSString stringWithFormat:@"--%@--\r\n",boundary];
+    [body appendData:[newBoundary dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    return body;
+}
+-(void)cart:(httpMethod)httpMethod withShopId:(NSString *)shopId itemId:(NSString *)itemId amount:(NSNumber *) amount cartId:(NSString *)cartId{
+    NSString *token = self.token;
+    NSDictionary *parameters;
+    
+    
+    if (httpMethod == PUT) {
+        parameters = @{@"token": token, @"shopId": shopId,@"itemId":
+                           itemId,@"amount":amount};
+    }else if(httpMethod == GET){
+        
+        parameters = nil;
+    }else{
+        parameters = @{@"token": token, @"cartId": cartId,@"amount":amount};
+    }
+    
+    
+    NSURL *url = [NSURL URLWithString:@"account/cart" relativeToURL:self.baseUrl];
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
+    if (httpMethod == PUT) {
+        [manager PUT:[url absoluteString] parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject){
+            if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                
+                [self updateAccount:responseObject];
+                [self.delegate finishFetchAccountData:responseObject withAccount:Account.sharedManager];
+            } else {
+                NSLog(@"%@", responseObject);
+            }
+            
+        }failure:^(NSURLSessionDataTask * _Nonnull task, NSError *error){
+            NSLog(@"%@", error);
+        }];
+    }
+    else if (httpMethod == DELETE){
+        [manager DELETE:[url absoluteString] parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject){
+            if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                
+                [self updateAccount:responseObject];
+                //[self.delegate finishFetchAccountData:responseObject withAccount:Account.sharedManager];
+            } else {
+                NSLog(@"%@", responseObject);
+            }
+            
+        }failure:^(NSURLSessionDataTask * _Nonnull task, NSError *error){
+            NSLog(@"%@", error);
+        }];
+    }
+    else if(httpMethod == POST){
+        [manager POST:[url absoluteString] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                
+                [self updateAccount:responseObject];
+                //[self.delegate finishFetchAccountData:responseObject withAccount:Account.sharedManager];
+            } else {
+                NSLog(@"%@", responseObject);
+            }
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            NSLog(@"%@", error);
+        }];
+    }
+    else if(httpMethod == GET){
+        [manager.requestSerializer setValue:self.token forHTTPHeaderField:@"token"];
+        
+        [manager GET:[url absoluteString] parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                //NSLog(@"%@",responseObject);
+                [self updateAccount:responseObject];
+                //[self.delegate finishFetchAccountData:responseObject withAccount:Account.sharedManager];
+            } else {
+                NSLog(@"%@", responseObject);
+            }
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            NSLog(@"%@", error);
+        }];
+    }
+}
+
+
 
 @end
