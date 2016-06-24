@@ -29,7 +29,7 @@
 #import "Account.h"
 #import "ThrowLineTool.h"
 
-@interface DetailedChildFoodView ()<UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate >
+@interface DetailedChildFoodView ()<UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate,AccountDelegate,ThrowLineToolDelegate>
 @property(strong,nonatomic) UITableView *catagoryTable;
 @property(strong,nonatomic) UITableView *foodTable;
 @property(strong,nonatomic) UIImageView *categoryMarkView;
@@ -61,6 +61,10 @@
 @property(strong,nonatomic) UIButton *cartButton;
 @property(strong,nonatomic) UILabel *cartBadge;
 @property(strong,nonatomic) UILabel *totalPrice;
+@property(assign,nonatomic) NSUInteger itemCount;
+@property(strong,nonatomic) NSString *lastSelectItem;
+@property(strong,nonatomic) UIView *parabolaView;
+
 
 @end
 
@@ -69,7 +73,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.myShop = [Shop sharedManager];
-
+    self.myAccount = [Account sharedManager];
+    self.myAccount.delegate = self;
     [self initTableViews];
     [self initCartView];
     
@@ -103,7 +108,8 @@
     self.maxOffset = 0;
     self.isSuperViewGustureStart = false;
     self.isScrollAtBottom = false;
-
+    self.lastSelectItem = nil;
+    self.itemCount = 0;
 }
 
 -(void)disableInteraction{
@@ -166,7 +172,7 @@
 //    
     self.buyButton = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 120, 0, 120, cartViewHeight)];
     [self.buyButton setBackgroundColor:myGreenColor];
-    [self.buyButton setTitle:@"buy" forState:UIControlStateNormal];
+    [self.buyButton setTitle:@"BUY" forState:UIControlStateNormal];
     [self.buyButton addTarget:self action:@selector(buyButtonHandle) forControlEvents:UIControlEventTouchUpInside];
     [self.buyButton addTarget:self action:@selector(buyButtonHighlight) forControlEvents:UIControlEventTouchDown];
     self.buyButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:25];
@@ -184,13 +190,25 @@
     self.cartBadge.layer.cornerRadius = 8;
     self.cartBadge.layer.masksToBounds = true;
     self.cartBadge.backgroundColor = myRedColor;
+    self.cartBadge.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+    self.cartBadge.textAlignment = NSTextAlignmentCenter;
+    self.cartBadge.textColor = [UIColor whiteColor];
     [self.cartView addSubview:self.cartBadge];
     
-    self.totalPrice = [[UILabel alloc]initWithFrame:CGRectMake(80, 5, 80, 40)];
-    self.totalPrice.text = @"$ 0";
+    self.totalPrice = [[UILabel alloc]init];
+    self.totalPrice.numberOfLines = 0;
+    self.totalPrice.text = @"The totaol price:\n      $ 0";
     self.totalPrice.textColor = [UIColor whiteColor];
-    self.totalPrice.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:25];
+    self.totalPrice.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+    CGSize labelSize = [self.totalPrice.text sizeWithAttributes:@{NSFontAttributeName:self.totalPrice.font}];
+    self.totalPrice.frame = CGRectMake(80, 5, 100, labelSize.height);
     [self.cartView addSubview:self.totalPrice];
+    //self.parabolaView = [[UIView alloc]initWithFrame:CGRectMake(self.foodTable.frame.size.width - 50, foodCellHeight-30, 20, 20 )];
+    self.parabolaView = [[UIView alloc]init];
+    self.parabolaView.backgroundColor = myBlueColor;
+    self.parabolaView.layer.cornerRadius = 10;
+    self.parabolaView.alpha = 0.5;
+    [ThrowLineTool sharedTool].delegate = self;
     
     [self.view addSubview:self.cartView];
     
@@ -275,6 +293,8 @@
             addButton.backgroundColor = myBlueColor;
             addButton.tag = tableCellTag+4;
             
+            
+            
             [cell.contentView addSubview:dishName];
             [cell.contentView addSubview:imageView];
             [cell.contentView addSubview:price];
@@ -309,7 +329,7 @@
         [cell.contentView addSubview:self.categoryMarkView];
     }
     [cell.contentView addSubview:self.categoryMarkView];
-    NSLog(@"@%ld",indexPath.row);
+    
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -635,13 +655,93 @@
 
 -(void)addButtonHandle:(id)sender{
     CGPoint location = [sender convertPoint:CGPointZero toView:self.foodTable];
-    NSIndexPath *indexPath = [self.foodTable indexPathForRowAtPoint:location];
-    //UITableViewCell *swipeCell = [self.foodTable cellForRowAtIndexPath:indexPath];
+    [self addItemToCart:location];
+//    NSLog(@"location y:%f",location.y);
+//    NSIndexPath *indexPath = [self.foodTable indexPathForRowAtPoint:location];
+//    UITableViewCell *targetCell = [self.foodTable cellForRowAtIndexPath:indexPath];
+//
+//    //NSLog(@"Selected row: %ld,%ld", (long)indexPath.section,(long)indexPath.row);
+//    NSArray *food = [self.itemList valueForKey:self.catagory[indexPath.section]];
+//    
+//    
+//    for (int i = 0; i<self.myAccount.cart.count; i++) {
+//       // NSLog(@"shop id %@",self.myShop.shopID);
+//       // NSLog(@"cart shop id %@",[self.myAccount.cart[i] valueForKey:@"shopId"]);
+//        if ([self.myShop.shopID isEqualToString: [self.myAccount.cart[i] valueForKey:@"shopId"]] &&
+//            [[food[indexPath.row] valueForKey:@"_id"] isEqualToString:[self.myAccount.cart[i] valueForKey:@"itemId"]]) {
+//            NSLog(@"select food %@",food[indexPath.row]);
+//            
+//            NSInteger amount = [[self.myAccount.cart[i] valueForKey:@"amount"] integerValue];
+//            amount = amount+1;
+//            
+//            NSNumber *amountOjb = [NSNumber numberWithInteger:amount];
+//            
+//            [self.myAccount cart:POST withShopId:self.myShop.shopID  itemId:[food[indexPath.row] valueForKey:@"_id"] amount:amountOjb  cartId:[self.myAccount.cart[i] valueForKey:@"_id"]];
+//            CGRect cellFrame = [self.view convertRect:targetCell.frame fromView:self.foodTable];
+//            CGRect cartButtonFrame = [self.view convertRect:self.cartButton.frame fromView:self.cartView];
+//            
+//            self.parabolaView.frame = CGRectMake(cellFrame.size.width+cellFrame.origin.x - 50, cellFrame.origin.y + foodCellHeight - 30, 20, 20 );
+//            [self.view addSubview:self.parabolaView];
+//
+//             CGFloat height = self.parabolaView.frame.origin.y;
+//            NSLog(@"parabolaView frame.y,%f",self.parabolaView.frame.origin.y);
+//            
+//            NSLog(@"height %f",height);
+//            
+//            [[ThrowLineTool sharedTool] throwObject:self.parabolaView from:self.parabolaView.center to:CGPointMake(cartButtonFrame.origin.x+cartButtonFrame.size.width/2, cartButtonFrame.origin.y+cartButtonFrame.size.height/2) height:-height+60 duration:0.5];
+//            
+//            self.cartBadge.text = [amountOjb stringValue];
+//            
+//        }
+//    }
+}
+
+- (void)animationDidFinish
+{
+    [self.parabolaView removeFromSuperview];
+}
+
+-(void)addItemToCart:(CGPoint )addButtonLocation{
+    NSIndexPath *indexPath = [self.foodTable indexPathForRowAtPoint:addButtonLocation];
+    UITableViewCell *targetCell = [self.foodTable cellForRowAtIndexPath:indexPath];
     
-    NSLog(@"Selected row: %ld,%ld", (long)indexPath.section,(long)indexPath.row);
+    //NSLog(@"Selected row: %ld,%ld", (long)indexPath.section,(long)indexPath.row);
     NSArray *food = [self.itemList valueForKey:self.catagory[indexPath.section]];
-    NSLog(@"select food %@",food[indexPath.row]);
-    //self.cartBadge.text =
+    
+    
+    for (int i = 0; i<self.myAccount.cart.count; i++) {
+        // NSLog(@"shop id %@",self.myShop.shopID);
+        // NSLog(@"cart shop id %@",[self.myAccount.cart[i] valueForKey:@"shopId"]);
+        if ([self.myShop.shopID isEqualToString: [self.myAccount.cart[i] valueForKey:@"shopId"]] &&
+            [[food[indexPath.row] valueForKey:@"_id"] isEqualToString:[self.myAccount.cart[i] valueForKey:@"itemId"]]) {
+            NSLog(@"select food %@",food[indexPath.row]);
+            
+            NSInteger amount = [[self.myAccount.cart[i] valueForKey:@"amount"] integerValue];
+            amount = amount+1;
+            
+            NSNumber *amountOjb = [NSNumber numberWithInteger:amount];
+            
+            [self.myAccount cart:POST withShopId:self.myShop.shopID  itemId:[food[indexPath.row] valueForKey:@"_id"] amount:amountOjb  cartId:[self.myAccount.cart[i] valueForKey:@"_id"]];
+            CGRect cellFrame = [self.view convertRect:targetCell.frame fromView:self.foodTable];
+            CGRect cartButtonFrame = [self.view convertRect:self.cartButton.frame fromView:self.cartView];
+            
+            self.parabolaView.frame = CGRectMake(cellFrame.size.width+cellFrame.origin.x - 50, cellFrame.origin.y + foodCellHeight - 30, 20, 20 );
+            [self.view addSubview:self.parabolaView];
+            
+            CGFloat height = self.parabolaView.frame.origin.y;
+            NSLog(@"parabolaView frame.y,%f",self.parabolaView.frame.origin.y);
+            
+            NSLog(@"height %f",height);
+            
+            [[ThrowLineTool sharedTool] throwObject:self.parabolaView from:self.parabolaView.center to:CGPointMake(cartButtonFrame.origin.x+cartButtonFrame.size.width/2, cartButtonFrame.origin.y+cartButtonFrame.size.height/2) height:-height+60 duration:0.5];
+            
+            self.cartBadge.text = [amountOjb stringValue];
+            
+        }
+    }
+}
+
+-(void)finishRefreshAccountData{
     
 }
 @end

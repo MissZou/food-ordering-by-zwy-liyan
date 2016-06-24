@@ -65,9 +65,9 @@ static Shop *sharedManager = nil;
     if ([data valueForKey:@"dish"] != nil) {
         self.shopItems = [data valueForKey:@"dish"];
     }
-//    if ([data valueForKey:@"shopName"] != nil) {
-//        self.shopName = [data valueForKey:@"shopName"];
-//    }
+    if ([data valueForKey:@"shopId"] != nil) {
+        self.shopID = [data valueForKey:@"shopId"];
+    }
 //    if ([data valueForKey:@"shopName"] != nil) {
 //        self.shopName = [data valueForKey:@"shopName"];
 //    }
