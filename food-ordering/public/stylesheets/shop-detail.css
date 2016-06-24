@@ -398,3 +398,19 @@
         display: inline-block;
         vertical-align: middle;
     }
+.heart{
+    background-image: url(/images/heart.png);
+    background-repeat: no-repeat;
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
+}
+.coreSpriteHeartOpen{
+    background-position: -114px -462px;
+}
+
+.coreSpriteHeartFull{
+    background-position: -88px -462px;
+}
+
+    

@@ -1,6 +1,25 @@
 $(function() {
+
     var accountId=localStorage.getItem('accountId');
     var shopId=window.location.pathname.split("/")[5]; //非常不健壮
+    $.ajax({
+                url:'/user/account/favoriteshop',
+                headers: {
+                'index': 1,
+                'count': 9999
+                },
+                type:"GET",
+                success:function(data){
+                    if(data.success){
+                        console.log(data.favoriteshop);
+                        for(var i=0;i<data.favoriteshop.length;i++){
+                            if(data.favoriteshop[i].shopId._id==shopId){
+                                $(".heart").click();
+                            }
+                        }
+                    }
+                }
+            })
     localStorage.setItem('shopId',shopId);
     console.log("accountId",accountId)
     console.log("shopId",shopId)
@@ -121,6 +140,34 @@ $(function() {
 
     $(".shop-grouphead-row a").on("click", clearCart);
     $(".shop-cartfooter-checkout").on("click", dishOrder);
+    $(".heart").on("click",function(){
+        if($(this).hasClass("coreSpriteHeartOpen")){
+            console.log(shopId)
+            $.ajax({
+                url:'/user/account/favoriteshop',
+                data:{'shopId':shopId},
+                type:"PUT",
+                success:function(data){
+                    if(data.success){
+                        console.log(data.doc);
+                    }
+                }
+            })
+            $(this).removeClass("coreSpriteHeartOpen").addClass("coreSpriteHeartFull");
+        }else{
+            $.ajax({
+                url:'/user/account/favoriteshop',
+                data:{'shopId':shopId},
+                type:"DELETE",
+                success:function(data){
+                    if(data.success){
+                        console.log(data.doc);
+                    }
+                }
+            })
+            $(this).removeClass("coreSpriteHeartFull").addClass("coreSpriteHeartOpen");
+        }
+    });
 
     function totalPrice() {
         var sum = 0;
