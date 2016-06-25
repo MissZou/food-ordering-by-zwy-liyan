@@ -213,7 +213,9 @@ var addItemToCart = function(accountId,shopId,itemId,amount,callback){
 var modifyItemToCart = function(accountId,cartId,amount,callback){
       Account.findOne({_id:accountId},function(err,account){
       if (account!=null) {
-           console.log(account);
+           //console.log(account);
+            //console.log("amount");
+            //console.log(amount);
             account.cart.forEach(function(cart){
             if(cart._id == cartId){
               cart.amount = amount
@@ -227,11 +229,34 @@ var modifyItemToCart = function(accountId,cartId,amount,callback){
   });
 }
 
+var findCartItemById = function(accountId,shopId,itemId,callback){
+          Account.findOne({_id:accountId},function(err,account){
+      if (account!=null) {
+           var isFindItem = false;
+            account.cart.forEach(function(cart){
+              if(cart.shopId == shopId && cart.itemId == itemId){
+                //console.log("true");
+                isFindItem = true;
+                callback(isFindItem);
+              }
+          });
+            //console.log("false");
+            callback(isFindItem);
+      }else{
+        callback("account not found");
+      }
+  });
+}
+
 var findCartItem = function(accountId,index,count,callback){
   Account.findOne({_id:accountId},function(err,doc){
       if (doc != null) {
         var limit = index * count;
         var items = doc.cart;
+        if (items.length == 0) {
+          callback(false);
+        }
+
         var array = [];
           for (var i = limit - count; i < limit; i++) {
               if (items[i] != null) {
@@ -240,7 +265,7 @@ var findCartItem = function(accountId,index,count,callback){
                 break;
               }
           }
-           
+          
            var result = [];
            var obj = {};
            obj["amount"] = 0;
@@ -253,6 +278,7 @@ var findCartItem = function(accountId,index,count,callback){
               result.push(obj)
               obj = {};
               
+
               if (j == array.length) {
                 callback(result);
               }
@@ -314,9 +340,10 @@ var populateCartItem = function(accountId,item,callback){
 
 
 var deleteItemOfCart = function(accountId,_id,callback){
+  console.log("deleteItemOfCart");
   Account.update({_id:accountId}, {$pull: {cart:{
           "_id" : _id
-        }}},{upsert:true},
+        }}},{upsert:false},
       function (err) {
         callback(err);
     });
@@ -648,6 +675,7 @@ var deleteFavoriteItem = function(accountId,shopId,itemId,callback){
     deleteLocation:deleteLocation,
     addItemToCart:addItemToCart,
     findCartItem:findCartItem,
+    findCartItemById:findCartItemById,
     modifyItemToCart:modifyItemToCart,
     deleteItemOfCart:deleteItemOfCart,
     addOrder:addOrder,

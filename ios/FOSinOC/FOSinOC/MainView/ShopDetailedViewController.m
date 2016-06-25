@@ -16,6 +16,7 @@
 #import "DetailedChildShopView.h"
 #import "DetailedChildCommentView.h"
 #import "UINavigationBar+Awesome.h"
+#import "FoodViewController.h"
 
 #import "Shop.h"
 @interface ShopDetailedViewController ()<UIScrollViewDelegate,UIGestureRecognizerDelegate,SlideMultiViewControllerDelegate,DetailedChildFoodViewDelegate,ShopDelegate>
@@ -68,6 +69,11 @@
 @property (strong,nonatomic)UIBlurEffect *blurEffet;
 @property (strong,nonatomic)UIVisualEffectView *blurEffectView;
 @property (strong) UIActivityIndicatorView *mySpinner;
+
+//for segue temp variable
+@property(strong,nonatomic) NSDictionary *segueItem;
+@property(strong,nonatomic) NSString *segueShopId;
+@property(strong,nonatomic) UIImage *segueImage;
 
 @end
 
@@ -344,7 +350,7 @@
         [[NSNotificationCenter defaultCenter]postNotificationName:@"superViewGustureState" object:[NSNumber numberWithBool:true]];
     }
     
-// when the food view is on the top, scroll it to show segment view
+
 
 
     
@@ -375,9 +381,20 @@
     return true;
 }
 
--(void)DetailedChildFoodDidSelectFood:(NSString *)foodId{
-    NSLog(@"%@",foodId);
+
+
+-(void)detailedChildFoodDidSelectItem:(NSDictionary *)item image:(UIImage *)image shopId:(NSString *)shopId{
+    self.segueImage = image;
+    self.segueItem = item;
+    self.segueShopId = shopId;
     [self performSegueWithIdentifier:@"foodDetailSegue" sender:nil];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    FoodViewController *foodViewController = segue.destinationViewController;
+    foodViewController.itemImage = self.segueImage;
+    foodViewController.item = self.segueItem;
+    foodViewController.shopId = self.segueShopId;
 }
 
 -(void)adjustCartViewFrameY:(CGFloat)adjustValue{

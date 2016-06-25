@@ -161,7 +161,7 @@ router.route('/findshopbyid')
                         }
                             
                      }
-                     console.log(category);  
+                     
                      //after get all categories, classify dishs
                      for (var i = category.length - 1; i >= 0; i--) {
                         var items = [];

@@ -468,6 +468,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     //NSString *appenString = [NSString stringWithFormat:@"Content-Disposition: form-data; name=\"@%\";filename=\"@%\"\r\n",filePathString,fileName];
     
     NSString *appenString1 = [NSString stringWithFormat:@"Content-Disposition: form-data; name=%@%@",filePathString,@";"];
+    //NSString *appenString1 = [NSString stringWithFormat:@"Content-Disposition: form-multipart; name=%@%@",filePathString,@";"];
     NSString *appenString2 = [NSString stringWithFormat:@"filename=%@%@",fileName,@"\r\n"];
     
     [body appendData:[newBoundary dataUsingEncoding:NSUTF8StringEncoding]];
@@ -492,8 +493,11 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     }else if(httpMethod == GET){
         
         parameters = nil;
-    }else{
-        parameters = @{@"token": token, @"cartId": cartId,@"amount":amount};
+    }else if(httpMethod == DELETE){
+        parameters = @{@"token": token, @"_id": cartId};
+    }else if(httpMethod == POST){
+        parameters = @{@"token": token,@"cartId":
+                           cartId,@"amount":amount};
     }
     
     

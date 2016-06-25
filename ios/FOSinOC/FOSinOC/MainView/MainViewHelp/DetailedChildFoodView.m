@@ -29,6 +29,8 @@
 #import "Account.h"
 #import "ThrowLineTool.h"
 
+
+
 @interface DetailedChildFoodView ()<UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate,AccountDelegate,ThrowLineToolDelegate>
 @property(strong,nonatomic) UITableView *catagoryTable;
 @property(strong,nonatomic) UITableView *foodTable;
@@ -250,15 +252,17 @@
     
     if (tableView == self.catagoryTable) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"catagoryCell" forIndexPath:indexPath];
+        
+        
         cell.textLabel.text = self.catagory[indexPath.row];
         cell.contentView.backgroundColor = myCategoryColor;
         cell.textLabel.backgroundColor = myCategoryColor;
         cell.textLabel.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:15];
         cell.textLabel.textColor = [UIColor colorWithRed:120/255.0 green:120/255.0 blue:120/255.0 alpha:1.0];
         
-        UIImageView *separateLine = [[UIImageView alloc]initWithFrame:CGRectMake(0, categoryCellHeight, self.catagoryTable.frame.size.width, 0.1)];
-        separateLine.image = [UIImage imageNamed:@"separateLine.png"];
-        separateLine.contentMode = UIViewContentModeScaleAspectFill;
+        //UIImageView *separateLine = [[UIImageView alloc]initWithFrame:CGRectMake(0, categoryCellHeight, self.catagoryTable.frame.size.width, 0.1)];
+        //separateLine.image = [UIImage imageNamed:@"separateLine.png"];
+        //separateLine.contentMode = UIViewContentModeScaleAspectFill;
         //[cell.contentView addSubview:separateLine];
         
         return cell;
@@ -268,7 +272,8 @@
         NSArray *food = [self.itemList valueForKey:self.catagory[indexPath.section]];
         
         if ([cell.contentView subviews].count == 0) {
-            
+        //if (cell == nil) {
+        
             UILabel *dishName = [[UILabel alloc]initWithFrame:CGRectMake(75, 0, self.foodTable.frame.size.width - foodCellPicHeight, 30)];
             dishName.text = [food[indexPath.row] valueForKey:@"dishName"];
             dishName.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
@@ -289,44 +294,57 @@
             price.tag = tableCellTag+3;
             
             UIButton *addButton = [[UIButton alloc]initWithFrame:CGRectMake(self.foodTable.frame.size.width - 30, foodCellHeight-30, 20, 20 )];
-            [addButton setImage:[UIImage imageNamed:@"plus.png"] forState:UIControlStateNormal];
-            addButton.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
+            [addButton setImage:[UIImage imageNamed:@"plusBlue.png"] forState:UIControlStateNormal];
+            //addButton.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
+            addButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
+            addButton.imageView.clipsToBounds = true;
             addButton.layer.cornerRadius = 2;
             addButton.layer.masksToBounds = true;
             [addButton addTarget:self action:@selector(addButtonHandle:) forControlEvents:UIControlEventTouchUpInside];
-            addButton.backgroundColor = myBlueColor;
+            //addButton.backgroundColor = myBlueColor;
             addButton.tag = tableCellTag+4;
             
-            UILabel *amount = [[UILabel alloc]initWithFrame:CGRectMake(self.foodTable.frame.size.width - 50, foodCellHeight-30, 20, 20 )];
+            UILabel *amount = [[UILabel alloc]initWithFrame:CGRectMake(self.foodTable.frame.size.width - 30, foodCellHeight-30, 20, 20 )];
             amount.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
             amount.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
             amount.textAlignment = NSTextAlignmentCenter;
-            for (int i=0; i<self.myAccount.cart.count; i++) {
-                if ([[food[indexPath.row] valueForKey:@"_id"] isEqualToString:[self.myAccount.cart[i] valueForKey:@"itemId"]]) {
-                    amount.text = [[self.myAccount.cart[i] valueForKey:@"amount"] stringValue];
-                }
-            }
+
             amount.tag = tableCellTag + 5;
             
-            UIButton *deleteButton = [[UIButton alloc]initWithFrame:CGRectMake(self.foodTable.frame.size.width - 70, foodCellHeight-30, 20, 20 )];
-            [deleteButton setImage:[UIImage imageNamed:@"minus.png"] forState:UIControlStateNormal];
-            deleteButton.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
+            UIButton *deleteButton = [[UIButton alloc]initWithFrame:CGRectMake(self.foodTable.frame.size.width - 30, foodCellHeight-30, 20, 20 )];
+            [deleteButton setImage:[UIImage imageNamed:@"minusBlue.png"] forState:UIControlStateNormal];
+            deleteButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
+            deleteButton.imageView.clipsToBounds = true;
+            //deleteButton.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
             deleteButton.layer.cornerRadius = 2;
             deleteButton.layer.masksToBounds = true;
             [deleteButton addTarget:self action:@selector(deleteButtonHandle:) forControlEvents:UIControlEventTouchUpInside];
-            deleteButton.backgroundColor = myBlueColor;
+            
+            //deleteButton.backgroundColor = myBlueColor;
             deleteButton.tag = tableCellTag+6;
             
+            
+            for (int i=0; i<self.myAccount.cart.count; i++) {
+                if ([[food[indexPath.row] valueForKey:@"_id"] isEqualToString:[self.myAccount.cart[i] valueForKey:@"itemId"]]) {
+                    amount.text = [[self.myAccount.cart[i] valueForKey:@"amount"] stringValue];
+                    if ([[self.myAccount.cart[i] valueForKey:@"amount"] integerValue] != 0) {
+                        deleteButton.frame = CGRectMake(self.foodTable.frame.size.width - 70, foodCellHeight-30, 20, 20 );
+                        amount.frame = CGRectMake(self.foodTable.frame.size.width - 50, foodCellHeight-30, 20, 20 );
+                    }
+                }
+            }
             
             
             [cell.contentView addSubview:dishName];
             [cell.contentView addSubview:imageView];
             [cell.contentView addSubview:price];
-            [cell.contentView addSubview:addButton];
+            
             [cell.contentView addSubview:amount];
             [cell.contentView addSubview:deleteButton];
+            [cell.contentView addSubview:addButton];
             return cell;
         }else{
+            
             UILabel *dishName = (UILabel *)[cell.contentView viewWithTag:tableCellTag+1];
             UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:tableCellTag+2];
             UILabel *price = (UILabel *)[cell.contentView viewWithTag:tableCellTag+3];
@@ -337,11 +355,24 @@
             [imageView sd_setImageWithURL:[NSURL URLWithString:[food[indexPath.row] valueForKey:@"dishPic"]] placeholderImage:[UIImage imageNamed:@"favoriteGreen.png"]];
             price.text = [NSString stringWithFormat:@"%@%@",@"$: ",[[food[indexPath.row] valueForKey:@"price"] stringValue]];
             [addButton addTarget:self action:@selector(addButtonHandle:) forControlEvents:UIControlEventTouchUpInside];
+            
+            // error mark why add deleteButton.frame and amount.frame make the if condition work?
+            deleteButton.frame = CGRectMake(self.foodTable.frame.size.width - 30, foodCellHeight-30, 20, 20 );
+            amount.frame = CGRectMake(self.foodTable.frame.size.width - 30, foodCellHeight-30, 20, 20 );
             for (int i=0; i<self.myAccount.cart.count; i++) {
                 if ([[food[indexPath.row] valueForKey:@"_id"] isEqualToString:[self.myAccount.cart[i] valueForKey:@"itemId"]]) {
                     amount.text = [[self.myAccount.cart[i] valueForKey:@"amount"] stringValue];
+                    if ([[self.myAccount.cart[i] valueForKey:@"amount"] integerValue] != 0) {
+                        deleteButton.frame = CGRectMake(self.foodTable.frame.size.width - 70, foodCellHeight-30, 20, 20 );
+                        amount.frame = CGRectMake(self.foodTable.frame.size.width - 50, foodCellHeight-30, 20, 20 );
+                    }
+                    else{
+                        deleteButton.frame = CGRectMake(self.foodTable.frame.size.width - 30, foodCellHeight-30, 20, 20 );
+                        amount.frame = CGRectMake(self.foodTable.frame.size.width - 30, foodCellHeight-30, 20, 20 );
+                    }
                 }
             }
+
             [deleteButton addTarget:self action:@selector(deleteButtonHandle:) forControlEvents:UIControlEventTouchUpInside];
             return cell;
         }
@@ -372,7 +403,6 @@
             NSIndexPath *lastIndexPath = [NSIndexPath indexPathForRow:self.lastSelectSection inSection:0];
             UITableViewCell *cell = [self.catagoryTable cellForRowAtIndexPath:lastIndexPath];
             cell.contentView.backgroundColor = myCategoryColor;
-            
             cell.textLabel.backgroundColor = myCategoryColor;
         }
 
@@ -393,15 +423,15 @@
         if (self.view.superview.frame.origin.y >64) {
             [self disableInteraction];
         }
-        [self markClickedCatagory:indexPath];
+        //[self markClickedCatagory:indexPath];
         
     } else if(tableView == self.foodTable){
         //select food
         NSArray *food = [self.itemList valueForKey:self.catagory[indexPath.section]];
         NSLog(@"%@",food[indexPath.row]);
-        
-        [self.delegate DetailedChildFoodDidSelectFood:@"foodId"];
-        
+        UITableViewCell *targetCell = [self.foodTable cellForRowAtIndexPath:indexPath];
+        UIImageView *imageView = (UIImageView *)[targetCell.contentView viewWithTag:tableCellTag+2];
+        [self.delegate detailedChildFoodDidSelectItem:food[indexPath.row] image:imageView.image shopId:self.myShop.shopID];
     }
     
 }
@@ -645,12 +675,13 @@
     return true;
 }
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([segue.identifier isEqual: @"foodDetailSegue"]) {
-        
-    }
-    
-}
+//-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+//    if ([segue.identifier isEqual: @"foodDetailSegue"]) {
+//        FoodViewController *destinationController = segue.destinationViewController;
+//        
+//    }
+//    
+//}
 #pragma mark -- load data into tableview
 -(void)shopFinishFetchDataNotify{
     //NSLog(@"chilf food %@",[self.myShop.shopItems class]);
@@ -663,6 +694,7 @@
         NSArray *food = [self.itemList valueForKey:self.catagory[0]];
         NSLog(@"food array %@",food[0]);
         [self tableView:self.catagoryTable didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        [self markClickedCatagory:[NSIndexPath indexPathForRow:0 inSection:0]];
         self.isSelectCatagory = false;
     }
     
@@ -718,8 +750,7 @@
     
     // to find item already in cart and modify the count
     for (int i = 0; i<self.myAccount.cart.count; i++) {
-        // NSLog(@"shop id %@",self.myShop.shopID);
-        // NSLog(@"cart shop id %@",[self.myAccount.cart[i] valueForKey:@"shopId"]);
+
         if ([self.myShop.shopID isEqualToString: [self.myAccount.cart[i] valueForKey:@"shopId"]] &&
             [[food[indexPath.row] valueForKey:@"_id"] isEqualToString:[self.myAccount.cart[i] valueForKey:@"itemId"]]) {
             isFindItem = true;
@@ -734,8 +765,15 @@
             
             [[ThrowLineTool sharedTool] throwObject:self.parabolaView from:self.parabolaView.center to:CGPointMake(cartButtonFrame.origin.x+cartButtonFrame.size.width/2, cartButtonFrame.origin.y+cartButtonFrame.size.height/2) height:-height+60 duration:0.5];
             self.totalItemCount = self.totalItemCount + 1;
+            UILabel *amountLable = (UILabel *)[targetCell.contentView viewWithTag:tableCellTag+5];
+            
+        
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.cartBadge.text = [[NSNumber numberWithUnsignedInteger:self.totalItemCount] stringValue];
+                if ([[food[indexPath.row] valueForKey:@"_id"] isEqualToString:[self.myAccount.cart[i] valueForKey:@"itemId"]]) {
+                    amountLable.text = [amountOjb stringValue];
+                    
+                }
             });
         }
     }
@@ -748,9 +786,25 @@
         [self.myAccount cart:PUT withShopId:self.myShop.shopID  itemId:[food[indexPath.row] valueForKey:@"_id"] amount:amountOjb  cartId:nil index:0 count:0];
         [[ThrowLineTool sharedTool] throwObject:self.parabolaView from:self.parabolaView.center to:CGPointMake(cartButtonFrame.origin.x+cartButtonFrame.size.width/2, cartButtonFrame.origin.y+cartButtonFrame.size.height/2) height:-height+60 duration:0.5];
         self.totalItemCount = self.totalItemCount + 1;
+        
+        UILabel *amount = (UILabel *)[targetCell.contentView viewWithTag:tableCellTag+5];
+        UIButton *deleteButton = (UIButton *)[targetCell.contentView viewWithTag:tableCellTag+6];
+        
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             self.cartBadge.text = [[NSNumber numberWithUnsignedInteger:self.totalItemCount] stringValue];
+           
+            amount.text = @"1";
+            [UIView animateWithDuration:0.3 animations:^{ //2.0
+                deleteButton.frame = CGRectMake(self.foodTable.frame.size.width - 70, foodCellHeight-30, 20, 20 );
+                amount.frame = CGRectMake(self.foodTable.frame.size.width - 50, foodCellHeight-30, 20, 20 );
+            }completion:^(BOOL finished){
+                
+            }];
+            
         });
+        
+     
     }
 }
 
@@ -775,23 +829,34 @@
             NSInteger amount = [[self.myAccount.cart[i] valueForKey:@"amount"] integerValue];
             UILabel *amountLable = (UILabel *)[targetCell.contentView viewWithTag:tableCellTag+5];
             
-            if (amount != 1) {
+            if (amount>=1) {
+                amount = amount-1;
+            }
+            NSNumber *amountOjb = [NSNumber numberWithInteger:amount];
+            if (amount == 0) {
+                UIButton *deleteButton = (UIButton *)[targetCell.contentView viewWithTag:tableCellTag+6];
+               
                 
+                [UIView animateWithDuration:0.3 animations:^{ //2.0
+                    deleteButton.frame = CGRectMake(self.foodTable.frame.size.width - 30, foodCellHeight-30, 20, 20 );
+                    amountLable.frame = CGRectMake(self.foodTable.frame.size.width - 30, foodCellHeight-30, 20, 20 );
+                }completion:^(BOOL finished){
+                    
+                }];
+                [self.myAccount cart:DELETE withShopId:self.myShop.shopID  itemId:[food[indexPath.row] valueForKey:@"_id"] amount:nil  cartId:[self.myAccount.cart[i] valueForKey:@"_id"] index:0 count:0];
             }else{
                 
-                UIButton *deleteButton = (UIButton *)[targetCell.contentView viewWithTag:tableCellTag+6];
-                [amountLable removeFromSuperview];
-                [deleteButton removeFromSuperview];
+
+                [self.myAccount cart:POST withShopId:self.myShop.shopID  itemId:[food[indexPath.row] valueForKey:@"_id"] amount:amountOjb  cartId:[self.myAccount.cart[i] valueForKey:@"_id"] index:0 count:0];
+
             }
-            
-            amount = amount-1;
-            NSNumber *amountOjb = [NSNumber numberWithInteger:amount];
             for (int i=0; i<self.myAccount.cart.count; i++) {
                 if ([[food[indexPath.row] valueForKey:@"_id"] isEqualToString:[self.myAccount.cart[i] valueForKey:@"itemId"]]) {
-                    amountLable.text = [amountOjb stringValue];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        amountLable.text = [amountOjb stringValue];
+                    });
                 }
             }
-            [self.myAccount cart:POST withShopId:self.myShop.shopID  itemId:[food[indexPath.row] valueForKey:@"_id"] amount:amountOjb  cartId:[self.myAccount.cart[i] valueForKey:@"_id"] index:0 count:0];
             
             self.totalItemCount = self.totalItemCount - 1;
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -818,7 +883,8 @@
 
 -(void)finishRefreshAccountData{
     [self updateCartAcount];
-    
+    [self.foodTable reloadData];
+    [self.catagoryTable reloadData];
     //NSLog(@"update cart %@",self.myAccount.cartDetail);
 }
 @end

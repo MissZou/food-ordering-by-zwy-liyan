@@ -42,6 +42,8 @@
 		BA3C9AFB1D1AC097003F484D /* separateLine.png in Resources */ = {isa = PBXBuildFile; fileRef = BA3C9AFA1D1AC097003F484D /* separateLine.png */; };
 		BA3C9AFE1D1B8692003F484D /* ThrowLineTool.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3C9AFD1D1B8692003F484D /* ThrowLineTool.m */; };
 		BA3C9B041D1D204A003F484D /* minus.png in Resources */ = {isa = PBXBuildFile; fileRef = BA3C9B031D1D204A003F484D /* minus.png */; };
+		BA3C9B0B1D1E2A30003F484D /* minusBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = BA3C9B091D1E2A30003F484D /* minusBlue.png */; };
+		BA3C9B0C1D1E2A30003F484D /* plusBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = BA3C9B0A1D1E2A30003F484D /* plusBlue.png */; };
 		BA6046D01CB8D70400A8FD34 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046CF1CB8D70400A8FD34 /* LoginViewController.m */; };
 		BA6046D61CB8E5CF00A8FD34 /* Account.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046D51CB8E5CF00A8FD34 /* Account.m */; };
 		BA6046D91CBB8B1200A8FD34 /* CreateAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046D81CBB8B1200A8FD34 /* CreateAccountViewController.m */; };
@@ -149,6 +151,8 @@
 		BA3C9AFC1D1B8692003F484D /* ThrowLineTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThrowLineTool.h; sourceTree = "<group>"; };
 		BA3C9AFD1D1B8692003F484D /* ThrowLineTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThrowLineTool.m; sourceTree = "<group>"; };
 		BA3C9B031D1D204A003F484D /* minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = minus.png; sourceTree = "<group>"; };
+		BA3C9B091D1E2A30003F484D /* minusBlue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = minusBlue.png; sourceTree = "<group>"; };
+		BA3C9B0A1D1E2A30003F484D /* plusBlue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plusBlue.png; sourceTree = "<group>"; };
 		BA6046CE1CB8D70400A8FD34 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		BA6046CF1CB8D70400A8FD34 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		BA6046D41CB8E5CF00A8FD34 /* Account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Account.h; sourceTree = "<group>"; };
@@ -240,6 +244,8 @@
 				BA3C9AF21D1A4377003F484D /* cart.png */,
 				BA3C9AF41D1A736A003F484D /* plus.png */,
 				BA3C9B031D1D204A003F484D /* minus.png */,
+				BA3C9B091D1E2A30003F484D /* minusBlue.png */,
+				BA3C9B0A1D1E2A30003F484D /* plusBlue.png */,
 				BA174A3B1CBE496E00419E3B /* addGreen.png */,
 				BA3C9AF61D1AB9FA003F484D /* markViewBlue.png */,
 				BA3C9AFA1D1AC097003F484D /* separateLine.png */,
@@ -629,8 +635,10 @@
 				BA174A461CBE496E00419E3B /* nameIndicator.png in Resources */,
 				BA81F6441CB668CB007A8832 /* introductionPic3.jpg in Resources */,
 				BAD8085E1CCA151400A79DE2 /* MainView.storyboard in Resources */,
+				BA3C9B0C1D1E2A30003F484D /* plusBlue.png in Resources */,
 				BA174A441CBE496E00419E3B /* favoriteGreen.png in Resources */,
 				BA174A421CBE496E00419E3B /* addGreen.png in Resources */,
+				BA3C9B0B1D1E2A30003F484D /* minusBlue.png in Resources */,
 				BA81F6431CB668CB007A8832 /* introductionPic2.jpg in Resources */,
 				BA174A471CBE496E00419E3B /* tickWhite.png in Resources */,
 				BA1DAE4E1CB657BE00CDD6E0 /* Assets.xcassets in Resources */,

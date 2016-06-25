@@ -4,6 +4,7 @@ var
   express = require('express'),
   router = express.Router();
 var multipart = require('connect-multiparty');
+//var multipart = require('form-multiparty');
 var multer  = require('multer');
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var path = require('path');
@@ -589,6 +590,7 @@ router.route('/account/cart')
         }
 
         Account.findCartItem(accountId,index,count,function(doc){
+            if (doc != false) {
             Account.findAccountById(accountId, function(account) {
                     cart = account.cart;
                     if (doc != null) {
@@ -604,7 +606,15 @@ router.route('/account/cart')
                     }
                 });
 
-
+            }
+            else{
+                var arrayNull = [];
+                 res.json({
+                    cartDetail:arrayNull,
+                    cart:arrayNull,
+                    success:true
+                })
+            }
         })
 
      })
@@ -614,17 +624,35 @@ router.route('/account/cart')
         var itemId = req.param("itemId", null);
         var shopId = req.param("shopId", null);
         var amount = req.param("amount", null);
-        Account.addItemToCart(accountId,shopId,itemId,amount,function(err){
-            if (err == null) {
-                Account.findAccountById(accountId,function(doc){
-                    res.json({
-                        accountId: doc._id,
-                        cart: doc.cart,
-                        success: true
+        if (amount != null && itemId !=null && shopId != null) {
+
+            Account.findCartItemById(accountId,shopId,itemId,function(doc){
+                if (doc == false) {
+                    Account.addItemToCart(accountId,shopId,itemId,amount,function(err){
+                        if (err == null) {
+                            Account.findAccountById(accountId,function(doc){
+                                res.json({
+                                    accountId: doc._id,
+                                    cart: doc.cart,
+                                    success: true
+                                })
+                            })
+                        }
                     })
-                })
-            }
-        })
+                }
+                else{
+                     res.json({
+                success: false,
+                msg:"duplicate item"
+            })
+                }
+        });
+      }else{
+             res.json({
+                success: false,
+                msg:"null parameter"
+            })
+        }
     })
 
 
@@ -632,17 +660,19 @@ router.route('/account/cart')
         var accountId = req.decoded._id;
         var cartId = req.param("cartId", null);
         var amount = req.param("amount", null);
-        Account.modifyItemToCart(accountId,cartId,amount,function(err){
-            if (err == null) {
-                Account.findAccountById(accountId,function(doc){
-                    res.json({
-                        accountId: doc._id,
-                        cart: doc.cart,
-                        success: true
+        if (amount >0 && cartId != null) {
+            Account.modifyItemToCart(accountId,cartId,amount,function(err){
+                if (err == null) {
+                    Account.findAccountById(accountId,function(doc){
+                        res.json({
+                            accountId: doc._id,
+                            cart: doc.cart,
+                            success: true
+                        })
                     })
-                })
-            }
-        })
+                }
+            })
+        }
     })
 
      .delete(function(req, res){

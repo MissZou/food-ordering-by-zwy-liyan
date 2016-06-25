@@ -23,7 +23,9 @@
     pageControl.backgroundColor = [UIColor whiteColor];
     
     [SSKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlocked];
+    [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     
+    [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
     //[(UINavigationController*)self.window.rootViewController setDelegate:self];
     return YES;
 }

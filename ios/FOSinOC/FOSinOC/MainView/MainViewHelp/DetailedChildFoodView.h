@@ -11,8 +11,8 @@
 @protocol DetailedChildFoodViewDelegate <NSObject>
 
 @optional
--(void) DetailedChildFoodDidSelectFood:(NSString *)foodId;
 
+-(void) detailedChildFoodDidSelectItem:(NSDictionary *)item image:(UIImage *)image shopId:(NSString *)shopId;
 @end
 
 @interface DetailedChildFoodView : UIViewController
