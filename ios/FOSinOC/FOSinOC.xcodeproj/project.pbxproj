@@ -44,6 +44,7 @@
 		BA3C9B041D1D204A003F484D /* minus.png in Resources */ = {isa = PBXBuildFile; fileRef = BA3C9B031D1D204A003F484D /* minus.png */; };
 		BA3C9B0B1D1E2A30003F484D /* minusBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = BA3C9B091D1E2A30003F484D /* minusBlue.png */; };
 		BA3C9B0C1D1E2A30003F484D /* plusBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = BA3C9B0A1D1E2A30003F484D /* plusBlue.png */; };
+		BA3C9B161D1F8206003F484D /* CartTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3C9B151D1F8206003F484D /* CartTableView.m */; };
 		BA6046D01CB8D70400A8FD34 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046CF1CB8D70400A8FD34 /* LoginViewController.m */; };
 		BA6046D61CB8E5CF00A8FD34 /* Account.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046D51CB8E5CF00A8FD34 /* Account.m */; };
 		BA6046D91CBB8B1200A8FD34 /* CreateAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046D81CBB8B1200A8FD34 /* CreateAccountViewController.m */; };
@@ -131,8 +132,8 @@
 		BA1DAE7E1CB6635500CDD6E0 /* TutorialPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialPageViewController.m; sourceTree = "<group>"; };
 		BA21783B1CB67830003402E1 /* CustomizationButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomizationButton.h; sourceTree = "<group>"; };
 		BA21783C1CB67830003402E1 /* CustomizationButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomizationButton.m; sourceTree = "<group>"; };
-		BA26A6901CF6A8F80056689B /* FoodViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoodViewController.h; sourceTree = "<group>"; };
-		BA26A6911CF6A8F80056689B /* FoodViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoodViewController.m; sourceTree = "<group>"; };
+		BA26A6901CF6A8F80056689B /* FoodViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FoodViewController.h; path = MainViewHelp/FoodViewController.h; sourceTree = "<group>"; };
+		BA26A6911CF6A8F80056689B /* FoodViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FoodViewController.m; path = MainViewHelp/FoodViewController.m; sourceTree = "<group>"; };
 		BA2A8BF31CF9807300F2161B /* NSNull+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNull+JSON.h"; sourceTree = "<group>"; };
 		BA2A8BF41CF9807300F2161B /* NSNull+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNull+JSON.m"; sourceTree = "<group>"; };
 		BA2EF3891D10EF8200944B7D /* AssetGridViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AssetGridViewController.h; path = FOSinOC/AccountView/AssetGridViewController.h; sourceTree = SOURCE_ROOT; };
@@ -153,6 +154,8 @@
 		BA3C9B031D1D204A003F484D /* minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = minus.png; sourceTree = "<group>"; };
 		BA3C9B091D1E2A30003F484D /* minusBlue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = minusBlue.png; sourceTree = "<group>"; };
 		BA3C9B0A1D1E2A30003F484D /* plusBlue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plusBlue.png; sourceTree = "<group>"; };
+		BA3C9B141D1F8206003F484D /* CartTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CartTableView.h; path = MainViewHelp/CartTableView.h; sourceTree = "<group>"; };
+		BA3C9B151D1F8206003F484D /* CartTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CartTableView.m; path = MainViewHelp/CartTableView.m; sourceTree = "<group>"; };
 		BA6046CE1CB8D70400A8FD34 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		BA6046CF1CB8D70400A8FD34 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		BA6046D41CB8E5CF00A8FD34 /* Account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Account.h; sourceTree = "<group>"; };
@@ -171,12 +174,12 @@
 		BA771B711CCF478500755613 /* UINavigationBar+Awesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Awesome.m"; sourceTree = "<group>"; };
 		BA771B731CCF49A900755613 /* ShopDetailedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopDetailedViewController.h; sourceTree = "<group>"; };
 		BA771B741CCF49A900755613 /* ShopDetailedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopDetailedViewController.m; sourceTree = "<group>"; };
-		BA771B761CCF90F700755613 /* DetailedChildFoodView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailedChildFoodView.h; sourceTree = "<group>"; };
-		BA771B771CCF90F700755613 /* DetailedChildFoodView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailedChildFoodView.m; sourceTree = "<group>"; };
-		BA771B791CCF911E00755613 /* DetailedChildCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailedChildCommentView.h; sourceTree = "<group>"; };
-		BA771B7A1CCF911E00755613 /* DetailedChildCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailedChildCommentView.m; sourceTree = "<group>"; };
-		BA771B7C1CCF913000755613 /* DetailedChildShopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailedChildShopView.h; sourceTree = "<group>"; };
-		BA771B7D1CCF913000755613 /* DetailedChildShopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailedChildShopView.m; sourceTree = "<group>"; };
+		BA771B761CCF90F700755613 /* DetailedChildFoodView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DetailedChildFoodView.h; path = MainViewHelp/DetailedChildFoodView.h; sourceTree = "<group>"; };
+		BA771B771CCF90F700755613 /* DetailedChildFoodView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DetailedChildFoodView.m; path = MainViewHelp/DetailedChildFoodView.m; sourceTree = "<group>"; };
+		BA771B791CCF911E00755613 /* DetailedChildCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DetailedChildCommentView.h; path = MainViewHelp/DetailedChildCommentView.h; sourceTree = "<group>"; };
+		BA771B7A1CCF911E00755613 /* DetailedChildCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DetailedChildCommentView.m; path = MainViewHelp/DetailedChildCommentView.m; sourceTree = "<group>"; };
+		BA771B7C1CCF913000755613 /* DetailedChildShopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DetailedChildShopView.h; path = MainViewHelp/DetailedChildShopView.h; sourceTree = "<group>"; };
+		BA771B7D1CCF913000755613 /* DetailedChildShopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DetailedChildShopView.m; path = MainViewHelp/DetailedChildShopView.m; sourceTree = "<group>"; };
 		BA771B7F1CD0580100755613 /* SlideMultiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideMultiViewController.h; sourceTree = "<group>"; };
 		BA771B801CD0580100755613 /* SlideMultiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideMultiViewController.m; sourceTree = "<group>"; };
 		BA771B821CD2FEE600755613 /* Shop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shop.h; sourceTree = "<group>"; };
@@ -394,6 +397,23 @@
 			path = FOSinOC/help;
 			sourceTree = "<group>";
 		};
+		BA3C9B0D1D1F7F2F003F484D /* DetailedViewController */ = {
+			isa = PBXGroup;
+			children = (
+				BA771B761CCF90F700755613 /* DetailedChildFoodView.h */,
+				BA771B771CCF90F700755613 /* DetailedChildFoodView.m */,
+				BA771B791CCF911E00755613 /* DetailedChildCommentView.h */,
+				BA771B7A1CCF911E00755613 /* DetailedChildCommentView.m */,
+				BA771B7C1CCF913000755613 /* DetailedChildShopView.h */,
+				BA771B7D1CCF913000755613 /* DetailedChildShopView.m */,
+				BA26A6901CF6A8F80056689B /* FoodViewController.h */,
+				BA26A6911CF6A8F80056689B /* FoodViewController.m */,
+				BA3C9B141D1F8206003F484D /* CartTableView.h */,
+				BA3C9B151D1F8206003F484D /* CartTableView.m */,
+			);
+			name = DetailedViewController;
+			sourceTree = "<group>";
+		};
 		BA6046D21CB8E5B800A8FD34 /* BusinessLayer */ = {
 			isa = PBXGroup;
 			children = (
@@ -452,9 +472,6 @@
 				BAD808521CCA151400A79DE2 /* MainView.storyboard */,
 				BA771B241CCCF04300755613 /* MainViewController.h */,
 				BA771B251CCCF04300755613 /* MainViewController.m */,
-				BA771B731CCF49A900755613 /* ShopDetailedViewController.h */,
-				BA771B741CCF49A900755613 /* ShopDetailedViewController.m */,
-				BAD808631CCA154B00A79DE2 /* MainViewHelp */,
 				BAD808531CCA151400A79DE2 /* MainViewCell.h */,
 				BAD808541CCA151400A79DE2 /* MainViewCell.m */,
 				BAD8084C1CCA151400A79DE2 /* LeftMenuCell.h */,
@@ -465,6 +482,10 @@
 				BAD808511CCA151400A79DE2 /* LeftViewTableController.m */,
 				BAD808571CCA151400A79DE2 /* MainViewRootViewController.h */,
 				BAD808581CCA151400A79DE2 /* MainViewRootViewController.m */,
+				BA771B741CCF49A900755613 /* ShopDetailedViewController.m */,
+				BA771B731CCF49A900755613 /* ShopDetailedViewController.h */,
+				BAD808631CCA154B00A79DE2 /* MainViewHelp */,
+				BA3C9B0D1D1F7F2F003F484D /* DetailedViewController */,
 			);
 			name = MainView;
 			path = FOSinOC/MainView;
@@ -473,12 +494,6 @@
 		BAD808631CCA154B00A79DE2 /* MainViewHelp */ = {
 			isa = PBXGroup;
 			children = (
-				BA771B761CCF90F700755613 /* DetailedChildFoodView.h */,
-				BA771B771CCF90F700755613 /* DetailedChildFoodView.m */,
-				BA771B791CCF911E00755613 /* DetailedChildCommentView.h */,
-				BA771B7A1CCF911E00755613 /* DetailedChildCommentView.m */,
-				BA771B7C1CCF913000755613 /* DetailedChildShopView.h */,
-				BA771B7D1CCF913000755613 /* DetailedChildShopView.m */,
 				BAD808641CCA15D600A79DE2 /* CatagoryView.h */,
 				BAD808651CCA15D600A79DE2 /* CatagoryView.m */,
 				BAD8086A1CCB598700A79DE2 /* SortView.h */,
@@ -487,8 +502,6 @@
 				BA771B281CCCF5CD00755613 /* MainViewMainHeaderView.m */,
 				BA771B6C1CCF38A700755613 /* SearchShopViewController.h */,
 				BA771B6D1CCF38A700755613 /* SearchShopViewController.m */,
-				BA26A6901CF6A8F80056689B /* FoodViewController.h */,
-				BA26A6911CF6A8F80056689B /* FoodViewController.m */,
 			);
 			path = MainViewHelp;
 			sourceTree = "<group>";
@@ -741,6 +754,7 @@
 				BA1DAE7F1CB6635500CDD6E0 /* TutorialPageViewController.m in Sources */,
 				BA1DAE791CB65CF100CDD6E0 /* LaunchScreenViewController.m in Sources */,
 				BA21783D1CB67830003402E1 /* CustomizationButton.m in Sources */,
+				BA3C9B161D1F8206003F484D /* CartTableView.m in Sources */,
 				BAD808661CCA15D600A79DE2 /* CatagoryView.m in Sources */,
 				BA6046D01CB8D70400A8FD34 /* LoginViewController.m in Sources */,
 				BA26A6921CF6A8F80056689B /* FoodViewController.m in Sources */,

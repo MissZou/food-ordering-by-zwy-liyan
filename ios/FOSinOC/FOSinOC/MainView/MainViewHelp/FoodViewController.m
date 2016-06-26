@@ -35,7 +35,7 @@
 @property(strong,nonatomic) UILabel *cartBadge;
 @property(strong,nonatomic) UILabel *totalPrice;
 
-@property(strong,nonatomic) NSString *lastSelectItem;
+@property(copy,nonatomic) NSString *lastSelectItem;
 @property(strong,nonatomic) UIView *parabolaView;
 @property(assign,nonatomic) NSUInteger totalItemCount;
 @property(assign,nonatomic) NSUInteger itemCount;
@@ -62,6 +62,13 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     self.itemName.alpha = 0;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    self.tableView.delegate = nil;
+    [self.navigationController.navigationBar lt_reset];
 }
 
 -(void)initTableView{

@@ -72,7 +72,7 @@
 
 //for segue temp variable
 @property(strong,nonatomic) NSDictionary *segueItem;
-@property(strong,nonatomic) NSString *segueShopId;
+@property(copy,nonatomic) NSString *segueShopId;
 @property(strong,nonatomic) UIImage *segueImage;
 
 @end

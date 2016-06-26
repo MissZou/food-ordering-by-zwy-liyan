@@ -489,15 +489,15 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     
     if (httpMethod == PUT) {
         parameters = @{@"token": token, @"shopId": shopId,@"itemId":
-                           itemId,@"amount":amount};
+                           itemId,@"amount":amount,@"index":@1,@"count":@99};
     }else if(httpMethod == GET){
         
         parameters = nil;
     }else if(httpMethod == DELETE){
-        parameters = @{@"token": token, @"_id": cartId};
+        parameters = @{@"token": token, @"_id": cartId,@"index":@1,@"count":@99};
     }else if(httpMethod == POST){
         parameters = @{@"token": token,@"cartId":
-                           cartId,@"amount":amount};
+                           cartId,@"amount":amount,@"index":@1,@"count":@99};
     }
     
     

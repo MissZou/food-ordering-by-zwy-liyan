@@ -111,7 +111,7 @@
     self.navigationItem.backBarButtonItem.tintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:69/255.0 green:83/255.0 blue:153/255.0 alpha:1];
     [self initLocation];
-    
+
 }
 
 
@@ -609,6 +609,10 @@
     
 }
 
+-(void)finishChooseCatagory:(NSString *)catagory{
+    
+}
+
 -(void)hideMainViewMenu{
     [self.coverView removeFromSuperview];
     [self.coverViewBlankArea removeFromSuperview];
@@ -634,4 +638,6 @@
     self.myAccount.delegate = nil;
     [self.dropDownChooseLocation.dropDownTableView reloadData];
 }
+
+
 @end

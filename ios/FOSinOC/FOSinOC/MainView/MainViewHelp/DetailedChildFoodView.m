@@ -28,10 +28,10 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "Account.h"
 #import "ThrowLineTool.h"
+#import "CartTableView.h"
 
 
-
-@interface DetailedChildFoodView ()<UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate,AccountDelegate,ThrowLineToolDelegate>
+@interface DetailedChildFoodView ()<UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate,AccountDelegate,ThrowLineToolDelegate,UIGestureRecognizerDelegate, CartTableViewDelegate>
 @property(strong,nonatomic) UITableView *catagoryTable;
 @property(strong,nonatomic) UITableView *foodTable;
 @property(strong,nonatomic) UIImageView *categoryMarkView;
@@ -64,11 +64,17 @@
 @property(strong,nonatomic) UILabel *cartBadge;
 @property(strong,nonatomic) UILabel *totalPrice;
 
-@property(strong,nonatomic) NSString *lastSelectItem;
+@property(copy,nonatomic) NSString *lastSelectItem;
 @property(strong,nonatomic) UIView *parabolaView;
 @property(assign,nonatomic) NSUInteger totalItemCount;
 @property(assign,nonatomic) NSUInteger itemCount;
-@property(assign,nonatomic) BOOL syncCartData;
+
+@property(strong,nonatomic) UIBlurEffect *blurEffet;
+@property(strong,nonatomic) UIVisualEffectView *blurEffectView;
+@property(strong,nonatomic) UITapGestureRecognizer *tapGesture;
+
+
+@property(strong,nonatomic) CartTableView *cartTableView;
 
 
 @end
@@ -79,7 +85,7 @@
     [super viewDidLoad];
     self.myShop = [Shop sharedManager];
     self.myAccount = [Account sharedManager];
-    self.myAccount.delegate = self;
+    
     [self initTableViews];
     [self initCartView];
     
@@ -115,7 +121,7 @@
     self.isSuperViewGustureStart = false;
     self.isScrollAtBottom = false;
     self.lastSelectItem = nil;
-    
+    self.myAccount.delegate = self;
 }
 
 -(void)disableInteraction{
@@ -136,7 +142,7 @@
     [self.foodTable setScrollEnabled:true];
     self.isSendContinueScrolling = false;
     //self.didSelectCatogoryFoodTableYRecord = 0;
-
+    self.myAccount.delegate = self;
 }
 
 -(void)initTableViews{
@@ -672,16 +678,9 @@
 
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
-    return true;
+    return false;
 }
 
-//-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-//    if ([segue.identifier isEqual: @"foodDetailSegue"]) {
-//        FoodViewController *destinationController = segue.destinationViewController;
-//        
-//    }
-//    
-//}
 #pragma mark -- load data into tableview
 -(void)shopFinishFetchDataNotify{
     //NSLog(@"chilf food %@",[self.myShop.shopItems class]);
@@ -693,7 +692,7 @@
         [self.foodTable reloadData];
         NSArray *food = [self.itemList valueForKey:self.catagory[0]];
         NSLog(@"food array %@",food[0]);
-        [self tableView:self.catagoryTable didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        [self.catagoryTable.delegate tableView:self.catagoryTable didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
         [self markClickedCatagory:[NSIndexPath indexPathForRow:0 inSection:0]];
         self.isSelectCatagory = false;
     }
@@ -713,7 +712,46 @@
 
 -(void)cartButtonHandle{
     NSLog(@"cartButtonHandle");
+    if (self.cartTableView == nil) {
+        UIView *rootView = [[[[self.view.window subviews] objectAtIndex:0] subviews] objectAtIndex:0];
+        
+        self.cartTableView = [[CartTableView alloc]initWithFrame:CGRectMake(0, rootView.frame.size.height - cartViewHeight, self.view.frame.size.width, 0)];
+        [self.cartTableView initCartTableView:self.myAccount.cartDetail];
+        self.cartTableView.delegate = self;
+        self.blurEffet = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+        self.blurEffectView = [[UIVisualEffectView alloc] initWithEffect:self.blurEffet];
+        self.blurEffectView.frame = CGRectMake(0, 0, self.view.frame.size.width, rootView.frame.size.height - cartViewHeight);
+        self.tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGestureHandle)];
+        [self.blurEffectView addGestureRecognizer:self.tapGesture];
+        //[self.cartButton addGestureRecognizer:self.tapGesture2];
+        
+        [rootView addSubview:self.blurEffectView];
+        [rootView addSubview:self.cartTableView];
+        
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"changePanGestureStatu" object:nil];
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    }else{
+        [self tapGestureHandle];
+    }
+}
 
+-(void)cartTableViewDidFinishDismissAnimation{
+    [self.cartTableView removeFromSuperview];
+    self.cartTableView = nil;
+}
+
+-(void)tapGestureHandle{
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"changePanGestureStatu" object:nil];
+    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    [self.blurEffectView removeFromSuperview];
+    self.tapGesture = nil;
+    self.blurEffectView = nil;
+    self.blurEffet = nil;
+    [self.cartTableView dismissCartTableViewAnimation];
+}
+
+-(void)nofucntion{
+    
 }
 
 -(void)addButtonHandle:(id)sender{
@@ -884,7 +922,11 @@
 -(void)finishRefreshAccountData{
     [self updateCartAcount];
     [self.foodTable reloadData];
-    [self.catagoryTable reloadData];
-    //NSLog(@"update cart %@",self.myAccount.cartDetail);
+    
+    NSLog(@"update cart %@",self.myAccount.cartDetail);
 }
+#pragma mark -- UIGestureDelegate
+
+
+
 @end
