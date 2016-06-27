@@ -8,6 +8,8 @@
 
 #import "DropDownView.h"
 #import "Account.h"
+#define myBlueColor [UIColor colorWithRed:69/255.0 green:83/255.0 blue:153/255.0 alpha:1]
+
 @interface DropDownView()
 {
 
@@ -115,9 +117,10 @@
         cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
         cell.textLabel.textColor = [UIColor whiteColor];
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
-        cell.layer.backgroundColor = [UIColor colorWithRed:32/255.0 green:197/255.0 blue:174/255.0 alpha:1].CGColor;
-        cell.backgroundColor = [UIColor colorWithRed:32/255.0 green:197/255.0 blue:174/255.0 alpha:1];
-
+        //cell.layer.backgroundColor = [UIColor colorWithRed:32/255.0 green:197/255.0 blue:174/255.0 alpha:1].CGColor;
+        //cell.backgroundColor = [UIColor colorWithRed:32/255.0 green:197/255.0 blue:174/255.0 alpha:1];
+        cell.layer.backgroundColor = myBlueColor.CGColor;
+        cell.backgroundColor = myBlueColor;
     }
     return cell;
 }

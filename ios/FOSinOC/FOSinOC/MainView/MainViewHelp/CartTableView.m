@@ -6,9 +6,11 @@
 //  Copyright © 2016年 李龑. All rights reserved.
 //
 
-#define cellHeight 40
+#define cellHeight 50
 #define navigationBarHeight 64
 #define tableCellTag 1560
+#define myBlueColor [UIColor colorWithRed:69/255.0 green:83/255.0 blue:153/255.0 alpha:1]
+
 
 #import "CartTableView.h"
 #import <SDWebImage/UIImageView+WebCache.h>
@@ -38,7 +40,7 @@
 
 -(void)initTableView{
     self.tableView = [[UITableView alloc]init];
-     self.tableHeight = cellHeight * self.cartDetail.count;
+     self.tableHeight = cellHeight * (self.cartDetail.count+1);// plus 1 for table head view
     if (self.tableHeight > [UIScreen mainScreen].bounds.size.height - navigationBarHeight ) {
         self.tableHeight = [UIScreen mainScreen].bounds.size.height - navigationBarHeight;
     }
@@ -46,10 +48,15 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.tableView registerClass:[UITableViewCell self] forCellReuseIdentifier:@"cartCell"];
+    
+    UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, 50)];
+    headView.backgroundColor = [UIColor redColor];
+    self.tableView.tableHeaderView = headView;
+    //[self addSubview:headView];
     [self addSubview:self.tableView];
     
     self.tableView.frame = CGRectMake(0, self.tableHeight, self.frame.size.width, 0);
-    [UIView animateWithDuration:0.7 animations:^{
+    [UIView animateWithDuration:0.5 animations:^{
         self.tableView.frame = CGRectMake(0, 0, self.frame.size.width, self.tableHeight);
     }completion:^(BOOL finished){
         
@@ -58,7 +65,7 @@
 
 -(void)dismissCartTableViewAnimation{
         
-    [UIView animateWithDuration:0.7 animations:^{
+    [UIView animateWithDuration:0.5 animations:^{
         self.tableView.frame = CGRectMake(0, self.tableHeight, self.frame.size.width, 0);
         
     }completion:^(BOOL finished){
@@ -85,19 +92,19 @@
     if ([cell.contentView subviews].count == 0) {
         //if (cell == nil) {
         
-        UILabel *dishName = [[UILabel alloc]initWithFrame:CGRectMake(cellHeight, 0, 60, 30)];
+        UILabel *dishName = [[UILabel alloc]initWithFrame:CGRectMake(15, 5, 100, 40)];
         dishName.text = [self.cartDetail[indexPath.row] valueForKey:@"dishName"];
-        dishName.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
+        dishName.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
         dishName.tag = tableCellTag+1;
      
-        UILabel *price = [[UILabel alloc]initWithFrame:CGRectMake(75, 0, 50, 30)];
+        UILabel *price = [[UILabel alloc]initWithFrame:CGRectMake(self.frame.size.width - 150, 10, 50, 30)];
         //price.text =[[food[indexPath.row] valueForKey:@"price"] stringValue];
         price.text = [NSString stringWithFormat:@"%@%@",@"$: ",[[self.cartDetail[indexPath.row] valueForKey:@"price"] stringValue]];
         price.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
         price.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
         price.tag = tableCellTag+3;
         
-        UIButton *addButton = [[UIButton alloc]initWithFrame:CGRectMake(self.frame.size.width - 30, 0, 20, 20 )];
+        UIButton *addButton = [[UIButton alloc]initWithFrame:CGRectMake(self.frame.size.width - 30, 15, 20, 20 )];
         [addButton setImage:[UIImage imageNamed:@"plusBlue.png"] forState:UIControlStateNormal];
         //addButton.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
         addButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -108,18 +115,18 @@
         //addButton.backgroundColor = myBlueColor;
         addButton.tag = tableCellTag+4;
         
-        UILabel *amount = [[UILabel alloc]initWithFrame:CGRectMake(self.frame.size.width - 30, 0, 20, 20 )];
+        UILabel *amount = [[UILabel alloc]initWithFrame:CGRectMake(self.frame.size.width - 30, 15, 20, 20 )];
         amount.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
         amount.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
         amount.textAlignment = NSTextAlignmentCenter;
         
         amount.tag = tableCellTag + 5;
         
-        UIButton *deleteButton = [[UIButton alloc]initWithFrame:CGRectMake(self.frame.size.width - 30, 0, 20, 20 )];
+        UIButton *deleteButton = [[UIButton alloc]initWithFrame:CGRectMake(self.frame.size.width - 30, 15, 20, 20 )];
         [deleteButton setImage:[UIImage imageNamed:@"minusBlue.png"] forState:UIControlStateNormal];
         deleteButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
         deleteButton.imageView.clipsToBounds = true;
-        //deleteButton.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
+        
         deleteButton.layer.cornerRadius = 2;
         deleteButton.layer.masksToBounds = true;
         [deleteButton addTarget:self action:@selector(deleteButtonHandle:) forControlEvents:UIControlEventTouchUpInside];
@@ -132,8 +139,8 @@
             if ([[self.cartDetail[indexPath.row] valueForKey:@"_id"] isEqualToString:[self.myAccount.cart[i] valueForKey:@"itemId"]]) {
                 amount.text = [[self.myAccount.cart[i] valueForKey:@"amount"] stringValue];
                 if ([[self.myAccount.cart[i] valueForKey:@"amount"] integerValue] != 0) {
-                    deleteButton.frame = CGRectMake(self.frame.size.width - 70, 0, 20, 20 );
-                    amount.frame = CGRectMake(self.frame.size.width - 50, 0, 20, 20 );
+                    deleteButton.frame = CGRectMake(self.frame.size.width - 70, 15, 20, 20 );
+                    amount.frame = CGRectMake(self.frame.size.width - 50, 15, 20, 20 );
                 }
             }
         }
@@ -160,18 +167,18 @@
         [addButton addTarget:self action:@selector(addButtonHandle:) forControlEvents:UIControlEventTouchUpInside];
         
         // error mark why add deleteButton.frame and amount.frame make the if condition work?
-        deleteButton.frame = CGRectMake(self.frame.size.width - 30, 0, 20, 20 );
-        amount.frame = CGRectMake(self.frame.size.width - 30, 0, 20, 20 );
+        deleteButton.frame = CGRectMake(self.frame.size.width - 30, 15, 20, 20 );
+        amount.frame = CGRectMake(self.frame.size.width - 30, 15, 20, 20 );
         for (int i=0; i<self.myAccount.cart.count; i++) {
             if ([[self.cartDetail[indexPath.row] valueForKey:@"_id"] isEqualToString:[self.myAccount.cart[i] valueForKey:@"itemId"]]) {
                 amount.text = [[self.myAccount.cart[i] valueForKey:@"amount"] stringValue];
                 if ([[self.myAccount.cart[i] valueForKey:@"amount"] integerValue] != 0) {
-                    deleteButton.frame = CGRectMake(self.frame.size.width - 70, 0, 20, 20 );
-                    amount.frame = CGRectMake(self.frame.size.width - 50, 0, 20, 20 );
+                    deleteButton.frame = CGRectMake(self.frame.size.width - 70, 15, 20, 20 );
+                    amount.frame = CGRectMake(self.frame.size.width - 50, 15, 20, 20 );
                 }
                 else{
-                    deleteButton.frame = CGRectMake(self.frame.size.width - 30, 0, 20, 20 );
-                    amount.frame = CGRectMake(self.frame.size.width - 30, 0, 20, 20 );
+                    deleteButton.frame = CGRectMake(self.frame.size.width - 30, 15, 20, 20 );
+                    amount.frame = CGRectMake(self.frame.size.width - 30, 15, 20, 20 );
                 }
             }
         }

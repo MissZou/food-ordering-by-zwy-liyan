@@ -241,6 +241,21 @@ router.route('/resetPassword')
     res.render('resetPasswordSuccess.jade');
 });
 
+router.route('/login/web/m')
+
+.get(function(req, res) {
+
+         res.render('login-m');
+
+    });
+router.route('/account/web/index/m')
+
+    .get(function(req, res) {
+
+        res.sendfile(path.join(__dirname, '../../views', 'geology-search-m.html'));
+
+    });
+
 router.route('/login')
 
 .post(function(req, res) {
@@ -560,19 +575,38 @@ router.route('/account/location')
     }
 });
 router.route('/account/web/cart/:shopId')
-    .get(function(req, res) {
-        console.log(req.params.shopId)
+    .post(function(req, res) {
+        
         Shop.findShopById(req.params.shopId,function(doc){
             console.log(doc.dish);
              res.render('shop-detail', {
                 doc: doc.dish,
                 shopName:doc.shopName
             });
-        })
-         //res.render('shop-detail.jade');
-        
-    });
+        })        
+});
 
+router.route('/account/web/cart/:shopId/m')
+
+    .get(function(req, res) {
+
+      console.log(req.params.shopId)
+
+        Shop.findShopById(req.params.shopId,function(doc){
+
+            console.log(doc.dish);
+
+             res.render('menu-m', {
+
+                doc: doc.dish,
+
+                shopName:doc.shopName
+
+            });
+
+        })
+
+    });
 router.route('/account/cart')
 
     
@@ -626,6 +660,12 @@ router.route('/account/cart')
         var amount = req.param("amount", null);
         var index = req.param("index", null);
         var count = req.param("count", null);
+        if (index == null || index == 0) {
+            index = 1;
+        }
+        if (count == null || count == 0) {
+            count = 1;
+        }
         if (amount != null && itemId !=null && shopId != null) {
 
             Account.findCartItemById(accountId,shopId,itemId,function(doc){
@@ -738,15 +778,14 @@ router.route('/account/cart')
         var _id = req.param("_id", null);
         var index = req.param("index", null);
         var count = req.param("count", null);
-                Account.deleteItemOfCart(accountId,_id,function(err){
+        if (index == null || index == 0) {
+            index = 1;
+        }
+        if (count == null || count == 0) {
+            count = 1;
+        }
+             Account.deleteItemOfCart(accountId,_id,function(err){
             if (err == null) {
-                // Account.findAccountById(accountId,function(doc){
-                //     res.json({
-                //         accountId: doc._id,
-                //         cart: doc.cart,
-                //         success: true
-                //     })
-                // })
                         Account.findCartItem(accountId,index,count,function(doc){
                         if (doc != false) {
                         Account.findAccountById(accountId, function(account) {

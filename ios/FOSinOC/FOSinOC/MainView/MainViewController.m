@@ -294,6 +294,7 @@
      NSDictionary *location = @{@"name": string,@"location":@"0,0"};
     [self.myAccount location:DELETE withLocation:location];
     self.dropDownChooseLocation.dropDownTableView.frame = CGRectMake(0, 0, self.chooseLocationBtn.superview.frame.size.width, 60 * (CGFloat)self.myAccount.location.count);
+    
     [self.chooseLocationBtn setTitle:@"Choose location ▾" forState:UIControlStateNormal];
 }
 
@@ -348,7 +349,7 @@
     [self.searchTableView reloadData];
 }
 
--(void)finishChooseLocationWithLocation:(NSDictionary *)location{
+-(void)finishSearchLocationWithLocation:(NSDictionary *)location{
     [self searchBarCancelButtonClicked];
 //    NSLog(@"%@",[location valueForKey:@"name"]);
 //    NSLog(@"%@",[location valueForKey:@"location"]);
