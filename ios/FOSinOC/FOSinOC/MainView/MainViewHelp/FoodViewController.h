@@ -10,4 +10,10 @@
 
 @interface FoodViewController : UIViewController
 
+
+@property(copy,nonatomic) NSString *itemId;
+@property(copy,nonatomic) NSString *shopId;
+@property(strong,nonatomic) UIImage *itemImage;
+@property(strong,nonatomic) NSDictionary *item;
+
 @end

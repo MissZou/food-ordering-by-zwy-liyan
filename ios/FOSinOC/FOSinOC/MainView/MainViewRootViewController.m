@@ -23,6 +23,8 @@
 @property CGPoint startLocation;
 @property CGPoint currentLocation;
 @property CGFloat swipeOffset;
+
+@property (assign,nonatomic) BOOL isEnablePanGesture;
 @end
 
 @implementation MainViewRootViewController
@@ -56,6 +58,9 @@
     self.tapGesture.cancelsTouchesInView = NO;
     //self.swipLeftGesture.cancelsTouchesInView =NO;
     [self.mainView addSubview:self.blurEffectView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changePanGestureStatu) name:@"changePanGestureStatu" object:nil];
+    self.isEnablePanGesture = true;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -235,6 +240,16 @@
 //-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
 //    NSLog(@"touches begin");
 //}
+
+-(void)changePanGestureStatu{
+    if (self.isEnablePanGesture == YES) {
+        self.isEnablePanGesture = NO;
+        self.panGesture.enabled = false;
+    }else{
+        self.isEnablePanGesture = YES;
+        self.panGesture.enabled = true;
+    }
+}
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
     return true;

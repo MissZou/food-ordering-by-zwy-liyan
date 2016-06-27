@@ -111,7 +111,7 @@
     self.navigationItem.backBarButtonItem.tintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:69/255.0 green:83/255.0 blue:153/255.0 alpha:1];
     [self initLocation];
-    
+
 }
 
 
@@ -294,6 +294,7 @@
      NSDictionary *location = @{@"name": string,@"location":@"0,0"};
     [self.myAccount location:DELETE withLocation:location];
     self.dropDownChooseLocation.dropDownTableView.frame = CGRectMake(0, 0, self.chooseLocationBtn.superview.frame.size.width, 60 * (CGFloat)self.myAccount.location.count);
+    
     [self.chooseLocationBtn setTitle:@"Choose location ▾" forState:UIControlStateNormal];
 }
 
@@ -348,7 +349,7 @@
     [self.searchTableView reloadData];
 }
 
--(void)finishChooseLocationWithLocation:(NSDictionary *)location{
+-(void)finishSearchLocationWithLocation:(NSDictionary *)location{
     [self searchBarCancelButtonClicked];
 //    NSLog(@"%@",[location valueForKey:@"name"]);
 //    NSLog(@"%@",[location valueForKey:@"location"]);
@@ -609,6 +610,10 @@
     
 }
 
+-(void)finishChooseCatagory:(NSString *)catagory{
+    
+}
+
 -(void)hideMainViewMenu{
     [self.coverView removeFromSuperview];
     [self.coverViewBlankArea removeFromSuperview];
@@ -634,4 +639,6 @@
     self.myAccount.delegate = nil;
     [self.dropDownChooseLocation.dropDownTableView reloadData];
 }
+
+
 @end

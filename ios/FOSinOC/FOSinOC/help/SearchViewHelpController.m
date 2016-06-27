@@ -64,7 +64,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    [self.delegate finishChooseLocationWithLocation:self.suggestedLocations[indexPath.row]];
+    [self.delegate finishSearchLocationWithLocation:self.suggestedLocations[indexPath.row]];
 
 }
 

@@ -4,6 +4,7 @@ var
   express = require('express'),
   router = express.Router();
 var multipart = require('connect-multiparty');
+//var multipart = require('form-multiparty');
 var multer  = require('multer');
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var path = require('path');
@@ -239,6 +240,21 @@ router.route('/resetPassword')
     }
     res.render('resetPasswordSuccess.jade');
 });
+
+router.route('/login/web/m')
+
+.get(function(req, res) {
+
+         res.render('login-m');
+
+    });
+router.route('/account/web/index/m')
+
+    .get(function(req, res) {
+
+        res.sendfile(path.join(__dirname, '../../views', 'geology-search-m.html'));
+
+    });
 
 router.route('/login')
 
@@ -559,19 +575,38 @@ router.route('/account/location')
     }
 });
 router.route('/account/web/cart/:shopId')
-    .get(function(req, res) {
-        console.log(req.params.shopId)
+    .post(function(req, res) {
+        
         Shop.findShopById(req.params.shopId,function(doc){
             console.log(doc.dish);
              res.render('shop-detail', {
                 doc: doc.dish,
                 shopName:doc.shopName
             });
-        })
-         //res.render('shop-detail.jade');
-        
-    });
+        })        
+});
 
+router.route('/account/web/cart/:shopId/m')
+
+    .get(function(req, res) {
+
+      console.log(req.params.shopId)
+
+        Shop.findShopById(req.params.shopId,function(doc){
+
+            console.log(doc.dish);
+
+             res.render('menu-m', {
+
+                doc: doc.dish,
+
+                shopName:doc.shopName
+
+            });
+
+        })
+
+    });
 router.route('/account/cart')
 
     
@@ -589,6 +624,7 @@ router.route('/account/cart')
         }
 
         Account.findCartItem(accountId,index,count,function(doc){
+            if (doc != false) {
             Account.findAccountById(accountId, function(account) {
                     cart = account.cart;
                     if (doc != null) {
@@ -604,7 +640,15 @@ router.route('/account/cart')
                     }
                 });
 
-
+            }
+            else{
+                var arrayNull = [];
+                 res.json({
+                    cartDetail:arrayNull,
+                    cart:arrayNull,
+                    success:true
+                })
+            }
         })
 
      })
@@ -614,17 +658,70 @@ router.route('/account/cart')
         var itemId = req.param("itemId", null);
         var shopId = req.param("shopId", null);
         var amount = req.param("amount", null);
-        Account.addItemToCart(accountId,shopId,itemId,amount,function(err){
-            if (err == null) {
-                Account.findAccountById(accountId,function(doc){
-                    res.json({
-                        accountId: doc._id,
-                        cart: doc.cart,
-                        success: true
+        var index = req.param("index", null);
+        var count = req.param("count", null);
+        if (index == null || index == 0) {
+            index = 1;
+        }
+        if (count == null || count == 0) {
+            count = 1;
+        }
+        if (amount != null && itemId !=null && shopId != null) {
+
+            Account.findCartItemById(accountId,shopId,itemId,function(doc){
+                if (doc == false) {
+                    Account.addItemToCart(accountId,shopId,itemId,amount,function(err){
+                        if (err == null) {
+                            // Account.findAccountById(accountId,function(doc){
+                            //     res.json({
+                            //         accountId: doc._id,
+                            //         cart: doc.cart,
+                            //         success: true
+                            //     })
+                            // })
+                                    Account.findCartItem(accountId,index,count,function(doc){
+                                    if (doc != false) {
+                                    Account.findAccountById(accountId, function(account) {
+                                            cart = account.cart;
+                                            if (doc != null) {
+                                                res.json({
+                                                    success:true,
+                                                    cartDetail:doc,
+                                                    cart:cart
+                                                })
+                                            }else{
+                                                res.json({
+                                                    success:false
+                                                })
+                                            }
+                                        });
+
+                                    }
+                                    else{
+                                        var arrayNull = [];
+                                         res.json({
+                                            cartDetail:arrayNull,
+                                            cart:arrayNull,
+                                            success:true
+                                        })
+                                    }
+                                })
+                        }
                     })
-                })
-            }
-        })
+                }
+                else{
+                     res.json({
+                success: false,
+                msg:"duplicate item"
+            })
+                }
+        });
+      }else{
+             res.json({
+                success: false,
+                msg:"null parameter"
+            })
+        }
     })
 
 
@@ -632,31 +729,90 @@ router.route('/account/cart')
         var accountId = req.decoded._id;
         var cartId = req.param("cartId", null);
         var amount = req.param("amount", null);
-        Account.modifyItemToCart(accountId,cartId,amount,function(err){
-            if (err == null) {
-                Account.findAccountById(accountId,function(doc){
-                    res.json({
-                        accountId: doc._id,
-                        cart: doc.cart,
-                        success: true
-                    })
-                })
-            }
-        })
+                var index = req.param("index", null);
+        var count = req.param("count", null);
+        if (amount >0 && cartId != null) {
+            Account.modifyItemToCart(accountId,cartId,amount,function(err){
+                if (err == null) {
+                    // Account.findAccountById(accountId,function(doc){
+                    //     res.json({
+                    //         accountId: doc._id,
+                    //         cart: doc.cart,
+                    //         success: true
+                    //     })
+                    // })
+                            Account.findCartItem(accountId,index,count,function(doc){
+                            if (doc != false) {
+                            Account.findAccountById(accountId, function(account) {
+                                    cart = account.cart;
+                                    if (doc != null) {
+                                        res.json({
+                                            success:true,
+                                            cartDetail:doc,
+                                            cart:cart
+                                        })
+                                    }else{
+                                        res.json({
+                                            success:false
+                                        })
+                                    }
+                                });
+
+                            }
+                            else{
+                                var arrayNull = [];
+                                 res.json({
+                                    cartDetail:arrayNull,
+                                    cart:arrayNull,
+                                    success:true
+                                })
+                            }
+                        })
+                }
+            })
+        }
     })
 
      .delete(function(req, res){
         var accountId = req.decoded._id;
         var _id = req.param("_id", null);
-                Account.deleteItemOfCart(accountId,_id,function(err){
+        var index = req.param("index", null);
+        var count = req.param("count", null);
+        if (index == null || index == 0) {
+            index = 1;
+        }
+        if (count == null || count == 0) {
+            count = 1;
+        }
+             Account.deleteItemOfCart(accountId,_id,function(err){
             if (err == null) {
-                Account.findAccountById(accountId,function(doc){
-                    res.json({
-                        accountId: doc._id,
-                        cart: doc.cart,
-                        success: true
+                        Account.findCartItem(accountId,index,count,function(doc){
+                        if (doc != false) {
+                        Account.findAccountById(accountId, function(account) {
+                                cart = account.cart;
+                                if (doc != null) {
+                                    res.json({
+                                        success:true,
+                                        cartDetail:doc,
+                                        cart:cart
+                                    })
+                                }else{
+                                    res.json({
+                                        success:false
+                                    })
+                                }
+                            });
+
+                        }
+                        else{
+                            var arrayNull = [];
+                             res.json({
+                                cartDetail:arrayNull,
+                                cart:arrayNull,
+                                success:true
+                            })
+                        }
                     })
-                })
             }
         })
      });

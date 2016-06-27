@@ -161,7 +161,7 @@ router.route('/findshopbyid')
                         }
                             
                      }
-                     console.log(category);  
+                     
                      //after get all categories, classify dishs
                      for (var i = category.length - 1; i >= 0; i--) {
                         var items = [];
@@ -661,7 +661,16 @@ router.route('/account/order')
         })
     })
 
-
+router.route('/account/web/menu-m')
+.post(function(req,res){
+    var shopId= req.param('shopId', null);
+    Shop.findShopById(shopId, function(doc) {
+        res.json({
+            dish:doc.dish,
+            success: true
+        })
+    })
+})
 router.route('/account/testAddDish')
 .post(function(req,res){
     var shopId = req.decoded._id;

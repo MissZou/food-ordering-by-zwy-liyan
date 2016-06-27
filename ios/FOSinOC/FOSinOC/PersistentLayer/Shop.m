@@ -118,7 +118,7 @@ static Shop *sharedManager = nil;
     [manager GET:[url absoluteString] parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
-            NSLog(@"shop data: %@",responseObject);
+            //NSLog(@"shop data: %@",responseObject);
             if ([[responseObject valueForKey:@"success"] boolValue] == YES) {
                 [self loadData:responseObject];
                 [self.delegate shopFinishFetchData];
