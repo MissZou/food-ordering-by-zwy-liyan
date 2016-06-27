@@ -13,7 +13,9 @@
     </style>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script src="/javascripts/jquery.tmpl.min.js"></script>
+     
     <script>
+  
     function moreOrder(index) {
         $.ajax({
             url: '/user/account/order',
@@ -99,6 +101,8 @@
     }
     moreOrder(1);
     </script>
+   <script src="/javascripts/socket.io.js"></script>
+    <script src="/javascripts/userGetNotification.js"></script>
 </head>
 
 <body>

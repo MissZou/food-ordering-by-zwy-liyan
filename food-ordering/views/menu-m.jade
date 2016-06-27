@@ -1,0 +1,95 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title Menu
+    meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=no')
+    link(rel='stylesheet', href='/stylesheets/common.css')
+    link(rel='stylesheet', href='/stylesheets/menu-m.css')
+  body
+    - if (!Array.prototype.includes) {
+    -   Array.prototype.includes = function(searchElement /*, fromIndex*/ ) {
+    -     'use strict';
+    -     var O = Object(this);
+    -     var len = parseInt(O.length) || 0;
+    -     if (len === 0) {
+    -       return false;
+    -     }
+    -     var n = parseInt(arguments[1]) || 0;
+    -     var k;
+    -     if (n >= 0) {
+    -       k = n;
+    -     } else {
+    -       k = len + n;
+    -       if (k < 0) {k = 0;}
+    -     }
+    -     var currentElement;
+    -     while (k < len) {
+    -       currentElement = O[k];
+    -       if (searchElement === currentElement ||(searchElement !== searchElement && currentElement !== currentElement)) {
+    -         return true;
+    -       }
+    -       k++;
+    -     }
+    -     return false;
+    -   };
+    - }
+
+    - var values= doc
+
+
+    //- var values = [{'dishName':'dish1','price':23,'dishPic':'gdrgdrg','category':'lalalasil'}, {'dishName':'dish2','price':23,'dishPic':'www.baidu.com','category':'lalalasil'},{'dishName':'dish3','price':23,'dishPic':'www.baidu.com','category':'lalalasil'},{'dishName':'dish4','price':23,'dishPic':'www.baidu.com','category':'lalalasi4324l'}];
+    - var arr=[];
+    - for (var i = 0; i < values.length; i++){
+    -   if(!arr.includes(values[i].category)){
+    -     arr.push(values[i].category);
+    - }
+    -}
+    header.eleme-header
+      a.header-back(goback='/home')
+        span.icon-arrow-left <
+      .header-title.flex
+        span.header-rst-name 地瓜府（亦庄店）
+    ul.restaurant-tabs.clearfix
+      li.restaurant-tab.active 菜单
+      li.restaurant-tab 评价
+      li.restaurant-tab 商家
+    .restaurant-content
+      .restaurant-menu
+        //- div.restaurant-menu-item.active
+        //-   span 秒杀半价
+        //- div.restaurant-menu-item
+        //-   span 秒杀半价
+        - for (var j = 0; j < arr.length; j++){
+          div.restaurant-menu-item
+            span.category= arr[j]
+        - }
+      .restaurant-food
+        section
+          - for (var i = 0; i < values.length; i++){
+          -   if(values[i].category==arr[j]){
+            .restaurant-food-container
+              img(width='70', height='70', style='opacity: 1; transition: opacity 0.5s;' src= values[i].dishPic)
+              .restaurant-food-body
+                p.restaurant-food-name= values[i].dishName
+                p.restaurant-food-description= values[i].intro
+                .restaurant-food-content
+                  .restaurant-food-info
+                    p.restaurant-food-about
+                      rating
+                      span.restaurant-food-comment 0评价
+                      span.restaurant-food-sales 月售57份
+                    .restaurant-food-footer
+                      span.restaurant-food-price= values[i].price
+                      .mdish-cartcontrol
+          - }
+          - }
+          
+    a.menu-cart(href='javascript:;')
+      .mcart-summary
+        span.ui-quantity 0
+        span.mcart-price 0
+      .mcart-checkout 确认美食
+  script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
+  script(src='/javascripts/jquery.tmpl.min.js')
+  script(src='/javascripts/menu-m.js')

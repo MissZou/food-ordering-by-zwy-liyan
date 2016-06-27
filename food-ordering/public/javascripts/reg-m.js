@@ -32,8 +32,11 @@ $(function() {
             data: newUser,
             url: "/user/register",
             success: function(data, status) {
-                if (status == "success") {
+                if (data.success == true) {
                     alert("注册成功、。。。")
+                    window.location="/user/login/m";
+                }else{
+                    alert("您已使用过此邮箱！")
                 }
             },
             error: function(data, err) {

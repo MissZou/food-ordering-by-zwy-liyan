@@ -16,12 +16,63 @@ function geoFindMe() {
     return;
   }
 
+  function markerPos(lng,lat) {
+    alert("mark")
+        var loc = "[" + lat + "," + lng + "]";
+        console.log(loc)
+        var data = {
+            "distance": 5,
+            "location": loc
+        };
+        $.ajax({
+            url: '/shop/findshops',
+            type: 'post',
+            data: data,
+            success: function(data, status) {
+                if (data.code == 200) {
+                    alert("搜索成功");
+                    console.log(data)
+                    var shopData = data.shop;
+
+                    var markup = '<a href="/user/account/web/cart/${_id}" target="_blank" class="rstblock"> \
+            <div class="rstblock-logo"> \
+            <img src=${shopPicTrueUrl} width="70" height="70" alt=${shopName} class="rstblock-logo-icon"><span>36 分钟</span></div> \
+            <div class="rstblock-content"> \
+                <div class="rstblock-title">${shopName}</div> \
+                <div class="star-rating" progress-meter="5"> \
+                    <div class="star-meter" progress-fill="4.2" style="width: 84%;"> \
+                </div> \
+              </div> \
+                <div class="rstblock-cost">类型：${shopType}</div> \
+            </div> \
+            <div>${_id}</div> \
+        </a>'
+                        //var markup = "<li><b>${Name}</b> (${ReleaseYear})</li>";
+
+                    // Compile the markup as a named template
+                    $.template("shopTemplate", markup);
+
+                    // Render the template with the movies data and insert
+                    // the rendered HTML under the "movieList" element
+                    $("#search-result").html("");
+                    $.tmpl("shopTemplate", shopData)
+                        .appendTo("body");
+
+                } else {
+                    alert("附近没有商家！");
+                }
+            }
+        });
+    }
+
+
   function success(position) {
     var latitude  = position.coords.latitude;
     var longitude = position.coords.longitude;
 
    alert(latitude)
    alert(longitude)
+markerPos(latitude,longitude);
   };
 
   function error(error) {

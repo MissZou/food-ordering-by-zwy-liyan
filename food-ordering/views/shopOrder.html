@@ -53,7 +53,8 @@
 			<p>message: ${order.message}</p> \
 			<p>current statue: ${order.status}</p> \
 			<button>取消订单</button> \
-			<button>运送中</button> \
+			<button class="shipping">运送中</button> \
+			<input type="hidden" value=${order.user} class="userId"> \
 		</div>'
                     $.template("orderTemplate", markup);
                     $.tmpl("orderTemplate", data.order).appendTo(".order-div");
@@ -177,6 +178,11 @@ socket.emit('set nickname',shopId)
         //$('body').append($('<li>').text(msg));
 
     });
+$(document).on("click",".shipping",function(){
+	alert("yunsongzhong")
+	var user=$(this).siblings(".userId").val();
+	socket.emit('say to someone', user, "Your order is shipping now!"); //to id
+})
 	})
 </script>
 </html>

@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title login-m
+    meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=no')
+    link(rel='stylesheet', href='/stylesheets/reg-m.css')
+    link(rel='stylesheet', href='/stylesheets/header-m.css')
+  body
+    include header-m.jade
+    +header-m("http://www.baidu.com","Login")
+    .logreg-form
+      .logreg-inputs#loginUser
+        .input-group
+          input.ui-input.email(type='email', placeholder='Please input your email', required='' id="user_loginemail")
+          p.input-tip 请填写正确的Email address
+        .input-group
+          input.ui-input(type='password', placeholder='Please input your password', required='' id="user_loginpassword")
+      button.ui-btn.logreg-btn(type='submit' id="login_button") Login
+  script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
+  script(src='/javascripts/login-m.js')

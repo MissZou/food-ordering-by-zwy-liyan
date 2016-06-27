@@ -1,0 +1,228 @@
+html{
+    	font-size: 16px;
+    }
+    img {
+        border: 0;
+        max-width: 100%;
+    }
+    
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p {
+        margin: 0 0 .6em;
+    }
+    
+    article,
+    aside,
+    details,
+    figcaption,
+    figure,
+    footer,
+    header,
+    hgroup,
+    main,
+    nav,
+    section,
+    summary {
+        display: block;
+    }
+    
+    body {
+        font-size: 14px;
+        color: #666;
+    }
+    .restaurant-content {
+        /* height: 100%; */
+        height: 454px;
+        /*暂时这么写*/
+        overflow: hidden;
+    }
+    
+    .restaurant-menu {
+        width: 25%;
+        float: left;
+        border-right: 1px solid #ddd;
+        height: 100%;
+        overflow-y: auto;
+        background: #f7f7f7;
+    }
+    
+    .restaurant-menu {
+        box-sizing: border-box;
+    }
+    
+    .restaurant-menu .restaurant-menu-item {
+        border-bottom: 1px solid #ddd;
+        padding: 15px 5px;
+        display: block;
+    }
+    
+    .restaurant-menu .restaurant-menu-item.active {
+        background: #fff;
+        border-right-color: #fff;
+        border-left: 3px solid #3199e8;
+        box-sizing: border-box;
+    }
+    .restaurant-menu .restaurant-menu-tip {
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        display: inline-block;
+        border-radius: 8px;
+        text-align: center;
+        color: #fff;
+        background: #3199e8;
+        font-size: 12px;
+        margin-right: 2px;
+    }
+    
+    .restaurant-food {
+        width: 75%;
+        float: right;
+        height: 100%;
+        overflow-y: auto;
+        box-sizing: border-box;
+    }
+    
+    .restaurant-food section,
+    .restaurant-menu ul {
+        padding-bottom: 42px;
+    }
+    
+    .restaurant-menu-description {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: 400;
+        font-size: 12px;
+        background: #eceff1;
+        color: #666;
+        margin-bottom: 0;
+        padding: 9px;
+    }
+    
+    .restaurant-food-container {
+        padding: 10px 8px;
+        background: #fff;
+        border-top: 1px solid #eee;
+    }
+    
+    .restaurant-food-container:nth-of-type(1) {
+        border-top: none;
+    }
+    
+    .restaurant-food-container img {
+        float: left;
+    }
+    
+    .restaurant-food-container .restaurant-food-body {
+        overflow: hidden;
+        padding-left: 7px;
+    }
+    
+    .restaurant-food-container .restaurant-food-body .restaurant-food-name {
+        color: #333;
+        font-size: 15px;
+        line-height: 15px;
+    }
+    
+    .restaurant-food-container .restaurant-food-body .restaurant-food-about {
+        font-size: 12px;
+    }
+    
+    .eleme-header,
+    .restaurant-food-container .restaurant-food-footer ,.menu-cart{
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        -webkit-justify-content: space-between;
+        justify-content: space-between;
+    }
+    
+    .restaurant-food-container .restaurant-food-footer ,.menu-cart{
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+    }
+    
+    .restaurant-food-container .restaurant-food-body .restaurant-food-price {
+        color: #ff6000;
+        font-size: 18px;
+    }
+    
+    .mdish-cartcontrol,.minus-cartcontrol {
+        width: 25px;
+        height: 25px;
+        line-height: 25px;
+        border-radius: 50%;
+        background: #4990E2;
+    }
+
+    a {
+        background: 0 0;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    
+    .restaurant-tabs {
+        z-index: 10;
+        display: block;
+        background: #fff;
+        margin-bottom: 1px;
+        position: relative;
+    }
+    
+    .restaurant-tabs .restaurant-tab.active {
+        color: #3199e8;
+        border-bottom: 2px solid #3199e8;
+    }
+    
+    .restaurant-tabs .restaurant-tab {
+        display:block;
+        width: 33.33%;
+        text-align: center;
+        font-size: 14px;
+        line-height: 15px;
+        padding-top: 10.5px;
+        padding-bottom: 11px;
+        border-bottom: 2px solid #ddd;
+        float: left;
+    }
+    .menu-cart {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 42px;
+    padding: 0 10px;
+    background: #323941;
+    line-height: 1;
+}
+.mcart-summary {
+    color: #fff;
+    font-size: 1.05rem;
+    line-height: 42px;
+}
+.ui-quantity:after {
+    content: "份";
+    margin: 0 0 0 .1em;
+}
+.mcart-summary>.mcart-price {
+    margin: 0 0 0 2px;
+}
+.mcart-checkout {
+    padding: 6px 18px;
+    border-radius: 2px;
+    background: #4cd964;
+    color: #fff;
+        height: 26px;
+    margin: auto 10px;
+}
+.food-num{
+	margin-left: -13px;
+    margin-right: -13px;
+}
