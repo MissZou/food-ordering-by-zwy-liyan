@@ -62,17 +62,17 @@
 @property(strong,nonatomic) UIButton *buyButton;
 @property(strong,nonatomic) UIButton *cartButton;
 @property(strong,nonatomic) UILabel *cartBadge;
-@property(strong,nonatomic) UILabel *totalPrice;
+@property(strong,nonatomic) UILabel *totalPriceLabel;
 
-@property(copy,nonatomic) NSString *lastSelectItem;
+
 @property(strong,nonatomic) UIView *parabolaView;
 @property(assign,nonatomic) NSUInteger totalItemCount;
-@property(assign,nonatomic) NSUInteger itemCount;
+@property(assign,nonatomic) NSUInteger totalPrice;
 
 @property(strong,nonatomic) UIBlurEffect *blurEffet;
 @property(strong,nonatomic) UIVisualEffectView *blurEffectView;
 @property(strong,nonatomic) UITapGestureRecognizer *tapGesture;
-
+@property(strong,nonatomic) UITapGestureRecognizer *tapGesture2;
 
 @property(strong,nonatomic) CartTableView *cartTableView;
 
@@ -103,7 +103,8 @@
     [self.view addGestureRecognizer:self.assistantGesture];
     [self.assistantGesture setEnabled:false];
     self.assistantGestureBegin = false;
-    
+    //self.myAccount.delegate = self;
+    //[self.myAccount cart:GET withShopId:nil  itemId:nil amount:nil  cartId:nil index:1 count:30];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -114,14 +115,18 @@
 
 
 -(void)viewDidAppear:(BOOL)animated{
-    [self.myAccount cart:GET withShopId:nil  itemId:nil amount:nil  cartId:nil index:1 count:15];
+    
 //    self.foodTable.frame = CGRectMake(catagoryTalbeWidth, 0, self.view.frame.size.width - catagoryTalbeWidth, self.view.frame.size.height  - navigationBarHeight - segmentHeight-cartViewHeight);
     //self.catagoryTable.frame = CGRectMake(0, 0,catagoryTalbeWidth, self.view.frame.size.height- navigationBarHeight - segmentHeight-cartViewHeight);
     self.maxOffset = 0;
     self.isSuperViewGustureStart = false;
     self.isScrollAtBottom = false;
-    self.lastSelectItem = nil;
     self.myAccount.delegate = self;
+    [self.myAccount cart:GET withShopId:nil  itemId:nil amount:nil  cartId:nil index:1 count:30];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    self.myAccount.delegate = nil   ;
 }
 
 -(void)disableInteraction{
@@ -184,10 +189,10 @@
 //    
     self.buyButton = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 120, 0, 120, cartViewHeight)];
     [self.buyButton setBackgroundColor:myGreenColor];
-    [self.buyButton setTitle:@"BUY" forState:UIControlStateNormal];
+    [self.buyButton setTitle:@"CHECKOUT" forState:UIControlStateNormal];
     [self.buyButton addTarget:self action:@selector(buyButtonHandle) forControlEvents:UIControlEventTouchUpInside];
     [self.buyButton addTarget:self action:@selector(buyButtonHighlight) forControlEvents:UIControlEventTouchDown];
-    self.buyButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:25];
+    self.buyButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     [self.cartView addSubview:self.buyButton];
     
     self.cartButton = [[UIButton alloc]initWithFrame:CGRectMake(5, 5, 40, 40)];
@@ -207,14 +212,14 @@
     self.cartBadge.textColor = [UIColor whiteColor];
     [self.cartView addSubview:self.cartBadge];
     
-    self.totalPrice = [[UILabel alloc]init];
-    self.totalPrice.numberOfLines = 0;
-    self.totalPrice.text = @"The totaol price:\n      $ 0";
-    self.totalPrice.textColor = [UIColor whiteColor];
-    self.totalPrice.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
-    CGSize labelSize = [self.totalPrice.text sizeWithAttributes:@{NSFontAttributeName:self.totalPrice.font}];
-    self.totalPrice.frame = CGRectMake(80, 5, 100, labelSize.height);
-    [self.cartView addSubview:self.totalPrice];
+    self.totalPriceLabel = [[UILabel alloc]init];
+    self.totalPriceLabel.numberOfLines = 0;
+    self.totalPriceLabel.text = @"The totaol price:\n      $ 0";
+    self.totalPriceLabel.textColor = [UIColor whiteColor];
+    self.totalPriceLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+    CGSize labelSize = [self.totalPriceLabel.text sizeWithAttributes:@{NSFontAttributeName:self.totalPriceLabel.font}];
+    self.totalPriceLabel.frame = CGRectMake(80, 5, 100, labelSize.height);
+    [self.cartView addSubview:self.totalPriceLabel];
     //self.parabolaView = [[UIView alloc]initWithFrame:CGRectMake(self.foodTable.frame.size.width - 50, foodCellHeight-30, 20, 20 )];
     self.parabolaView = [[UIView alloc]init];
     self.parabolaView.backgroundColor = myBlueColor;
@@ -330,10 +335,10 @@
             deleteButton.tag = tableCellTag+6;
             
             
-            for (int i=0; i<self.myAccount.cart.count; i++) {
-                if ([[food[indexPath.row] valueForKey:@"_id"] isEqualToString:[self.myAccount.cart[i] valueForKey:@"itemId"]]) {
-                    amount.text = [[self.myAccount.cart[i] valueForKey:@"amount"] stringValue];
-                    if ([[self.myAccount.cart[i] valueForKey:@"amount"] integerValue] != 0) {
+            for (int i=0; i<self.myAccount.cartDetail.count; i++) {
+                if ([[food[indexPath.row] valueForKey:@"_id"] isEqualToString:[self.myAccount.cartDetail[i] valueForKey:@"_id"]]) {
+                    amount.text = [[self.myAccount.cartDetail[i] valueForKey:@"amount"] stringValue];
+                    if ([[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue] != 0) {
                         deleteButton.frame = CGRectMake(self.foodTable.frame.size.width - 70, foodCellHeight-30, 20, 20 );
                         amount.frame = CGRectMake(self.foodTable.frame.size.width - 50, foodCellHeight-30, 20, 20 );
                     }
@@ -365,10 +370,10 @@
             // error mark why add deleteButton.frame and amount.frame make the if condition work?
             deleteButton.frame = CGRectMake(self.foodTable.frame.size.width - 30, foodCellHeight-30, 20, 20 );
             amount.frame = CGRectMake(self.foodTable.frame.size.width - 30, foodCellHeight-30, 20, 20 );
-            for (int i=0; i<self.myAccount.cart.count; i++) {
-                if ([[food[indexPath.row] valueForKey:@"_id"] isEqualToString:[self.myAccount.cart[i] valueForKey:@"itemId"]]) {
-                    amount.text = [[self.myAccount.cart[i] valueForKey:@"amount"] stringValue];
-                    if ([[self.myAccount.cart[i] valueForKey:@"amount"] integerValue] != 0) {
+            for (int i=0; i<self.myAccount.cartDetail.count; i++) {
+                if ([[food[indexPath.row] valueForKey:@"_id"] isEqualToString:[self.myAccount.cartDetail[i] valueForKey:@"_id"]]) {
+                    amount.text = [[self.myAccount.cartDetail[i] valueForKey:@"amount"] stringValue];
+                    if ([[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue] != 0) {
                         deleteButton.frame = CGRectMake(self.foodTable.frame.size.width - 70, foodCellHeight-30, 20, 20 );
                         amount.frame = CGRectMake(self.foodTable.frame.size.width - 50, foodCellHeight-30, 20, 20 );
                     }
@@ -704,6 +709,7 @@
 -(void)buyButtonHandle{
     NSLog(@"buyButtonHandle");
     [self.buyButton setBackgroundColor:myGreenColor];
+    [self.delegate detailedChildFoodCheckout];
 }
 
 -(void)buyButtonHighlight{
@@ -711,27 +717,29 @@
 }
 
 -(void)cartButtonHandle{
-    NSLog(@"cartButtonHandle");
-    if (self.cartTableView == nil) {
-        UIView *rootView = [[[[self.view.window subviews] objectAtIndex:0] subviews] objectAtIndex:0];
-        
+    
+    if (self.cartTableView == nil && self.myAccount.cartDetail.count != 0) {
+        UIView *rootView = [[self.view.window subviews] objectAtIndex:0];
+        //UIView *rootView = [[[[self.view.window subviews] objectAtIndex:0] subviews] objectAtIndex:0];
         self.cartTableView = [[CartTableView alloc]initWithFrame:CGRectMake(0, rootView.frame.size.height - cartViewHeight, self.view.frame.size.width, 0)];
         [self.cartTableView initCartTableView:self.myAccount.cartDetail];
         self.cartTableView.delegate = self;
         self.blurEffet = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
         self.blurEffectView = [[UIVisualEffectView alloc] initWithEffect:self.blurEffet];
         self.blurEffectView.frame = CGRectMake(0, 0, self.view.frame.size.width, rootView.frame.size.height - cartViewHeight);
-        self.tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGestureHandle)];
+        //self.blurEffectView.alpha = 0.6;
+        self.tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGestureHandle:)];
         [self.blurEffectView addGestureRecognizer:self.tapGesture];
-        //[self.cartButton addGestureRecognizer:self.tapGesture2];
         
+        //[rootView insertSubview:self.blurEffectView atIndex:0];
         [rootView addSubview:self.blurEffectView];
         [rootView addSubview:self.cartTableView];
+
         
         [[NSNotificationCenter defaultCenter]postNotificationName:@"changePanGestureStatu" object:nil];
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     }else{
-        [self tapGestureHandle];
+        [self hideCartTableView];
     }
 }
 
@@ -740,7 +748,13 @@
     self.cartTableView = nil;
 }
 
--(void)tapGestureHandle{
+-(void)tapGestureHandle:(UIGestureRecognizer *)gestureRecognizer{
+    CGPoint p = [gestureRecognizer locationInView:self.view];
+    NSLog(@"tap point %f  %f",p.x,p.y);
+    [self hideCartTableView];
+}
+
+-(void)hideCartTableView{
     [[NSNotificationCenter defaultCenter]postNotificationName:@"changePanGestureStatu" object:nil];
     self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     [self.blurEffectView removeFromSuperview];
@@ -750,9 +764,6 @@
     [self.cartTableView dismissCartTableViewAnimation];
 }
 
--(void)nofucntion{
-    
-}
 
 -(void)addButtonHandle:(id)sender{
     CGPoint location = [sender convertPoint:CGPointZero toView:self.foodTable];
@@ -761,7 +772,7 @@
     
 }
 -(void)deleteButtonHandle:(id)sender{
-    NSLog(@"deleteButtonHandle");
+    
     CGPoint location = [sender convertPoint:CGPointZero toView:self.foodTable];
     [self deleteItemOfCart:location];
 }
@@ -787,16 +798,16 @@
     BOOL isFindItem = false;
     
     // to find item already in cart and modify the count
-    for (int i = 0; i<self.myAccount.cart.count; i++) {
+    for (int i = 0; i<self.myAccount.cartDetail.count; i++) {
 
-        if ([self.myShop.shopID isEqualToString: [self.myAccount.cart[i] valueForKey:@"shopId"]] &&
-            [[food[indexPath.row] valueForKey:@"_id"] isEqualToString:[self.myAccount.cart[i] valueForKey:@"itemId"]]) {
+        if ([self.myShop.shopID isEqualToString: [self.myAccount.cartDetail[i] valueForKey:@"shopId"]] &&
+            [[food[indexPath.row] valueForKey:@"_id"] isEqualToString:[self.myAccount.cartDetail[i] valueForKey:@"_id"]]) {
             isFindItem = true;
-            NSInteger amount = [[self.myAccount.cart[i] valueForKey:@"amount"] integerValue];
+            NSInteger amount = [[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue];
             amount = amount+1;
             NSNumber *amountOjb = [NSNumber numberWithInteger:amount];
             
-            [self.myAccount cart:POST withShopId:self.myShop.shopID  itemId:[food[indexPath.row] valueForKey:@"_id"] amount:amountOjb  cartId:[self.myAccount.cart[i] valueForKey:@"_id"] index:0 count:0];
+            [self.myAccount cart:POST withShopId:self.myShop.shopID  itemId:[food[indexPath.row] valueForKey:@"_id"] amount:amountOjb  cartId:[self.myAccount.cartDetail[i] valueForKey:@"cartId"] index:0 count:0];
            
             [self.view addSubview:self.parabolaView];
             
@@ -808,7 +819,7 @@
         
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.cartBadge.text = [[NSNumber numberWithUnsignedInteger:self.totalItemCount] stringValue];
-                if ([[food[indexPath.row] valueForKey:@"_id"] isEqualToString:[self.myAccount.cart[i] valueForKey:@"itemId"]]) {
+                if ([[food[indexPath.row] valueForKey:@"_id"] isEqualToString:[self.myAccount.cartDetail[i] valueForKey:@"_id"]]) {
                     amountLable.text = [amountOjb stringValue];
                     
                 }
@@ -860,11 +871,11 @@
     BOOL isFindItem = false;
     
     
-    for (int i = 0; i<self.myAccount.cart.count; i++) {
-        if ([self.myShop.shopID isEqualToString: [self.myAccount.cart[i] valueForKey:@"shopId"]] &&
-            [[food[indexPath.row] valueForKey:@"_id"] isEqualToString:[self.myAccount.cart[i] valueForKey:@"itemId"]]) {
+    for (int i = 0; i<self.myAccount.cartDetail.count; i++) {
+        if ([self.myShop.shopID isEqualToString: [self.myAccount.cartDetail[i] valueForKey:@"shopId"]] &&
+            [[food[indexPath.row] valueForKey:@"_id"] isEqualToString:[self.myAccount.cartDetail[i] valueForKey:@"_id"]]) {
             isFindItem = true;
-            NSInteger amount = [[self.myAccount.cart[i] valueForKey:@"amount"] integerValue];
+            NSInteger amount = [[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue];
             UILabel *amountLable = (UILabel *)[targetCell.contentView viewWithTag:tableCellTag+5];
             
             if (amount>=1) {
@@ -881,15 +892,15 @@
                 }completion:^(BOOL finished){
                     
                 }];
-                [self.myAccount cart:DELETE withShopId:self.myShop.shopID  itemId:[food[indexPath.row] valueForKey:@"_id"] amount:nil  cartId:[self.myAccount.cart[i] valueForKey:@"_id"] index:0 count:0];
+                [self.myAccount cart:DELETE withShopId:self.myShop.shopID  itemId:[food[indexPath.row] valueForKey:@"_id"] amount:nil  cartId:[self.myAccount.cartDetail[i] valueForKey:@"cartId"] index:0 count:0];
             }else{
                 
 
-                [self.myAccount cart:POST withShopId:self.myShop.shopID  itemId:[food[indexPath.row] valueForKey:@"_id"] amount:amountOjb  cartId:[self.myAccount.cart[i] valueForKey:@"_id"] index:0 count:0];
+                [self.myAccount cart:POST withShopId:self.myShop.shopID  itemId:[food[indexPath.row] valueForKey:@"_id"] amount:amountOjb  cartId:[self.myAccount.cartDetail[i] valueForKey:@"cartId"] index:0 count:0];
 
             }
-            for (int i=0; i<self.myAccount.cart.count; i++) {
-                if ([[food[indexPath.row] valueForKey:@"_id"] isEqualToString:[self.myAccount.cart[i] valueForKey:@"itemId"]]) {
+            for (int i=0; i<self.myAccount.cartDetail.count; i++) {
+                if ([[food[indexPath.row] valueForKey:@"_id"] isEqualToString:[self.myAccount.cartDetail[i] valueForKey:@"_id"]]) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         amountLable.text = [amountOjb stringValue];
                     });
@@ -907,23 +918,31 @@
     
 }
 
--(void)updateCartAcount{
+-(void)updateCartView{
     self.totalItemCount = 0;
-    for (int i = 0; i<self.myAccount.cart.count; i++) {
-        self.totalItemCount = self.totalItemCount + [[self.myAccount.cart[i] valueForKey:@"amount"] integerValue];
+    self.totalPrice = 0;
+    NSLog(@"cart detail%@",self.myAccount.cartDetail);
+    for (int i = 0; i<self.myAccount.cartDetail.count; i++) {
+        self.totalItemCount = self.totalItemCount + [[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue];
+        
+        self.totalPrice = self.totalPrice + [[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue]*[[self.myAccount.cartDetail[i] valueForKey:@"price"] integerValue];
     }
     dispatch_async(dispatch_get_main_queue(), ^{
         self.cartBadge.text = [[NSNumber numberWithUnsignedInteger:self.totalItemCount] stringValue];
+        self.totalPriceLabel.text = [NSString stringWithFormat:@"The totaol price:\n      $ %lu",(unsigned long)self.totalPrice];
     });
     
     
 }
 
 -(void)finishRefreshAccountData{
-    [self updateCartAcount];
+    [self updateCartView];
     [self.foodTable reloadData];
+    self.tapGesture2 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGestureHandle:)];
+    [self.blurEffectView addGestureRecognizer:self.tapGesture2];
     
-    NSLog(@"update cart %@",self.myAccount.cartDetail);
+//    self.cartTableView.cartDetail = self.myAccount.cartDetail;
+//    [self.cartTableView.tableView reloadData];
 }
 #pragma mark -- UIGestureDelegate
 

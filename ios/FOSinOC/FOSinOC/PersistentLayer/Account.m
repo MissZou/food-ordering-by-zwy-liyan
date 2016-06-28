@@ -134,10 +134,10 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     }
     
     if ([result valueForKey:@"cart"] != nil) {
-        self.cart = [result valueForKey:@"cart"];
+        self.cart = [[result valueForKey:@"cart"] mutableCopy];
     }
     if ([result valueForKey:@"cartDetail"] != nil) {
-        self.cartDetail = [result valueForKey:@"cartDetail"];
+        self.cartDetail = [[result valueForKey:@"cartDetail"] mutableCopy];
     }
     [self.delegate finishRefreshAccountData];
 }

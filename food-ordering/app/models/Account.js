@@ -251,6 +251,8 @@ var findCartItemById = function(accountId,shopId,itemId,callback){
 var findCartItem = function(accountId,index,count,callback){
   Account.findOne({_id:accountId},function(err,doc){
       if (doc != null) {
+        index = 1;
+        count = 30;// mark!  fix the count
         var limit = index * count;
         var items = doc.cart;
         if (items.length == 0) {
@@ -272,22 +274,40 @@ var findCartItem = function(accountId,index,count,callback){
            var j = 0;
            var myEventEmitter = new eventEmitter;
            myEventEmitter.on('next',addResult);
+           //console.log(array);
            function addResult(){
-              obj["amount"] = array[j].amount;
+              //obj["amount"] = array[j].amount;
+              obj["shopId"] = array[j].shopId;
+              //obj["cartId"] = array[j]._id;
               j++;
+
               result.push(obj)
               obj = {};
               
 
               if (j == array.length) {
+              console.log("j == array.length");
+
+                for (var i = 0; i < result.length ; i++) {
+                    for (var k = 0; k < array.length ; k++) {
+
+                      if (String(result[i]._id) == String(array[k].itemId)) {
+                          console.log(result[i]);
+                          console.log(array[k]);
+                          result[i].cartId = array[k]._id;
+                          result[i].amount = array[k].amount;
+                      }
+                  }                  
+                }
+
                 callback(result);
               }
            }         
            
            for (var i = 0; i <array.length ; i++) {
                 var ii = i;
-                populateCartItem(accountId,array[ii],function(doc){
-                  var iii = ii;
+                populateCartItem(accountId,array[i],function(doc){
+                  
                   obj["dishName"] = doc["dishName"];
                   obj["price"] = doc["price"];
                   obj["intro"] = doc["intro"];
@@ -295,6 +315,7 @@ var findCartItem = function(accountId,index,count,callback){
                   obj["dishPic"] = doc["dishPic"];
                   //obj["comment"] = doc["comment"];
                   obj["tags"] = doc["tags"];
+
                   myEventEmitter.emit("next");
                 })
            }

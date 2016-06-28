@@ -45,6 +45,7 @@
 		BA3C9B0C1D1E2A30003F484D /* plusBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = BA3C9B0A1D1E2A30003F484D /* plusBlue.png */; };
 		BA3C9B161D1F8206003F484D /* CartTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3C9B151D1F8206003F484D /* CartTableView.m */; };
 		BA3C9B1C1D20DB6A003F484D /* remove.png in Resources */ = {isa = PBXBuildFile; fileRef = BA3C9B1B1D20DB6A003F484D /* remove.png */; };
+		BA3C9B201D226611003F484D /* PlaceOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3C9B1F1D226611003F484D /* PlaceOrderViewController.m */; };
 		BA6046D01CB8D70400A8FD34 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046CF1CB8D70400A8FD34 /* LoginViewController.m */; };
 		BA6046D61CB8E5CF00A8FD34 /* Account.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046D51CB8E5CF00A8FD34 /* Account.m */; };
 		BA6046D91CBB8B1200A8FD34 /* CreateAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046D81CBB8B1200A8FD34 /* CreateAccountViewController.m */; };
@@ -156,6 +157,8 @@
 		BA3C9B141D1F8206003F484D /* CartTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CartTableView.h; path = MainViewHelp/CartTableView.h; sourceTree = "<group>"; };
 		BA3C9B151D1F8206003F484D /* CartTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CartTableView.m; path = MainViewHelp/CartTableView.m; sourceTree = "<group>"; };
 		BA3C9B1B1D20DB6A003F484D /* remove.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = remove.png; sourceTree = "<group>"; };
+		BA3C9B1E1D226611003F484D /* PlaceOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceOrderViewController.h; sourceTree = "<group>"; };
+		BA3C9B1F1D226611003F484D /* PlaceOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceOrderViewController.m; sourceTree = "<group>"; };
 		BA6046CE1CB8D70400A8FD34 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		BA6046CF1CB8D70400A8FD34 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		BA6046D41CB8E5CF00A8FD34 /* Account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Account.h; sourceTree = "<group>"; };
@@ -414,6 +417,21 @@
 			name = DetailedViewController;
 			sourceTree = "<group>";
 		};
+		BA3C9B1D1D2263BC003F484D /* SlideLeftMenu */ = {
+			isa = PBXGroup;
+			children = (
+				BAD8084C1CCA151400A79DE2 /* LeftMenuCell.h */,
+				BAD8084D1CCA151400A79DE2 /* LeftMenuCell.m */,
+				BAD8084E1CCA151400A79DE2 /* LeftMenuViewController.h */,
+				BAD8084F1CCA151400A79DE2 /* LeftMenuViewController.m */,
+				BAD808501CCA151400A79DE2 /* LeftViewTableController.h */,
+				BAD808511CCA151400A79DE2 /* LeftViewTableController.m */,
+				BAD808571CCA151400A79DE2 /* MainViewRootViewController.h */,
+				BAD808581CCA151400A79DE2 /* MainViewRootViewController.m */,
+			);
+			name = SlideLeftMenu;
+			sourceTree = "<group>";
+		};
 		BA6046D21CB8E5B800A8FD34 /* BusinessLayer */ = {
 			isa = PBXGroup;
 			children = (
@@ -474,16 +492,11 @@
 				BA771B251CCCF04300755613 /* MainViewController.m */,
 				BAD808531CCA151400A79DE2 /* MainViewCell.h */,
 				BAD808541CCA151400A79DE2 /* MainViewCell.m */,
-				BAD8084C1CCA151400A79DE2 /* LeftMenuCell.h */,
-				BAD8084D1CCA151400A79DE2 /* LeftMenuCell.m */,
-				BAD8084E1CCA151400A79DE2 /* LeftMenuViewController.h */,
-				BAD8084F1CCA151400A79DE2 /* LeftMenuViewController.m */,
-				BAD808501CCA151400A79DE2 /* LeftViewTableController.h */,
-				BAD808511CCA151400A79DE2 /* LeftViewTableController.m */,
-				BAD808571CCA151400A79DE2 /* MainViewRootViewController.h */,
-				BAD808581CCA151400A79DE2 /* MainViewRootViewController.m */,
-				BA771B741CCF49A900755613 /* ShopDetailedViewController.m */,
 				BA771B731CCF49A900755613 /* ShopDetailedViewController.h */,
+				BA771B741CCF49A900755613 /* ShopDetailedViewController.m */,
+				BA3C9B1E1D226611003F484D /* PlaceOrderViewController.h */,
+				BA3C9B1F1D226611003F484D /* PlaceOrderViewController.m */,
+				BA3C9B1D1D2263BC003F484D /* SlideLeftMenu */,
 				BAD808631CCA154B00A79DE2 /* MainViewHelp */,
 				BA3C9B0D1D1F7F2F003F484D /* DetailedViewController */,
 			);
@@ -766,6 +779,7 @@
 				BA2EF3911D10F1F600944B7D /* NSIndexSet+Convenience.m in Sources */,
 				BA6046D91CBB8B1200A8FD34 /* CreateAccountViewController.m in Sources */,
 				BA2A8BF51CF9807300F2161B /* NSNull+JSON.m in Sources */,
+				BA3C9B201D226611003F484D /* PlaceOrderViewController.m in Sources */,
 				BAD8085F1CCA151400A79DE2 /* MainViewCell.m in Sources */,
 				BAD8085C1CCA151400A79DE2 /* LeftMenuViewController.m in Sources */,
 				BA2EF3941D10F35D00944B7D /* AssetGridViewCell.m in Sources */,

@@ -104,13 +104,13 @@
     self.itemName.textAlignment = NSTextAlignmentCenter;
     self.navigationItem.titleView = self.itemName;
     
-//    UINavigationBar *navigationBar = self.navigationController.navigationBar;
-//    
-//    [navigationBar setBackgroundImage:[UIImage imageNamed:@"NavigationBarBackground"]
-//                       forBarPosition:UIBarPositionAny
-//                           barMetrics:UIBarMetricsDefault];
-//    
-//    [navigationBar setShadowImage:[UIImage new]];
+    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+    
+    [navigationBar setBackgroundImage:[UIImage imageNamed:@"NavigationBarBackground"]
+                       forBarPosition:UIBarPositionAny
+                           barMetrics:UIBarMetricsDefault];
+    
+    [navigationBar setShadowImage:[UIImage new]];
     
     [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor clearColor]];
 }
@@ -127,13 +127,14 @@
     }
     
     CGFloat offsetY = point.y;
-    UIColor *colour = [UIColor redColor];
+    //UIColor *colour = [UIColor redColor];
+    UIColor *color = [UIColor whiteColor];
     if (offsetY > naviBarChangePoint) {
         CGFloat alpha = MIN(1, 1 - ((naviBarChangePoint + 64 - point.y) / 64));
-        [self.navigationController.navigationBar lt_setBackgroundColor:[colour colorWithAlphaComponent:alpha]];
+        [self.navigationController.navigationBar lt_setBackgroundColor:[color colorWithAlphaComponent:alpha]];
         self.itemName.alpha = alpha;
     } else {
-        [self.navigationController.navigationBar lt_setBackgroundColor:[colour colorWithAlphaComponent:0]];
+        [self.navigationController.navigationBar lt_setBackgroundColor:[color colorWithAlphaComponent:0]];
         self.itemName.alpha = 0;
     }
 }
@@ -152,12 +153,10 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if (section == 0) {
-        return 100.0;
+        return 120.0;
     }else{
         return 20.0;
     }
-    
-    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

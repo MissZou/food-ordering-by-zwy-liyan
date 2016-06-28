@@ -338,11 +338,29 @@
                     <navigationItem key="navigationItem" id="ByG-lt-GwQ"/>
                     <connections>
                         <segue destination="nRw-L4-Tfd" kind="show" identifier="foodDetailSegue" id="QdE-YH-T2p"/>
+                        <segue destination="C0y-UF-9QC" kind="show" identifier="checkout" id="Hlj-Cp-xqj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yQQ-pa-576" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2745" y="370"/>
+        </scene>
+        <!--Place Order View Controller-->
+        <scene sceneID="iTm-g3-FQY">
+            <objects>
+                <viewController id="C0y-UF-9QC" customClass="PlaceOrderViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="PFk-fC-hBY"/>
+                        <viewControllerLayoutGuide type="bottom" id="Mbp-ZS-NhE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="FuJ-zo-Z87">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qqY-EH-BbM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2745" y="1117"/>
         </scene>
         <!--Food View Controller-->
         <scene sceneID="y4o-BY-b88">
@@ -491,7 +509,7 @@
                 <viewControllerPlaceholder storyboardName="AccountView" id="CC2-i5-Vb3" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I9w-eD-rM1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="568.5" y="1269"/>
+            <point key="canvasLocation" x="237" y="1513"/>
         </scene>
         <!--Left Menu View Controller-->
         <scene sceneID="Y1d-Y5-RRi">

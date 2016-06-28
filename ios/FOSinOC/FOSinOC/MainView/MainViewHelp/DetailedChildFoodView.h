@@ -13,6 +13,8 @@
 @optional
 
 -(void) detailedChildFoodDidSelectItem:(NSDictionary *)item image:(UIImage *)image shopId:(NSString *)shopId;
+-(void) detailedChildFoodCheckout;
+
 @end
 
 @interface DetailedChildFoodView : UIViewController
