@@ -466,7 +466,7 @@
         <!--Account Address View Controller-->
         <scene sceneID="QzS-y7-gfD">
             <objects>
-                <viewController id="4Pn-tB-65R" customClass="AccountAddressViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="address" id="4Pn-tB-65R" customClass="AccountAddressViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="XPY-ju-v85"/>
                         <viewControllerLayoutGuide type="bottom" id="TO5-3f-Kdr"/>
@@ -491,9 +491,6 @@
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
-                                                    <variation key="widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="22" y="37" width="124" height="34.5"/>
-                                                    </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yxn-04-gmz">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
@@ -549,8 +546,7 @@
                                                             <exclude reference="vUf-2h-tB4"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="190" y="30" width="30" height="30"/>
+                                                    <variation key="widthClass=compact">
                                                         <mask key="constraints">
                                                             <include reference="rPh-pE-T7l"/>
                                                             <include reference="vUf-2h-tB4"/>

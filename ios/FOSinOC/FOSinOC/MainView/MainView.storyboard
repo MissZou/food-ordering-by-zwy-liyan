@@ -356,11 +356,33 @@
                     <view key="view" contentMode="scaleToFill" id="FuJ-zo-Z87">
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
+                    <connections>
+                        <segue destination="fjb-aI-gX6" kind="show" identifier="showshop" id="Teg-J6-WQd"/>
+                        <segue destination="ali-vJ-SKs" kind="show" identifier="address" id="3Vk-Qq-MgI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qqY-EH-BbM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2745" y="1117"/>
+            <point key="canvasLocation" x="2745" y="1115"/>
+        </scene>
+        <!--Choose Address View Controller-->
+        <scene sceneID="n2M-6F-CGq">
+            <objects>
+                <viewController id="ali-vJ-SKs" customClass="ChooseAddressViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="RMN-12-DhZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="uM9-dA-Qtj"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="jrd-XP-Gna">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="U5T-Os-3dQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3589.5" y="1115"/>
         </scene>
         <!--Food View Controller-->
         <scene sceneID="y4o-BY-b88">
@@ -715,4 +737,7 @@
             <point key="canvasLocation" x="957" y="370"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Teg-J6-WQd"/>
+    </inferredMetricsTieBreakers>
 </document>

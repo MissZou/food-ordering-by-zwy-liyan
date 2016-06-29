@@ -188,7 +188,9 @@
 //    self.cartView.alpha = 0.7;
 //    
     self.buyButton = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 120, 0, 120, cartViewHeight)];
-    [self.buyButton setBackgroundColor:myGreenColor];
+    //[self.buyButton setBackgroundColor:myGreenColor];
+    [self.buyButton setBackgroundColor: [UIColor grayColor]];
+    [self.buyButton setEnabled:false];
     [self.buyButton setTitle:@"CHECKOUT" forState:UIControlStateNormal];
     [self.buyButton addTarget:self action:@selector(buyButtonHandle) forControlEvents:UIControlEventTouchUpInside];
     [self.buyButton addTarget:self action:@selector(buyButtonHighlight) forControlEvents:UIControlEventTouchDown];
@@ -749,8 +751,8 @@
 }
 
 -(void)tapGestureHandle:(UIGestureRecognizer *)gestureRecognizer{
-    CGPoint p = [gestureRecognizer locationInView:self.view];
-    NSLog(@"tap point %f  %f",p.x,p.y);
+    //CGPoint p = [gestureRecognizer locationInView:self.view];
+    //NSLog(@"tap point %f  %f",p.x,p.y);
     [self hideCartTableView];
 }
 
@@ -921,7 +923,6 @@
 -(void)updateCartView{
     self.totalItemCount = 0;
     self.totalPrice = 0;
-    NSLog(@"cart detail%@",self.myAccount.cartDetail);
     for (int i = 0; i<self.myAccount.cartDetail.count; i++) {
         self.totalItemCount = self.totalItemCount + [[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue];
         
@@ -932,6 +933,13 @@
         self.totalPriceLabel.text = [NSString stringWithFormat:@"The totaol price:\n      $ %lu",(unsigned long)self.totalPrice];
     });
     
+    if (self.myAccount.cartDetail.count == 0) {
+        [self.buyButton setBackgroundColor:[UIColor grayColor]];
+        [self.buyButton setEnabled:false];
+    }else{
+        [self.buyButton setBackgroundColor:myGreenColor];
+        [self.buyButton setEnabled:true];
+    }
     
 }
 

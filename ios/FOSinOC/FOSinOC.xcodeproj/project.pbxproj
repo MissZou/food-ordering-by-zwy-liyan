@@ -46,6 +46,9 @@
 		BA3C9B161D1F8206003F484D /* CartTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3C9B151D1F8206003F484D /* CartTableView.m */; };
 		BA3C9B1C1D20DB6A003F484D /* remove.png in Resources */ = {isa = PBXBuildFile; fileRef = BA3C9B1B1D20DB6A003F484D /* remove.png */; };
 		BA3C9B201D226611003F484D /* PlaceOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3C9B1F1D226611003F484D /* PlaceOrderViewController.m */; };
+		BA3C9B221D236F29003F484D /* markLineRed.png in Resources */ = {isa = PBXBuildFile; fileRef = BA3C9B211D236F29003F484D /* markLineRed.png */; };
+		BA3C9B261D23AF8A003F484D /* shopIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = BA3C9B251D23AF8A003F484D /* shopIcon.png */; };
+		BA3C9B291D23F279003F484D /* ChooseAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3C9B281D23F279003F484D /* ChooseAddressViewController.m */; };
 		BA6046D01CB8D70400A8FD34 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046CF1CB8D70400A8FD34 /* LoginViewController.m */; };
 		BA6046D61CB8E5CF00A8FD34 /* Account.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046D51CB8E5CF00A8FD34 /* Account.m */; };
 		BA6046D91CBB8B1200A8FD34 /* CreateAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046D81CBB8B1200A8FD34 /* CreateAccountViewController.m */; };
@@ -159,6 +162,10 @@
 		BA3C9B1B1D20DB6A003F484D /* remove.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = remove.png; sourceTree = "<group>"; };
 		BA3C9B1E1D226611003F484D /* PlaceOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceOrderViewController.h; sourceTree = "<group>"; };
 		BA3C9B1F1D226611003F484D /* PlaceOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceOrderViewController.m; sourceTree = "<group>"; };
+		BA3C9B211D236F29003F484D /* markLineRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = markLineRed.png; sourceTree = "<group>"; };
+		BA3C9B251D23AF8A003F484D /* shopIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shopIcon.png; sourceTree = "<group>"; };
+		BA3C9B271D23F279003F484D /* ChooseAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseAddressViewController.h; sourceTree = "<group>"; };
+		BA3C9B281D23F279003F484D /* ChooseAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseAddressViewController.m; sourceTree = "<group>"; };
 		BA6046CE1CB8D70400A8FD34 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		BA6046CF1CB8D70400A8FD34 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		BA6046D41CB8E5CF00A8FD34 /* Account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Account.h; sourceTree = "<group>"; };
@@ -206,8 +213,8 @@
 		BAD808501CCA151400A79DE2 /* LeftViewTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftViewTableController.h; sourceTree = "<group>"; };
 		BAD808511CCA151400A79DE2 /* LeftViewTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftViewTableController.m; sourceTree = "<group>"; };
 		BAD808521CCA151400A79DE2 /* MainView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainView.storyboard; sourceTree = "<group>"; };
-		BAD808531CCA151400A79DE2 /* MainViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewCell.h; sourceTree = "<group>"; };
-		BAD808541CCA151400A79DE2 /* MainViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewCell.m; sourceTree = "<group>"; };
+		BAD808531CCA151400A79DE2 /* MainViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewCell.h; path = ../MainViewCell.h; sourceTree = "<group>"; };
+		BAD808541CCA151400A79DE2 /* MainViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainViewCell.m; path = ../MainViewCell.m; sourceTree = "<group>"; };
 		BAD808571CCA151400A79DE2 /* MainViewRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewRootViewController.h; sourceTree = "<group>"; };
 		BAD808581CCA151400A79DE2 /* MainViewRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewRootViewController.m; sourceTree = "<group>"; };
 		BAD808641CCA15D600A79DE2 /* CatagoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CatagoryView.h; sourceTree = "<group>"; };
@@ -256,11 +263,13 @@
 				BA3C9AF61D1AB9FA003F484D /* markViewBlue.png */,
 				BA3C9AFA1D1AC097003F484D /* separateLine.png */,
 				BA3C9AF71D1AB9FA003F484D /* markViewRed.png */,
+				BA3C9B211D236F29003F484D /* markLineRed.png */,
 				BA174A3D1CBE496E00419E3B /* favoriteGreen.png */,
 				BA174A3E1CBE496E00419E3B /* listGreen.png */,
 				BA174A3F1CBE496E00419E3B /* nameIndicator.png */,
 				BA174A401CBE496E00419E3B /* tickWhite.png */,
 				BAD808401CC23ED200A79DE2 /* heatBar.png */,
+				BA3C9B251D23AF8A003F484D /* shopIcon.png */,
 			);
 			path = icons;
 			sourceTree = "<group>";
@@ -490,8 +499,6 @@
 				BAD808521CCA151400A79DE2 /* MainView.storyboard */,
 				BA771B241CCCF04300755613 /* MainViewController.h */,
 				BA771B251CCCF04300755613 /* MainViewController.m */,
-				BAD808531CCA151400A79DE2 /* MainViewCell.h */,
-				BAD808541CCA151400A79DE2 /* MainViewCell.m */,
 				BA771B731CCF49A900755613 /* ShopDetailedViewController.h */,
 				BA771B741CCF49A900755613 /* ShopDetailedViewController.m */,
 				BA3C9B1E1D226611003F484D /* PlaceOrderViewController.h */,
@@ -507,6 +514,8 @@
 		BAD808631CCA154B00A79DE2 /* MainViewHelp */ = {
 			isa = PBXGroup;
 			children = (
+				BAD808531CCA151400A79DE2 /* MainViewCell.h */,
+				BAD808541CCA151400A79DE2 /* MainViewCell.m */,
 				BAD808641CCA15D600A79DE2 /* CatagoryView.h */,
 				BAD808651CCA15D600A79DE2 /* CatagoryView.m */,
 				BAD8086A1CCB598700A79DE2 /* SortView.h */,
@@ -515,6 +524,8 @@
 				BA771B281CCCF5CD00755613 /* MainViewMainHeaderView.m */,
 				BA771B6C1CCF38A700755613 /* SearchShopViewController.h */,
 				BA771B6D1CCF38A700755613 /* SearchShopViewController.m */,
+				BA3C9B271D23F279003F484D /* ChooseAddressViewController.h */,
+				BA3C9B281D23F279003F484D /* ChooseAddressViewController.m */,
 			);
 			path = MainViewHelp;
 			sourceTree = "<group>";
@@ -648,6 +659,7 @@
 				BA3C9AFB1D1AC097003F484D /* separateLine.png in Resources */,
 				BA81F6421CB668CB007A8832 /* introductionPic1.jpg in Resources */,
 				BA3C9AF51D1A736A003F484D /* plus.png in Resources */,
+				BA3C9B261D23AF8A003F484D /* shopIcon.png in Resources */,
 				BA174A451CBE496E00419E3B /* listGreen.png in Resources */,
 				BA3C9AF91D1AB9FA003F484D /* markViewRed.png in Resources */,
 				BA3C9AF81D1AB9FA003F484D /* markViewBlue.png in Resources */,
@@ -655,6 +667,7 @@
 				BA174A411CBE496E00419E3B /* account.png in Resources */,
 				BAD808411CC23ED200A79DE2 /* heatBar.png in Resources */,
 				BA3C9AF31D1A4377003F484D /* cart.png in Resources */,
+				BA3C9B221D236F29003F484D /* markLineRed.png in Resources */,
 				BA1DAE511CB657BE00CDD6E0 /* LaunchScreen.storyboard in Resources */,
 				BA174A4D1CBF7A9600419E3B /* AccountView.storyboard in Resources */,
 				BA174A461CBE496E00419E3B /* nameIndicator.png in Resources */,
@@ -766,6 +779,7 @@
 				BA2EF38E1D10F0D100944B7D /* UICollectionView+Convenience.m in Sources */,
 				BA1DAE7F1CB6635500CDD6E0 /* TutorialPageViewController.m in Sources */,
 				BA1DAE791CB65CF100CDD6E0 /* LaunchScreenViewController.m in Sources */,
+				BA3C9B291D23F279003F484D /* ChooseAddressViewController.m in Sources */,
 				BA21783D1CB67830003402E1 /* CustomizationButton.m in Sources */,
 				BA3C9B161D1F8206003F484D /* CartTableView.m in Sources */,
 				BAD808661CCA15D600A79DE2 /* CatagoryView.m in Sources */,

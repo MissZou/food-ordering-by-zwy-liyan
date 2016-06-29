@@ -38,7 +38,6 @@
 @property(strong,nonatomic)NSMutableArray *location;
 @property(strong,nonatomic)NSMutableArray *favoriteShop;
 @property(strong,nonatomic)NSMutableArray *favoriteItem;
-@property(strong,nonatomic)NSMutableArray *cart;
 @property(strong,nonatomic)NSMutableArray *cartDetail;
 @property(strong,nonatomic)NSMutableArray *order;
 @property(copy,nonatomic)NSString *token;
