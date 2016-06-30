@@ -25,10 +25,7 @@
     // Do any additional setup after loading the view.
     self.myAccout = [Account sharedManager];
     [self initViewController];
-    self.navigationController.navigationBar.layer.shadowColor = [[UIColor blackColor] CGColor];
-    self.navigationController.navigationBar.layer.shadowOffset = CGSizeMake(0.0f, 5.0f);
-    self.navigationController.navigationBar.layer.shadowRadius = 4.0f;
-    self.navigationController.navigationBar.layer.shadowOpacity = 0.3f;
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,6 +57,13 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 80;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSDictionary *addr = self.myAccout.deliverAddress[indexPath.row];
+    [self.delegate ChooseAddressViewDidSelectedAddressWithName:[addr valueForKey:@"name"] phone:[addr valueForKey:@"phone"] address:[addr valueForKey:@"addr"]];
+    [self.navigationController popViewControllerAnimated:true];
+    
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

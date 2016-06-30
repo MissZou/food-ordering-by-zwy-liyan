@@ -698,7 +698,7 @@
         [self.catagoryTable reloadData];
         [self.foodTable reloadData];
         NSArray *food = [self.itemList valueForKey:self.catagory[0]];
-        NSLog(@"food array %@",food[0]);
+        //NSLog(@"food array %@",food[0]);
         [self.catagoryTable.delegate tableView:self.catagoryTable didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
         [self markClickedCatagory:[NSIndexPath indexPathForRow:0 inSection:0]];
         self.isSelectCatagory = false;
