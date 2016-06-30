@@ -44,7 +44,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     self.accountId = nil;
     self.favoriteShop = nil;
     self.favoriteItem = nil;
-    self.cart = nil;
+    
     self.cartDetail = nil;
     self.order = nil;
     self.token = nil;
@@ -133,11 +133,8 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
         self.favoriteItem = [result valueForKey:@"favoriteShop"];
     }
     
-    if ([result valueForKey:@"cart"] != nil) {
-        self.cart = [result valueForKey:@"cart"];
-    }
     if ([result valueForKey:@"cartDetail"] != nil) {
-        self.cartDetail = [result valueForKey:@"cartDetail"];
+        self.cartDetail = [[result valueForKey:@"cartDetail"] mutableCopy];
     }
     [self.delegate finishRefreshAccountData];
 }

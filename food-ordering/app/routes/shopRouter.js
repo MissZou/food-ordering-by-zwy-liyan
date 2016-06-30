@@ -74,8 +74,6 @@ router.route('/findshops')
         var distance = req.headers["distance"];
         var coordinateTemp = req.headers["location"];
 
-        console.log(distance);
-        console.log(coordinateTemp);
         if (index == null) {
             index = 1;
         }
@@ -136,7 +134,7 @@ router.route('/findshopbyid')
     .get(function(req,res){
         
         var shopId = req.headers["shopid"];// head can not sensitive uppercase
-        console.log(shopId);
+        
         
         if (shopId != null) {
             Shop.findShopById(shopId, function(doc) {
@@ -174,7 +172,7 @@ router.route('/findshopbyid')
                          categoriedDish[category[i]] = items;
                         
                      }
-                     //console.log(categoriedDish);
+                     
                 }
                 
                for (var i = category.length - 1; i >= 0; i--) {
@@ -213,8 +211,8 @@ router.route('/findItemById')
         var shopId = req.param('shopId', null);
         var itemId = req.param('itemId', null); 
         var shopName="";
-        console.log(shopId);
-        console.log(itemId);
+        
+        
         Shop.findShopById(shopId,function(doc){
             shopName=doc.shopName;
             if (itemId != null && shopId !=null) {
@@ -400,8 +398,8 @@ router.use("/account", function(req, res, next) {
             } else {
                 // if everything is good, save to request for use in other routes
                 req.decoded = decoded;
-                //console.log("decoded");
-                //console.log(decoded);
+                
+                
                 next();
             }
         });
@@ -418,7 +416,7 @@ router.use("/account", function(req, res, next) {
 
 router.route('/account')
     .post(function(req, res) {
-        //console.log(req.decoded);
+        
         Shop.findShopById(req.decoded._id, function(doc) {
             if (null != doc)
                 res.json({

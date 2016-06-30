@@ -631,7 +631,7 @@ router.route('/account/cart')
                         res.json({
                             success:true,
                             cartDetail:doc,
-                            cart:cart
+                            //cart:cart
                         })
                     }else{
                         res.json({
@@ -687,7 +687,7 @@ router.route('/account/cart')
                                                 res.json({
                                                     success:true,
                                                     cartDetail:doc,
-                                                    cart:cart
+                                                    //cart:cart
                                                 })
                                             }else{
                                                 res.json({
@@ -749,7 +749,7 @@ router.route('/account/cart')
                                         res.json({
                                             success:true,
                                             cartDetail:doc,
-                                            cart:cart
+                                            //cart:cart
                                         })
                                     }else{
                                         res.json({
@@ -794,7 +794,7 @@ router.route('/account/cart')
                                     res.json({
                                         success:true,
                                         cartDetail:doc,
-                                        cart:cart
+                                        //cart:cart
                                     })
                                 }else{
                                     res.json({

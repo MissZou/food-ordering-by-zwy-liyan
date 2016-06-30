@@ -21,4 +21,8 @@
 @property(weak)id <CartTableViewDelegate> delegate;
 -(void)initCartTableView:(NSArray *)cartDetail;
 -(void)dismissCartTableViewAnimation;
+
+@property(strong,nonatomic) UITableView *tableView;
+//@property(strong,nonatomic) NSMutableArray *itemList;
+@property(strong,nonatomic) NSMutableArray *cartDetail;
 @end

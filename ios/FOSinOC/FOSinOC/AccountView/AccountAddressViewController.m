@@ -107,6 +107,10 @@
     }
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [self performSegueWithIdentifier:@"editAddress" sender:indexPath];
+}
+
 -(void)prepareForSegue:(CustomizedSegueLeftToRight *)segue sender:(id)sender{
     if ([segue.identifier  isEqual: @"editAddress"]) {
         NSIndexPath *indexPath = sender;
