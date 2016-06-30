@@ -199,6 +199,7 @@
 {
     [super viewWillDisappear:animated];
     [self.navigationController.navigationBar lt_reset];
+    self.myShop.delegate = nil;
 }
 
 -(void)initActivityIndicator{

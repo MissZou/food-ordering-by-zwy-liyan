@@ -132,7 +132,7 @@
     }
     
     [self.navigationController.navigationBar lt_reset];
-
+    self.myShop.delegate = self;
     
 
 }

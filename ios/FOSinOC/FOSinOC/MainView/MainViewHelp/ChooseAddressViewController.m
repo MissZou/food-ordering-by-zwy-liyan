@@ -10,6 +10,7 @@
 #define myBlackSteel [UIColor colorWithRed:121/255.0 green:121/255.0 blue:121/255.0 alpha:1]
 #define tableCellTag 1660
 
+
 #import "ChooseAddressViewController.h"
 #import "AddressCell.h"
 #import "Account.h"
@@ -25,6 +26,17 @@
     // Do any additional setup after loading the view.
     self.myAccout = [Account sharedManager];
     [self initViewController];
+    //self.navigationController.navigationBar.topItem.title = @"Choose Address";
+    
+    
+    UILabel *vcName = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 180, 30)];
+    vcName.text = @"Choose Address";
+    vcName.textAlignment = NSTextAlignmentCenter;
+    vcName.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+    vcName.textColor = myBlackIron;
+    
+    self.navigationItem.titleView = vcName;
+    
 
 }
 
