@@ -205,7 +205,7 @@
         [self presentViewController:alert animated:YES completion:nil];
     }
     else{
-        [self.myShop searchShopByLocation:[self.myAccount.location[0] valueForKey:@"loc"] withdistance:[NSNumber numberWithFloat:3.0]];
+        [self.myShop searchShopByLocation:[self.myAccount.location[0] valueForKey:@"loc"] withdistance:[NSNumber numberWithFloat:0.03]];
         NSString *title = [NSString stringWithFormat:@"%@%@", [self.myAccount.location[0] valueForKey:@"name"],@" ▾"];
         [self.chooseLocationBtn setTitle:title forState:UIControlStateNormal];
     }
@@ -286,7 +286,7 @@
 //    NSLog(@"%@",[location valueForKey:@"loc"]);
     NSArray *loc = @[[location valueForKey:@"loc"][0],[location valueForKey:@"loc"][1]];
     
-    [self.myShop searchShopByLocation:loc withdistance:[NSNumber numberWithFloat:5.0]];
+    [self.myShop searchShopByLocation:loc withdistance:[NSNumber numberWithFloat:0.03]];
 }
 
 -(void)dropDownMenuDelete:(DropDownView *)sender withString:(NSString *)string{
@@ -297,7 +297,7 @@
     if (self.myAccount.location.count == 0) {
         [self.chooseLocationBtn setTitle:@"Choose location ▾" forState:UIControlStateNormal];
     }else{
-        [self.myShop searchShopByLocation:[self.myAccount.location[0] valueForKey:@"loc"] withdistance:[NSNumber numberWithFloat:3.0]];
+        [self.myShop searchShopByLocation:[self.myAccount.location[0] valueForKey:@"loc"] withdistance:[NSNumber numberWithFloat:0.03]];
         NSString *title = [NSString stringWithFormat:@"%@%@", [self.myAccount.location[0] valueForKey:@"name"],@" ▾"];
         [self.chooseLocationBtn setTitle:title forState:UIControlStateNormal];
     }
@@ -361,7 +361,7 @@
 //    NSLog(@"%@",[location valueForKey:@"location"]);
     NSArray *loc = @[[[location valueForKey:@"location"] valueForKey:@"lat"],[[location valueForKey:@"location"] valueForKey:@"lng"]];
     //self.myAccount
-    [self.myShop searchShopByLocation:loc withdistance:[NSNumber numberWithFloat:5.0]];
+    [self.myShop searchShopByLocation:loc withdistance:[NSNumber numberWithFloat:0.03]];
     [self.myAccount location:PUT withLocation:location];
     NSString *title = [NSString stringWithFormat:@"%@%@", [location valueForKey:@"name"],@" ▾"];
     [self.chooseLocationBtn setTitle:title forState:UIControlStateNormal];
