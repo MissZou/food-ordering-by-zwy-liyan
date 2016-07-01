@@ -29,7 +29,7 @@ $(function(){
                 if (data.code == 200) {
                     alert("登录成功");
                     localStorage.setItem('accountId', data.accountId);
-                    window.location = "/user/account/index";
+                    window.location = "/user/account/web/index/m";
                 } else if (data.code == 400) {
                     alert("登录失败");
                 }

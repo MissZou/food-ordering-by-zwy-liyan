@@ -96,7 +96,7 @@ $(function() {
             //processData: false, 
             success: function(data, status) {
                 if (data.code == 200) {
-                    alert("上传成功");
+                    alert("上传成功dish");
                     console.log(data.dishes);
                     var originalDishes = data.dishes;
                     var newDishes = [];
@@ -126,7 +126,7 @@ $(function() {
                         processData: false,
                         success: function(data, status) {
                             if (data.code == 200) {
-                                alert("上传成功");
+                                alert("上传成功tupian");
                             } else {
                                 console.log(data)
                             }

@@ -3,19 +3,17 @@ $(function() {
 	$(".restaurant-content").height(windowHeight-44-39-42);
 	var num = null;
 	var menuOrder=[];
-	var shopId=localStorage.getItem("shopId");
+	var shopId=window.location.pathname.split("/")[5]; //非常不健壮
+	localStorage.setItem("shopId",shopId);
 	var trueData=null;
 	var classifyObj={};
-	//[{},{}]
 	$.ajax({
-		url: '/shop/account/menu-m',
+		url: '/shop/account/web/menu-m',
             type: 'POST',
             data: {"shopId":shopId},
             success: function(data, status) {
                 if (data.success) {
                     trueData=data.dish;
-                    alert("hahha")
-                    console.log(trueData)
                     for(var i=0;i<trueData.length;i++){
                     	if(!classifyObj[trueData[i].category]){
                     		classifyObj[trueData[i].category]=[];
@@ -24,55 +22,9 @@ $(function() {
                     		classifyObj[trueData[i].category].push(trueData[i]);
                     	}
                     }
-                    console.log("classifyObj",classifyObj)
                 }
             }
 	});
-
-    var fakeData = {
-        "0": [{
-            "dishName": "水煮肉片1",
-            "des": "shmshmshm狠辣",
-            "price": 25
-        }, {
-            "dishName": "水煮肉片2",
-            "des": "shmshmshm狠辣",
-            "price": 25
-        }, {
-            "dishName": "水煮肉片3",
-            "des": "shmshmshm狠辣",
-            "price": 25
-        }, {
-            "dishName": "水煮肉片4",
-            "des": "shmshmshm狠辣",
-            "price": 25
-        }, {
-            "dishName": "水煮肉片5",
-            "des": "shmshmshm狠辣",
-            "price": 25
-        }, {
-            "dishName": "水煮肉片6",
-            "des": "shmshmshm狠辣",
-            "price": 25
-        }, {
-            "dishName": "水煮肉片7",
-            "des": "shmshmshm狠辣",
-            "price": 25
-        }, {
-            "dishName": "水煮肉片8",
-            "des": "shmshmshm狠辣",
-            "price": 25
-        }, {
-            "dishName": "水煮肉片9",
-            "des": "shmshmshm狠辣",
-            "price": 25
-        }],
-        "1": [{
-            "dishName": "水煮肉片222222222222",
-            "des": "shmshmshm温和shmshmmhs",
-            "price": 76
-        }]
-    };
 
     $(".restaurant-menu-item").on("click", loadContent);
 
@@ -218,6 +170,7 @@ $(function() {
     function order(){
     	localStorage.setItem('menuOrder',JSON.stringify(menuOrder));
         localStorage.setItem('totalPrice',$(".mcart-price").text());
-        window.location="file:///C:/Users/lenovo/Desktop/%E6%9A%82%E6%97%B6/order-comfirm-m.html";
+        window.location="/user/account/web/order/m";
     }
+    alert(shopId)
 })

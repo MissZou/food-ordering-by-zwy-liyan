@@ -4,6 +4,7 @@ html
     meta(charset='UTF-8')
     title Menu
     meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=no')
+    link(rel='stylesheet', href='/stylesheets/header-m.css')
     link(rel='stylesheet', href='/stylesheets/common.css')
     link(rel='stylesheet', href='/stylesheets/menu-m.css')
   body
@@ -45,11 +46,8 @@ html
     -     arr.push(values[i].category);
     - }
     -}
-    header.eleme-header
-      a.header-back(goback='/home')
-        span.icon-arrow-left <
-      .header-title.flex
-        span.header-rst-name 地瓜府（亦庄店）
+    include header-m.jade
+    +header-m("http://www.baidu.com","XXX店")
     ul.restaurant-tabs.clearfix
       li.restaurant-tab.active 菜单
       li.restaurant-tab 评价

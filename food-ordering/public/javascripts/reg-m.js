@@ -34,7 +34,7 @@ $(function() {
             success: function(data, status) {
                 if (data.success == true) {
                     alert("注册成功、。。。")
-                    window.location="/user/login/m";
+                    window.location="/user/login/web/m";
                 }else{
                     alert("您已使用过此邮箱！")
                 }
