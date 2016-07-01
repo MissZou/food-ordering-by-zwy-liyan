@@ -15,27 +15,33 @@ iOS app need to set up node.js server to run fully or you can annotation code at
 
 And can log into the app.
 
-Now the iOS Objective-C version looks like:
+Now the iOS Objective-C version looks like:      
 
-Login and tutorial view.
+Login and tutorial view.     
+
 ![Alt Text](https://github.com/Thanatos-L/food-ordering-by-zwy-liyan/blob/master/readme/login.gif)
 
 
-MainView, could search shop by location.
+MainView, could search shop by location.     
+
 ![Alt Text](https://github.com/Thanatos-L/food-ordering-by-zwy-liyan/blob/master/readme/MainView.gif)
 
 
-Old detailedshopView, too many bugs and now been replaced by a new one.
+Old detailedshopView, too many bugs and now been replaced by a new one.     
+
 ![Alt Text](https://github.com/Thanatos-L/food-ordering-by-zwy-liyan/blob/master/readme/detailedview.gif)
 
 
-Add/delete item in cart.
+Add/delete item in cart.      
+
 ![Alt Text](https://github.com/Thanatos-L/food-ordering-by-zwy-liyan/blob/master/readme/cartView.gif)
 
 
-Food view
+Food view      
+
 ![Alt Text](https://github.com/Thanatos-L/food-ordering-by-zwy-liyan/blob/master/readme/foodView.gif)
 
 
-Place order view
+Place order view      
+
 ![Alt Text](https://github.com/Thanatos-L/food-ordering-by-zwy-liyan/blob/master/readme/Placeorder.gif)
