@@ -199,6 +199,7 @@
 {
     [super viewWillDisappear:animated];
     [self.navigationController.navigationBar lt_reset];
+    self.myShop.delegate = nil;
 }
 
 -(void)initActivityIndicator{
@@ -381,7 +382,7 @@
     return true;
 }
 
-
+#pragma mark -- detailedChildFoodDelegate
 
 -(void)detailedChildFoodDidSelectItem:(NSDictionary *)item image:(UIImage *)image shopId:(NSString *)shopId{
     self.segueImage = image;
@@ -390,11 +391,20 @@
     [self performSegueWithIdentifier:@"foodDetailSegue" sender:nil];
 }
 
+-(void)detailedChildFoodCheckout{
+    [self performSegueWithIdentifier:@"checkout" sender:nil];
+}
+
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    FoodViewController *foodViewController = segue.destinationViewController;
-    foodViewController.itemImage = self.segueImage;
-    foodViewController.item = self.segueItem;
-    foodViewController.shopId = self.segueShopId;
+    if ([segue.identifier isEqualToString:@"foodDetailSegue"]) {
+        FoodViewController *foodViewController = segue.destinationViewController;
+        foodViewController.itemImage = self.segueImage;
+        foodViewController.item = self.segueItem;
+        foodViewController.shopId = self.segueShopId;
+    }else if([segue.identifier isEqualToString:@"checkout"]){
+        
+    }
+    
 }
 
 -(void)adjustCartViewFrameY:(CGFloat)adjustValue{

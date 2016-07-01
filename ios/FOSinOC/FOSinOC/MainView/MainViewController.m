@@ -132,7 +132,7 @@
     }
     
     [self.navigationController.navigationBar lt_reset];
-
+    self.myShop.delegate = self;
     
 
 }
@@ -205,7 +205,7 @@
         [self presentViewController:alert animated:YES completion:nil];
     }
     else{
-        [self.myShop searchShopByLocation:[self.myAccount.location[0] valueForKey:@"loc"] withdistance:[NSNumber numberWithFloat:3.0]];
+        [self.myShop searchShopByLocation:[self.myAccount.location[0] valueForKey:@"loc"] withdistance:[NSNumber numberWithFloat:0.03]];
         NSString *title = [NSString stringWithFormat:@"%@%@", [self.myAccount.location[0] valueForKey:@"name"],@" ▾"];
         [self.chooseLocationBtn setTitle:title forState:UIControlStateNormal];
     }
@@ -286,7 +286,7 @@
 //    NSLog(@"%@",[location valueForKey:@"loc"]);
     NSArray *loc = @[[location valueForKey:@"loc"][0],[location valueForKey:@"loc"][1]];
     
-    [self.myShop searchShopByLocation:loc withdistance:[NSNumber numberWithFloat:5.0]];
+    [self.myShop searchShopByLocation:loc withdistance:[NSNumber numberWithFloat:0.03]];
 }
 
 -(void)dropDownMenuDelete:(DropDownView *)sender withString:(NSString *)string{
@@ -294,8 +294,14 @@
      NSDictionary *location = @{@"name": string,@"location":@"0,0"};
     [self.myAccount location:DELETE withLocation:location];
     self.dropDownChooseLocation.dropDownTableView.frame = CGRectMake(0, 0, self.chooseLocationBtn.superview.frame.size.width, 60 * (CGFloat)self.myAccount.location.count);
+    if (self.myAccount.location.count == 0) {
+        [self.chooseLocationBtn setTitle:@"Choose location ▾" forState:UIControlStateNormal];
+    }else{
+        [self.myShop searchShopByLocation:[self.myAccount.location[0] valueForKey:@"loc"] withdistance:[NSNumber numberWithFloat:0.03]];
+        NSString *title = [NSString stringWithFormat:@"%@%@", [self.myAccount.location[0] valueForKey:@"name"],@" ▾"];
+        [self.chooseLocationBtn setTitle:title forState:UIControlStateNormal];
+    }
     
-    [self.chooseLocationBtn setTitle:@"Choose location ▾" forState:UIControlStateNormal];
 }
 
 -(void)doSearch{
@@ -355,7 +361,7 @@
 //    NSLog(@"%@",[location valueForKey:@"location"]);
     NSArray *loc = @[[[location valueForKey:@"location"] valueForKey:@"lat"],[[location valueForKey:@"location"] valueForKey:@"lng"]];
     //self.myAccount
-    [self.myShop searchShopByLocation:loc withdistance:[NSNumber numberWithFloat:5.0]];
+    [self.myShop searchShopByLocation:loc withdistance:[NSNumber numberWithFloat:0.03]];
     [self.myAccount location:PUT withLocation:location];
     NSString *title = [NSString stringWithFormat:@"%@%@", [location valueForKey:@"name"],@" ▾"];
     [self.chooseLocationBtn setTitle:title forState:UIControlStateNormal];
@@ -364,7 +370,7 @@
 -(void)finishSearchShops:(NSDictionary *)shops{
     if ([shops valueForKey:@"shop"] != NULL) {
         self.shopList = [[shops valueForKey:@"shop"] mutableCopy];
-        //NSLog(@"main view shop list:%@",self.shopList);
+        [self.mainViewTableView reloadData];
     }else{
         NSLog(@"shop list = null");
     }

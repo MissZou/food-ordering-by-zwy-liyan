@@ -251,6 +251,8 @@ var findCartItemById = function(accountId,shopId,itemId,callback){
 var findCartItem = function(accountId,index,count,callback){
   Account.findOne({_id:accountId},function(err,doc){
       if (doc != null) {
+        index = 1;
+        count = 30;// mark!  fix the count
         var limit = index * count;
         var items = doc.cart;
         if (items.length == 0) {
@@ -272,22 +274,36 @@ var findCartItem = function(accountId,index,count,callback){
            var j = 0;
            var myEventEmitter = new eventEmitter;
            myEventEmitter.on('next',addResult);
+           //console.log(array);
            function addResult(){
-              obj["amount"] = array[j].amount;
               j++;
+
               result.push(obj)
               obj = {};
               
 
               if (j == array.length) {
+                for (var i = 0; i < result.length ; i++) {
+                    for (var k = 0; k < array.length ; k++) {
+
+                      if (String(result[i]._id) == String(array[k].itemId)) {
+                          //console.log(result[i]);
+                          // /console.log(array[k]);
+                          result[i].cartId = array[k]._id;
+                          result[i].amount = array[k].amount;
+                          result[i].shopId = array[k].shopId;
+                      }
+                  }                  
+                }
+
                 callback(result);
               }
            }         
            
            for (var i = 0; i <array.length ; i++) {
                 var ii = i;
-                populateCartItem(accountId,array[ii],function(doc){
-                  var iii = ii;
+                populateCartItem(accountId,array[i],function(doc,shopName){
+                  
                   obj["dishName"] = doc["dishName"];
                   obj["price"] = doc["price"];
                   obj["intro"] = doc["intro"];
@@ -295,6 +311,7 @@ var findCartItem = function(accountId,index,count,callback){
                   obj["dishPic"] = doc["dishPic"];
                   //obj["comment"] = doc["comment"];
                   obj["tags"] = doc["tags"];
+                  obj["shopName"] = shopName;
                   myEventEmitter.emit("next");
                 })
            }
@@ -318,7 +335,7 @@ var populateCartItem = function(accountId,item,callback){
                   if (err) {
                     callback(err);
                   }else{
-                    
+                    //console.log(doc);
                     for(var i = 0;i<doc.cart.length;i++){
                         if (doc.cart[i].shopId == null) {
                             doc.cart.splice(i,1);
@@ -327,10 +344,11 @@ var populateCartItem = function(accountId,item,callback){
                     }
                     
                     var dishs = doc.cart[0].shopId.dish;
-
+                    console.log(doc.cart[0].shopId.shopName);
+                    
                     for(var i = 0;i<dishs.length;i++){
                       if (String(dishs[i]._id).valueOf() == String(item.itemId).valueOf()) {
-                          callback(dishs[i]);
+                          callback(dishs[i],doc.cart[0].shopId.shopName);
                       }
                     
                     }
