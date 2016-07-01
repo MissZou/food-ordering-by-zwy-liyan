@@ -575,16 +575,16 @@ router.route('/account/location')
     }
 });
 router.route('/account/web/cart/:shopId')
-    .post(function(req, res) {
-        
-        Shop.findShopById(req.params.shopId,function(doc){
+.get(function(req,res){
+Shop.findShopById(req.params.shopId,function(doc){
             console.log(doc.dish);
              res.render('shop-detail', {
                 doc: doc.dish,
                 shopName:doc.shopName
             });
-        })        
-});
+        })    
+})
+
 
 router.route('/account/web/cart/:shopId/m')
 
@@ -826,6 +826,14 @@ var accountId = req.decoded._id;
             });
         })
     });
+router.route('/account/web/order/m')
+
+.get(function(req, res) {
+
+ res.sendfile(path.join(__dirname, '../../views', 'order-comfirm-m.html'));
+
+    });
+
 
 router.route('/account/web/myorder')
 .get(function(req, res) {
