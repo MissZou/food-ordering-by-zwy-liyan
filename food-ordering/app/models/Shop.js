@@ -309,6 +309,8 @@ var queryNearShops = function(loc,distance,callback){
 
 var findNearShops = function(loc,distance,index,count,callback){
   var maxDistance = distance;
+  console.log("distance");
+  console.log(distance);
   var limit = index*count;
     Shop.find({location:{$near:loc,$maxDistance: maxDistance}}).skip(limit - count).limit(limit).exec(function(err, doc) {
         if (err) {
