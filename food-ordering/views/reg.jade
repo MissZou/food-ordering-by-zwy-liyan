@@ -12,9 +12,11 @@ html
 			a.close X
 			h1 Log In To Your Account
 			form#loginUser(method='post')
-				input#user_loginemail(autocomplete='off', name='user_email', placeholder='Email', size='30', type='email')
+				input#user_loginemail.loginEle(autocomplete='off', name='user_email', placeholder='Email', size='30', type='email')
+				p.error 请填写邮箱地址
 				br
-				input#user_loginpassword.strong-password(autocomplete='off', name='user_password', placeholder='Password', size='30', type='password')
+				input#user_loginpassword.strong-password.loginEle(autocomplete='off', name='user_password', placeholder='Password', size='30', type='password')
+				p.error 请填空
 				br
 				input#login_button.signup_button-btn(, name='commit', type='submit', value='Log in') 
 			.wrp
@@ -28,14 +30,25 @@ html
 			.signup-view-large
 				form#new-user(method='post')
 					div
-						input#user_name(autocomplete='off', name='user_name', placeholder='User name', size='30', type='text')        
+						input#user_name(autocomplete='off', name='user_name', placeholder='User name', size='30', type='text')
+						span.error 请填空
 						input#user_email(autocomplete='off', name='user_email', placeholder='Email', size='30', type='email')
-						input#user_password.strong-password(autocomplete='off', name='user_password', placeholder='Password', size='30', type='password')       
-						input#user_phone(autocomplete='off', name='user_phone', placeholder='Mobile phone', size='30', type='text')
-						input#user_address(autocomplete='off', name='user_address', placeholder='Address', size='30', type='text')    
+						span.error 请填空
+						span.error.email 请填写正确的Email  
+						input#user_password.strong-password(autocomplete='off', name='user_password', placeholder='Password', size='30', type='password')
+						span.error 请填空   
+						input#user_phone(autocomplete='off', name='user_phone', placeholder='Mobile phone', size='30', type='number')
+						span.error 请填空 
+						input#user_address(autocomplete='off', name='user_address', placeholder='Address', size='30', type='text')
+						span.error 请填空
 					input#signup_button.signup_button-btn(data-disable-with='Creating Account...', name='commit', type='submit', value='Sign Up')       
-			.signup-view-small 写点啥XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-			a(href='javascript:;',id='loginForm') log in
+			.signup-view-small 
+				h3 WORK IS STRESSFUL, ORDERING FOOD SHOULDN'T BE
+				p WE'RE ON TIME Our team works closely with our food vendors to ensure all orders are delivered on time – we don’t want anyone getting h-angry!
+				p HONEST PRICING No markups, no rip offs - our pricing is fair and honest.
+				p 已经注册过了？
+				p 那就登录吧！
+				p(id='loginForm') log in
 	script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
 	script(src='/javascripts/login.js')
 

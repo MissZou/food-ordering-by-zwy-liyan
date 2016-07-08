@@ -1,3 +1,34 @@
+*{
+      margin:0;
+      padding:0;
+    }
+    #l-map {
+        height: 0;
+        width: 0;
+    }
+    .star-rating[progress-meter] {
+    position: relative;
+    display: inline-block;
+    line-height: 1em;
+    color: #ccc;
+    width: 85px;
+    height: 20px;
+    background-image: url(gray-star.svg);
+    background-repeat: repeat-x;
+}
+
+.star-rating .star-meter[progress-fill] {
+    height: 100%;
+    background-image: url(gold-star.svg);
+    background-repeat: repeat-x;
+}
+body {
+    min-width: 20em;
+    width: 100%;
+    background: #f2f2f2;
+    color: #333;
+    font: 100%/1.5 "Helvetica Neue", "Microsoft Yahei", sans-serif;
+}
 .shoplist {
     background-color: #fff;
 }
@@ -11,7 +42,7 @@ h3 {
   background-color: #fff;
   color: #666;
   list-style: none;
-  font-size: 0.30137rem;
+  font-size: 16px;
   line-height: 1;
 }
 
@@ -43,8 +74,8 @@ h3 {
 
 .logo {
   display: block;
-  width: 1.315068rem;
-  height: 1.315068rem;
+       width: 67px;
+    height: 67px;
   -webkit-border-radius: 50%;
   border-radius: 50%;
 }
@@ -74,18 +105,43 @@ h3 {
   -ms-flex-pack: justify;
   justify-content: space-between;
 }
+#suggestId{
+    display: inline-block;
+    width: 90%;
+margin-left:5%;
+    padding: 8px 4px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    font-size: 1rem;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-appearance: none!important;
+    font-family: inherit;
+    height: 39px;
+    box-sizing:border-box;
+}
 
+#confirm{
+ visibility: hidden;
+ height: 0;
+}
+#r-result{
+  margin-bottom: -16px;
+      margin-top: 1rem;
+}
 .line + .line {
-  margin-top: 0.205479rem;
+     margin-top: 2px;
 }
 
 .shop-name {
   overflow: hidden;
-  max-width: 5.136986rem;
+max-width: 50%;
   color: #333;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 0.438356rem;
+  font-size: 20px;
 }
 
 .price {
@@ -117,6 +173,7 @@ h3 {
 .rate {
   margin: 0 0.109589rem;
   color: #ff6000;
+      margin-top: -4px;
 }
 
 .speed span + span:before {

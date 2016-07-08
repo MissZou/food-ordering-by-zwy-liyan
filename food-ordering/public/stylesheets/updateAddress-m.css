@@ -1,0 +1,18 @@
+.addressform{
+	width: 100%;
+}
+.addressform-buttons{
+	margin-left: 0;
+}
+#save{
+	width: 100%;
+}
+.addressformfield>input, .addressformfield>input[type=text]{
+	width: 100%;
+}
+.addressformfield>label{
+	text-align: left;
+}
+.addressformfield-hint{
+	margin-left: 0;
+}

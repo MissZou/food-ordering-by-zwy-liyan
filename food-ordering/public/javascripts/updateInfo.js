@@ -18,7 +18,7 @@ $(document).ready(function() {
         });
     });
 
-    $("#save").on("click", function() {
+    $("#save").on("click", function() {  //save new address
         $.ajax({
             url: '/user/account/address',
             type: 'PUT',

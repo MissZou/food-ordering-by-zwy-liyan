@@ -47,7 +47,8 @@ html
     - }
     -}
     include header-m.jade
-    +header-m("http://www.baidu.com","XXX店")
+    +header-m("http://www.baidu.com","")
+    input#shopName(type="hidden",value= shopName)
     ul.restaurant-tabs.clearfix
       li.restaurant-tab.active 菜单
       li.restaurant-tab 评价
@@ -58,7 +59,9 @@ html
         //-   span 秒杀半价
         //- div.restaurant-menu-item
         //-   span 秒杀半价
-        - for (var j = 0; j < arr.length; j++){
+        div.restaurant-menu-item.active
+            span.category= arr[0]
+        - for (var j = 1; j < arr.length; j++){
           div.restaurant-menu-item
             span.category= arr[j]
         - }
@@ -79,7 +82,7 @@ html
                       span.restaurant-food-sales 月售57份
                     .restaurant-food-footer
                       span.restaurant-food-price= values[i].price
-                      .mdish-cartcontrol
+                      .mdish-cartcontrol +
           - }
           - }
           

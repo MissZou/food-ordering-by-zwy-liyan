@@ -82,7 +82,11 @@
         color: #f74342;
         left: 117px;
     }
-    
+    .shopName{
+            display: inline-block;
+    margin-left: 10%;
+    margin-right: 12px;
+    }
     .shop-cartbutton {
         display: inline-block;
         background-color: #0089dc;
@@ -108,6 +112,7 @@
     
     .wrapper {
         min-width: 960px;
+        margin-left:10%;
     }
     
     .shopmenu-nav {
@@ -404,6 +409,7 @@
     height: 24px;
     width: 24px;
     cursor: pointer;
+    display: inline-block;
 }
 .coreSpriteHeartOpen{
     background-position: -114px -462px;

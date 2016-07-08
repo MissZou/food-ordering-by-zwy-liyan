@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title search for shops nearby
+    meta(name='viewport', ,='', content='width=device-width, initial-scale=1, user-scalable=no')
+    link(rel='stylesheet', href='/stylesheets/restaurant-list-m.css')
+    link(rel='stylesheet', href='/stylesheets/header-m.css')
+  body
+    include header-m.jade
+    +header-m("http://www.baidu.com","Search for shops")
+    #l-map
+    #r-result
+      input#suggestId(type='text', size='20', placeholder='请输入地址')
+      button#confirm 确定
+    #searchResultPanel(style='border:1px solid #C0C0C0;width:150px;height:auto; display:none;')
+    ul#search-result
+  script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
+  script(type='text/javascript', src='http://api.map.baidu.com/api?v=2.0&ak=G9z0gp8jpzYSv9WNpqboiWgmB3ZpkUv4')
+  script(src='/javascripts/jquery.tmpl.min.js')
+  script(src='/javascripts/search-shop-m.js')

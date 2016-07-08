@@ -252,7 +252,7 @@ router.route('/account/web/index/m')
 
     .get(function(req, res) {
 
-        res.sendfile(path.join(__dirname, '../../views', 'geology-search-m.html'));
+         res.render('search-shop-m.jade');
 
     });
 
@@ -362,7 +362,7 @@ router.route('/account')
 
  router.route('/account/index')
     .get(function(req, res) {
-        res.sendfile(path.join(__dirname, '../../views', 'baidu-map.html'));
+        res.render('search.jade');
     });
 
 router.route('/account/web/address')
@@ -375,6 +375,11 @@ router.route('/account/web/address')
             });
         })
 
+    });
+
+router.route('/account/web/address/m')
+    .get(function(req, res) {
+        res.render('addAddress-m.jade');
     });
 
 
@@ -829,8 +834,7 @@ var accountId = req.decoded._id;
 router.route('/account/web/order/m')
 
 .get(function(req, res) {
-
- res.sendfile(path.join(__dirname, '../../views', 'order-comfirm-m.html'));
+res.render('order-confirm-m.jade');
 
     });
 

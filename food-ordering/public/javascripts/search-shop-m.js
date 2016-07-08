@@ -1,35 +1,3 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="UTF-8">
-    <title>search for shops nearby</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <style>
-    *{
-    	margin:0;
-    	padding:0;
-    }
-    #l-map {
-        height: 100px;
-        width: 100%;
-    }
-    </style>
-</head>
-
-<body>
-    <h1>search for shops nearby</h1>
-     <div id="l-map"></div>
-    <div id="r-result">请输入:
-        <input type="text" id="suggestId" size="20" value="百度" style="width:150px;" />
-    </div>
-    <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
-    <button id="confirm">确定</button>
-</body>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=G9z0gp8jpzYSv9WNpqboiWgmB3ZpkUv4"></script>
-<script src="/javascripts/jquery.tmpl.min.js"></script>
-<script>
 $(function() {
 	var map = new BMap.Map("l-map");
 	 map.centerAndZoom("香港", 12); // 初始化地图,
@@ -52,27 +20,34 @@ $(function() {
                 data: data,
                 success: function(data, status) {
                     if (data.code == 200) {
-                        alert("搜索成功");
                         console.log(data)
                         var shopData = data.shop;
-
-                        var markup = '<a href="/user/account/web/cart/${_id}/m"  class="rstblock"> \
-            <div class="rstblock-logo"> \
-            <img src=${shopPicTrueUrl} width="70" height="70" alt=${shopName} class="rstblock-logo-icon"><span>36 分钟</span></div> \
-            <div class="rstblock-content"> \
-                <div class="rstblock-title">${shopName}</div> \
-                <div class="star-rating" progress-meter="5"> \
+                        alert( window.location.host)
+                        var markup ='<li class="item" data-src="/user/account/web/cart/${_id}/m"> \
+            <div class="item-wrap"> \
+                <div class="left-wrap"> \
+                    <img src="http://'+  window.location.host+'${shopPicUrl}" alt=${shopName} class="logo"> \
+                </div> \
+                <div class="right-wrap"> \
+                    <section class="line"> \
+                        <h3 class="shop-name">${shopName}</h3> \
+                    </section> \
+                   <section class="line"> \
+                        <div class="rate-wrap"> \
+                            <div class="star-rating" progress-meter="5"> \
                     <div class="star-meter" progress-fill="4.2" style="width: 84%;"> \
                 </div> \
-              </div> \
-                <div class="rstblock-cost">类型：${shopType}</div> \
+                        </div> \
+                         <span class="rate">4.2</span> \
+                    </section> \
+                    <section class="line"></section> \
+                </div> \
             </div> \
-            <div>${_id}</div> \
-        </a>'
+        </li>'
+                       
                         $.template("shopTemplate", markup);
-                        $("#search-result").html("");
-                        $.tmpl("shopTemplate", shopData)
-                            .appendTo("body");
+                        $("#search-result").html($.tmpl("shopTemplate", shopData));
+
                     } else {
                         alert("附近没有商家！");
                     }
@@ -122,9 +97,10 @@ $(function() {
     ac.addEventListener("onconfirm", function(e) { //鼠标点击下拉列表后的事件
         var _value = e.item.value;
         myValue = _value.province + _value.city + _value.district + _value.street + _value.business;
-/*        G("searchResultPanel").innerHTML = "onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;*/
-console.log(_value)
 setPlace();
+setTimeout(function(){
+$("#confirm").click();
+},1500)
     });
 
     function setPlace() {
@@ -140,9 +116,8 @@ setPlace();
             onSearchComplete: myFun
         });
         local.search(myValue);
+
     }
-
-
     function markerPosNew() {
         var p = marker.getPosition(); //获取marker的位置
         var loc = "[" + p.lng + "," + p.lat + "]";
@@ -157,34 +132,34 @@ setPlace();
             data: data,
             success: function(data, status) {
                 if (data.code == 200) {
-                    alert("搜索成功");
                     console.log(data)
                     var shopData = data.shop;
-
-                    var markup = '<a href="/user/account/web/cart/${_id}/m" class="rstblock"> \
-            <div class="rstblock-logo"> \
-            <img src=${shopPicTrueUrl} width="70" height="70" alt=${shopName} class="rstblock-logo-icon"><span>36 分钟</span></div> \
-            <div class="rstblock-content"> \
-                <div class="rstblock-title">${shopName}</div> \
-                <div class="star-rating" progress-meter="5"> \
+                    var markup ='<li class="item" data-src="/user/account/web/cart/${_id}/m"> \
+            <div class="item-wrap"> \
+                <div class="left-wrap"> \
+                    <img src="http://'+  window.location.host+'${shopPicUrl}" alt=${shopName} class="logo"> \
+                </div> \
+                <div class="right-wrap"> \
+                    <section class="line"> \
+                        <h3 class="shop-name">${shopName}</h3> \
+                    </section> \
+                    <section class="line"> \
+                        <div class="rate-wrap"> \
+                            <div class="star-rating" progress-meter="5"> \
                     <div class="star-meter" progress-fill="4.2" style="width: 84%;"> \
                 </div> \
-              </div> \
-                <div class="rstblock-cost">类型：${shopType}</div> \
+                        </div> \
+                         <span class="rate">4.2</span> \
+                    </section> \
+                    <section class="line"> \
+                     ${shopType} \
+                    </section> \
+                </div> \
             </div> \
-            <div>${_id}</div> \
-        </a>'
-                        //var markup = "<li><b>${Name}</b> (${ReleaseYear})</li>";
-
-                    // Compile the markup as a named template
-                    $.template("shopTemplate", markup);
-
-                    // Render the template with the movies data and insert
-                    // the rendered HTML under the "movieList" element
-                    $("#search-result").html("");
-                    $.tmpl("shopTemplate", shopData)
-                        .appendTo("body");
-
+        </li>'
+                       
+                        $.template("shopTemplate", markup);
+                        $("#search-result").html($.tmpl("shopTemplate", shopData));
                 } else {
                     alert("附近没有商家！");
                 }
@@ -193,7 +168,8 @@ setPlace();
     }
 
     $("#confirm").on("click", markerPosNew);
-})
-</script>
 
-</html>
+    $(document).on("click",".item",function(){
+    	window.location=$(this).attr("data-src");
+    });
+})

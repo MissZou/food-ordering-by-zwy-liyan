@@ -202,6 +202,10 @@ html {
         border: 1px solid #eee;
         cursor: pointer;
     }
+    .checkout-pay:hover{
+    color: #0089dc;
+border: 1px solid #0089dc;
+}
     
     .checkout-pay p:first-child {
         margin-bottom: 4px;
@@ -241,6 +245,7 @@ html {
         position: fixed;
         background: #fff;
         padding: 0;
+
     }
     
     .addressdialog-close {
@@ -337,6 +342,7 @@ html {
     
     .addressformfield-hint .icon-dot-error {
         color: #ff464c;
+        display: none;
     }
     
     .addressformfield.validate-error input {

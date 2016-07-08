@@ -4,12 +4,15 @@ body, button, input, select, textarea {
 body{
     box-sizing:border-box;
 }
+*{
+    margin:0;
+    padding: 0;
+}
 input:focus,button:focus{
     outline: none;
 }
 .desktop-addresslist {
     padding-top: 15px;
-    margin-right: -10px;
     overflow: hidden;
 }
 .desktop-addressblock {
@@ -50,8 +53,13 @@ button, input {
     text-overflow: ellipsis;
 }
 .desktop-addressblock-name {
-    color: #333;
-    margin-bottom: 10px;
+        font-size: 16px;
+    margin-top: 5px;
+    margin-bottom: 6px;
+    font-weight: bold;
+    height: auto;
+    color: #1e89e0;
+
     padding-right: 60px;
 }
 .desktop-addressblock-address, .desktop-addressblock-mobile {
@@ -185,13 +193,17 @@ button, input {
     .desktop-addressblock {
     position: relative;
     display: inline-block;
-    width: 242px;
+    width: 49.2%;
     height: 110px;
-    padding: 16px 12px 16px 20px;
-    margin-right: 10px;
+    padding: 0;
+    padding-left:15px;
+    margin-right: 0;
     margin-bottom: 15px;
     border: 1px solid #ddd;
 }
+ .desktop-addressblock:nth-of-type(odd){
+    margin-right: 1.6%;
+ }
 .desktop-addressblock-addblock {
     vertical-align: top;
     padding: 0;

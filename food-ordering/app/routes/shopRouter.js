@@ -492,15 +492,7 @@ router.route('/createCover')
                     fs.unlink(tmp_path, function() {
                     });
                 });
-
-            // fs.rename(tmp_path, targetPath, function(err) {
-            //     if (err) throw err;
-            //     // 删除临时文件夹文件, 
-            //     fs.unlink(tmp_path, function() {
-            //         if (err) throw err;
-            //     });
-            // });
-            var url = 'http://' + req.headers.host + '/resources/' + fields.shopId +'/'+fields.shopId+ '.jpg';
+            var url =  '/resources/' + fields.shopId +'/'+fields.shopId+ '.jpg';
             Shop.uploadShopCover(shopId, url, function(err) {
                 if (null == err)
                     res.json({

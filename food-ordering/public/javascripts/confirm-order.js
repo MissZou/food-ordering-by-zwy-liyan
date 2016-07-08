@@ -1,4 +1,8 @@
 $(function() {
+    var winHeight=$(window).height();
+    var winWidth=$(window).width();
+
+    $(".addressdialog").css({"left":(winWidth-790)/2+ 'px',"top":(winHeight-412)/2+ 'px'});
     if (localStorage.getItem('orderList')) {
         var orderList = localStorage.getItem('orderList');
         console.log(JSON.parse(orderList))
@@ -21,7 +25,6 @@ $(function() {
         $(".checkoutcart-total .num").text(localStorage.getItem('totalPrice'));
         $(".checkoutcart-totalextra span").text(orderListArr.length);
     }
-
     var socket = io();
     var id = localStorage.getItem("shopId");
     var userId=localStorage.getItem('accountId')
@@ -88,6 +91,57 @@ $(function() {
         $(this).addClass("active").siblings().removeClass("active");
     })
 
+      $(".checkout-pay").on("click",function(){
+        $(this).addClass("active").siblings().removeClass("active");
+    })
+
+    $(".addressform-buttons").find("button").eq(1).on("click", function() {
+        $(this).parents(".addressdialog").hide();
+        $(".mask").hide();
+    });
+
+    $(".addressform-buttons").find("button").eq(0).on("click", function() {  //save new address
+        //check if empty
+        var errorCount=0;
+         $(".addressform input").each(function(index, val) {
+        if ($(this).val().trim() === "") {
+            errorCount++;
+        }
+    });
+         if(errorCount!=0){
+                    $(".addressform").find("input").each(function(){
+        if($(this).val().trim()==""){
+            $(this).parent().addClass("validate-error");
+            $(this).next().find("span").show();
+        }else{
+             $(this).parent().removeClass("validate-error");
+            $(this).next().find("span").hide();
+        }
+      })
+            return false;        
+         }
+        $.ajax({
+            url: '/user/account/address',
+            type: 'PUT',
+            data: {
+                "name": $("#username").val(),
+                "phone": $("#phone").val(),
+                "type": $("#type").val(),
+                "address": $("#address").val()
+            },
+            success: function(data, status) {
+                if (data.success == true) {
+                    location.reload();
+                }
+            },
+            error: function(data, status) {
+                if (data.code != 200) {
+                    alert("上传shibai");
+                }
+            }
+        });
+    });
+ $(".desktop-addressblock").last().click();
     function confirmOrder() {
        /* console.log(id)
         console.log(localStorage.getItem('accountId'))*/

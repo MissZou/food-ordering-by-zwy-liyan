@@ -1,6 +1,8 @@
 input[type="text"],
 input[type="email"],
-input[type="password"]{
+input[type="password"],
+input[type="number"]
+{
     /* font-family: "BentonSans",Helvetica,Arial,sans-serif; */
     padding: 0px;
     margin: 0px;
@@ -27,7 +29,7 @@ input[type="password"]{
 }
 
 .signup {
-  /*   background: url(/images/signup-background.jpg); */
+     background: url(/images/signup-background.jpg); 
     background-size: cover;
     font-family: "Microsoft Yahei", "BentonSans", Helvetica, Arial, sans-serif;
 }
@@ -80,22 +82,33 @@ input[type="password"]{
 .signup-view-small {
     float: left;
     margin-left: 0;
+    margin-top:10px;
     margin-right: 9%;
     width: 31%;
     overflow: hidden;
     font-size: 14px;
+    color: #6e5757;
 }
 
-.signup-view-small a {
+.signup-view-small p{
+    margin-top: 10px;
+}
+.signup-view-small h3{
+ margin-top: 17px;
+}
+#loginForm  {
     text-decoration: none;
     color: #f15a22;
+    margin-top: 15px;
+    display: block;
+    cursor: pointer;
 }
 
 input {
     outline: none;
 }
 .mask{
-    background-color: rgba(205,217,227,0.95);
+    background-color: rgba(205,217,227,0.5);
     position: fixed;
     top: 0;
     left: 0;
@@ -157,4 +170,16 @@ font-size: 22px;
 .wrp p{
     margin-bottom: 10px;
     margin-top: 10px;
+}
+input.error{
+    border: 1px solid #f00;
+}
+span.error{
+    display: none;
+    color: #f00;
+}
+p.error{
+    display: none;
+    color: #f00;
+    margin-bottom: -30px;
 }

@@ -4,8 +4,10 @@ html
     meta(charset='UTF-8')
     title shop-detail
     link(rel='stylesheet', href='/stylesheets/normalize.css')
+    link(rel='stylesheet', href='/stylesheets/header.css')
     link(rel='stylesheet', href='/stylesheets/shop-detail.css')
   body
+    include header.jade
     - if (!Array.prototype.includes) {
     -   Array.prototype.includes = function(searchElement /*, fromIndex*/ ) {
     -     'use strict';
@@ -58,7 +60,7 @@ html
             h3.shopmenu-title= arr[j]
             - for (var i = 0; i < values.length; i++){
             -   if(values[i].category==arr[j]){
-                .shopmenu-food
+                .shopmenu-food(id="dish"+j+i)
                   a.rstblock-logo
                     img.rstblock-logo-icon(src= values[i].dishPic , width='70', height='70', alt= values[i].dishName)
                   .rstblock-title= values[i].dishName

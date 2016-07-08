@@ -7,6 +7,7 @@ $(function() {
 	localStorage.setItem("shopId",shopId);
 	var trueData=null;
 	var classifyObj={};
+    $(".header-title").text($("#shopName").val());
 	$.ajax({
 		url: '/shop/account/web/menu-m',
             type: 'POST',
@@ -53,7 +54,7 @@ $(function() {
                     </p> \
                     <div class="restaurant-food-footer"> \
                         <span class="restaurant-food-price">${price}</span> \
-                        <div class="mdish-cartcontrol"></div> \
+                        <div class="mdish-cartcontrol">+</div> \
                     </div> \
                 </div> \
             </div> \
@@ -79,7 +80,7 @@ $(function() {
     		tip.text(++orderNum)
     	}
     	if(!$(this).siblings(".food-num")[0]){
-    		$('<div class="minus-cartcontrol"></div> \
+    		$('<div class="minus-cartcontrol">-</div> \
             <span class="food-num">1</span>').insertBefore($(this));
     	}else{
     		var currentNum=$(this).siblings(".food-num").text();
@@ -168,9 +169,11 @@ $(function() {
     }
 
     function order(){
+        if($(".mcart-price").text()=="0"){
+            return false;
+        }
     	localStorage.setItem('menuOrder',JSON.stringify(menuOrder));
         localStorage.setItem('totalPrice',$(".mcart-price").text());
         window.location="/user/account/web/order/m";
     }
-    alert(shopId)
 })

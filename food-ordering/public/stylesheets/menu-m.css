@@ -160,6 +160,8 @@ html{
         line-height: 25px;
         border-radius: 50%;
         background: #4990E2;
+        color:#fff;
+        text-align: center;
     }
 
     a {

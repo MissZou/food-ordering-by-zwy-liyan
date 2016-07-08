@@ -47,7 +47,15 @@ function login(e) {
     });
 
     if (errorCount !== 0) {
-        alert("把空格填完")
+        $("#loginUser").find(".loginEle").each(function(){
+        if($(this).val().trim()==""){
+            $(this).addClass("error");
+            $(this).next().show();
+        }else{
+             $(this).removeClass("error");
+            $(this).next().hide();
+        }
+      })
         return false;
     } else {
 
@@ -63,7 +71,7 @@ function login(e) {
             data: data,
             success: function(data, status) {
                 if (data.code == 200) {
-                    alert("登录成功");
+                   
                     localStorage.setItem('accountId', data.accountId);
                     window.location = "/user/account/index";
                 } else if (data.code == 400) {
@@ -73,6 +81,11 @@ function login(e) {
         });
     }
 }
+
+function isEmail(str){ 
+var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/; 
+return reg.test(str); 
+} 
 
 function addUser(e) {
     e.preventDefault();
@@ -85,8 +98,17 @@ function addUser(e) {
         }
     });
 
-
     if (errorCount === 0) {
+
+ if(!isEmail($('#user_email').val())){
+    $("#user_email").next().next().show();
+    $("#user_email").addClass("error")
+    return false;
+ }else{
+     $("#user_email").next().next().hide();
+     $("#user_email").removeClass("error")
+ }
+
         var newUser = {
             'name': $('#user_name').val(),
             'email': $('#user_email').val(),
@@ -101,7 +123,12 @@ function addUser(e) {
             url: "/user/register",
             success: function(data, status) {
                 if (data.success == true) {
+                $("#new-user div").find("input").each(function(){
+            $(this).removeClass("error");
+            $(this).next().hide();
+      })
                     alert("注册成功、。。。")
+                    $("#loginForm").click();
                 }else{
                     alert("您已使用过此邮箱！")
                 }
@@ -113,7 +140,15 @@ function addUser(e) {
 
 
     } else {
-        alert("填完空格啊");
+        $("#new-user div").find("input").each(function(){
+        if($(this).val().trim()==""){
+            $(this).addClass("error");
+            $(this).next().show();
+        }else{
+             $(this).removeClass("error");
+            $(this).next().hide();
+        }
+      })
         return false;
     }
 }
