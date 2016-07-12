@@ -14,7 +14,9 @@ input:focus,button:focus{
 .desktop-addresslist {
     padding-top: 15px;
     overflow: hidden;
+
 }
+
 .desktop-addressblock {
     position: relative;
     display: inline-block;
@@ -161,6 +163,7 @@ button, input {
         line-height: 20px;
         bottom: 5px;
         margin-left: 88px;
+        display: none;
     }
     
     .addressformfield-hint .icon-dot-error {

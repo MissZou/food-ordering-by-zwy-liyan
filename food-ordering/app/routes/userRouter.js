@@ -831,13 +831,16 @@ var accountId = req.decoded._id;
             });
         })
     });
-router.route('/account/web/order/m')
 
+router.route('/account/web/confirm/m')
+.get(function(req, res) {
+res.render('confirm-order2.jade');
+})
+
+router.route('/account/web/order/m')
 .get(function(req, res) {
 res.render('order-confirm-m.jade');
-
     });
-
 
 router.route('/account/web/myorder')
 .get(function(req, res) {

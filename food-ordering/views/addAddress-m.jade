@@ -2,7 +2,7 @@ doctype html
 html
   head
     meta(charset='UTF-8')
-    title register-m
+    title add Address
     meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=no')
     link(rel='stylesheet', href='/stylesheets/header-m.css')
     link(rel='stylesheet', href='/stylesheets/updateAddress.css')
@@ -13,7 +13,7 @@ html
     .addressdialog-content
       .addressform
         div#updateAddress
-          .addressformfield.validate-error
+          .addressformfield
             label 姓名
             input#username(placeholder='请输入您的姓名')
             .addressformfield-hint
@@ -22,20 +22,22 @@ html
             label 电话类型
             input#type(placeholder='电话类型（公司、个人等）')
             .addressformfield-hint
-              span
+              span.icon-dot-error 请输入电话类型
           .addressformfield
             label 详细地址
             input#address(placeholder='单元、门牌号')
             .addressformfield-hint
-              span
+              span.icon-dot-error 请输入详细地址
           .addressformfield.phonefield
             label 手机号
-            input#phone(placeholder='请输入您的手机号')
+            input#phone(placeholder='请输入您的手机号',type='number')
             .addressformfield-hint
-              span
+              span.icon-dot-error 请输入您的手机号
           input#addr_id(type="hidden")
           input#index(type="hidden")
         .addressform-buttons
           button#save 保存
           //- button#updateBtn 保存修改
           //- button 取消
+  script(src='/javascripts/jquery-1.7.1.min.js')
+  script(src='/javascripts/addAddress.js')

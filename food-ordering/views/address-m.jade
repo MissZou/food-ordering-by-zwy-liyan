@@ -1,0 +1,27 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title register-m
+    meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=no')
+    link(rel='stylesheet', href='/stylesheets/reg-m.css')
+    link(rel='stylesheet', href='/stylesheets/header-m.css')
+  body
+    include header-m.jade
+    +header-m("http://www.baidu.com","Register")
+    .logreg-form
+      .logreg-inputs
+        .input-group
+          input.ui-input(type='text', placeholder='User name', required='')
+        .input-group
+          input.ui-input.email(type='email', placeholder='Please input your email', required='')
+          p.input-tip 请填写正确的Email address
+        .input-group
+          input.ui-input(type='password', placeholder='Please input your password', required='')
+        .input-group
+          input.ui-input(type='number', placeholder='Mobile phone', required='')
+        .input-group
+          input.ui-input(type='text', placeholder='Address', required='')
+      button.ui-btn.logreg-btn(type='submit', disabled='') 同意协议并注册
+  script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
+  script(src='/javascripts/reg-m.js')

@@ -1,4 +1,11 @@
 $(document).ready(function() {
+    $(".myaddress").siblings().removeClass("focus");
+    $(".myaddress").addClass("focus");
+    var winHeight=$(window).height();
+    var winWidth=$(window).width();
+
+    $(".addressdialog").css({"left":(winWidth-790)/2+ 'px',"top":(winHeight-412)/2+ 'px'});
+
     $("#updateInfo button").on("click", function() {
         $.ajax({
             url: '/user/account/location',
@@ -19,6 +26,21 @@ $(document).ready(function() {
     });
 
     $("#save").on("click", function() {  //save new address
+               var notEmpty=false;
+        $(".addressformfield").find("input").each(function() {
+            if ($(this).val() == "") {
+               $(this).parent().addClass("validate-error");
+               $(this).siblings(".addressformfield-hint").show();
+               notEmpty=true;
+            }else{
+                $(this).parent().removeClass("validate-error");
+               $(this).siblings(".addressformfield-hint").hide();
+            }
+        })
+        console.log(notEmpty)
+        if(notEmpty){
+            return false;
+        }
         $.ajax({
             url: '/user/account/address',
             type: 'PUT',
@@ -82,7 +104,21 @@ $(document).ready(function() {
 
 
     $("#updateBtn").on("click", function() {
-        console.log("update")
+               var notEmpty=false;
+        $(".addressformfield").find("input").each(function() {
+            if ($(this).val() == "") {
+               $(this).parent().addClass("validate-error");
+               $(this).siblings(".addressformfield-hint").show();
+               notEmpty=true;
+            }else{
+                $(this).parent().removeClass("validate-error");
+               $(this).siblings(".addressformfield-hint").hide();
+            }
+        })
+        console.log(notEmpty)
+        if(notEmpty){
+            return false;
+        }
         $.ajax({
             url: '/user/account/address',
             type: 'POST',
@@ -95,7 +131,7 @@ $(document).ready(function() {
             },
             success: function(data, status) {
                 if (data.success == true) {
-                    alert("上传成功");
+                    alert("上传成功hahaha");
                     var currentUpdate=$(".desktop-addressblock").eq(+$("#index").val());
                     currentUpdate.find(".desktop-addressblock-name").text($("#username").val());
                     currentUpdate.find(".desktop-addressblock-mobile").text($("#phone").val());
@@ -150,4 +186,21 @@ $(document).ready(function() {
         $("#save").show();
         $(".addressdialog").show();
     });
+    function ifAllEmpty(){
+            var notEmpty=false;
+        $(".addressformfield").find("input").each(function() {
+            if ($(this).val() == "") {
+               $(this).parent().addClass("validate-error");
+               $(this).siblings(".addressformfield-hint").show();
+               notEmpty=true;
+            }else{
+                $(this).parent().removeClass("validate-error");
+               $(this).siblings(".addressformfield-hint").hide();
+            }
+        })
+        console.log(notEmpty)
+        if(notEmpty){
+            return false;
+        }
+    }
 })

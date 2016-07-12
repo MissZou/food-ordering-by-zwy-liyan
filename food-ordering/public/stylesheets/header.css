@@ -11,6 +11,10 @@
 .topbar-item.focus {
     background-color: #006bc7;
 }
+
+.topbar-item:hover{
+    background-color: #006bc7;
+}
 .topbar-item.topbar-homepage {
     width: 112px!important;
 }

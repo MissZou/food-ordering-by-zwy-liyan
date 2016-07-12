@@ -7,7 +7,7 @@ $(function() {
                 notEmpty = false
             }
         })
-        console.log(notEmpty)
+
         if (notEmpty) {
             $("button").removeAttr("disabled");
         } else {

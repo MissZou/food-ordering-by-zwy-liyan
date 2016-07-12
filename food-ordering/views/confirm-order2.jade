@@ -2,14 +2,63 @@ doctype html
 html
   head
     meta(charset='UTF-8')
-    title order-confirm-m
-    meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=no')
-    style.
-      * {
-      margin: 0;
-      padding: 0;
-      }
-      .clearfix:after {
+    title confirm order
+    meta(name='viewport', ,='', content='width=device-width, initial-scale=1, user-scalable=no')
+    link(rel='stylesheet', href='/stylesheets/header-m.css')
+  style.
+    * {
+    margin: 0;
+    padding: 0;
+    }
+    body {
+    min-width: 20em;
+    width: 100%;
+    background: #f2f2f2;
+    color: #333;
+    font: 100%/1.5 "Helvetica Neue", "Microsoft Yahei", sans-serif;
+    }
+    .address {
+    position: relative;
+    padding: 10px;
+    background: #fff;
+    }
+    span.icon-arrow-right {
+    font-size: 18px;
+    color: #ddd;
+    vertical-align: middle;
+    line-height: 1;
+    }
+    .addr-content {
+    vertical-align: middle;
+    display: inline-block;
+    width: 93%;
+    }
+    .section {
+    margin-top: 10px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    background: #fff;
+    }
+    .payment {
+    border-top: none;
+    padding: 10px;
+    line-height: 1.2;
+    padding-bottom: 0;
+    }
+    .payonline-item {
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    border-top: 1px solid #eee;
+    }
+    span.icon-success.elemeradio {
+    color: #ccc;
+    font-size: 18px;
+    }
+    .cdish-way {
+    padding-bottom: 10px;
+    }
+       .clearfix:after {
       content: "";
       display: table;
       height: 0;
@@ -60,22 +109,7 @@ html
       .cart-dish:first-child {
       border-top: none;
       }
-      .cdish-detail {
-      -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-      -webkit-justify-content: space-between;
-      justify-content: space-between;
-      -webkit-box-align: center;
-      -ms-flex-align: center;
-      -webkit-align-items: center;
-      align-items: center;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: -webkit-flex;
-      display: flex;
-      padding: 13px 0;
-      line-height: 1.2;
-      }
+
       .cdish-name {
       width: 68%;
       white-space: nowrap;
@@ -113,15 +147,7 @@ html
       text-align: right;
       color: #666;
       }
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6,
-      p {
-      margin: 0 0 .6em;
-      }
+     
       .cart-summary>.total-cost {
       color: #d8584a;
       }
@@ -148,16 +174,50 @@ html
       .ui-btn.btn-confirm {
       background: #4cd964;
       }
-      .total-cost:before {
-      content: "¥";
-      margin: 0 .1em 0 0;
-      font-family: Arial, sans-serif;
-      font-size: .9em;
+      .cdish-detail {
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    padding: 13px 0;
+    line-height: 1.2;
       }
-    link(rel='stylesheet', href='/stylesheets/header-m.css')
+      .total-cost:before {
+    content: "¥";
+    margin: 0 .1em 0 0;
+    font-family: Arial, sans-serif;
+    font-size: .9em;
+    }
+    .cart-summary{
+    margin-bottom:10px;
+    }
+    .selected{
+    color:#3199e8;
+    font-weight:bold;
+    }
   body
     include header-m.jade
-    +header-m("http://www.baidu.com","Food cart")
+    +header-m("http://www.baidu.com","Confirm Order")
+    .wrp
+      .address.section
+        .addr-content
+          p zouweiyun / 1862281710
+          p 上海什么时候没什么
+        span.icon-arrow-right
+          | >
+      .payment.section
+        .cdish
+          .cdish-way 支付方式
+        .payonline-item 货到付款
+        .payonline-item pay online
     ul.ui-block
     footer.cart-footer
       p.cart-summary
@@ -182,7 +242,8 @@ html
     $(".total-cost").text(localStorage.getItem('totalPrice'));
     $(".cart-summary").find("span").eq(0).text(orderListArr.length);
     }
-    $(".btn-confirm").on("click",function(){
-    window.location="/user/account/web/confirm/m";
+    $(".payonline-item").on("click",function(){
+    $(this).addClass("selected");
+    $(this).siblings().removeClass("selected");
     })
     })

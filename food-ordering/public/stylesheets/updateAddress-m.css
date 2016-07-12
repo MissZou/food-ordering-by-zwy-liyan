@@ -3,6 +3,7 @@
 }
 .addressform-buttons{
 	margin-left: 0;
+	margin-top: 14px;
 }
 #save{
 	width: 100%;
@@ -15,4 +16,12 @@
 }
 .addressformfield-hint{
 	margin-left: 0;
+	display: none;
+}
+.addressformfield{
+	padding-bottom: 0;
+}
+.addressformfield.validate-error input {
+    border-color: #ff464c;
+    margin-bottom: 26px;
 }

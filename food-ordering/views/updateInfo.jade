@@ -4,8 +4,17 @@ html
 		meta(charset='UTF-8')   
 		title updateInfo   
 		link(rel='stylesheet', href='/stylesheets/normalize.css')
+		link(rel='stylesheet', href='/stylesheets/header.css')
 		link(rel='stylesheet', href='/stylesheets/updateAddress.css')
+		style.
+			.desktop-addresslist {
+				padding-top: 15px;
+				overflow: hidden;
+				width:80%;
+				margin:0 auto;
+				}
 	body
+		include header.jade
 		include addAddress.jade
 		if (items)
 			.desktop-addresslist.clearfix
@@ -22,12 +31,12 @@ html
 				button.desktop-addressblock.desktop-addressblock-addblock 添加新地址
 		else
 			.desktop-addresslist.clearfix
-		div#updateInfo
+		div#updateInfo(style="display:none;")
 			label(for='location') update location
 			input#location(type='text')
 			button submit
 
-		div#updExistingAddr
+		div#updExistingAddr(style="display:none;")
 			label(for='username') name
 			input#usernamee(type="text")
 			label(for='phone') phone
