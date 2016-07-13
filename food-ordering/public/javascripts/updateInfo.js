@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $(".myaddress").siblings().removeClass("focus");
+
     $(".myaddress").addClass("focus");
     var winHeight=$(window).height();
     var winWidth=$(window).width();
@@ -91,7 +91,8 @@ $(document).ready(function() {
             },
             success: function(data, status) {
                 if (data.success == true) {
-                    parent.fadeOut();
+                    //parent.fadeOut();
+                     location.reload();
                 }
             },
             error: function(data, status) {

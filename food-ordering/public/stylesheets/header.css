@@ -15,6 +15,9 @@
 .topbar-item:hover{
     background-color: #006bc7;
 }
+.topbar-item:focus{
+    color:#fff;
+}
 .topbar-item.topbar-homepage {
     width: 112px!important;
 }

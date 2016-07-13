@@ -204,7 +204,7 @@ button, input {
     margin-bottom: 15px;
     border: 1px solid #ddd;
 }
- .desktop-addressblock:nth-of-type(odd){
+ .desktop-addressblock:nth-child(odd){
     margin-right: 1.6%;
  }
 .desktop-addressblock-addblock {

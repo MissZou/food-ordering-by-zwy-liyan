@@ -342,7 +342,6 @@ border: 1px solid #0089dc;
     
     .addressformfield-hint .icon-dot-error {
         color: #ff464c;
-        display: none;
     }
     
     .addressformfield.validate-error input {

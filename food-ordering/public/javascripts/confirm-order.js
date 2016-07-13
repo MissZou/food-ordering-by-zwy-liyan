@@ -112,10 +112,10 @@ $(function() {
                     $(".addressform").find("input").each(function(){
         if($(this).val().trim()==""){
             $(this).parent().addClass("validate-error");
-            $(this).next().find("span").show();
+            $(this).siblings(".addressformfield-hint").show();
         }else{
              $(this).parent().removeClass("validate-error");
-            $(this).next().find("span").hide();
+            $(this).siblings(".addressformfield-hint").hide();
         }
       })
             return false;        

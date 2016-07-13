@@ -930,12 +930,10 @@ router.route('/account/order')
         });
     })
 
-router.route('/account/web/mylike')
+router.route('/account/web/myfav')
 
 .get(function(req, res) {
-
- res.sendfile(path.join(__dirname, '../../views', 'mylike.html'));
-
+    res.render('myfav.jade');
     });
 
 router.route('/account/favoriteshop')
