@@ -362,6 +362,7 @@
                         <segue destination="fjb-aI-gX6" kind="show" identifier="showshop" id="Teg-J6-WQd"/>
                         <segue destination="ali-vJ-SKs" kind="show" identifier="address" id="3Vk-Qq-MgI"/>
                         <segue destination="LKw-aj-1OK" kind="show" identifier="message" id="u4G-Kv-GD7"/>
+                        <segue destination="2iV-3E-hK1" kind="show" identifier="paysuccess" id="Gby-dZ-Y5A"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qqY-EH-BbM" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -384,6 +385,23 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1v4-05-SFK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2745" y="1823"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="eBE-K9-glr">
+            <objects>
+                <viewController id="2iV-3E-hK1" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6wQ-3k-2kd"/>
+                        <viewControllerLayoutGuide type="bottom" id="vaI-iV-3Aa"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="EXn-tP-oS9">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Chr-3a-LDM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3622.5" y="1823"/>
         </scene>
         <!--Choose Address View Controller-->
         <scene sceneID="n2M-6F-CGq">

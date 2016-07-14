@@ -60,4 +60,6 @@ typedef NS_ENUM(NSUInteger, httpMethod){
 -(void)address:(httpMethod)httpMethod withAddress:(NSDictionary *)address;
 -(void)changeAvatar:(NSURL *)filePath;
 -(void)cart:(httpMethod)httpMethod withShopId:(NSString *)shopId itemId:(NSString *)itemId amount:(NSNumber *) amount cartId:(NSString *)cartId index:(NSInteger)index count:(NSInteger)count;
+-(void)order:(httpMethod)httpMethod withShopId:(NSString *)shopId items:(NSArray *)items;
+-(void)placeOrderForallItemsInCartWithaddress:(NSDictionary *)address message:(NSString *)message;
 @end

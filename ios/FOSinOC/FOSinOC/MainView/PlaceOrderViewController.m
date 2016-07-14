@@ -38,6 +38,7 @@
 @property (copy,nonatomic) NSString* message;
 @property (strong,nonatomic)UILabel *messageLabel;
 
+@property (strong,nonatomic) NSDictionary *address;
 
 @end
 
@@ -66,7 +67,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self cleanShopData];
-    NSLog(@"cart detailed %@",self.myAccount.cartDetail);
+    //NSLog(@"cart detailed %@",self.myAccount.cartDetail);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -110,7 +111,6 @@
 -(void)cleanShopData{
     self.shopList = [[NSMutableArray alloc]init];
     [self.shopList addObject:[self.myAccount.cartDetail[0] valueForKey:@"shopId"]];
-    NSLog(@"shop list %@",self.shopList);
     for (int i =0; i<self.myAccount.cartDetail.count; i++) {
         BOOL isFindShop = false;
         for (int j = 0; j<self.shopList.count; j++) {
@@ -126,8 +126,6 @@
         }
         
     }
-    
-    NSLog(@"shop list %@",self.shopList);
 }
 
 #pragma mark - Tableview delegate and Datasource
@@ -167,10 +165,15 @@
                 separateLine.clipsToBounds = true;
                 separateLine.tag = tableCellTag + 11;
                 if (self.myAccount.deliverAddress.count>0) {
+                    self.address = self.myAccount.deliverAddress[0];
                     name.text = [self.myAccount.deliverAddress[0] valueForKey:@"name"];
                     address.text = [self.myAccount.deliverAddress[0] valueForKey:@"addr"];
                     phone.text = [self.myAccount.deliverAddress[0] valueForKey:@"phone"];
+                }else{
+                    name.text = @"Click to choose address";
+                    self.address = nil;
                 }
+                
                 
                 
                 [cell.contentView addSubview:name];
@@ -483,6 +486,7 @@
     [self.payButton setBackgroundColor:myGreenColor];
     NSLog(@"payButtonHandle");
     
+    [self.myAccount placeOrderForallItemsInCartWithaddress:self.address message:self.message];
 }
 
 -(void)payButtonHighlight{
@@ -513,7 +517,8 @@
     }
 }
 
--(void)ChooseAddressViewDidSelectedAddressWithName:(NSString *)name phone:(NSString *)phone address:(NSString *)address{
+-(void)ChooseAddressViewDidSelectedAddressWithName:(NSString *)name phone:(NSString *)phone address:(NSString *)address addrDict:(NSDictionary *)addrDict{
+    self.address = addrDict;
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     UILabel *nameLabel = (UILabel *)[cell.contentView viewWithTag:tableCellTag+1];

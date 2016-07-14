@@ -12,7 +12,7 @@
 
 @optional
 
--(void)ChooseAddressViewDidSelectedAddressWithName:(NSString *)name phone:(NSString *)phone address:(NSString *)address;
+-(void)ChooseAddressViewDidSelectedAddressWithName:(NSString *)name phone:(NSString *)phone address:(NSString *)address addrDict:(NSDictionary *)addrDict;
 
 @end
 

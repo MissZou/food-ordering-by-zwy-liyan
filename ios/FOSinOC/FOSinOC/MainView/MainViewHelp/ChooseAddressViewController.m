@@ -73,7 +73,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSDictionary *addr = self.myAccout.deliverAddress[indexPath.row];
-    [self.delegate ChooseAddressViewDidSelectedAddressWithName:[addr valueForKey:@"name"] phone:[addr valueForKey:@"phone"] address:[addr valueForKey:@"addr"]];
+    [self.delegate ChooseAddressViewDidSelectedAddressWithName:[addr valueForKey:@"name"] phone:[addr valueForKey:@"phone"] address:[addr valueForKey:@"addr"]addrDict:addr];
     [self.navigationController popViewControllerAnimated:true];
     
 }
