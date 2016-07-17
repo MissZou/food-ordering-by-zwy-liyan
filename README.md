@@ -19,7 +19,7 @@ Now the iOS Objective-C version looks like:
 
 Login and tutorial view.     
 
-![Alt Text](https://github.com/Thanatos-L/food-ordering-by-zwy-liyan/blob/master/readme/login.gif)
+![tutorial view](https://github.com/Thanatos-L/food-ordering-by-zwy-liyan/blob/master/readme/login.gif)
 
 
 MainView, could search shop by location.     
@@ -45,3 +45,76 @@ Food view
 Place order view      
 
 ![Alt Text](https://github.com/Thanatos-L/food-ordering-by-zwy-liyan/blob/master/readme/Placeorder.gif)
+
+###So far we have done
+**Node.js**
+User Schema/Router could perform:
+```
+    register
+    forgotPassword
+    changePassword
+    login
+    Account
+    findAccount
+    findAccountById
+    uploadAvatar
+    addAddress
+    updateAddress
+    deleteAddress
+    addLocation
+    deleteLocation
+    addItemToCart
+    findCartItem
+    findCartItemById
+    modifyItemToCart
+    deleteItemOfCart
+    addOrder
+    deleteOrder
+    findOrderByUserId
+    addFavoriteShop
+    findFavoriteShop
+    deleteFavoriteShop,
+    addFavoriteItem
+    findFavoriteItem
+    deleteFavoriteItem
+```
+
+-------
+
+Shop Schema/Router could perform:
+```
+    createShop
+    findShop
+    findShopById
+    changeShopInfo
+    uploadShopCover
+    addDish
+    changeDishInfo
+    forgotPassword
+    changePassword
+    login
+    addDishPic
+    queryNearShops
+    findNearShops
+    findShopByName
+    findShopsAndDishs
+    findItemById
+    addOrder
+    findOrderByShopId
+```
+------
+Order Schema could perform:
+```
+addOrder
+changeOrderStatus
+```
+
+##Infomation Architecture
+
+**Node.js**
+
+![Node.js-IA.png](https://github.com/Thanatos-L/food-ordering-by-zwy-liyan/blob/master/readme/Node.js-IA.png)
+
+**iOS**
+
+![iOS-IA.png](https://github.com/Thanatos-L/food-ordering-by-zwy-liyan/blob/master/readme/iOS-IA.png)

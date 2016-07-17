@@ -568,6 +568,134 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     }
 }
 
+-(void)placeOrderForallItemsInCartWithaddress:(NSDictionary *)address message:(NSString *)message{
+    
+    NSLog(@"%@",message);
+    
+    if (self.cartDetail.count == 0) {
+        return;
+    }
+    
+    NSMutableArray *shopList = [[NSMutableArray alloc]init];
+    [shopList addObject:[self.cartDetail[0] valueForKey:@"shopId"]];
+    for (int i =0; i<self.cartDetail.count; i++) {
+        BOOL isFindShop = false;
+        for (int j = 0; j<shopList.count; j++) {
+            
+            if ([shopList[j] isEqualToString:[self.cartDetail[i] valueForKey:@"shopId"]]) {
+                isFindShop = true;
+                break;
+            }
+            
+            if (!isFindShop && j==shopList.count - 1) {
+                [shopList addObject:[self.cartDetail[i] valueForKey:@"shopId"]];
+            }
+        }
+    }
+    NSLog(@"shop list %@",shopList);
+    NSUInteger totalItemCount = 0;
+    NSUInteger totalPrice = 0;
+    for (int i = 0; i<self.cartDetail.count; i++) {
+        totalItemCount = totalItemCount + [[self.cartDetail[i] valueForKey:@"amount"] integerValue];
+        totalPrice = totalPrice + [[self.cartDetail[i] valueForKey:@"amount"] integerValue]*[[self.cartDetail[i] valueForKey:@"price"] integerValue];
+    }
+    
+    
+    for (int i = 0; i<shopList.count; i++) {
+        NSMutableArray *cartSplited = [[NSMutableArray alloc]init];
+        for (int j = 0; j<self.cartDetail.count; j++) {
+            if ([[self.cartDetail[j] valueForKey:@"shopId"] isEqualToString:shopList[j]]) {
+                
+            }
+        }
+    }
+
+}
+
+-(void)order:(httpMethod)httpMethod withShopId:(NSString *)shopId items:(NSArray *)items price:(NSUInteger) price address:(NSDictionary *)address message:(NSString *)message{
+    NSString *token = self.token;
+    NSDictionary *parameters;
+    
+    
+    if (httpMethod == PUT) {
+
+    }else if(httpMethod == GET){
+        
+       // parameters = nil;
+    }else if(httpMethod == DELETE){
+        //parameters = @{@"token": token, @"_id": cartId,@"index":@1,@"count":@99};
+    }else if(httpMethod == POST){
+        //parameters = @{@"token": token, @"_id": cartId,@"index":@1,@"count":@99};
+    }
+    
+    
+    NSURL *url = [NSURL URLWithString:@"account/cart" relativeToURL:self.baseUrl];
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
+    if (httpMethod == PUT) {
+        [manager PUT:[url absoluteString] parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject){
+            if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                
+                [self updateAccount:responseObject];
+                
+            } else {
+                NSLog(@"%@", responseObject);
+            }
+            
+        }failure:^(NSURLSessionDataTask * _Nonnull task, NSError *error){
+            NSLog(@"%@", error);
+        }];
+    }
+    else if (httpMethod == DELETE){
+        [manager DELETE:[url absoluteString] parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject){
+            if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                
+                [self updateAccount:responseObject];
+                
+            } else {
+                NSLog(@"%@", responseObject);
+            }
+            
+        }failure:^(NSURLSessionDataTask * _Nonnull task, NSError *error){
+            NSLog(@"%@", error);
+        }];
+    }
+    else if(httpMethod == POST){
+        [manager POST:[url absoluteString] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                
+                [self updateAccount:responseObject];
+                
+            } else {
+                NSLog(@"%@", responseObject);
+            }
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            NSLog(@"%@", error);
+        }];
+    }
+    else if(httpMethod == GET){
+        
+        [manager.requestSerializer setValue:self.token forHTTPHeaderField:@"token"];
+        
+        
+        [manager GET:[url absoluteString] parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                //NSLog(@"%@",responseObject);
+                [self updateAccount:responseObject];
+                
+            } else {
+                NSLog(@"%@", responseObject);
+            }
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            NSLog(@"%@", error);
+        }];
+    }
+}
 
 
 @end

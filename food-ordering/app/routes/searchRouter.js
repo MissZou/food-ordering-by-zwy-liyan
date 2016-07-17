@@ -14,6 +14,31 @@ var routeSearch = function (app,io,mongoose,Shop) {
 
 
 router.route('/')
+.get(function(req,res){
+	//var searchText = req.param('searchText');  
+	//var coordinateTemp = req.param('location', null);    
+	var searchText = req.headers["searchText"];
+	var coordinateTemp = req.headers["location"];
+
+   	console.log(coordinateTemp);
+   	console.log(searchText);
+	if (searchText != null) { 
+		var coordinate = JSON.stringify(coordinateTemp);
+	    coordinate = coordinate.split(',');
+	    coordinate[0] = coordinate[0].replace(/[^0-9.]/g,'');
+	    coordinate[1] = coordinate[1].replace(/[^0-9.]/g,'');
+		
+		var location = [Number(coordinate[0]),Number(coordinate[1])];
+		//var location = [39.956578, 116.327024]; //for test purpose
+		Shop.findShopsAndDishs(searchText,location,function(doc){
+			
+			res.json({
+				result:doc
+				})
+		})
+	}
+
+})
 .post(function(req,res){
 	var searchText = req.param('searchText');  
 	var coordinateTemp = req.param('location', null);    
