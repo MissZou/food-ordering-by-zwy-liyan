@@ -47,7 +47,9 @@ Place order view
 ![Alt Text](https://github.com/Thanatos-L/food-ordering-by-zwy-liyan/blob/master/readme/Placeorder.gif)
 
 ###So far we have done
+
 **Node.js**
+
 User Schema/Router could perform:
 ```
     register
@@ -109,7 +111,10 @@ addOrder
 changeOrderStatus
 ```
 
+
 ##Infomation Architecture
+
+Read blocks need further development.
 
 **Node.js**
 
