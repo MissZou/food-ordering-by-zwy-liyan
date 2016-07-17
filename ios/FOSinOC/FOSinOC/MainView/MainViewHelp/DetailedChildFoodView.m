@@ -721,8 +721,8 @@
 -(void)cartButtonHandle{
     
     if (self.cartTableView == nil && self.myAccount.cartDetail.count != 0) {
-        UIView *rootView = [[self.view.window subviews] objectAtIndex:0];
-        //UIView *rootView = [[[[self.view.window subviews] objectAtIndex:0] subviews] objectAtIndex:0];
+        //UIView *rootView = [[self.view.window subviews] objectAtIndex:0];
+        UIView *rootView = [[[[self.view.window subviews] objectAtIndex:0] subviews] objectAtIndex:0];
         self.cartTableView = [[CartTableView alloc]initWithFrame:CGRectMake(0, rootView.frame.size.height - cartViewHeight, self.view.frame.size.width, 0)];
         [self.cartTableView initCartTableView:self.myAccount.cartDetail];
         self.cartTableView.delegate = self;
@@ -734,6 +734,7 @@
         [self.blurEffectView addGestureRecognizer:self.tapGesture];
         
         //[rootView insertSubview:self.blurEffectView atIndex:0];
+        
         [rootView addSubview:self.blurEffectView];
         [rootView addSubview:self.cartTableView];
 

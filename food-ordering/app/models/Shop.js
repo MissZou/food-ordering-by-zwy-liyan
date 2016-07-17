@@ -122,7 +122,7 @@ var changeShopInfo = function(shopId,shop,callback){
     // }
     ///var loc = [39.956578, 116.327024];
 
-   Shop.find({location:{$near:location,$maxDistance: 25}}).limit(150).exec(function(err, doc) {
+   Shop.find({location:{$near:location,$maxDistance: 0.05}}).limit(150).exec(function(err, doc) {
         if (err) {
            console.log(err);
          }
@@ -155,9 +155,9 @@ var changeShopInfo = function(shopId,shop,callback){
              if (isFindShop) {
                shopArray.push(obj);
             }
-              if (!isFindShop && isFindDish) {
-                shopArray.push(obj);   
-              }
+            if (!isFindShop && isFindDish) {
+              shopArray.push(obj);   
+            }
            }
          }
          callback(shopArray);
