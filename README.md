@@ -114,7 +114,7 @@ changeOrderStatus
 
 ##Infomation Architecture
 
-Read blocks need further development.
+Red blocks need further development.
 
 **Node.js**
 
