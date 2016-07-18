@@ -20,7 +20,8 @@ module.exports = function(mongoose) {
 	    comment:{type:{
 	        date:{type: Date,default: Date.now},
 	        userId:{type: mongoose.Schema.Types.ObjectId, ref:'Account'},
-	        content:{type: String}
+	        content:{type: String},
+	        mark:{type:Number}
 	      }} 
 	 	
 	});
@@ -62,11 +63,24 @@ var changeOrderStatus = function(shopId,orderId,status,callback){
 				
 			})
 	})
-}
+};
+
+var addComment = function(shopId,orderId,userId,comment,callback) {
+       Order.update({_id:orderId,shop:shopId}, {$set: {comment:{
+          "userId":userId,
+          "content":comment.content,
+          "mark":comment.mark
+        }}},{upsert:true},
+      function (err) {
+        console.log(err)
+        callback(err);
+    });
+};
 
 
 	return {
 	  	addOrder:addOrder,
-	  	changeOrderStatus:changeOrderStatus
+	  	changeOrderStatus:changeOrderStatus,
+	  	addComment:addComment
   	}
 }

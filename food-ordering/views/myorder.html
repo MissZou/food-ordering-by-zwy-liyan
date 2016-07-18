@@ -18,7 +18,7 @@
   
     function moreOrder(index) {
         $.ajax({
-            url: '/user/account/order',
+            url: '/user/account/web/orderData',
             type: 'GET',
             headers: {
                 'index': index,
@@ -31,12 +31,16 @@
         <li>下单时间：${order.date}</li> \
         <li>个人信息：${order.address.name} ${order.address.phone} ${order.address.addr}</li> \
         <li>状态：${order.status}</li> \
-        <li class="content">订单内容：XXX  1  price</li> \
+        <li class="content">订单内容：</li> \
         <li>留言：${order.message}</li> \
+        <li class="shopId">${order.shop}</li> \
+        <li class="orderId">${order._id}</li> \
+        <li>comment:  <input type="text"/><button>submit comment</button></li> \
     </ul>'
+
                     $.template("orderTemplate", markup);
                     $.tmpl("orderTemplate", data.order).appendTo(".order-div");
-                    console.log(data.order);
+                    console.log("data.order",data.order);
                     var orderLen = data.order.length;
                     var dishObj = {};
                     var amount = {};
@@ -101,6 +105,28 @@
         });
     }
     moreOrder(1);
+
+    $(document).on("click","button",function(){
+        var shopId=$(this).parent().siblings(".shopId").text();
+        var orderId=$(this).parent().siblings(".orderId").text();
+        var comment={};
+        comment.content=$(this).siblings("input").val();
+        comment.mark=4;
+        $.ajax({
+            url: '/user/account/web/comment',
+            type: 'POST',
+            data:{
+                "shopId":shopId,
+                "orderId":orderId,
+                "comment":comment
+            },
+              success: function(data, status) {
+                if (data.success) {
+                    alert("comment success")
+                }
+            }
+        });
+    })
     </script>
    <script src="/javascripts/socket.io.js"></script>
     <script src="/javascripts/userGetNotification.js"></script>

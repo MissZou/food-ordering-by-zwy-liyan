@@ -57,7 +57,7 @@ app.use(session({
     secret: 'secret',
     cookie: {
         path: '/',
-        maxAge: 1000 * 60 * 30
+        maxAge:7*24*60*60*1000   //60*1000=1 min //one week
     }
 }));
 app.use(function(req, res, next) {
@@ -861,6 +861,35 @@ router.route('/account/web/myorder')
  res.sendfile(path.join(__dirname, '../../views', 'myorder.html'));
     });
 
+router.route('/account/web/orderData')
+    .get(function(req, res){
+        var accountId = req.decoded._id;
+        var index = req.headers["index"];
+        var count = req.headers["count"];
+        //console.log(index);
+        if (index == null || index == 0) {
+            index = 1;
+        }
+        if (count == null || count == 0) {
+            count = 1;
+        }
+        Account.findOrderByUserId(accountId,index,count,function(doc){
+            if (doc != null) {
+                console.log("orderrrr",doc)
+                    res.json({
+                    order:doc,
+                    success: true
+                })
+            }else{
+                res.json({    
+                    success: false
+                })
+            }
+            
+        })
+       
+    })
+
 
 router.route('/account/order')
     .get(function(req, res){
@@ -876,6 +905,7 @@ router.route('/account/order')
         }
         Account.findOrderByUserId(accountId,index,count,function(doc){
             if (doc != null) {
+                console.log("orderrrr",doc)
                     res.json({
                     order:doc,
                     success: true
@@ -943,6 +973,20 @@ router.route('/account/order')
             
         });
     })
+
+router.route('/account/web/comment')
+.post(function(req,res){
+    var userId = req.decoded._id;
+        var shopId = req.param("shopId", null);
+        var orderId = req.param("orderId", null);
+        var comment=req.param("comment", null);
+Order.addComment(shopId,orderId,userId,comment,function(){
+    res.json({
+                success:true
+            });
+})
+})
+
 
 router.route('/account/web/myfav')
 
