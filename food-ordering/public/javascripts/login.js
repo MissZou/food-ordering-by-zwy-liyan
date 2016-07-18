@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    $(".topbar-item").hide();
+    $(".topbar-homepage").show();
+    $(".topbar-profilebox").hide();
     var winWidth = $(window).width(),
         winHeight = $(window).height(),
         loginFormLeft = (winWidth - 570) / 2,

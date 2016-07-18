@@ -65,7 +65,7 @@
                                             if ((i == orderLen - 1) && (j == dishLength - 1)) {
                                                 console.log(dishObj)
                                                 console.log(newdata.shopName)
-                                                $(".shopName").text(newdata.shopName);
+                                              //  $(".shopName").text(newdata.shopName);
                                                 for (var n = 0; n < orderLen; n++) {
                                                     console.log(dishObj[n])
                                                     var dish = '<ul> \
@@ -83,7 +83,8 @@
                                                             console.log("juti", amount[t][m]);
                                                             $(".num").eq(indexNum).text(amount[t][m]);
                                                             indexNum++;
-
+                                                            console.log(i)
+                                                            console.log("j",j)
                                                         }
                                                     }
                                                     console.log("indexNum", indexNum)
@@ -107,7 +108,7 @@
 
 <body>
     <h1>hello my order</h1>
-    <div class="shopName"></div>
+
     <div class="wrp">
         <div class="order-div">
         </div>

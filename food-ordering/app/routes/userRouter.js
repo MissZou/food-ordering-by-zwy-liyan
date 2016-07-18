@@ -256,6 +256,15 @@ router.route('/account/web/index/m')
 
     });
 
+router.route('/account/web/logout')
+.get(function(req,res){
+req.session.destroy();
+res.redirect(req.protocol + '://' + req.get('host') + "/user/register");
+})
+
+
+
+
 router.route('/login')
 
 .post(function(req, res) {
@@ -319,7 +328,7 @@ router.use("/account", function(req, res, next) {
                 // if everything is good, save to request for use in other routes
                 req.decoded = decoded;
                 //console.log("decoded");
-                //console.log(decoded);
+                console.log(decoded);
                 next();
             }
         });
@@ -362,7 +371,12 @@ router.route('/account')
 
  router.route('/account/index')
     .get(function(req, res) {
-        res.render('search.jade');
+           var accountId = req.decoded._id;
+        Account.findAccountById(accountId, function(doc) {
+            res.render('search.jade', {
+                username: doc.name
+            });
+        })
     });
 
 router.route('/account/web/address')
