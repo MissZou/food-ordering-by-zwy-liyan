@@ -8,12 +8,20 @@ Dissertation in HKU. Developing a food ordering system which is a copycat of [el
 Front-end: iOS native App, PC and mobile web page. 
 Back-end: Node.js + mongodb.
 
+iOS is built in Objective-C(FOSinOC). I have write a swift version but I do not update it for a long time.
+
 iOS app need to set up node.js server to run fully or you can annotation code at 
 
 **LoginViewController.m**
-- (IBAction)loginButtonClicked:(id)sender
+    - (IBAction)loginButtonClicked:(id)sender
 
 And can log into the app.
+
+------
+
+这个项目是作为在香港大学授课试硕士的一个小毕业设计，我们模仿[饿了么](https://www.ele.me/) 和 [美团外卖](http://waimai.meituan.com/)写了一个类似的订餐软件。做这个项目是为了更多的练习。
+
+----
 
 Now the iOS Objective-C version looks like:      
 
