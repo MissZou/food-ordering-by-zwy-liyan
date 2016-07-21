@@ -9,7 +9,9 @@
     <style>
     #l-map{height:500px;width:100%;}
     </style>
-    <script src='http://api.map.baidu.com/api?v=2.0&ak=G9z0gp8jpzYSv9WNpqboiWgmB3ZpkUv4'></script>
+    <script>
+    (function(){ window.BMap_loadScriptTime = (new Date).getTime(); document.write('<script type="text/javascript" src="/javascripts/baiduApi.js"></script>');})();
+    </script>
 </head>
 
 <body>
