@@ -66,7 +66,13 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self cleanShopData];
+    if (self.myAccount.cartDetail.count >0) {
+            [self cleanShopData];
+    }else{
+        //No items in cart
+        //NSLog(@"cart detailed %@",self.myAccount.cartDetail);
+    }
+    
     //NSLog(@"cart detailed %@",self.myAccount.cartDetail);
 }
 

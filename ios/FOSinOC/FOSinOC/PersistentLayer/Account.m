@@ -33,7 +33,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     return sharedManager;
 }
 
--(void)reloadAccount{
+- (void)reloadAccount{
     self.email = nil;
     self.name = nil;
     self.phone = nil;
@@ -51,7 +51,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     
 }
 
--(id) init {
+- (id)init {
     if(self = [super init]){
         self.baseUrl = [NSURL URLWithString:baseUrlString];
         self.serviceName = @"com.HKU.FoodOrderingSystem";
@@ -63,7 +63,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     return self;
 }
 
--(void)updateAccount:(NSDictionary *)result{
+- (void)updateAccount:(NSDictionary *)result{
 //    NSLog([[[result valueForKey:@"token"] class] description]);
 //    NSLog([[[result valueForKey:@"email"] class] description]);
 //    NSLog([[[result valueForKey:@"name"] class] description]);
@@ -139,7 +139,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     [self.delegate finishRefreshAccountData];
 }
 
--(void)createAccount:(Account *)model {
+- (void)createAccount:(Account *)model {
     NSURL *url = [NSURL URLWithString:@"register" relativeToURL:self.baseUrl];
     NSDictionary *parameters = @{@"email": model.email, @"password": model.password,@"name":model.name, @"phone":model.phone};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -172,7 +172,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
 
 }
 
--(void) login:(Account *)model{
+- (void)login:(Account *)model{
     NSURL *url = [NSURL URLWithString:@"login" relativeToURL:self.baseUrl];
     NSDictionary *parameters = @{@"email": model.email, @"password": model.password};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -192,7 +192,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     }];
 }
 
--(void) checkLogin{
+- (void)checkLogin{
     NSURL *url = [NSURL URLWithString:@"account" relativeToURL:self.baseUrl];
     if (self.token != nil){
         NSDictionary *parameters = @{@"token": self.token};
@@ -245,7 +245,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
 
 }
 
--(void) location:(httpMethod)httpMethod withLocation:(NSDictionary *)location{
+- (void)location:(httpMethod)httpMethod withLocation:(NSDictionary *)location {
     
         NSString *token = self.token;
         NSDictionary *parameters;
@@ -303,7 +303,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     }
 }
 
--(void)address:(httpMethod)httpMethod withAddress:(NSDictionary *)address{
+- (void)address:(httpMethod)httpMethod withAddress:(NSDictionary *)address{
     NSString *token = self.token;
     NSDictionary *parameters;
     if (httpMethod == POST) {
@@ -384,7 +384,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     }
 }
 
--(void)changeAvatar:(NSURL *)filePath{
+- (void)changeAvatar:(NSURL *)filePath {
     NSURL *url = [NSURL URLWithString:@"account/avatar" relativeToURL:self.baseUrl];
     NSString *urlString = [baseUrlString stringByAppendingString:@"account/avatar"];
     
@@ -452,7 +452,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
 
    }
 
--(NSData *)createBodyWithParameters:(NSURL *)filePath withBoundary:(NSString *)boundary{
+- (NSData *)createBodyWithParameters:(NSURL *)filePath withBoundary:(NSString *)boundary {
     NSMutableData *body = [NSMutableData alloc];
     NSString *filePathString = [filePath absoluteString];
     NSString *fileName = [filePath lastPathComponent];
