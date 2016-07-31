@@ -1,7 +1,7 @@
-$(function(){
-	var socket = io();
-var userId=localStorage.getItem('accountId')
-socket.emit('set nickname',userId)
+$(function() {
+    var socket = io();
+    var userId = localStorage.getItem('accountId')
+    socket.emit('set nickname', userId)
     socket.on('my message', function(msg) {
         // 首先，让我们检查我们是否有权限发出通知
         // 如果没有，我们就请求获得权限
@@ -46,6 +46,5 @@ socket.emit('set nickname',userId)
         }
 
         $('body').append($('<li>').text(msg));
-
     });
 })
