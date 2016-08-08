@@ -22,6 +22,8 @@
     "url":"*",
     "gm": "*",
     "formidable":"~1.0.14",
-    "multer":"~1.1.0"
+    "multer":"~1.1.0",
+    "unzip":"*",
+    "node-xlsx":"*"
   }
 }
