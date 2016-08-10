@@ -479,7 +479,7 @@ var findFavoriteShop = function(accountId,index,count,callback){
                 if (err) {
                   callback(err);
                 }
-
+                if(doc){
                 var array = [];
                 for(var i=limit - count;i<doc.favoriteShop.length;i++){
                     if(doc.favoriteShop[i]!=null){
@@ -501,6 +501,7 @@ var findFavoriteShop = function(accountId,index,count,callback){
                 }
                 
                 callback(array);
+              }
             })
               
 }

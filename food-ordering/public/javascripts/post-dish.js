@@ -58,6 +58,7 @@ $(function() {
 
     var uploadBtn = $(".uploadPic");
     uploadBtn.on("change", function() {
+        console.log(this.files)
         uploadPic.add(this.files);
     });
 

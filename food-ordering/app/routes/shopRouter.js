@@ -537,6 +537,19 @@ var routeShop = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
             res.sendfile(path.join(__dirname, '../../views', 'post-dish.html'));
         })
 
+    router.route('/account/web/menu')
+        .get(function(req, res) {
+            var shopId = req.decoded._id;
+            Shop.findShopById(shopId, function(doc) {
+             
+                res.render('shop-management', {
+                    doc: doc.dish,
+                    shopName: doc.shopName,
+                    shopId:shopId
+                });
+            })
+        })
+
     router.route('/account/web/xls')
         .get(function(req, res) {
             //res.sendfile(path.join(__dirname, './views', 'restaurant-post.html'));
@@ -632,6 +645,51 @@ var routeShop = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
             })
         });
 
+router.route('/changeDishPic')
+        .post(function(req, res) {
+
+            var form = new formidable.IncomingForm();
+            form.parse(req, function(err, fields, files) {
+                   var itemId=fields.itemId;
+                   var shopId=fields.shopId;
+                
+                var goalUrl = './public/resources/' + shopId + '/';
+                        if (!fs.existsSync(goalUrl)) {
+                            fs.mkdirSync(goalUrl);
+                        }
+                        if (!fs.existsSync(goalUrl + 'dishes/')) {
+                            fs.mkdirSync(goalUrl + 'dishes/');
+                        }
+                var targetPath = goalUrl + 'dishes/' + itemId + '.jpg';
+                console.log("target path !!");
+                console.log(targetPath);
+                var tmp_path = files.file.path;
+                imageMagick(tmp_path)
+                    .gravity('Center')
+                    .resize('640', '480', '^>')
+                    .crop('640', '480')
+                    .autoOrient()
+                    .quality(90)
+                    .write(targetPath, function(err) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        fs.unlink(tmp_path, function() {});
+                    });
+                var url = '/resources/' + shopId + '/dishes/' + itemId+ '.jpg';
+                var newDish={};
+                newDish.dishPic=url;
+                newDish._id=itemId;
+                Shop.changeDishInfo(shopId, newDish, function(doc) {
+                    if (null != doc){
+                        res.json({
+                            code: 200
+                        });
+                    }
+                        
+                })
+            })
+        });
 
     router.route('/account/web/order')
         .get(function(req, res) {
