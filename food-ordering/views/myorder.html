@@ -10,15 +10,16 @@
     .dish ul {
         margin-bottom: 20px;
     }
+    .dishName,.dishPrice,.dishNum{
+        display: inline-block;
+    }
     </style>
     <script src="/javascripts/jquery-2.2.3.min.js"></script>
     <script src="/javascripts/jquery.tmpl.min.js"></script>
-     
     <script>
-  
-    function moreOrder(index) {
-        $.ajax({
-            url: '/user/account/web/orderData',
+function moreOrder(index) {
+    $.ajax({
+            url: '/user/account/web/wholeOrderData',
             type: 'GET',
             headers: {
                 'index': index,
@@ -26,12 +27,19 @@
             },
             success: function(data, status) {
                 if (data.success) {
+                    console.log(data.order)
+                    console.log(data.dishObj)
+                    console.log(data.amount)
                     var markup = '<ul> \
         <li>price: <span class="price">${order.price}</span></li> \
         <li>下单时间：${order.date}</li> \
         <li>个人信息：${order.address.name} ${order.address.phone} ${order.address.addr}</li> \
         <li>状态：${order.status}</li> \
-        <li class="content">订单内容：</li> \
+        <li class="content">订单内容：\
+        <div class="dishName"></div> \
+        <div class="dishPrice"></div> \
+        <div class="dishNum"></div> \
+        </li> \
         <li>留言：${order.message}</li> \
         <li class="shopId">${order.shop}</li> \
         <li class="orderId">${order._id}</li> \
@@ -40,87 +48,38 @@
 
                     $.template("orderTemplate", markup);
                     $.tmpl("orderTemplate", data.order).appendTo(".order-div");
-                    console.log("data.order",data.order);
-                    var orderLen = data.order.length;
-                    var dishObj = {};
-                    var amount = {};
-                    var num = 0;
-                    for (var i = 0; i < orderLen; i++) {
-                        dishObj[i] = [];
-                        amount[i] = [];
-                    }
-                    for (var i = 0; i < orderLen; i++) {
-                        for (var j = 0; j < data.order[i].order.dishs.length; j++) {
-                            (function(i, j) {
-                                $.ajax({
-                                    url: '/shop/findItemById',
-                                    type: 'POST',
-                                    data: {
-                                        "shopId": data.order[i].order.shop,
-                                        "itemId": data.order[i].order.dishs[j].itemId
-                                    },
-                                    success: function(newdata) {
-                                        if (newdata.success) {
-                                            dishObj[i].push(newdata.doc);
-                                            //console.log("amount",data.order[i].order.dishs[j].amount);
-                                            amount[i].push(data.order[i].order.dishs[j].amount);
-                                            console.log("amount", amount)
-                                            var dishLength = data.order[i].order.dishs.length;
-                                            if ((i == orderLen - 1) && (j == dishLength - 1)) {
-                                                console.log(dishObj)
-                                                console.log(newdata.shopName)
-                                              //  $(".shopName").text(newdata.shopName);
-                                                for (var n = 0; n < orderLen; n++) {
-                                                    console.log(dishObj[n])
-                                                    var dish = '<ul> \
-                                                        <div> \
-                                                            <li>dishName ${dishName}</li> \
-                                                            <li>单价 ${price}</li> \
-                                                            <label>数量</label><li class="num"></li> \
-                                                        </div> \
-                                                    </ul>';
-                                                    $.template("dishTemplate", dish);
-                                                    $(".content").eq(n).append($.tmpl("dishTemplate", dishObj[n]));
-                                                    var indexNum = 0;
-                                                    for (var t = 0; t < orderLen; t++) {
-                                                        for (var m = 0; m < data.order[t].order.dishs.length; m++) {
-                                                            console.log("juti", amount[t][m]);
-                                                            $(".num").eq(indexNum).text(amount[t][m]);
-                                                            indexNum++;
-                                                            console.log(i)
-                                                            console.log("j",j)
-                                                        }
-                                                    }
-                                                    console.log("indexNum", indexNum)
-                                                }
-                                            }
-                                        }
-                                    }
-                                });
-                            })(i, j)
-                        }
+                }
+
+                for(var i in data.dishObj){
+                    var len=data.dishObj[i].length;
+                    for(var j=0;j<len;j++){
+                        $(".dishName").eq(Number(i)).append("<div class='dish-item'>"+ data.dishObj[i][j].dishName +"</div>")
+                        $(".dishPrice").eq(Number(i)).append("<div class='dish-price'>"+ data.dishObj[i][j].price +"</div>")
+                        $(".dishNum").eq(Number(i)).append("<div class='dish-num'>"+ data.amount[i][j] +"</div>")
                     }
                 }
+
             }
-        });
-    }
+        })
+}
+
     moreOrder(1);
 
-    $(document).on("click","button",function(){
-        var shopId=$(this).parent().siblings(".shopId").text();
-        var orderId=$(this).parent().siblings(".orderId").text();
-        var comment={};
-        comment.content=$(this).siblings("input").val();
-        comment.mark=4;
+    $(document).on("click", "button", function() {
+        var shopId = $(this).parent().siblings(".shopId").text();
+        var orderId = $(this).parent().siblings(".orderId").text();
+        var comment = {};
+        comment.content = $(this).siblings("input").val();
+        comment.mark = 4;
         $.ajax({
             url: '/user/account/web/comment',
             type: 'POST',
-            data:{
-                "shopId":shopId,
-                "orderId":orderId,
-                "comment":comment
+            data: {
+                "shopId": shopId,
+                "orderId": orderId,
+                "comment": comment
             },
-              success: function(data, status) {
+            success: function(data, status) {
                 if (data.success) {
                     alert("comment success")
                 }
@@ -128,18 +87,16 @@
         });
     })
     </script>
-   <script src="/javascripts/socket.io.js"></script>
+    <script src="/javascripts/socket.io.js"></script>
     <script src="/javascripts/userGetNotification.js"></script>
 </head>
 
 <body>
     <h1>hello my order</h1>
-
     <div class="wrp">
         <div class="order-div">
         </div>
     </div>
-    <button>More</button>
 </body>
 <script>
 </script>

@@ -209,7 +209,6 @@ var routeShop = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
             var itemId = req.param('itemId', null);
             var shopName = "";
 
-
             Shop.findShopById(shopId, function(doc) {
                 shopName = doc.shopName;
                 if (itemId != null && shopId != null) {
@@ -227,13 +226,10 @@ var routeShop = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
                     })
                 }
             })
-
-
         });
 
     router.route('/register')
         .get(function(req, res) {
-            //res.sendfile(path.join(__dirname, './views', 'restaurant-post.html'));
             res.sendfile(path.join(__dirname, '../../views', 'restaurant-post.html'));
         })
         .post(function(req, res) {
