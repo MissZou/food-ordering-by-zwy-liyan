@@ -386,6 +386,8 @@ var addOrder = function(shopId,orderId,callback){
               }
               callback(doc);
           })
+        }else{
+           callback(err);
         }
     });
 }
@@ -403,13 +405,14 @@ var limit = index*count;
                 console.log(err);
                 callback(err);
               }
+              console.log(doc);
                 var array = [];
                 for(var i=limit - count;i<doc.orders.length;i++){
                     if(doc.orders[i].order!=null){
                         array.push(doc.orders[i]);            
                     }
                     else{
-                      break;
+                      continue;
                     } 
                 }
 

@@ -27,25 +27,24 @@ function moreOrder(index) {
             },
             success: function(data, status) {
                 if (data.success) {
-                    console.log(data.order)
+                    /*console.log(data.order)
                     console.log(data.dishObj)
-                    console.log(data.amount)
+                    console.log(data.amount)*/
                     var markup = '<ul> \
-        <li>price: <span class="price">${order.price}</span></li> \
-        <li>下单时间：${order.date}</li> \
-        <li>个人信息：${order.address.name} ${order.address.phone} ${order.address.addr}</li> \
-        <li>状态：${order.status}</li> \
-        <li class="content">订单内容：\
-        <div class="dishName"></div> \
-        <div class="dishPrice"></div> \
-        <div class="dishNum"></div> \
-        </li> \
-        <li>留言：${order.message}</li> \
-        <li class="shopId">${order.shop}</li> \
-        <li class="orderId">${order._id}</li> \
-        <li>comment:  <input type="text"/><button>submit comment</button></li> \
-    </ul>'
-
+                        <li>price: <span class="price">${order.price}</span></li> \
+                        <li>下单时间：${order.date}</li> \
+                        <li>个人信息：${order.address.name} ${order.address.phone} ${order.address.addr}</li> \
+                        <li>状态：${order.status}</li> \
+                        <li class="content">订单内容：\
+                        <div class="dishName"></div> \
+                        <div class="dishPrice"></div> \
+                        <div class="dishNum"></div> \
+                        </li> \
+                        <li>留言：${order.message}</li> \
+                        <li class="shopId">${order.shop}</li> \
+                        <li class="orderId">${order._id}</li> \
+                        <li>comment:  <input type="text"/><button>submit comment</button></li> \
+                    </ul>';
                     $.template("orderTemplate", markup);
                     $.tmpl("orderTemplate", data.order).appendTo(".order-div");
                 }

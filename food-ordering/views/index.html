@@ -18,6 +18,7 @@
 <body>
     <input type="file" id="file" name="file" multiple="">
     <div id="result"></div>
+    <button id="post">POST</button>
 </body>
 <script>
 (function() {
@@ -30,8 +31,26 @@
     $("#file").on("change", function(evt) {
         // remove content
         $result.html("");
+        var xlsData;
         // be sure to show the results
         $("#result_block").removeClass("hidden").addClass("show");
+        var formXlsData = new FormData();
+        formXlsData.append('file', $("#file")[0].files[0]);
+        $.ajax({
+            url: '/shop/createXlsData/',
+            data: formXlsData,
+            type: 'POST',
+            contentType: false, //must
+            processData: false, //must
+            success: function(data, status) {
+                if (data.success) {
+                    console.log(data.data)
+                    xlsData = data.data;
+                }
+            },
+            error: function(data, status) {}
+        });
+
 
         // Closure to capture the file information.
         function handleFile(f) {
@@ -75,10 +94,16 @@
                                             for (var i = 0; i < $(".list").find("li").length; i++) {
                                                 if ($(".list").find("li").eq(i).text().split(".")[1] == "jpeg") {
                                                     var imgUrl = "/resources/" + $(".list").find("li").eq(i).text();
-                                                    var $img = $("<img src=" + imgUrl + ">");
+                                                    var $img = $("<img src=" + imgUrl + " width='100' height='80'><div class='dishName'></div><div class='dishPrice'></div><div class='type'></div>");
                                                     $("body").append($img);
                                                 }
                                             }
+                                            //console.log(xlsData[0].data)
+                                            xlsData[0].data.forEach(function(v, i) {
+                                                $(".dishName").eq(i).text(v[0]);
+                                                $(".dishPrice").eq(i).text(v[2]);
+                                                $(".type").eq(i).text(v[1]);
+                                            })
                                         }
                                     },
                                     error: function(data, status) {}
@@ -98,10 +123,7 @@
                         "class": "alert alert-danger",
                         text: "Error reading " + f.name + " : " + e.message
                     });
-                }).then(function() {
-
-
-                });
+                }).then(function() {});
         }
 
         var files = evt.target.files;
@@ -109,9 +131,73 @@
             handleFile(f);
         }
 
-
-
     });
+    $("#post").on("click", function() {
+        var dish = []
+        var num = $(".dishName").length;
+        for (var index = 0; index < num; index++) {
+            dish[index] = {}
+            dish[index].dishName = $(".dishName").eq(index).text();
+            dish[index].price = $(".dishPrice").eq(index).text();
+            dish[index].category = $(".type").eq(index).text();
+            dish[index].index = index;
+        }
+        //console.log(dish)
+        $.ajax({
+            url: '/shop/account/dish',
+            data: {
+                "dish": dish
+            },
+            type: 'PUT',
+            success: function(data, status) {
+                if (data.code == 200) {
+                    alert("上传成功dish");
+                    console.log(data.dishes);
+                    var originalDishes = data.dishes;
+                    var newDishes = [];
+                    for (var i = 0; i < originalDishes.length; i++) {
+                        if (!originalDishes[i].dishPic) {
+                            newDishes.push(originalDishes[i]._id);
+                        }
+                    }
+                    console.log("newDishes", newDishes)
+                    var datao = {};
+                    for (var i = 0, len = dish.length; i < len; i++) {
+                        datao['dishNames' + i] = dish[i].dishName;
+                        datao['dishId' + i] = newDishes[newDishes.length - len + i];
+                    }
+
+                    datao.len = dish.length;
+                    console.log(datao)
+
+                    $.ajax({
+                        url: '/shop/account/createDishPicFromXls',
+                        data: {
+                        "datao":JSON.stringify(datao)
+                        },
+                        type: 'POST',
+                        success: function(data, status) {
+                            if (data.code == 200) {
+                                alert("上传成功tupian");
+                            } else {
+                                console.log(data)
+                            }
+                        },
+                        error: function(data, status) {
+                            if (data.code != 200) {
+                                alert("上传shibai");
+                            }
+                        }
+                    });
+                }
+            },
+            error: function(data, status) {
+                if (data.code != 200) {
+                    alert("上传shibai");
+                }
+            }
+        });
+    })
 })();
 </script>
 

@@ -17,6 +17,7 @@ var routeShop = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
     var fs = require('fs');
     var gm = require('gm');
     var unzip = require('unzip');
+    var xlsx = require('node-xlsx');
 
     var imageMagick = gm.subClass({ imageMagick: true });
 
@@ -497,8 +498,11 @@ var routeShop = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
 
     router.route('/createXlsImage')
         .post(function(req, res) {
+
             var form = new formidable.IncomingForm();
             form.parse(req, function(err, fields, files) {
+                //var xlsxObj = xlsx.parse(files.blob);
+                //console.log(files)
                 var blob = files.blob;
                 if (err || !files.blob) {
                     res.json({
@@ -524,7 +528,38 @@ var routeShop = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
             })
             res.json({
                 success: true
+                    //obj:"xlsxObj"
             })
+        });
+
+
+    router.route('/createXlsData')
+        .post(function(req, res) {
+
+            var form = new formidable.IncomingForm();
+            form.parse(req, function(err, fields, files) {
+                var goalUrl = './public/resources/';
+                if (!fs.existsSync(goalUrl)) {
+                    fs.mkdirSync(goalUrl);
+                }
+                var targetPath = goalUrl + 'test.xlsx';
+                var tmp_path = files.file.path;
+                fs.rename(tmp_path, targetPath, function(err) {
+                    if (err) throw err;
+                    fs.unlink(tmp_path, function() {
+                        if (err) throw err;
+                    });
+                    var xlsxObj = xlsx.parse(targetPath);
+                    //console.log(files)
+                    res.json({
+                        success: true,
+                        data: xlsxObj
+                    })
+                });
+
+
+            })
+
         });
 
     router.route('/account/web/dish')
@@ -537,11 +572,24 @@ var routeShop = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
         .get(function(req, res) {
             var shopId = req.decoded._id;
             Shop.findShopById(shopId, function(doc) {
-             
+                var dish = [];
+                Array.prototype.uniqueFunc = function() {
+                    var res = [];
+                    var json = {};
+                    for (var i = 0; i < this.length; i++) {
+                        if (!json[this[i].dishName]) {
+                            res.push(this[i]);
+                            json[this[i].dishName] = 1;
+                        }
+                    }
+                    return res;
+                }
+
+                var dish = doc.dish.uniqueFunc();
                 res.render('shop-management', {
-                    doc: doc.dish,
+                    doc: dish,
                     shopName: doc.shopName,
-                    shopId:shopId
+                    shopId: shopId
                 });
             })
         })
@@ -569,7 +617,6 @@ var routeShop = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
                                     code: 200,
                                     success: true,
                                     dishes: dishes
-
                                 });
                             });
                         }
@@ -641,21 +688,62 @@ var routeShop = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
             })
         });
 
-router.route('/changeDishPic')
+    router.route('/account/createDishPicFromXls')
+        .post(function(req, res) {
+            var shopId = req.decoded._id;
+            var data = JSON.parse(req.param('datao', null));
+            Shop.findShopById(shopId, function(doc) {
+                if (null != doc) {
+                    var goalUrl = './public/resources/' + shopId + '/';
+                    if (!fs.existsSync(goalUrl)) {
+                        fs.mkdirSync(goalUrl);
+                    }
+                    if (!fs.existsSync(goalUrl + 'dishes/')) {
+                        fs.mkdirSync(goalUrl + 'dishes/');
+                    }
+                    for (var key = 0; key < data.len; key++) {
+                        var targetPath = goalUrl + 'dishes/' + data["dishId" + key] + ".jpg";
+                        var tmp_path = './public/resources/xl/media/image' + (key + 1) + ".jpeg";
+                        //fs.renameSync(tmp_path, targetPath);
+                        imageMagick(tmp_path)
+                            .gravity('Center')
+                            .resize('640', '480', '^>')
+                            .crop('640', '480')
+                            .autoOrient()
+                            .quality(90)
+                            .write(targetPath, function(err) {
+                                if (err) {
+                                    console.log(err);
+                                }
+                                fs.unlink(tmp_path, function() {});
+                            });
+                        var url = 'http://' + req.headers.host + '/resources/' + shopId + '/dishes/' + data["dishId" + key] + ".jpg";
+                        Shop.addDishPic(shopId, data["dishNames" + key], url, function(err) {});
+                    }
+
+                    res.json({
+                        code: 200
+                    });
+                }
+            })
+        });
+
+
+    router.route('/changeDishPic')
         .post(function(req, res) {
 
             var form = new formidable.IncomingForm();
             form.parse(req, function(err, fields, files) {
-                   var itemId=fields.itemId;
-                   var shopId=fields.shopId;
-                
+                var itemId = fields.itemId;
+                var shopId = fields.shopId;
+
                 var goalUrl = './public/resources/' + shopId + '/';
-                        if (!fs.existsSync(goalUrl)) {
-                            fs.mkdirSync(goalUrl);
-                        }
-                        if (!fs.existsSync(goalUrl + 'dishes/')) {
-                            fs.mkdirSync(goalUrl + 'dishes/');
-                        }
+                if (!fs.existsSync(goalUrl)) {
+                    fs.mkdirSync(goalUrl);
+                }
+                if (!fs.existsSync(goalUrl + 'dishes/')) {
+                    fs.mkdirSync(goalUrl + 'dishes/');
+                }
                 var targetPath = goalUrl + 'dishes/' + itemId + '.jpg';
                 console.log("target path !!");
                 console.log(targetPath);
@@ -672,17 +760,17 @@ router.route('/changeDishPic')
                         }
                         fs.unlink(tmp_path, function() {});
                     });
-                var url = '/resources/' + shopId + '/dishes/' + itemId+ '.jpg';
-                var newDish={};
-                newDish.dishPic=url;
-                newDish._id=itemId;
+                var url = '/resources/' + shopId + '/dishes/' + itemId + '.jpg';
+                var newDish = {};
+                newDish.dishPic = url;
+                newDish._id = itemId;
                 Shop.changeDishInfo(shopId, newDish, function(doc) {
-                    if (null != doc){
+                    if (null != doc) {
                         res.json({
                             code: 200
                         });
                     }
-                        
+
                 })
             })
         });
@@ -706,11 +794,15 @@ router.route('/changeDishPic')
             }
             Shop.findOrderByShopId(shopId, index, count, function(doc) {
                 if (doc != null) {
-                    res.json({
-                        success: true,
-                        order: doc,
-                        shopId: shopId
+                    Shop.findShopById(shopId, function(shopdoc) {
+                        res.json({
+                            success: true,
+                            order: doc,
+                            shopId: shopId,
+                            shopDoc: shopdoc
+                        })
                     })
+
                 }
 
             })

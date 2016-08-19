@@ -834,9 +834,11 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
         .get(function(req, res) {
             var accountId = req.decoded._id;
             Account.findAccountById(accountId, function(doc) {
-                res.render('confirm-order.jade', {
-                    items: doc.address
-                });
+                if(doc){
+                    res.render('confirm-order.jade', {
+                        items: doc.address
+                    });
+                }
             })
         });
 
