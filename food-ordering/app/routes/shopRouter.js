@@ -572,7 +572,6 @@ var routeShop = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
         .get(function(req, res) {
             var shopId = req.decoded._id;
             Shop.findShopById(shopId, function(doc) {
-                var dish = [];
                 Array.prototype.uniqueFunc = function() {
                     var res = [];
                     var json = {};

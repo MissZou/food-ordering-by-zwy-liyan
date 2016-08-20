@@ -378,6 +378,17 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
             })
         });
 
+        router.route('/account/web/username')
+        .get(function(req, res) {
+             var accountId = req.param("userId", null);
+            Account.findAccountById(accountId, function(doc) {
+                res.json({
+                        success: true,
+                        username: doc.name
+                    });
+            })
+        });
+
     router.route('/account/web/address')
         .get(function(req, res) {
             // var accountId = req.param('account', null);
@@ -596,10 +607,46 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
         .get(function(req, res) {
             Shop.findShopById(req.params.shopId, function(doc) {
                 console.log(doc.dish);
+                Array.prototype.uniqueFunc = function() {
+                    var res = [];
+                    var json = {};
+                    for (var i = 0; i < this.length; i++) {
+                        if (!json[this[i].dishName]) {
+                            res.push(this[i]);
+                            json[this[i].dishName] = 1;
+                        }
+                    }
+                    return res;
+                }
+
+                var dish = doc.dish.uniqueFunc();
                 res.render('shop-detail', {
-                    doc: doc.dish,
+                    doc: dish,
                     shopName: doc.shopName
                 });
+            })
+        })
+
+        router.route('/account/web/rate/:shopId')
+        .get(function(req, res) {
+            Shop.findOrderByShopId(req.params.shopId, 1, 99999, function(doc) {
+                if (doc != null) {
+                    Shop.findShopById(req.params.shopId, function(shopdoc) {
+                        var newMark=[];
+                        var newDoc2=[];
+                        var newName=[];
+                  
+doc.map(function(v){
+                            if(v.order.shop==req.params.shopId && v.order.comment){
+                                newMark.push(v.order);
+                            }
+                        });
+                          res.render('rate', {
+                    doc: newMark,
+                    shopName: shopdoc.shopName
+                });
+                    })
+                }
             })
         })
 
@@ -1048,6 +1095,18 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
             })
         })
 
+
+    router.route('/account/web/markDish')
+        .post(function(req, res) {
+            var userId = req.decoded._id;
+            var dishId = req.param("dishId", null);
+            var mark = req.param("mark", null);
+            Shop.addComment(dishId,userId,mark,"content", function() {
+                res.json({
+                    success: true
+                });
+            })
+        })
 
     router.route('/account/web/myfav')
 
