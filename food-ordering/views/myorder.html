@@ -10,15 +10,46 @@
     .dish ul {
         margin-bottom: 20px;
     }
-    .dishName,.dishPrice,.dishNum{
+    
+    .dishName,
+    .dishPrice,
+    .dishNum {
         display: inline-block;
     }
     </style>
     <script src="/javascripts/jquery-2.2.3.min.js"></script>
     <script src="/javascripts/jquery.tmpl.min.js"></script>
+    <script id="ifelse" type="text/x-jquery-tmpl">
+        <ul>
+            <li>price: <span class="price">${order.price}</span></li>
+            <li>下单时间：${order.date}</li>
+            <li>个人信息：${order.address.name} ${order.address.phone} ${order.address.addr}</li>
+            <li>状态：${order.status}</li>
+            <li class="content">订单内容：
+                <div class="dishName"></div>
+                <div class="dishPrice"></div>
+                <div class="dishNum"></div>
+                <div class="dishId"></div>
+                <div class="dishMark"></div>
+                <button class="markBtn">submit mark</button>
+            </li>
+            <li>留言：${order.message}</li>
+            <li class="shopId">${order.shop}</li>
+            <li class="orderId">${order._id}</li>
+            {{if order.comment }}
+            <li class="mark">${order.comment.mark}</li>
+            <li class="content">${order.comment.content}</li>
+            {{else}}
+            <li>comment:
+                <input type="text" />
+                <button class="comment">submit comment</button>
+            </li>
+            {{/if}}
+        </ul>
+    </script>
     <script>
-function moreOrder(index) {
-    $.ajax({
+    function moreOrder(index) {
+        $.ajax({
             url: '/user/account/web/wholeOrderData',
             type: 'GET',
             headers: {
@@ -30,46 +61,54 @@ function moreOrder(index) {
                     /*console.log(data.order)
                     console.log(data.dishObj)
                     console.log(data.amount)*/
-                    var markup = '<ul> \
-                        <li>price: <span class="price">${order.price}</span></li> \
-                        <li>下单时间：${order.date}</li> \
-                        <li>个人信息：${order.address.name} ${order.address.phone} ${order.address.addr}</li> \
-                        <li>状态：${order.status}</li> \
-                        <li class="content">订单内容：\
-                        <div class="dishName"></div> \
-                        <div class="dishPrice"></div> \
-                        <div class="dishNum"></div> \
-                        </li> \
-                        <li>留言：${order.message}</li> \
-                        <li class="shopId">${order.shop}</li> \
-                        <li class="orderId">${order._id}</li> \
-                        <li>comment:  <input type="text"/><button>submit comment</button></li> \
-                    </ul>';
-                    $.template("orderTemplate", markup);
-                    $.tmpl("orderTemplate", data.order).appendTo(".order-div");
+                    /*         var markup = '<ul> \
+                                 <li>price: <span class="price">${order.price}</span></li> \
+                                 <li>下单时间：${order.date}</li> \
+                                 <li>个人信息：${order.address.name} ${order.address.phone} ${order.address.addr}</li> \
+                                 <li>状态：${order.status}</li> \
+                                 <li class="content">订单内容：\
+                                 <div class="dishName"></div> \
+                                 <div class="dishPrice"></div> \
+                                 <div class="dishNum"></div> \
+                                 </li> \
+                                 <li>留言：${order.message}</li> \
+                                 <li class="shopId">${order.shop}</li> \
+                                 <li class="orderId">${order._id}</li> \
+                                 {{if ${order.comment}}} \
+                                 <li class="orderId">${order.comment.mark}</li> \
+                                 <li class="orderId">${order.comment.content}</li> \
+                                 {{else}} \
+                                 <li>comment:  <input type="text"/><button>submit comment</button></li> \
+                                 {{/if}} \
+                             </ul>';*/
+                    $("#ifelse").tmpl(data.order).appendTo('.order-div');
+                    //$.template("orderTemplate", markup);
+                    // $.tmpl("orderTemplate", data.order).appendTo(".order-div");
                 }
 
-                for(var i in data.dishObj){
-                    var len=data.dishObj[i].length;
-                    for(var j=0;j<len;j++){
-                        $(".dishName").eq(Number(i)).append("<div class='dish-item'>"+ data.dishObj[i][j].dishName +"</div>")
-                        $(".dishPrice").eq(Number(i)).append("<div class='dish-price'>"+ data.dishObj[i][j].price +"</div>")
-                        $(".dishNum").eq(Number(i)).append("<div class='dish-num'>"+ data.amount[i][j] +"</div>")
+                for (var i in data.dishObj) {
+                    var len = data.dishObj[i].length;
+                    for (var j = 0; j < len; j++) {
+                        $(".dishName").eq(Number(i)).append("<div class='dish-item'>" + data.dishObj[i][j].dishName + "</div>")
+                        $(".dishId").eq(Number(i)).append("<input type='hidden' value='" + data.dishObj[i][j]._id + "'>")
+                        $(".dishPrice").eq(Number(i)).append("<div class='dish-price'>" + data.dishObj[i][j].price + "</div>")
+                        $(".dishNum").eq(Number(i)).append("<div class='dish-num'>" + data.amount[i][j] + "</div>")
+                        $(".dishMark").eq(Number(i)).append("<input type='number'>")
                     }
                 }
 
             }
         })
-}
+    }
 
     moreOrder(1);
 
-    $(document).on("click", "button", function() {
+    $(document).on("click", ".comment", function() {
         var shopId = $(this).parent().siblings(".shopId").text();
         var orderId = $(this).parent().siblings(".orderId").text();
         var comment = {};
         comment.content = $(this).siblings("input").val();
-        comment.mark = 4;
+        comment.mark = 4; //要改
         $.ajax({
             url: '/user/account/web/comment',
             type: 'POST',
@@ -85,6 +124,11 @@ function moreOrder(index) {
             }
         });
     })
+
+    $(document).on("click", ".markBtn", function() {
+        
+    })
+
     </script>
     <script src="/javascripts/socket.io.js"></script>
     <script src="/javascripts/userGetNotification.js"></script>

@@ -334,13 +334,32 @@ var findNearShops = function(loc,distance,index,count,callback){
       });
 };
 
-var addComments = function(dishId,date,userId,mark,contnet,callback){
+/*var addComments = function(dishId,userId,mark,content,callback){
   Shop.findOne({_id:dishId},{$pull:{comment:{
     "content":content,
     //"date":date,
     "mark":mark,
     "userId":userId
   }}})
+};*/
+
+var addComment = function(dishId,userId,mark,content,callback) {
+   Shop.findOne({_id:dishId},{$pull:{comment:{
+    "content":content,
+    //"date":date,
+    "mark":mark,
+    "userId":userId
+  }}})
+   
+  /*     Order.update({_id:orderId,shop:shopId}, {$set: {comment:{
+          "userId":userId,
+          "content":comment.content,
+          "mark":comment.mark
+        }}},{upsert:true},
+      function (err) {
+        console.log(err)
+        callback(err);
+    });*/
 };
 
 
@@ -448,6 +467,7 @@ var deleteShop = function(shopId,callback){
     findItemById:findItemById,
     deleteShop:deleteShop,//test api
     addOrder:addOrder,
-    findOrderByShopId:findOrderByShopId
+    findOrderByShopId:findOrderByShopId,
+    addComment:addComment
   }
 }
