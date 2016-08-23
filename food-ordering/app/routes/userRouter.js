@@ -1101,7 +1101,8 @@ doc.map(function(v){
             var userId = req.decoded._id;
             var dishId = req.param("dishId", null);
             var mark = req.param("mark", null);
-            Shop.addComment(dishId,userId,mark,"content", function() {
+            var shopId = req.param("shopId", null);
+            Shop.addComment(shopId,dishId,userId,mark,"content", function() {
                 res.json({
                     success: true
                 });

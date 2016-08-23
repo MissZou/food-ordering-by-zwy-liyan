@@ -343,23 +343,39 @@ var findNearShops = function(loc,distance,index,count,callback){
   }}})
 };*/
 
-var addComment = function(dishId,userId,mark,content,callback) {
-   Shop.findOne({_id:dishId},{$pull:{comment:{
+var addComment = function(shopId,dishId,userId,mark,content,callback) {
+   
+Shop.findOne({_id:shopId},function(err,doc){
+      if (err) {
+        console.log(err);
+      }else{
+        
+for (var i = doc.dish.length - 1; i >= 0; i--) {
+              if (doc.dish[i]._id == dishId) {
+                 doc.dish[i].comment.push({
+                  
     "content":content,
     //"date":date,
     "mark":mark,
     "userId":userId
-  }}})
-   
-  /*     Order.update({_id:orderId,shop:shopId}, {$set: {comment:{
-          "userId":userId,
-          "content":comment.content,
-          "mark":comment.mark
-        }}},{upsert:true},
-      function (err) {
-        console.log(err)
-        callback(err);
-    });*/
+  
+                 })
+              }
+          }  
+
+        doc.save(function(err,doc){
+          console.log(doc);
+          callback(doc);
+        });
+
+
+
+
+
+      }
+    })
+
+
 };
 
 
