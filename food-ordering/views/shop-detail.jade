@@ -46,6 +46,20 @@ html
     -     arr.push(values[i].category);
     - }
     -}
+
+    - Array.prototype.avg=function(key){
+    - if(this.length==0){
+    - return 0;
+    - }
+    - var sum=0;
+    - var num=this.length;
+    - this.forEach(function(cur,ind){
+    -   sum+=cur[key];
+    - })
+    - return sum/num;
+    - }
+
+
     h1.shopName= shopName
     .heart.coreSpriteHeartOpen
     .wrapper.clearfix
@@ -65,9 +79,8 @@ html
                     img.rstblock-logo-icon(src= values[i].dishPic , width='70', height='70', alt= values[i].dishName)
                   .rstblock-title= values[i].dishName
                   .star-rating(progress-meter='5')
-                    .star-meter(progress-fill='4.2', style='width: 84%;')
-                  span.color-mute (4)
-                  span.color-mute 月售20份
+                    .star-meter(progress-fill=values[i].comment.avg('mark'), style='width:'+values[i].comment.avg('mark')/5.0*100+'%;')
+                  span.color-mute= '('+values[i].comment.length+')'
                   span.shopmenu-food-price= values[i].price
                   button.shop-cartbutton 加入购物车
                   input(type="hidden",value=values[i]._id )
@@ -86,6 +99,6 @@ html
         button.shop-cartfooter-checkout.disabled 购物车是空的
       .shop-carthelper-opener
       .shop-flyitem
-  script(src='/javascripts/jquery-2.2.3.min.js')
+  script(src='/javascripts/jquery-1.7.1.min.js')
   script(src='/javascripts/jquery.fly.min.js')
   script(src='/javascripts/shopDetail.js')

@@ -130,18 +130,16 @@ var ac = new BMap.Autocomplete( //建立一个自动完成的对象
                         url: '/shop/createCover/',
                         data: formData,
                         type: 'POST',
-                        contentType: false, //必须
-                        processData: false, //必须
+                        contentType: false, //must
+                        processData: false, //must
                         success: function(data, status) {
                             if (data.code == 200) {
-                                alert("上传成功");
-                                console.log(data)
                                 window.location="/shop/login";
                             }
                         },
                         error: function(data, status) {
                             if (data.code != 200) {
-                                alert("上传shibai");
+                                alert("error");
                             }
                         }
                     });

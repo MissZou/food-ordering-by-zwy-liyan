@@ -1,188 +1,153 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<meta charset="UTF-8">
-	<title>shopOrder</title>
-	<link rel="stylesheet" href="/stylesheets/normalize.css">
-	<style>
-	.orders{
-		margin-bottom: 20px;
-	}
-	body{
-		height: 100%;
-		overflow: hidden;
-	}
-	.mask{
-		position: fixed;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom:0;
-		background: rgba(255,255,255,0.8);
-
-	}
-	</style>
+    <meta charset="UTF-8">
+    <title>shopOrder</title>
+    <link rel="stylesheet" href="/stylesheets/normalize.css">
+    <style>
+    .orders {
+        margin-bottom: 20px;
+    }
+    </style>
 </head>
+
 <body>
-<div class="mask"></div>
-	<h1>shopOrder</h1>
-	<div class="order-div">
-	</div>
+    <div id="container" style="min-width:400px;height:400px;"></div>
+    <div id="container2" style="min-width:400px;height:400px;"></div>
 </body>
-<script src="/javascripts/socket.io.js"></script>
 <script src="/javascripts/jquery-2.2.3.min.js"></script>
-<script src="/javascripts/jquery.tmpl.min.js"></script>
+<script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
 <script>
-	$(function(){
-		$.ajax({
-            url: '/shop/account/order',
-            type: 'GET',
-            headers: {
-                'index': 1,
-                'count': 9999
-                },
-            success: function(data, status) {
-                if(data.success){
-                	console.log(data.order)
-                	var markup = '<div class="order-item"> \
-			<p class="username">username: ${order.address.name}</p> \
-			<p>address: ${order.address.addr}</p> \
-			<p>phone: ${order.address.phone}</p> \
-			<p>price ${order.price}</p> \
-			<p>date:${order.date}</p> \
-			<p>message: ${order.message}</p> \
-			<p>current statue: ${order.status}</p> \
-			<button>取消订单</button> \
-			<button class="shipping">运送中</button> \
-			<input type="hidden" value=${order.user} class="userId"> \
-		</div>'
-                    $.template("orderTemplate", markup);
-                    $.tmpl("orderTemplate", data.order).appendTo(".order-div");
-
-
-                    var orderLen = data.order.length;
-                    var dishObj = {};
-                    var amount = {};
-                    var num = 0;
-                    for (var i = 0; i < orderLen; i++) {
-                        dishObj[i] = [];
-                        amount[i] = [];
-                    }
-                    for (var i = 0; i < orderLen; i++) {
-                        for (var j = 0; j < data.order[i].order.dishs.length; j++) {
-                            (function(i, j) {
-                                $.ajax({
-                                    url: '/shop/findItemById',
-                                    type: 'POST',
-                                    data: {
-                                        "shopId": data.order[i].order.shop,
-                                        "itemId": data.order[i].order.dishs[j].itemId
-                                    },
-                                    success: function(newdata) {
-                                        if (newdata.success) {
-                                            dishObj[i].push(newdata.doc);
-                                            //console.log("amount",data.order[i].order.dishs[j].amount);
-                                            amount[i].push(data.order[i].order.dishs[j].amount);
-                                            console.log("amount", amount)
-                                            var dishLength = data.order[i].order.dishs.length;
-                                            if ((i == orderLen - 1) && (j == dishLength - 1)) {
-                                                console.log(dishObj)
-                                                console.log(newdata.shopName)
-                                                $(".shopName").text(newdata.shopName);
-                                                for (var n = 0; n < orderLen; n++) {
-                                                    console.log(dishObj[n])
-                                                    var dish = '<ul> \
-                                                        <div> \
-                                                            <li>dishName ${dishName}</li> \
-                                                            <li>单价 ${price}</li> \
-                                                            <label>数量</label><li class="num"></li> \
-                                                        </div> \
-                                                    </ul>';
-                                                    $.template("dishTemplate", dish);
-                                                    $(".order-item").eq(n).prepend($.tmpl("dishTemplate", dishObj[n]));
-                                                    var indexNum = 0;
-                                                    for (var t = 0; t < orderLen; t++) {
-                                                        for (var m = 0; m < data.order[t].order.dishs.length; m++) {
-                                                            console.log("juti", amount[t][m]);
-                                                            $(".num").eq(indexNum).text(amount[t][m]);
-                                                            indexNum++;
-
-                                                        }
-                                                    }
-                                                    console.log("indexNum", indexNum)
-                                                }
-                                                //mask remove
-					                    $(".mask").hide();
-					                    $("body").css({"height":"auto","overflow":"auto"});
-                                            }
-                                            
-                                        }
-
-                                    }
-                                });
-                            })(i, j)
+$(function() {
+    $.ajax({
+        url: '/shop/account/order',
+        type: 'GET',
+        headers: {
+            'index': 1,
+            'count': 9999
+        },
+        success: function(data, status) {
+            if (data.success) {
+                //console.log(data.order)
+                //console.log(data.shopDoc.dish)
+                var dishNametable = {};
+                data.shopDoc.dish.forEach(function(val, ind) {
+                    dishNametable[val._id] = val.dishName;
+                })
+                var series = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                for (var i = 0; i < data.order.length; i++) {
+                    series[Number(data.order[i].order.date.split("-")[1]) - 1] += data.order[i].order.price;
+                }
+                var top3Dish = [];
+                for (var i = 0; i < data.order.length; i++) {
+                    var month = Number(data.order[i].order.date.split("-")[1]) - 1;
+                    data.order[i].order.dishs.forEach(function(value, index) {
+                        var repeat = false;
+                        top3Dish.forEach(function(v) {
+                            if (v.name == dishNametable[value.itemId]) {
+                                repeat = true;
+                                v.data[month] += value.amount;
+                            }
+                        })
+                        if (!repeat) {
+                            var obj = {};
+                            obj.name = dishNametable[value.itemId];
+                            obj.data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                            obj.data[month] += value.amount;
+                            top3Dish.push(obj);
                         }
-                    }
-                    
+                    })
                 }
+                //console.log(top3Dish)
+                $('#container').highcharts({
+                    title: {
+                        text: 'Monthly Average Temperature',
+                        x: -20 //center
+                    },
+                    subtitle: {
+                        text: 'Source: WorldClimate.com',
+                        x: -20
+                    },
+                    xAxis: {
+                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Temperature (°C)'
+                        },
+                        plotLines: [{
+                            value: 0,
+                            width: 1,
+                            color: '#808080'
+                        }]
+                    },
+                    tooltip: {
+                        valueSuffix: 'yuan'
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle',
+                        borderWidth: 0
+                    },
+                    series: [{
+                        name: 'Monthly sales',
+                        data: series
+                    }]
+                });
+
+                $('#container2').highcharts({
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: 'Stacked column chart'
+                    },
+                    xAxis: {
+                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+                        ]
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Total fruit consumption'
+                        },
+                        stackLabels: {
+                            enabled: true,
+                            style: {
+                                fontWeight: 'bold',
+                                color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                            }
+                        }
+                    },
+
+                    tooltip: {
+                        formatter: function() {
+                            return '<b>' + this.x + '</b><br/>' +
+                                this.series.name + ': ' + this.y + '<br/>' +
+                                'Total: ' + this.point.stackTotal;
+                        }
+                    },
+                    plotOptions: {
+                        column: {
+                            stacking: 'normal',
+                            dataLabels: {
+                                enabled: true,
+                                color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                                style: {
+                                    textShadow: '0 0 3px black'
+                                }
+                            }
+                        }
+                    },
+                    series: top3Dish
+                });
             }
-        });
-
-		var shopId=localStorage.getItem("socketShop")
-var socket = io();
-
-socket.emit('set nickname',shopId)
-    socket.on('my message', function(msg) {
-        // 首先，让我们检查我们是否有权限发出通知
-        // 如果没有，我们就请求获得权限
-        if (window.Notification && Notification.permission !== "granted") {
-            Notification.requestPermission(function(status) {
-                if (Notification.permission !== status) {
-                    Notification.permission = status;
-                }
-            });
         }
-
-        // 如果用户同意就创建一个通知
-        if (window.Notification && Notification.permission === "granted") {
-            var n = new Notification(msg);
-        }
-
-        // 如果用户没有选择是否显示通知
-        // 注：因为在 Chrome 中我们无法确定 permission 属性是否有值，因此
-        // 检查该属性的值是否是 "default" 是不安全的。
-        else if (window.Notification && Notification.permission !== "denied") {
-            Notification.requestPermission(function(status) {
-                if (Notification.permission !== status) {
-                    Notification.permission = status;
-                }
-
-                // 如果用户同意了
-                if (status === "granted") {
-                    var n = new Notification(msg);
-                }
-
-                // 否则，我们可以让步的使用常规模态的 alert
-                else {
-                    alert(msg);
-                }
-            });
-        }
-
-        // 如果用户拒绝接受通知
-        else {
-            // 我们可以让步的使用常规模态的 alert
-            alert(msg);
-        }
-
-        //$('body').append($('<li>').text(msg));
-
     });
-$(document).on("click",".shipping",function(){
-	alert("yunsongzhong")
-	var user=$(this).siblings(".userId").val();
-	socket.emit('say to someone', user, "Your order is shipping now!"); //to id
 })
-	})
 </script>
+
 </html>

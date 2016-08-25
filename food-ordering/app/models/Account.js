@@ -412,9 +412,7 @@ var findOrderByUserId = function(accountId,index,count,callback){
   Account.findOne({_id:accountId}).populate({
     path:'orders.order',
     options:{
-      
       skip:limit - count
-      
     }
   }).slice('orders',limit).exec(function (err, doc) {
               if (err) {
@@ -428,7 +426,7 @@ var findOrderByUserId = function(accountId,index,count,callback){
                         array.push(doc.orders[i]);            
                     }
                     else{
-                      break;
+                      continue;
                     } 
                 }
               callback(array);
@@ -479,7 +477,7 @@ var findFavoriteShop = function(accountId,index,count,callback){
                 if (err) {
                   callback(err);
                 }
-
+                if(doc){
                 var array = [];
                 for(var i=limit - count;i<doc.favoriteShop.length;i++){
                     if(doc.favoriteShop[i]!=null){
@@ -501,6 +499,7 @@ var findFavoriteShop = function(accountId,index,count,callback){
                 }
                 
                 callback(array);
+              }
             })
               
 }

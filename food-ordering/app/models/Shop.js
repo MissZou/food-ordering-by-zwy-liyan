@@ -334,13 +334,48 @@ var findNearShops = function(loc,distance,index,count,callback){
       });
 };
 
-var addComments = function(dishId,date,userId,mark,contnet,callback){
+/*var addComments = function(dishId,userId,mark,content,callback){
   Shop.findOne({_id:dishId},{$pull:{comment:{
     "content":content,
     //"date":date,
     "mark":mark,
     "userId":userId
   }}})
+};*/
+
+var addComment = function(shopId,dishId,userId,mark,content,callback) {
+   
+Shop.findOne({_id:shopId},function(err,doc){
+      if (err) {
+        console.log(err);
+      }else{
+        
+for (var i = doc.dish.length - 1; i >= 0; i--) {
+              if (doc.dish[i]._id == dishId) {
+                 doc.dish[i].comment.push({
+                  
+    "content":content,
+    //"date":date,
+    "mark":mark,
+    "userId":userId
+  
+                 })
+              }
+          }  
+
+        doc.save(function(err,doc){
+          console.log(doc);
+          callback(doc);
+        });
+
+
+
+
+
+      }
+    })
+
+
 };
 
 
@@ -386,6 +421,8 @@ var addOrder = function(shopId,orderId,callback){
               }
               callback(doc);
           })
+        }else{
+           callback(err);
         }
     });
 }
@@ -403,13 +440,14 @@ var limit = index*count;
                 console.log(err);
                 callback(err);
               }
+              console.log(doc);
                 var array = [];
                 for(var i=limit - count;i<doc.orders.length;i++){
                     if(doc.orders[i].order!=null){
                         array.push(doc.orders[i]);            
                     }
                     else{
-                      break;
+                      continue;
                     } 
                 }
 
@@ -445,6 +483,7 @@ var deleteShop = function(shopId,callback){
     findItemById:findItemById,
     deleteShop:deleteShop,//test api
     addOrder:addOrder,
-    findOrderByShopId:findOrderByShopId
+    findOrderByShopId:findOrderByShopId,
+    addComment:addComment
   }
 }

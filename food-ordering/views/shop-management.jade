@@ -1,0 +1,181 @@
+html
+  head
+    meta(charset='UTF-8')
+    title shop-detail
+    link(rel='stylesheet', href='/stylesheets/normalize.css')
+    link(rel='stylesheet', href='/stylesheets/header.css')
+    link(rel='stylesheet', href='/stylesheets/shop-detail.css')
+    link(rel='stylesheet', href='/stylesheets/updateAddress.css')
+    style.
+      .shopmenu-food{
+       width:23%;
+       cursor:pointer;
+      }
+      .mask{
+      position:absolute;
+      z-index:100;
+      left:100px;
+      right:0;
+      top:0;
+      bottom:0;
+      background:#ccc;
+      display:none;
+      }
+      .shopmenu-food:hover .mask{
+        display:block; 
+      }
+      .file{
+      visibility:hidden;
+      }
+      .addressform-buttons button{
+      
+      background:#1e89e0;
+      color:#fff;
+      }
+      .shopId{
+      height:0;
+      overflow:hidden;
+      margin:0;
+      }
+  body
+    .bodymask(style='position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; opacity: 0.5; z-index: 1000; background: rgb(0, 0, 0);display:none;')
+    .addressdialog(style='z-index: 1001;display:none;')
+      .addressdialog-close
+      .addressdialog-header Edit
+      .addressdialog-content
+        .addressform
+          div
+            .addressformfield#validate-error
+              label Dish
+              input#dishName(placeholder='Please input dish name.')
+            .addressformfield.addressfield
+              label Category
+              input#category
+            .addressformfield.phonefield
+              label Price
+              input#price(type='number')
+          .addressform-buttons
+            button.save 保存
+          input.dishId(type="hidden")
+    include header.jade
+
+    - var values= doc 
+
+
+    h1.shopName= shopName
+    h1.shopId= shopId
+    .wrapper.clearfix
+            - for (var i = 0; i < values.length; i++){
+                .shopmenu-food
+                  a.rstblock-logo
+                    img.rstblock-logo-icon(src= values[i].dishPic , width='70', height='70', alt= values[i].dishName)
+                  .rstblock-title= values[i].dishName
+                  span.shopmenu-food-price= values[i].price
+                  div.category= values[i].category
+                  input.itemId(type="hidden",value=values[i]._id )
+                  .mask Edit
+                  input.file(type="file",accept="image/*")
+            - }
+
+  script(src='/javascripts/jquery-2.2.3.min.js')
+  script(src='/javascripts/jquery.fly.min.js')
+  script.
+    $(function(){
+      var item=$(".mask");
+      item.on("click",function(){
+        console.log($(this).siblings(".shopmenu-food-price").text())
+      })
+
+      $(".rstblock-logo").on("click",function(){
+        $(this).parent().find(".file").click();
+      })
+
+      $(".file").on("change", function() {
+        var img=$(this).siblings(".rstblock-logo").find("img");
+        var itemId=$(this).siblings(".itemId").attr("value");
+        changeDishPic(this.files[0],img,itemId);
+       });
+
+       $(".mask").on("click",function(){
+       var category=$(this).siblings(".category").text(),
+           price=$(this).siblings(".shopmenu-food-price").text(),
+           dishName=$(this).siblings(".rstblock-title").text(),
+           itemId=$(this).siblings(".itemId").attr("value");
+           $("#dishName").val(dishName);
+           $("#price").val(price);
+           $("#category").val(category);
+           $(".dishId").val(itemId);
+         $(".bodymask").show();
+         $(".addressdialog").show();
+       });
+
+       $(".addressdialog-close").on("click",function(){
+       $(".bodymask").hide();
+         $(".addressdialog").hide();
+       })
+
+       $(".save").on("click",function(){
+       var dish={
+         _id:$(".dishId").val(),
+         price:$("#price").val(),
+         dishName:$("#dishName").val(),
+         category:$("#category").val()
+       };
+       $.ajax({
+       url: '/shop/account/dish',
+                        data: {dish:dish},
+                        type: 'POST',
+                        success: function(data, status) {
+                            if (data.code == 200) {
+                                location.reload();
+                            }
+                        },
+                        error: function(data, status) {
+                            if (data.code != 200) {
+                                alert("...error");
+                            }
+                        }
+       })
+       })
+
+        function changeDishPic (file,img,itemId){
+          var imageType = /^image\//;
+            if (!imageType.test(file.type)) {
+              return false;
+            }
+            var reader = new FileReader();
+            reader.onload = (function(aImg) {
+                return function(e) {
+                    aImg.attr("src",e.target.result);
+                };
+            })(img);
+            reader.readAsDataURL(file);
+
+
+            var formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('itemId', itemId);
+                    formData.append('shopId', $(".shopId").text());
+                    
+         
+           $.ajax({
+                        url: '/shop/changeDishPic/',
+                        data: formData,
+                        type: 'POST',
+                        contentType: false, //must
+                        processData: false, //must
+                        success: function(data, status) {
+                            if (data.code == 200) {
+                                location.reload();
+                            }
+                        },
+                        error: function(data, status) {
+                            if (data.code != 200) {
+                                alert("...error");
+                            }
+                        }
+                    });
+
+
+        }
+    })

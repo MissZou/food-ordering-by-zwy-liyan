@@ -44,7 +44,6 @@ $(function() {
                         <textarea class="intro" cols="30" rows="10"></textarea></li>')
                 var img = list.find("img");
                 list.appendTo($(".dishPreview ul"));
-
                 var reader = new FileReader();
                 reader.onload = (function(aImg) {
                     return function(e) {
@@ -58,6 +57,7 @@ $(function() {
 
     var uploadBtn = $(".uploadPic");
     uploadBtn.on("change", function() {
+        console.log(this.files)
         uploadPic.add(this.files);
     });
 
