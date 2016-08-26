@@ -17,6 +17,7 @@
 #import "DetailedChildCommentView.h"
 #import "UINavigationBar+Awesome.h"
 #import "FoodViewController.h"
+#import "PlaceOrderViewController.h"
 
 #import "Shop.h"
 @interface ShopDetailedViewController ()<UIScrollViewDelegate,UIGestureRecognizerDelegate,SlideMultiViewControllerDelegate,DetailedChildFoodViewDelegate,ShopDelegate>
@@ -388,7 +389,8 @@
     self.segueImage = image;
     self.segueItem = item;
     self.segueShopId = shopId;
-    [self performSegueWithIdentifier:@"foodDetailSegue" sender:nil];
+    [self 
+     performSegueWithIdentifier:@"foodDetailSegue" sender:nil];
 }
 
 -(void)detailedChildFoodCheckout{
@@ -402,7 +404,8 @@
         foodViewController.item = self.segueItem;
         foodViewController.shopId = self.segueShopId;
     }else if([segue.identifier isEqualToString:@"checkout"]){
-        
+        PlaceOrderViewController *placeOrderVC = segue.destinationViewController;
+        placeOrderVC.shopId = self.shopID;
     }
     
 }
@@ -454,6 +457,5 @@
     if ([self.currentTitle isEqualToString:@"Comment"]) {
         // fetch comment
     }
-    
 }
 @end

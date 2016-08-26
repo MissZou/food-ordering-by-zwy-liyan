@@ -162,11 +162,8 @@
     //self.catagoryTable.cellLayoutMarginsFollowReadableWidth = false;
     //self.catagoryTable.layoutMargins=UIEdgeInsetsZero;
     //self.catagoryTable.preservesSuperviewLayoutMargins = false;
-    
-    
     self.catagoryTable.backgroundColor = myCategoryColor;
     [self.view addSubview:self.catagoryTable];
-    
     //self.foodTable = [[UITableView alloc]initWithFrame:CGRectMake(catagoryTalbeWidth, 0, self.view.frame.size.width - catagoryTalbeWidth, self.view.frame.size.height- segmentHeight + slideTitleHeight ) style:UITableViewStylePlain];
     self.foodTable = [[UITableView alloc]initWithFrame:CGRectMake(catagoryTalbeWidth, 0, self.view.frame.size.width - catagoryTalbeWidth, self.view.frame.size.height-  navigationBarHeight -slideTitleHeight - segmentHeight-cartViewHeight) style:UITableViewStylePlain];
     [self.foodTable registerClass:[UITableViewCell self] forCellReuseIdentifier:@"foodCell"];
@@ -722,9 +719,16 @@
     
     if (self.cartTableView == nil && self.myAccount.cartDetail.count != 0) {
         //UIView *rootView = [[self.view.window subviews] objectAtIndex:0];
-        UIView *rootView = [[[[self.view.window subviews] objectAtIndex:0] subviews] objectAtIndex:0];
+        //UIView *rootView = [[[[self.view.window subviews] objectAtIndex:0] subviews] objectAtIndex:0];
+        UIView *rootView = self.view.window;
         self.cartTableView = [[CartTableView alloc]initWithFrame:CGRectMake(0, rootView.frame.size.height - cartViewHeight, self.view.frame.size.width, 0)];
-        [self.cartTableView initCartTableView:self.myAccount.cartDetail];
+        NSMutableArray *itemsofThisShop = [[NSMutableArray alloc] init];
+        for (int i = 0; i<self.myAccount.cartDetail.count; i++) {
+            if ([[self.myAccount.cartDetail[i] valueForKey:@"shopId"] isEqualToString:self.shopID]) {
+                [itemsofThisShop addObject:self.myAccount.cartDetail[i]];
+            }
+        }
+        [self.cartTableView initCartTableView:itemsofThisShop];
         self.cartTableView.delegate = self;
         self.blurEffet = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
         self.blurEffectView = [[UIVisualEffectView alloc] initWithEffect:self.blurEffet];
@@ -925,9 +929,10 @@
     self.totalItemCount = 0;
     self.totalPrice = 0;
     for (int i = 0; i<self.myAccount.cartDetail.count; i++) {
-        self.totalItemCount = self.totalItemCount + [[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue];
-        
-        self.totalPrice = self.totalPrice + [[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue]*[[self.myAccount.cartDetail[i] valueForKey:@"price"] integerValue];
+        if ([[self.myAccount.cartDetail[i] valueForKey:@"shopId"] isEqualToString:self.shopID]) {
+            self.totalItemCount = self.totalItemCount + [[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue];
+            self.totalPrice = self.totalPrice + [[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue]*[[self.myAccount.cartDetail[i] valueForKey:@"price"] integerValue];
+        }
     }
     dispatch_async(dispatch_get_main_queue(), ^{
         self.cartBadge.text = [[NSNumber numberWithUnsignedInteger:self.totalItemCount] stringValue];
@@ -949,9 +954,8 @@
     [self.foodTable reloadData];
     self.tapGesture2 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGestureHandle:)];
     [self.blurEffectView addGestureRecognizer:self.tapGesture2];
-    
-//    self.cartTableView.cartDetail = self.myAccount.cartDetail;
-//    [self.cartTableView.tableView reloadData];
+    self.cartTableView.cartDetail = self.myAccount.cartDetail;
+    [self.cartTableView.tableView reloadData];
 }
 #pragma mark -- UIGestureDelegate
 

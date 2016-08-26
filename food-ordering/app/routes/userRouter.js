@@ -1024,7 +1024,6 @@ doc.map(function(v){
                 }
 
             })
-
         })
 
     .put(function(req, res) {
@@ -1035,34 +1034,78 @@ doc.map(function(v){
         var address = req.param("address", null);
         var message = req.param("message", null);
 
-        Order.addOrder(accountId, shopId, dishs, address, price, message, function(order) {
-
-            if (order._id != null) {
-                Shop.addOrder(shopId, order._id, function(doc) {
-                    // request(to shop/router)
-                    // shop.notification{
-                    //     res.send()
-                    // }
-                });
-                Account.addOrder(accountId, order._id, function(doc) {
-                    // console.log(doc.orders);
-                    for (var i = 0; i < doc.orders.length; i++) {
-                        if (doc.orders[i].order == null) {
-                            doc.orders.splice(i, 1);
-                            i = -1;
-                            continue;
-                        }
-                    }
-                    //console.log(doc.orders);
-                    res.json({
-                        accountId: doc._id,
-                        order: doc.orders,
-                        success: true
-                    })
-                });
+        console.log(shopId);
+        console.log(dishs);
+        console.log(price);
+        console.log(address);
+        console.log(message);
+        if (dishs.length == 1 && typeof(dishs[0].itemId) == "object") {
+            console.log("dishs object");
+            var items = [];
+            for(var p in dishs[0].itemId) {
+                var obj = {};
+                console.log(dishs[0].itemId[p]);
+                console.log(dishs[0].amount[p]);
+                obj.itemId = dishs[0].itemId[p];
+                obj.amount = dishs[0].amount[p];
+                items.push(obj);
             }
+            console.log(items);
+            Order.addOrder(accountId, shopId, items, address, price, message, function(order) {
 
-        });
+                if (order._id != null) {
+                    Shop.addOrder(shopId, order._id, function(doc) {
+                        // request(to shop/router)
+                        // shop.notification{
+                        //     res.send()
+                        // }
+                    });
+                    Account.addOrder(accountId, order._id, function(doc) {
+                        // console.log(doc.orders);
+                        for (var i = 0; i < doc.orders.length; i++) {
+                            if (doc.orders[i].order == null) {
+                                doc.orders.splice(i, 1);
+                                i = -1;
+                                continue;
+                            }
+                        }
+                        //console.log(doc.orders);
+                        res.json({
+                            accountId: doc._id,
+                            order: doc.orders,
+                            success: true
+                        })
+                    });
+                }
+
+            });
+        }
+        else {
+                Order.addOrder(accountId, shopId, dishs, address, price, message, function(order) {
+                if (order._id != null) {
+                    Shop.addOrder(shopId, order._id, function(doc) {
+                    });
+                    Account.addOrder(accountId, order._id, function(doc) {
+                        for (var i = 0; i < doc.orders.length; i++) {
+                            if (doc.orders[i].order == null) {
+                                doc.orders.splice(i, 1);
+                                i = -1;
+                                continue;
+                            }
+                        }
+                        res.json({
+                            accountId: doc._id,
+                            order: doc.orders,
+                            success: true
+                        })
+                    });
+                }
+
+            });
+        }
+        // res.json({
+        //     doc:true
+        // })
 
     })
 

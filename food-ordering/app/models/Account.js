@@ -412,16 +412,17 @@ var findOrderByUserId = function(accountId,index,count,callback){
   Account.findOne({_id:accountId}).populate({
     path:'orders.order',
     options:{
-      skip:limit - count
+      sort:{"date":-1}
     }
-  }).slice('orders',limit).exec(function (err, doc) {
+  }).exec(function (err, doc) {
               if (err) {
                 console.log(err);
                 callback(err);
               }
-              console.log(doc);
+              //console.log('-------===========----------');
+              //console.log(doc);
                 var array = [];
-                for(var i=limit - count;i<doc.orders.length;i++){
+                for(var i=limit - count;i<doc.orders.length && i<limit ;i++){
                     if(doc.orders[i].order!=null){
                         array.push(doc.orders[i]);            
                     }
@@ -432,6 +433,8 @@ var findOrderByUserId = function(accountId,index,count,callback){
               callback(array);
           })
 }
+
+
 
 var addFavoriteShop = function(accountId,shopId,callback){
     Account.findOne({_id:accountId,"favoriteShop.shopId":shopId},function(err,doc){
@@ -704,5 +707,6 @@ var deleteFavoriteItem = function(accountId,shopId,itemId,callback){
     addFavoriteItem:addFavoriteItem,
     findFavoriteItem:findFavoriteItem,
     deleteFavoriteItem:deleteFavoriteItem
+    
   }
 }

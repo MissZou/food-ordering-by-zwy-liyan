@@ -44,11 +44,9 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     self.accountId = nil;
     self.favoriteShop = nil;
     self.favoriteItem = nil;
-    
     self.cartDetail = nil;
     self.order = nil;
     self.token = nil;
-    
 }
 
 - (id)init {
@@ -70,8 +68,6 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
 //    NSLog([[[result valueForKey:@"phone"] class] description]);
 //    NSLog([[[result valueForKey:@"accountId"] class] description]);
 //    NSLog([[[result valueForKey:@"photoUrl"] class] description]);
-    
-    
     if([result valueForKey:@"token"] != nil){
         self.token = [result valueForKey:@"token"];
     }
@@ -109,30 +105,23 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
                     //isFoundDefault = true;
                     break;
                 }
-                
             }
-            
         }
         //NSLog(@"%d",count);
         if (isFoundDefault) {
             [self.deliverAddress insertObject:self.deliverAddress[count] atIndex:0];
             [self.deliverAddress removeObjectAtIndex:count+1];
         }
-        
-   
     }
     if([result valueForKey:@"location"]!=nil){
         self.location = [result valueForKey:@"location"];
     }
-    
     if ([result valueForKey:@"favoriteItem"] != nil) {
         self.favoriteItem = [result valueForKey:@"favoriteItem"];
     }
-    
     if ([result valueForKey:@"favoriteShop"] != nil) {
         self.favoriteItem = [result valueForKey:@"favoriteShop"];
     }
-    
     if ([result valueForKey:@"cartDetail"] != nil) {
         self.cartDetail = [[result valueForKey:@"cartDetail"] mutableCopy];
     }
@@ -618,10 +607,18 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     
     
     if (httpMethod == PUT) {
-
+        parameters = @{@"token":token, @"shopId":shopId, @"dishs":items, @"price":[NSNumber numberWithInteger:price], @"address":address, @"message":message};
+        NSLog(@"order parameter");
+//        NSLog(shopId);
+//        NSLog([items description]);
+//        NSLog([[NSNumber numberWithInteger:price] description]);
+//        NSLog([address description]);
+//        NSLog([message description]);
+        NSLog(@"=============parameter");
+        NSLog([parameters description]);
     }else if(httpMethod == GET){
         
-       // parameters = nil;
+        parameters = nil;
     }else if(httpMethod == DELETE){
         //parameters = @{@"token": token, @"_id": cartId,@"index":@1,@"count":@99};
     }else if(httpMethod == POST){
@@ -629,17 +626,20 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     }
     
     
-    NSURL *url = [NSURL URLWithString:@"account/cart" relativeToURL:self.baseUrl];
+    NSURL *url = [NSURL URLWithString:@"account/order" relativeToURL:self.baseUrl];
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
     if (httpMethod == PUT) {
+        //if (0) {
         [manager PUT:[url absoluteString] parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject){
             if ([responseObject isKindOfClass:[NSDictionary class]]) {
                 
                 [self updateAccount:responseObject];
-                
+                NSLog(@"put cart=================");
+                NSLog(@"%@", responseObject);
             } else {
+                NSLog(@"error=================");
                 NSLog(@"%@", responseObject);
             }
             
@@ -684,7 +684,8 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
         [manager GET:[url absoluteString] parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             
             if ([responseObject isKindOfClass:[NSDictionary class]]) {
-                //NSLog(@"%@",responseObject);
+                NSLog(@"get cart=================");
+                NSLog(@"%@",responseObject);
                 [self updateAccount:responseObject];
                 
             } else {
@@ -696,6 +697,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
         }];
     }
 }
+
 
 
 @end

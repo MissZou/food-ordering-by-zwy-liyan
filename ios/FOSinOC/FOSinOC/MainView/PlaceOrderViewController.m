@@ -25,19 +25,15 @@
 @interface PlaceOrderViewController ()<UITableViewDelegate,UITableViewDataSource,ChooseAddressViewDelegate,WriteMessageViewDelegate>
 @property (strong,nonatomic) UIView *bottomView;
 @property (strong,nonatomic) UIButton *payButton;
-
 @property (assign,nonatomic) NSUInteger totalPrice;
 @property (assign,nonatomic) NSUInteger totalItemCount;
-
 @property (strong,nonatomic) UILabel *priceLabel;
 @property (strong,nonatomic) UITableView *tableView;
 @property (strong,nonatomic) Account *myAccount;
 @property (strong,nonatomic) Shop *myShop;
-
 @property (strong,nonatomic) NSMutableArray *shopList;
 @property (copy,nonatomic) NSString* message;
 @property (strong,nonatomic)UILabel *messageLabel;
-
 @property (strong,nonatomic) NSDictionary *address;
 
 @end
@@ -62,17 +58,20 @@
     self.navigationItem.titleView = vcName;
     UIBarButtonItem *backBarButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:NULL];
     self.navigationItem.backBarButtonItem = backBarButton;
+    self.message = @"";
+    [self.myAccount order:GET withShopId:nil items:nil price:0 address:nil message:nil];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     if (self.myAccount.cartDetail.count >0) {
-            [self cleanShopData];
+        [self cleanShopData];
+        [self.tableView reloadData];
     }else{
         //No items in cart
         //NSLog(@"cart detailed %@",self.myAccount.cartDetail);
     }
-    
     //NSLog(@"cart detailed %@",self.myAccount.cartDetail);
 }
 
@@ -116,22 +115,28 @@
 
 -(void)cleanShopData{
     self.shopList = [[NSMutableArray alloc]init];
-    [self.shopList addObject:[self.myAccount.cartDetail[0] valueForKey:@"shopId"]];
-    for (int i =0; i<self.myAccount.cartDetail.count; i++) {
-        BOOL isFindShop = false;
-        for (int j = 0; j<self.shopList.count; j++) {
-            
-            if ([self.shopList[j] isEqualToString:[self.myAccount.cartDetail[i] valueForKey:@"shopId"]]) {
-                isFindShop = true;
-                break;
-            }
-            
-            if (!isFindShop && j==self.shopList.count - 1) {
-                [self.shopList addObject:[self.myAccount.cartDetail[i] valueForKey:@"shopId"]];
-            }
+    for (int i = 0; i<self.myAccount.cartDetail.count; i++) {
+        if ([[self.myAccount.cartDetail[i] valueForKey:@"shopId"] isEqualToString:self.shopId]) {
+            [self.shopList addObject:[self.myAccount.cartDetail[i] valueForKey:@"shopId"]];
+            break;
         }
-        
     }
+    //[self.shopList addObject:[self.myAccount.cartDetail[0] valueForKey:@"shopId"]];
+//    for (int i =0; i<self.myAccount.cartDetail.count; i++) {
+//        BOOL isFindShop = false;
+//        for (int j = 0; j<self.shopList.count; j++) {
+//            
+//            if ([self.shopList[j] isEqualToString:[self.myAccount.cartDetail[i] valueForKey:@"shopId"]]) {
+//                isFindShop = true;
+//                break;
+//            }
+//            
+//            if (!isFindShop && j==self.shopList.count - 1) {
+//                [self.shopList addObject:[self.myAccount.cartDetail[i] valueForKey:@"shopId"]];
+//            }
+//        }
+//        
+//    }
 }
 
 #pragma mark - Tableview delegate and Datasource
@@ -176,12 +181,9 @@
                     address.text = [self.myAccount.deliverAddress[0] valueForKey:@"addr"];
                     phone.text = [self.myAccount.deliverAddress[0] valueForKey:@"phone"];
                 }else{
-                    name.text = @"Click to choose address";
+                    name.text = @"Click to create address";
                     self.address = nil;
                 }
-                
-                
-                
                 [cell.contentView addSubview:name];
                 [cell.contentView addSubview:phone];
                 [cell.contentView addSubview:address];
@@ -301,12 +303,14 @@
                 separateLine.image = [UIImage imageNamed:@"markLineRed.png"];
                 separateLine.clipsToBounds = true;
                 separateLine.tag = tableCellTag + 11;
-                if (self.myAccount.deliverAddress.count>0) {
-                    name.text = [self.myAccount.deliverAddress[0] valueForKey:@"name"];
-                    address.text = [self.myAccount.deliverAddress[0] valueForKey:@"addr"];
-                    phone.text = [self.myAccount.deliverAddress[0] valueForKey:@"phone"];
-                }
-                
+//                if (self.myAccount.deliverAddress.count>0) {
+//                    name.text = [self.myAccount.deliverAddress[0] valueForKey:@"name"];
+//                    address.text = [self.myAccount.deliverAddress[0] valueForKey:@"addr"];
+//                    phone.text = [self.myAccount.deliverAddress[0] valueForKey:@"phone"];
+//                }
+                name.text = [self.address valueForKey:@"name"];
+                address.text = [self.address valueForKey:@"addr"];
+                phone.text = [self.address valueForKey:@"phone"];
                 
                 [cell.contentView addSubview:name];
                 [cell.contentView addSubview:phone];
@@ -487,12 +491,28 @@
 }
 
 #pragma mark - Button Handle
+- (NSMutableArray *)cleanItemData:(NSMutableArray *)items {
+    NSMutableArray *cleanedItems = [[NSMutableArray alloc]init];
+    for (int i = 0; i<items.count; i++) {
+        NSDictionary *item = @{@"amount":[items[i] valueForKey:@"amount"],@"itemId":[items[i] valueForKey:@"_id"]};
+        [cleanedItems addObject:item];
+    }
+    return cleanedItems;
+}
 
--(void)payButtonHandle{
+- (void)payButtonHandle{
     [self.payButton setBackgroundColor:myGreenColor];
-    NSLog(@"payButtonHandle");
+    NSMutableArray *itemsofThisShop = [[NSMutableArray alloc] init];
+    for (int i = 0; i<self.myAccount.cartDetail.count; i++) {
+        if ([[self.myAccount.cartDetail[i] valueForKey:@"shopId"] isEqualToString:self.shopId]) {
+            [itemsofThisShop addObject:self.myAccount.cartDetail[i]];
+        }
+    }
     
-    [self.myAccount placeOrderForallItemsInCartWithaddress:self.address message:self.message];
+    [self cleanItemData:itemsofThisShop];
+    
+    [self.myAccount order:PUT withShopId:self.shopId items:[self cleanItemData:itemsofThisShop] price:self.totalPrice address:self.address message:self.message];
+    //[self.myAccount placeOrderForallItemsInCartWithaddress:self.address message:self.message];
 }
 
 -(void)payButtonHighlight{

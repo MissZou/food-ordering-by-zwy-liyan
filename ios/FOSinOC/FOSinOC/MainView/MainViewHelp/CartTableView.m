@@ -185,7 +185,7 @@
         deleteButton.frame = CGRectMake(self.frame.size.width - 30, 15, 20, 20 );
         amount.frame = CGRectMake(self.frame.size.width - 30, 15, 20, 20 );
         for (int i=0; i<self.myAccount.cartDetail.count; i++) {
-            if ([[self.cartDetail[indexPath.row] valueForKey:@"_id"] isEqualToString:[self.myAccount.cartDetail[i] valueForKey:@"shopId"]]) {
+            if ([[self.cartDetail[indexPath.row] valueForKey:@"_id"] isEqualToString:[self.myAccount.cartDetail[i] valueForKey:@"_id"]]) {
                 amount.text = [[self.myAccount.cartDetail[i] valueForKey:@"amount"] stringValue];
                 if ([[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue] != 0) {
                     deleteButton.frame = CGRectMake(self.frame.size.width - 70, 15, 20, 20 );
@@ -213,13 +213,8 @@
     if (amount > 1) {
         amount = amount - 1;
         NSNumber *amountOjb = [NSNumber numberWithInteger:amount];
-        
         [self.myAccount cart:POST withShopId:self.myShop.shopID  itemId:[self.myAccount.cartDetail[indexPath.row] valueForKey:@"_id"] amount:amountOjb  cartId:[self.myAccount.cartDetail[indexPath.row] valueForKey:@"cartId"] index:0 count:0];
-        
         self.totalItemCount = self.totalItemCount - 1;
-        
-        
-        
         dispatch_async(dispatch_get_main_queue(), ^{
             // To do update cartBadge text here
             amountLable.text = [amountOjb stringValue];
@@ -240,30 +235,20 @@
             [self.myAccount cart:DELETE withShopId:self.myShop.shopID  itemId:[self.myAccount.cartDetail[indexPath.row] valueForKey:@"_id"] amount:nil  cartId:[self.myAccount.cartDetail[indexPath.row] valueForKey:@"cartId"] index:0 count:0];
             self.tableHeight = cellHeight * (self.cartDetail.count) + headerViewHeight;
             CGRect frame = self.tableView.frame;
-
             [UIView animateWithDuration:0.5 animations:^{
                 self.tableView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, self.tableHeight);
                 self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y+cellHeight, self.frame.size.width, self.tableHeight);
             }];
-            
+        
         }];
-        
-        
-    }
-    
-    
-
+}
 
 }
 -(void)addItemToCart:(CGPoint )addButtonLocation{
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:addButtonLocation];
     UITableViewCell *targetCell = [self.tableView cellForRowAtIndexPath:indexPath];
-
     //NSLog(@"select food %@",food[indexPath.row]);
-    
-    
     // to find item already in cart and modify the count
-    
     NSInteger amount = [[self.myAccount.cartDetail[indexPath.row] valueForKey:@"amount"] integerValue];
     amount = amount+1;
     NSNumber *amountOjb = [NSNumber numberWithInteger:amount];

@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface PlaceOrderViewController : UIViewController
+@property (copy,nonatomic) NSString *shopId;
 
 @end
