@@ -265,7 +265,6 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
 
 
     router.route('/login')
-
     .post(function(req, res) {
         //console.log('login request');
         var email = req.param('email', null);
@@ -378,14 +377,14 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
             })
         });
 
-        router.route('/account/web/username')
+    router.route('/account/web/username')
         .get(function(req, res) {
-             var accountId = req.param("userId", null);
+            var accountId = req.param("userId", null);
             Account.findAccountById(accountId, function(doc) {
                 res.json({
-                        success: true,
-                        username: doc.name
-                    });
+                    success: true,
+                    username: doc.name
+                });
             })
         });
 
@@ -406,7 +405,6 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
             res.render('addAddress-m.jade');
         });
 
-
     router.route('/account/address')
         .get(function(req, res) {
 
@@ -426,8 +424,6 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
 
             })
         })
-
-
     .put(function(req, res) {
         var accountId = req.decoded._id;
 
@@ -459,7 +455,6 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
             });
         }
     })
-
     .post(function(req, res) {
         var accountId = req.decoded._id;
         //var accountId = req.session.user._id;
@@ -500,8 +495,6 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
             })
         }
     })
-
-
     .delete(function(req, res) {
         var accountId = req.decoded._id;
         //var accountId = req.session.user._id;
@@ -530,7 +523,6 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
                 }
             });
         }
-
     });
 
     router.route('/account/web/location')
@@ -539,6 +531,7 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
             res.render('updateInfo.jade');
 
         });
+        
     router.route('/account/location')
 
     .put(function(req, res) {
@@ -627,24 +620,24 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
             })
         })
 
-        router.route('/account/web/rate/:shopId')
+    router.route('/account/web/rate/:shopId')
         .get(function(req, res) {
             Shop.findOrderByShopId(req.params.shopId, 1, 99999, function(doc) {
                 if (doc != null) {
                     Shop.findShopById(req.params.shopId, function(shopdoc) {
-                        var newMark=[];
-                        var newDoc2=[];
-                        var newName=[];
-                  
-doc.map(function(v){
-                            if(v.order.shop==req.params.shopId && v.order.comment){
+                        var newMark = [];
+                        var newDoc2 = [];
+                        var newName = [];
+
+                        doc.map(function(v) {
+                            if (v.order.shop == req.params.shopId && v.order.comment) {
                                 newMark.push(v.order);
                             }
                         });
-                          res.render('rate', {
-                    doc: newMark,
-                    shopName: shopdoc.shopName
-                });
+                        res.render('rate', {
+                            doc: newMark,
+                            shopName: shopdoc.shopName
+                        });
                     })
                 }
             })
@@ -881,7 +874,7 @@ doc.map(function(v){
         .get(function(req, res) {
             var accountId = req.decoded._id;
             Account.findAccountById(accountId, function(doc) {
-                if(doc){
+                if (doc) {
                     res.render('confirm-order.jade', {
                         items: doc.address
                     });
@@ -969,14 +962,14 @@ doc.map(function(v){
                                             dishObj[i].push(newDoc);
                                             amount[i].push(doc[i].order.dishs[j].amount);
                                             var dishLength = doc[i].order.dishs.length;
-                                if ((i == orderLen - 1) && (j == dishLength - 1)) {
-                                    res.json({
-                                        order: doc,
-                                        dishObj: dishObj,
-                                        amount: amount,
-                                        success: true
-                                    })
-                                }
+                                            if ((i == orderLen - 1) && (j == dishLength - 1)) {
+                                                res.json({
+                                                    order: doc,
+                                                    dishObj: dishObj,
+                                                    amount: amount,
+                                                    success: true
+                                                })
+                                            }
                                         });
                                     } else {
                                         res.json({
@@ -985,7 +978,7 @@ doc.map(function(v){
                                         })
                                     }
                                 })
-                                
+
                             })(i, j)
                         }
                     }
@@ -1102,7 +1095,7 @@ doc.map(function(v){
             var dishId = req.param("dishId", null);
             var mark = req.param("mark", null);
             var shopId = req.param("shopId", null);
-            Shop.addComment(shopId,dishId,userId,mark,"content", function() {
+            Shop.addComment(shopId, dishId, userId, mark, "content", function() {
                 res.json({
                     success: true
                 });

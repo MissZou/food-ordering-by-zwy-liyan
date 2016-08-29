@@ -22,7 +22,6 @@ module.exports = function(config, mongoose, nodemailer) {
       shopId: { type:mongoose.Schema.Types.ObjectId, ref:'Shop'},
       itemId: { type: mongoose.Schema.Types.ObjectId},
       amount:{type:Number}
-      //date:{type: Date, default: Date.now}
     }]},
     favoriteShop:{type:[{
       shopId:{type:mongoose.Schema.Types.ObjectId, ref:'Shop'},

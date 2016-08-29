@@ -1,6 +1,5 @@
 module.exports = function(config, mongoose, nodemailer) {
   var crypto = require('crypto');
-  //var Order = require('Order');
   var ShopSchema = new mongoose.Schema({
     email:{ type: String, unique: true },
     password:{type: String},
@@ -28,11 +27,9 @@ module.exports = function(config, mongoose, nodemailer) {
         content:{type: String}
       }]}
     }]},
-    //orders:{order: [{type: mongoose.Schema.Types.ObjectId, ref:'Order'}] }
     orders:{type:[{
       order:{type: mongoose.Schema.Types.ObjectId, ref:'Order'}
     }]}
-    
   });
 
 
