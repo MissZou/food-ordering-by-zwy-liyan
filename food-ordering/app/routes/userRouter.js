@@ -897,6 +897,11 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
             res.sendfile(path.join(__dirname, '../../views', 'myorder.html'));
         });
 
+    router.route('/account/web/myorder/m')
+        .get(function(req, res) {
+            res.sendfile(path.join(__dirname, '../../views', 'myorder-m.html'));
+        });
+
     router.route('/account/web/orderData')
         .get(function(req, res) {
             var accountId = req.decoded._id;
@@ -926,6 +931,72 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
 
 
     router.route('/account/web/wholeOrderData')
+        .get(function(req, res) {
+            var accountId = req.decoded._id;
+            var index = req.headers["index"];
+            var count = req.headers["count"];
+            //console.log(index);
+            if (index == null || index == 0) {
+                index = 1;
+            }
+            if (count == null || count == 0) {
+                count = 1;
+            }
+            Account.findOrderByUserId(accountId, index, count, function(doc) {
+                if (doc != null) {
+                    console.log("orderrrr", doc)
+                    var orderLen = doc.length;
+                    var dishObj = {};
+                    var amount = {};
+                    var num = 0;
+                    for (var i = 0; i < orderLen; i++) {
+                        dishObj[i] = [];
+                        amount[i] = [];
+                    }
+
+                    for (var i = 0; i < orderLen; i++) {
+                        for (var j = 0; j < doc[i].order.dishs.length; j++) {
+                            (function(i, j) {
+                                var shopId = doc[i].order.shop;
+                                var itemId = doc[i].order.dishs[j].itemId;
+                                Shop.findShopById(shopId, function(shopdoc) {
+                                    var shopName = shopdoc.shopName;
+                                    if (itemId != null && shopId != null) {
+                                        Shop.findItemById(shopId, itemId, function(newDoc) {
+                                            console.log("newDoc", newDoc)
+                                            dishObj[i].push(newDoc);
+                                            amount[i].push(doc[i].order.dishs[j].amount);
+                                            var dishLength = doc[i].order.dishs.length;
+                                            if ((i == orderLen - 1) && (j == dishLength - 1)) {
+                                                res.json({
+                                                    order: doc,
+                                                    dishObj: dishObj,
+                                                    amount: amount,
+                                                    success: true
+                                                })
+                                            }
+                                        });
+                                    } else {
+                                        res.json({
+                                            error: "err",
+                                            success: false
+                                        })
+                                    }
+                                })
+
+                            })(i, j)
+                        }
+                    }
+                } else {
+                    res.json({
+                        success: false
+                    })
+                }
+            })
+        })
+
+
+router.route('/account/web/wholeOrderData/m')
         .get(function(req, res) {
             var accountId = req.decoded._id;
             var index = req.headers["index"];

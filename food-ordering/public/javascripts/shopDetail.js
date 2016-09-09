@@ -63,7 +63,7 @@ $(function() {
     $('.plus').on('click', addProduct);
 
     function addProduct(e) {
-        if ($(this).text() == "加入购物车") {
+        if ($(this).text() == "Add to cart") {
             var title = $(this).parent().find(".rstblock-title").text(),
                 price = $(this).parent().find(".shopmenu-food-price").text(),
                 dishId=$(this).parent().find("input").val(),
@@ -95,7 +95,7 @@ $(function() {
                         "top": "-=44px"
                     });
                     totalPrice();
-                    self.text("已加入购物车");
+                    self.text("Added");
                     self.css("background", "#f00");
                     flyer.remove();
                 }
@@ -122,7 +122,7 @@ $(function() {
                 self.parent().parent().remove();
             });
             var currentId = self.parent().parent().attr("data-id");
-            $("#" + currentId).find(".shop-cartbutton").text("加入购物车").css("background", "#0089dc")
+            $("#" + currentId).find(".shop-cartbutton").text("Add to cart").css("background", "#0089dc")
         }
         $(this).siblings("input").attr("value", value - 1),
             singlePrice = +$(this).parent().siblings(".itemtotal").attr("data-single");
@@ -180,14 +180,14 @@ $(function() {
         if ($(".shop-cartfooter-text").text() != ("" || "0")) {
             $(".shop-cartfooter-checkout").text("Pay").removeClass("disabled");
         } else {
-            $(".shop-cartfooter-checkout").text("购物车是空的").addClass("disabled");
+            $(".shop-cartfooter-checkout").text("Empty").addClass("disabled");
         }
     }
 
     function clearCart() {
         $("#shopbasket").css("top", "-44px").find(".shop-cartbasket-tablerow").remove();
         $(".shop-cartfooter-text").text("");
-        $(".shop-cartbutton").text("加入购物车").css("background", "#0089dc");
+        $(".shop-cartbutton").text("Add to cart").css("background", "#0089dc");
         totalPrice();
     }
     function dishOrder(){

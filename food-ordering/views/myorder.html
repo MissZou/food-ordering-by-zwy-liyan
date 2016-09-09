@@ -70,8 +70,6 @@
                 success: function(data, status) {
                     if (data.success) {
                         $("#ifelse").tmpl(data.order).appendTo('.order-div');
-                        //$.template("orderTemplate", markup);
-                        // $.tmpl("orderTemplate", data.order).appendTo(".order-div");
                     }
 
                     for (var i in data.dishObj) {
