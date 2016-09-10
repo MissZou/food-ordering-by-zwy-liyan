@@ -15,7 +15,8 @@
 
 @interface SlideMultiViewController : UIViewController
 @property(assign,nonatomic) CGFloat buttonWidth;
-
+@property(strong,nonatomic)UIScrollView *contentScrollView;
+@property (assign, nonatomic) Boolean isVerticalEnable;
 @property(weak) id<SlideMultiViewControllerDelegate> delegate;
 
 

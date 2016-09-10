@@ -86,7 +86,7 @@
     self.superViewHeight = self.view.frame.size.height;
     [self initDetailedChildFoodView];
     
-    NSLog(@"shop id %@",self.shopID);
+    //NSLog(@"shop id %@",self.shopID);
     
     [self initNavigationBar];
     self.currentTitle = @"Food";
@@ -236,13 +236,11 @@
         //[self adjustCartViewFrameY:-self.slideMultiViewController.view.frame.origin.y + self.slideMenuFrameInitY];
         if(self.slideMultiViewController.view.frame.origin.y > sdNavigationBarHeight+sdSegmentViewHeight && self.isChildViewGustureStateBegin == false)
         {
-
             [UIView animateWithDuration:0.25 animations:^{
                 self.slideMultiViewController.view.frame = CGRectMake(0, sdNavigationBarHeight+sdSegmentViewHeight, self.view.frame.size.width, self.view.frame.size.height - sdNavigationBarHeight-sdSegmentViewHeight);
                 [self hideSegmentView:sdNavigationBarHeight+sdSegmentViewHeight];
                 
             }];
-
         }
         
         //NSLog(@"continu to scroll y: %f",self.slideMultiViewController.view.frame.origin.y);
@@ -406,6 +404,8 @@
     }else if([segue.identifier isEqualToString:@"checkout"]){
         PlaceOrderViewController *placeOrderVC = segue.destinationViewController;
         placeOrderVC.shopId = self.shopID;
+        placeOrderVC.shopImage = self.myShop.shopImage;
+        placeOrderVC.shopName = self.myShop.shopName;
     }
     
 }
@@ -422,7 +422,8 @@
     shopImageView.contentMode = UIViewContentModeScaleAspectFill;
     
         dispatch_async(dispatch_get_main_queue(), ^{
-        shopImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.myShop.shopPicUrl]]];
+            self.myShop.shopImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.myShop.shopPicUrl]]];
+            shopImageView.image = self.myShop.shopImage;
     
         });
     UILabel *shopName = [[UILabel alloc]initWithFrame:CGRectMake(shopImageView.frame.size.width+shopImageView.frame.origin.x + 10, 5, self.view.frame.size.width - 150, 30)];
@@ -439,7 +440,7 @@
 -(void)shopFinishFetchData{
 
     [self updateUIandLoadShopData];
-    NSLog(@"shop delegate in shop detailed");
+//    NSLog(@"shop delegate in shop detailed");
 
     [[NSNotificationCenter defaultCenter]postNotificationName:@"shopFinishFetchData" object:[NSNumber numberWithBool:false]];
     //[NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(loadFinished) userInfo:nil repeats:NO];

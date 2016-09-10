@@ -78,8 +78,6 @@
     self.tableView.dataSource = self;
     [self.tableView registerClass:[UITableViewCell self] forCellReuseIdentifier:@"cell"];
     
-    
-    
     self.topView = [[UIImageView alloc]init];
     self.topView.frame = CGRectMake(0, 0, self.view.frame.size.width, topImageHeight);
     self.topView.image = self.itemImage;

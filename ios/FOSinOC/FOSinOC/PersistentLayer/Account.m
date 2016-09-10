@@ -614,8 +614,8 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
 //        NSLog([[NSNumber numberWithInteger:price] description]);
 //        NSLog([address description]);
 //        NSLog([message description]);
-        NSLog(@"=============parameter");
-        NSLog([parameters description]);
+        //NSLog(@"=============parameter");
+        //NSLog([parameters description]);
     }else if(httpMethod == GET){
         
         parameters = nil;
@@ -635,9 +635,13 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
         [manager PUT:[url absoluteString] parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject){
             if ([responseObject isKindOfClass:[NSDictionary class]]) {
                 
-                [self updateAccount:responseObject];
-                NSLog(@"put cart=================");
-                NSLog(@"%@", responseObject);
+                //[self updateAccount:responseObject];
+                if ([[responseObject valueForKey:@"success"] boolValue]) {
+                    NSLog(@"PUT Order success=================");
+                    [self.delegate accountFinishGetOrder];
+                }
+                
+                //NSLog(@"%@", responseObject);
             } else {
                 NSLog(@"error=================");
                 NSLog(@"%@", responseObject);
@@ -687,6 +691,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
                 NSLog(@"get cart=================");
                 NSLog(@"%@",responseObject);
                 [self updateAccount:responseObject];
+                
                 
             } else {
                 NSLog(@"%@", responseObject);

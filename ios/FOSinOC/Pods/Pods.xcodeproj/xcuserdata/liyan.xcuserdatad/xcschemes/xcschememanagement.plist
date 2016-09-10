@@ -4,7 +4,22 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>AFNetworking.xcscheme</key>
+		<key>AFNetworking-iOS8.0.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>AFNetworking-iOS9.3.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Masonry-iOS8.0.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Masonry-iOS9.3.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -14,12 +29,42 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>SDWebImage.xcscheme</key>
+		<key>Pods-FOSinOCTests.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>SSKeychain.xcscheme</key>
+		<key>Pods-FOSinOCUITests.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SDWebImage-iOS8.0.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SDWebImage-iOS9.3.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SSKeychain-iOS8.0.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SSKeychain-iOS9.3.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>YYModel-iOS8.0.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>YYModel-iOS9.3.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -27,22 +72,67 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0288F6A39FAB4E2A07494276E03C56BA</key>
+		<key>165A6CDC50EADC6B941BA4480400256C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>1C3436CEA5C3D39764C5F54374794ECB</key>
+		<key>16DA9561AE5E178E8B683F2207D1FC00</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3C399E3CE2BE5245F8E268CF717AC467</key>
+		<key>29B91064B8193FFF3898E92362EB7FFC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>997B90F32C4F7845B58BE4913D58A0EA</key>
+		<key>3116678E29EBF5D2F51E0984EAA15F6F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>35E5FF55607D7CD1D491964D279C2486</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>4386AB4C21B7053E138B842EE586B11F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>59C729D76BD828DED533A19D04C5B899</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5B8D0162D6ACEE65E18B8A3A1380CAA5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>83755263ABA1D9DB589754644947B514</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8704255A37EF70709B1EA997ACF28509</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A1114E4DE6554398AAC11EE9B2907F4A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E4FFC614655DB3D435142E50E3B1272F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F0857FDCC05EDF1D25B681A530F186BA</key>
 		<dict>
 			<key>primary</key>
 			<true/>

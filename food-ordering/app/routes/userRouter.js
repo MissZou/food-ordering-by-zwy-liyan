@@ -18,7 +18,7 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
     var session = require('express-session');
     var gm = require('gm');
     var imageMagick = gm.subClass({ imageMagick: true });
-
+    var eventEmitter = require('events').EventEmitter;  
     app.set('view engine', 'jade');
     var tokenConfig = {
         'secret': 'wochengrenwokanbudongzhegetokenshiTMzmlaide',
@@ -1010,13 +1010,64 @@ doc.map(function(v){
             if (count == null || count == 0) {
                 count = 1;
             }
-            Account.findOrderByUserId(accountId, index, count, function(doc) {
+            Account.findOrderIdByUserId(accountId, index, count, function(doc) {
                 if (doc != null) {
-                    console.log("orderrrr", doc)
-                    res.json({
-                        order: doc,
-                        success: true
-                    })
+                    var myEventEmitter = new eventEmitter;
+                    myEventEmitter.on('next',addResult);
+                    var orderArray = [];
+                    var itemArray = [];
+                    var orderObj;
+                    var itemObj;
+                    var docCount = 0;
+                    function addResult(){
+                        //console.log(itemArray[0]);
+                        var shopOjb = orderObj.shop;
+                        //orderObj.shop = undefined;
+                        orderObj.shop.email = undefined;
+                        orderObj.shop.password = undefined;
+                        orderObj.shop.address = undefined;
+                        orderObj.shop.location = undefined;
+                        orderObj.shop.open = undefined;
+                        orderObj.shop.shopType = undefined;
+                        orderObj.shop.orders = undefined;
+                        orderObj.shop.dish = undefined;
+                        //orderObj.shop = shopOjb.shopName;
+
+                        for(var i = 0; i < itemArray.length; i++) {
+                            orderObj.dishs[i] = itemArray[i];
+                        }
+                        itemArray = [];
+                        orderArray.push(orderObj)
+                        docCount++;
+
+                        //console.log(orderObj);
+                        if (docCount == doc.length) {
+                            res.json({
+                            order: orderArray,
+                            success: true
+                            })
+                        }
+                   }   
+                    //orderArray.push(doc);
+                    for (var k = 0; k < doc.length; k++) {
+                            Order.findById(doc[k],function(doc,err){
+                            // console.log(doc);
+                            for(var i = 0; i < doc.shop.dish.length; i++) {
+                                for (var j = 0; j < doc.dishs.length; j++){
+                                 if (String(doc.shop.dish[i]._id).valueOf() == String(doc.dishs[j].itemId).valueOf()){
+                                        //console.log("!!!!!!!!!!!!full dish");
+                                        //console.log(doc.shop.dish[i]);
+                                        itemArray.push(doc.shop.dish[i]);              
+                                    }
+                                }
+                            }
+                            orderObj = doc;
+                            console.log(itemArray[0]);
+                            myEventEmitter.emit("next");
+                        })    
+                    }
+                    
+
                 } else {
                     res.json({
                         success: false
@@ -1034,11 +1085,12 @@ doc.map(function(v){
         var address = req.param("address", null);
         var message = req.param("message", null);
 
-        console.log(shopId);
-        console.log(dishs);
-        console.log(price);
-        console.log(address);
-        console.log(message);
+        // console.log(shopId);
+        // console.log(dishs);
+        // console.log(price);
+        // console.log(address);
+        // console.log(message);
+        //clean incoming data
         if (dishs.length == 1 && typeof(dishs[0].itemId) == "object") {
             console.log("dishs object");
             var items = [];
@@ -1069,10 +1121,11 @@ doc.map(function(v){
                                 continue;
                             }
                         }
-                        //console.log(doc.orders);
+                        //console.log("=================");
+                        //console.log(doc.orders[0]);
                         res.json({
                             accountId: doc._id,
-                            order: doc.orders,
+                            order: doc.orders[0].order,
                             success: true
                         })
                     });
@@ -1093,9 +1146,11 @@ doc.map(function(v){
                                 continue;
                             }
                         }
+                        //console.log("=================");
+                        //console.log(doc.orders[0].order);
                         res.json({
                             accountId: doc._id,
-                            order: doc.orders,
+                            order: doc.orders[0].order,
                             success: true
                         })
                     });

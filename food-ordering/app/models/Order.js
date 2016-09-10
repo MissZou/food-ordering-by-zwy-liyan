@@ -77,10 +77,30 @@ var addComment = function(shopId,orderId,userId,comment,callback) {
     });
 };
 
+var findById = function(orderId,callback) {
+	Order.findOne({_id:orderId}).populate({
+		path:'shop'
+	}).exec(function(err,doc){
+		//console.log(doc.dishs[0].itemId);
+		// console.log('order find order');
+		// console.log(doc);
+		// for(var i = 0; i < doc.shop.dish.length; i++) {
+		// 	for (var j = 0; j < doc.dishs.length; j++){
+		// 		if (String(doc.shop.dish[i]._id).valueOf() == String(doc.dishs[j].itemId).valueOf()){
+		// 		console.log(doc.shop.dish[i]);				
+		// 		}
+				
+		// 	}
+		// }
+
+		callback(doc);
+	})
+}
 
 	return {
 	  	addOrder:addOrder,
 	  	changeOrderStatus:changeOrderStatus,
-	  	addComment:addComment
+	  	addComment:addComment,
+	  	findById:findById
   	}
 }

@@ -25,7 +25,9 @@ module.exports = function(config, mongoose, nodemailer) {
         date:{type: Date,default: Date.now},
         userId:{type: mongoose.Schema.Types.ObjectId, ref:'Account'},
         mark:{type:Number},
-        content:{type: String}
+        content:{type: String},
+        userName:{type: String},
+        userPicUrl:{type: String}
       }]}
     }]},
     //orders:{order: [{type: mongoose.Schema.Types.ObjectId, ref:'Order'}] }

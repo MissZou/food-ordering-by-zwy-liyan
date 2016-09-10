@@ -14,11 +14,13 @@
 @protocol AccountDelegate
 
 @optional
--(void)finishCreateAccount:(NSDictionary *)result withAccount:(Account *)myAccount;
--(BOOL)finishFetchAccountData:(NSDictionary *)result withAccount:(Account *)myAccount;
--(void)finishRefreshAccountData;
--(void)networkFailed;
--(void)accountFinishUpdateCart;
+- (void)finishCreateAccount:(NSDictionary *)result withAccount:(Account *)myAccount;
+- (BOOL)finishFetchAccountData:(NSDictionary *)result withAccount:(Account *)myAccount;
+- (void)finishRefreshAccountData;
+- (void)networkFailed;
+- (void)accountFinishUpdateCart;
+- (void)accountFinishGetOrder;
+
 @end
 
 @interface Account : NSObject

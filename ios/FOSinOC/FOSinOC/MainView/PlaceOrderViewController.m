@@ -21,8 +21,9 @@
 #import "ShopDetailedViewController.h"
 #import "ChooseAddressViewController.h"
 #import "WriteMessageViewController.h"
+#import "OrderInfoViewController.h"
 
-@interface PlaceOrderViewController ()<UITableViewDelegate,UITableViewDataSource,ChooseAddressViewDelegate,WriteMessageViewDelegate>
+@interface PlaceOrderViewController ()<UITableViewDelegate,UITableViewDataSource,ChooseAddressViewDelegate,WriteMessageViewDelegate, AccountDelegate>
 @property (strong,nonatomic) UIView *bottomView;
 @property (strong,nonatomic) UIButton *payButton;
 @property (assign,nonatomic) NSUInteger totalPrice;
@@ -45,6 +46,7 @@
     [self initTableView];
     [self initBottomView];
     self.myAccount = [Account sharedManager];
+    self.myAccount.delegate = self;
     self.myShop = [Shop sharedManager];
 //    self.navigationController.navigationBar.layer.shadowColor = [[UIColor blackColor] CGColor];
 //    self.navigationController.navigationBar.layer.shadowOffset = CGSizeMake(0.0f, 5.0f);
@@ -59,7 +61,7 @@
     UIBarButtonItem *backBarButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:NULL];
     self.navigationItem.backBarButtonItem = backBarButton;
     self.message = @"";
-    [self.myAccount order:GET withShopId:nil items:nil price:0 address:nil message:nil];
+    //[self.myAccount order:GET withShopId:nil items:nil price:0 address:nil message:nil];
 
 }
 
@@ -508,12 +510,16 @@
             [itemsofThisShop addObject:self.myAccount.cartDetail[i]];
         }
     }
-    
-    [self cleanItemData:itemsofThisShop];
-    
     [self.myAccount order:PUT withShopId:self.shopId items:[self cleanItemData:itemsofThisShop] price:self.totalPrice address:self.address message:self.message];
-    //[self.myAccount placeOrderForallItemsInCartWithaddress:self.address message:self.message];
+    [self performSegueWithIdentifier:@"paysuccess" sender:nil];
+    
 }
+
+- (void)accountFinishGetOrder {
+
+    
+}
+
 
 -(void)payButtonHighlight{
     [self.payButton setBackgroundColor:myGreenColorHighlight];
@@ -540,6 +546,18 @@
         WriteMessageViewController *destinationVC = segue.destinationViewController;
         destinationVC.delegate = self;
         destinationVC.message = self.message;
+    } else if ([segue.identifier isEqualToString:@"paysuccess"]) {
+        NSMutableArray *itemsofThisShop = [[NSMutableArray alloc] init];
+        for (int i = 0; i<self.myAccount.cartDetail.count; i++) {
+            if ([[self.myAccount.cartDetail[i] valueForKey:@"shopId"] isEqualToString:self.shopId]) {
+                [itemsofThisShop addObject:self.myAccount.cartDetail[i]];
+            }
+        }
+        OrderInfoViewController *destinationVC = segue.destinationViewController;
+        destinationVC.itemList = [itemsofThisShop copy];
+        destinationVC.shopName = self.shopName;
+        destinationVC.shopImage = self.shopImage;
+        destinationVC.address = self.address;
     }
 }
 
