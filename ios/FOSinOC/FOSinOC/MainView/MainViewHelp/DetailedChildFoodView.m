@@ -938,8 +938,13 @@
         self.cartBadge.text = [[NSNumber numberWithUnsignedInteger:self.totalItemCount] stringValue];
         self.totalPriceLabel.text = [NSString stringWithFormat:@"The totaol price:\n      $ %lu",(unsigned long)self.totalPrice];
     });
-    
-    if (self.myAccount.cartDetail.count == 0) {
+    NSMutableArray *itemsofThisShop = [[NSMutableArray alloc] init];
+    for (int i = 0; i<self.myAccount.cartDetail.count; i++) {
+        if ([[self.myAccount.cartDetail[i] valueForKey:@"shopId"] isEqualToString:self.shopID]) {
+            [itemsofThisShop addObject:self.myAccount.cartDetail[i]];
+        }
+    }
+    if (itemsofThisShop.count == 0) {
         [self.buyButton setBackgroundColor:[UIColor grayColor]];
         [self.buyButton setEnabled:false];
     }else{

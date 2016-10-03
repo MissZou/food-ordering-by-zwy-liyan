@@ -60,7 +60,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"did load slide view content offset %f",self.contentScrollView.contentOffset.y);
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {

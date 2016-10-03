@@ -369,15 +369,8 @@ for (var i = doc.dish.length - 1; i >= 0; i--) {
           console.log(doc);
           callback(doc);
         });
-
-
-
-
-
       }
     })
-
-
 };
 
 
@@ -457,6 +450,10 @@ var limit = index*count;
           })
 }
 
+var shipOrder = function(orderId,callback) {
+    
+}
+
 //=======test api=========
 var deleteShop = function(shopId,callback){
   Shop.findById(shopId).remove().exec(function(err,doc){
@@ -486,6 +483,7 @@ var deleteShop = function(shopId,callback){
     deleteShop:deleteShop,//test api
     addOrder:addOrder,
     findOrderByShopId:findOrderByShopId,
-    addComment:addComment
+    addComment:addComment,
+    shipOrder:shipOrder
   }
 }

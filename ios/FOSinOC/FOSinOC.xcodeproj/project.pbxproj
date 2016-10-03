@@ -68,6 +68,7 @@
 		BA771B7E1CCF913000755613 /* DetailedChildShopView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA771B7D1CCF913000755613 /* DetailedChildShopView.m */; };
 		BA771B811CD0580100755613 /* SlideMultiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA771B801CD0580100755613 /* SlideMultiViewController.m */; };
 		BA771B841CD2FEE600755613 /* Shop.m in Sources */ = {isa = PBXBuildFile; fileRef = BA771B831CD2FEE600755613 /* Shop.m */; };
+		BA7C7E931D9A19A400E0B2E1 /* OrderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA7C7E921D9A19A400E0B2E1 /* OrderListViewController.m */; };
 		BA81F6421CB668CB007A8832 /* introductionPic1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BA81F63F1CB668CB007A8832 /* introductionPic1.jpg */; };
 		BA81F6431CB668CB007A8832 /* introductionPic2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BA81F6401CB668CB007A8832 /* introductionPic2.jpg */; };
 		BA81F6441CB668CB007A8832 /* introductionPic3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BA81F6411CB668CB007A8832 /* introductionPic3.jpg */; };
@@ -214,6 +215,8 @@
 		BA771B801CD0580100755613 /* SlideMultiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideMultiViewController.m; sourceTree = "<group>"; };
 		BA771B821CD2FEE600755613 /* Shop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shop.h; sourceTree = "<group>"; };
 		BA771B831CD2FEE600755613 /* Shop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Shop.m; sourceTree = "<group>"; };
+		BA7C7E911D9A19A400E0B2E1 /* OrderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderListViewController.h; sourceTree = "<group>"; };
+		BA7C7E921D9A19A400E0B2E1 /* OrderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderListViewController.m; sourceTree = "<group>"; };
 		BA81F63F1CB668CB007A8832 /* introductionPic1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = introductionPic1.jpg; sourceTree = "<group>"; };
 		BA81F6401CB668CB007A8832 /* introductionPic2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = introductionPic2.jpg; sourceTree = "<group>"; };
 		BA81F6411CB668CB007A8832 /* introductionPic3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = introductionPic3.jpg; sourceTree = "<group>"; };
@@ -565,6 +568,8 @@
 				BA3C9B1F1D226611003F484D /* PlaceOrderViewController.m */,
 				BA56B1A11D810F7500A0FF14 /* OrderInfoViewController.h */,
 				BA56B1A21D810F7500A0FF14 /* OrderInfoViewController.m */,
+				BA7C7E911D9A19A400E0B2E1 /* OrderListViewController.h */,
+				BA7C7E921D9A19A400E0B2E1 /* OrderListViewController.m */,
 				BA3C9B1D1D2263BC003F484D /* SlideLeftMenu */,
 				BAD808631CCA154B00A79DE2 /* MainViewHelp */,
 				BA3C9B0D1D1F7F2F003F484D /* ShopDetailedViewController */,
@@ -899,6 +904,7 @@
 				BA93691D1D82A01E00DBE295 /* OrderDetailViewController.m in Sources */,
 				BAD8086C1CCB598700A79DE2 /* SortView.m in Sources */,
 				BA771B7E1CCF913000755613 /* DetailedChildShopView.m in Sources */,
+				BA7C7E931D9A19A400E0B2E1 /* OrderListViewController.m in Sources */,
 				BA771B6E1CCF38A700755613 /* SearchShopViewController.m in Sources */,
 				BA771B781CCF90F700755613 /* DetailedChildFoodView.m in Sources */,
 				BAD808361CC200DC00A79DE2 /* AddressCell.m in Sources */,

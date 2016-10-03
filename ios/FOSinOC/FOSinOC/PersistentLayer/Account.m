@@ -9,8 +9,9 @@
 #import "Account.h"
 #import "SSKeychain/SSKeychain.h"
 #import "AFNetworking/AFNetworking.h"
-
-
+#import "YYModel.h"
+#import "Order.h"
+//#import "Address.h"
 
 static NSString *baseUrlString = @"http://localhost:8080/user/";
 
@@ -126,6 +127,22 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
         self.cartDetail = [[result valueForKey:@"cartDetail"] mutableCopy];
     }
     [self.delegate finishRefreshAccountData];
+}
+
+- (void)updateOrderArray:(NSDictionary *)data {
+    NSArray *array = [data valueForKey:@"order"];
+    self.order = [[NSMutableArray alloc]init];
+    
+    for (int i = 0; i<array.count; i++) {
+        Order *newOrder = [Order yy_modelWithJSON:array[i]];
+        newOrder.items = [[NSMutableArray alloc]init];
+        NSArray *items = [array[i] valueForKey:@"dishs"];
+        for (int j = 0; j<items.count; j++) {
+            Item *item = [Item yy_modelWithJSON:items[j]];
+            [newOrder.items addObject:item];
+        }
+        [self.order addObject:newOrder];
+    }
 }
 
 - (void)createAccount:(Account *)model {
@@ -607,6 +624,10 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     
     
     if (httpMethod == PUT) {
+        if (message == nil) {
+            message = @"";
+        }
+        
         parameters = @{@"token":token, @"shopId":shopId, @"dishs":items, @"price":[NSNumber numberWithInteger:price], @"address":address, @"message":message};
         NSLog(@"order parameter");
 //        NSLog(shopId);
@@ -638,7 +659,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
                 //[self updateAccount:responseObject];
                 if ([[responseObject valueForKey:@"success"] boolValue]) {
                     NSLog(@"PUT Order success=================");
-                    [self.delegate accountFinishGetOrder];
+                    //[self.delegate accountFinishGetOrder];
                 }
                 
                 //NSLog(@"%@", responseObject);
@@ -703,6 +724,28 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     }
 }
 
-
+- (void)getOrderAtIndex:(NSInteger)index withCount:(NSInteger)count {
+    NSURL *url = [NSURL URLWithString:@"account/order" relativeToURL:self.baseUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
+    [manager.requestSerializer setValue:self.token forHTTPHeaderField:@"token"];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"%ld",(long)index] forHTTPHeaderField:@"index"];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"%ld",(long)count] forHTTPHeaderField:@"count"];
+    [manager GET:[url absoluteString] parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            NSLog(@"get cart=================");
+            NSLog(@"%@",responseObject);
+            //[self updateAccount:responseObject];
+            [self updateOrderArray:responseObject];
+            [self.delegate finishRefreshAccountData];
+        } else {
+            NSLog(@"%@", responseObject);
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"%@", error);
+    }];
+}
 
 @end

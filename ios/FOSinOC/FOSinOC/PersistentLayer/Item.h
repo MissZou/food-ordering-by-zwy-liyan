@@ -17,4 +17,5 @@
 @property (copy, nonatomic) NSString *category;
 @property (copy, nonatomic) NSString *dishPic;
 @property (copy ,nonatomic) NSArray *tags;
+@property (copy ,nonatomic) NSString *amount;
 @end

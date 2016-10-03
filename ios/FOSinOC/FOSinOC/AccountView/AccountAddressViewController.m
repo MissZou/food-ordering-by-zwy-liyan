@@ -28,6 +28,7 @@
     
     self.topView.layer.shadowOffset = CGSizeMake(0.0, 5.0);
     self.topView.layer.shadowOpacity = 0.3;
+    self.topView.backgroundColor = [UIColor colorWithRed:248.0/255.0 green:248.0/255 blue:248.0/255.0 alpha:1];
     self.bottomView.layer.shadowOpacity = 0.3;
     self.bottomView.layer.shadowOffset = CGSizeMake(2.0, -3.0);
     

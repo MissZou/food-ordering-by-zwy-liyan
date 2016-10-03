@@ -1011,16 +1011,19 @@ doc.map(function(v){
                 count = 1;
             }
             Account.findOrderIdByUserId(accountId, index, count, function(doc) {
-                if (doc != null) {
+                console.log(doc);
+                
+                if (doc.length != 0) {
                     var myEventEmitter = new eventEmitter;
                     myEventEmitter.on('next',addResult);
                     var orderArray = [];
                     var itemArray = [];
+                    var itemAmount = [];
                     var orderObj;
                     var itemObj;
                     var docCount = 0;
                     function addResult(){
-                        //console.log(itemArray[0]);
+                        
                         var shopOjb = orderObj.shop;
                         //orderObj.shop = undefined;
                         orderObj.shop.email = undefined;
@@ -1034,10 +1037,26 @@ doc.map(function(v){
                         //orderObj.shop = shopOjb.shopName;
 
                         for(var i = 0; i < itemArray.length; i++) {
-                            orderObj.dishs[i] = itemArray[i];
+                            var item = new Object();
+                            item.amount = itemAmount[i];
+                            item.dishName = itemArray[i].dishName;
+                            item.price = itemArray[i].price;
+                            item.intro = itemArray[i].intro;
+                            item.category = itemArray[i].category;
+                            item._id = itemArray[i]._id;
+                            item.dishPic = itemArray[i].dishPic;
+                            
+                            
+                            //item = itemArray[i];
+                            console.log("orderObj.dishs[i] = itemArray[i];");
+                            console.log(item);
+                            //orderObj.dishs[i] = itemArray[i];
+                            orderObj.dishs[i] = item;
+                            //orderObj.dishs[i].amount = itemAmount[i];
                         }
                         itemArray = [];
                         orderArray.push(orderObj)
+                        console.log(doc);
                         docCount++;
 
                         //console.log(orderObj);
@@ -1051,18 +1070,22 @@ doc.map(function(v){
                     //orderArray.push(doc);
                     for (var k = 0; k < doc.length; k++) {
                             Order.findById(doc[k],function(doc,err){
-                            // console.log(doc);
+                             console.log(doc.dishs);
                             for(var i = 0; i < doc.shop.dish.length; i++) {
                                 for (var j = 0; j < doc.dishs.length; j++){
                                  if (String(doc.shop.dish[i]._id).valueOf() == String(doc.dishs[j].itemId).valueOf()){
                                         //console.log("!!!!!!!!!!!!full dish");
-                                        //console.log(doc.shop.dish[i]);
-                                        itemArray.push(doc.shop.dish[i]);              
+                                        console.log("!!!!!!!!!!!!AMOUNT");
+                                        console.log(doc.dishs[j].amount);
+                                        doc.shop.dish[i].amount = doc.dishs[j].amount;
+                                        console.log(doc.shop.dish[i]);
+                                        itemArray.push(doc.shop.dish[i]);
+                                        itemAmount.push(doc.dishs[j].amount);              
                                     }
                                 }
                             }
                             orderObj = doc;
-                            console.log(itemArray[0]);
+                            
                             myEventEmitter.emit("next");
                         })    
                     }
@@ -1085,11 +1108,11 @@ doc.map(function(v){
         var address = req.param("address", null);
         var message = req.param("message", null);
 
-        // console.log(shopId);
-        // console.log(dishs);
-        // console.log(price);
-        // console.log(address);
-        // console.log(message);
+        console.log(shopId);
+        console.log(dishs);
+        console.log(price);
+        console.log(address);
+        console.log(message);
         //clean incoming data
         if (dishs.length == 1 && typeof(dishs[0].itemId) == "object") {
             console.log("dishs object");

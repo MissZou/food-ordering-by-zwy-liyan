@@ -11,5 +11,5 @@
 @interface Address : NSObject
 @property (copy, nonatomic) NSString *addr;
 @property (copy ,nonatomic) NSString *phone;
-@property (copy ,nonatomic) NSArray *name;
+@property (copy ,nonatomic) NSString *name;
 @end

@@ -4,6 +4,8 @@ module.exports = function(mongoose) {
       	user:{type: mongoose.Schema.Types.ObjectId, ref:'Account'},
       	shop:{type: mongoose.Schema.Types.ObjectId, ref:'Shop'},
       	date:{type: Date,default: Date.now},
+      	shippedDate:{type: Date, default: Date.now},
+      	confirmedDate:{type: Date, default: Date.now},
       	dishs:{type: [{
         	//shopId:{type: String},
 	    	itemId:{type: String},
@@ -54,15 +56,39 @@ var addOrder = function(userId,shopId,dishs,address,price,message,callback){
 
 var changeOrderStatus = function(shopId,orderId,status,callback){
 	
-	Order.update({_id:orderId,shop:shopId},{$set:{status:status}},{upsert:false,runValidators: true},
-		function(err){
-			console.log(err);
-			Order.findOne({_id:orderId},function(err,doc){
-				//console.log(doc);
-				callback(doc);
-				
-			})
-	})
+	if (String(status).valueOf() == String("shipped").valueOf()) {
+		Order.update({_id:orderId,shop:shopId},{$set:{status:status,shippedDate:new Date}},{upsert:false,runValidators: true},
+			function(err){
+				console.log(err);
+				Order.findOne({_id:orderId},function(err,doc){
+					//console.log(doc);
+					callback(doc);
+					
+				})
+		})
+	} 
+	else if (String(status).valueOf() == String("confirmed").valueOf()) {
+		Order.update({_id:orderId,shop:shopId},{$set:{status:status,confirmedDate:new Date}},{upsert:false,runValidators: true},
+			function(err){
+				console.log(err);
+				Order.findOne({_id:orderId},function(err,doc){
+					//console.log(doc);
+					callback(doc);
+					
+				})
+		})
+	}
+	else {
+		Order.update({_id:orderId,shop:shopId},{$set:{status:status}},{upsert:false,runValidators: true},
+			function(err){
+				console.log(err);
+				Order.findOne({_id:orderId},function(err,doc){
+					//console.log(doc);
+					callback(doc);
+					
+				})
+		})
+	}
 };
 
 var addComment = function(shopId,orderId,userId,comment,callback) {

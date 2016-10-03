@@ -16,6 +16,7 @@
 @end
 
 @interface Shop : NSObject
+@property(copy,nonatomic) NSString * _id;
 @property(copy,nonatomic) NSString * shopID;
 @property(copy,nonatomic) NSString *shopPicUrl;
 @property(copy,nonatomic) NSString* shopName;
@@ -29,6 +30,7 @@
 @property(strong,nonatomic) NSMutableArray *shopComments;
 
 @property(strong,nonatomic) UIImage *shopImage;
+@property (strong, nonatomic) NSDictionary *imageCache;
 @property(weak)id <ShopDelegate> delegate;
 
 +(Shop *) sharedManager;

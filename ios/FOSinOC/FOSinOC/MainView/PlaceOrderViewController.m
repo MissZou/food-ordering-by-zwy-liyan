@@ -14,9 +14,14 @@
 #define bottomViewHeight 50
 #define tableCellTag 1760
 
+#define statusCreated @"created"
+#define statusShipped @"shipped"
+#define statusConfirmed @"confirmed"
+
 #import "PlaceOrderViewController.h"
 #import "Account.h"
 #import "Shop.h"
+#import "Order.h"
 
 #import "ShopDetailedViewController.h"
 #import "ChooseAddressViewController.h"
@@ -36,7 +41,7 @@
 @property (copy,nonatomic) NSString* message;
 @property (strong,nonatomic)UILabel *messageLabel;
 @property (strong,nonatomic) NSDictionary *address;
-
+@property (strong, nonatomic) Order *order;
 @end
 
 @implementation PlaceOrderViewController
@@ -60,7 +65,7 @@
     self.navigationItem.titleView = vcName;
     UIBarButtonItem *backBarButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:NULL];
     self.navigationItem.backBarButtonItem = backBarButton;
-    self.message = @"";
+    self.message = nil;
     //[self.myAccount order:GET withShopId:nil items:nil price:0 address:nil message:nil];
 
 }
@@ -74,7 +79,7 @@
         //No items in cart
         //NSLog(@"cart detailed %@",self.myAccount.cartDetail);
     }
-    //NSLog(@"cart detailed %@",self.myAccount.cartDetail);
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -226,6 +231,7 @@
                         amount.tag = tableCellTag+7;
                         amount.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
                         amount.text = [NSString stringWithFormat:@"x%@",[[self.myAccount.cartDetail[i] valueForKey:@"amount"] stringValue]];
+                        
                         [cell.contentView addSubview:amount];
                         
                         UILabel *price = [[UILabel alloc]initWithFrame:CGRectMake(250, 5 + itemCount*(5+24), 100, 24)];
@@ -248,6 +254,7 @@
                        totalPrice = totalPrice + [[self.myAccount.cartDetail[i] valueForKey:@"price"] integerValue]*[[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue];
                     }
                 }
+                self.totalPrice = totalPrice;
                 NSString *priceText = [[NSNumber numberWithInteger:totalPrice] stringValue];
                 total.text = [NSString stringWithFormat:@"Total $%@",priceText];
                 [cell.contentView addSubview:total];
@@ -257,11 +264,11 @@
         } if(indexPath.section == 2+self.shopList.count){
             if (indexPath.row == 0) {
                 self.totalItemCount = 0;
-                self.totalPrice = 0;
+                
                 for (int i = 0; i<self.myAccount.cartDetail.count; i++) {
                     self.totalItemCount = self.totalItemCount + [[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue];
                     
-                    self.totalPrice = self.totalPrice + [[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue]*[[self.myAccount.cartDetail[i] valueForKey:@"price"] integerValue];
+//                    self.totalPrice = self.totalPrice + [[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue]*[[self.myAccount.cartDetail[i] valueForKey:@"price"] integerValue];
                 }
                 UILabel *priceLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 100, 5, 100, 24)];
                 priceLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
@@ -386,6 +393,7 @@
                         totalPrice = totalPrice + [[self.myAccount.cartDetail[i] valueForKey:@"price"] integerValue]*[[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue];
                     }
                 }
+                self.totalPrice = totalPrice;
                 NSString *priceText = [[NSNumber numberWithInteger:totalPrice] stringValue];
                 total.text = [NSString stringWithFormat:@"Total $%@",priceText];
                 [cell.contentView addSubview:total];
@@ -394,11 +402,12 @@
         } if(indexPath.section == 2+self.shopList.count){
             if (indexPath.row == 0) {
                 self.totalItemCount = 0;
-                self.totalPrice = 0;
+                
+                NSInteger totalPrice = 0;
                 for (int i = 0; i<self.myAccount.cartDetail.count; i++) {
                     self.totalItemCount = self.totalItemCount + [[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue];
                     
-                    self.totalPrice = self.totalPrice + [[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue]*[[self.myAccount.cartDetail[i] valueForKey:@"price"] integerValue];
+                    totalPrice = totalPrice + [[self.myAccount.cartDetail[i] valueForKey:@"price"] integerValue]*[[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue];
                 }
                 UILabel *priceLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 100, 5, 100, 24)];
                 priceLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
@@ -510,15 +519,13 @@
             [itemsofThisShop addObject:self.myAccount.cartDetail[i]];
         }
     }
+    
     [self.myAccount order:PUT withShopId:self.shopId items:[self cleanItemData:itemsofThisShop] price:self.totalPrice address:self.address message:self.message];
+    
     [self performSegueWithIdentifier:@"paysuccess" sender:nil];
     
 }
 
-- (void)accountFinishGetOrder {
-
-    
-}
 
 
 -(void)payButtonHighlight{
@@ -551,6 +558,7 @@
         for (int i = 0; i<self.myAccount.cartDetail.count; i++) {
             if ([[self.myAccount.cartDetail[i] valueForKey:@"shopId"] isEqualToString:self.shopId]) {
                 [itemsofThisShop addObject:self.myAccount.cartDetail[i]];
+                
             }
         }
         OrderInfoViewController *destinationVC = segue.destinationViewController;
@@ -558,6 +566,8 @@
         destinationVC.shopName = self.shopName;
         destinationVC.shopImage = self.shopImage;
         destinationVC.address = self.address;
+        destinationVC.orderStatus = statusCreated;
+        destinationVC.totalPrice = (long *)self.totalPrice;
     }
 }
 

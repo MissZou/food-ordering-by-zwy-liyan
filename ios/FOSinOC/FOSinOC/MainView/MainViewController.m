@@ -32,6 +32,7 @@
 @property(strong,nonatomic) Shop *myShop;
 
 @property (weak, nonatomic) IBOutlet UITableView *mainViewTableView;
+@property (strong, nonatomic) UIView *tableCoverView;
 
 @property (weak, nonatomic) IBOutlet UIView *topView;
 @property (weak, nonatomic) IBOutlet UIButton *chooseLocationBtn;
@@ -124,11 +125,11 @@
     [super viewDidAppear:animated];
     self.mainViewTableView.userInteractionEnabled = true;
     if (self.mainViewTableView.tableHeaderView == nil) {
-        [self initTableViewMainHeaderView];
+        //[self initTableViewMainHeaderView];
     }
     
     if (self.floatMenuView == nil) {
-        [self drawfloatMenuView];
+        //[self drawfloatMenuView];
     }
     
     [self.navigationController.navigationBar lt_reset];
@@ -370,7 +371,22 @@
 -(void)finishSearchShops:(NSDictionary *)shops{
     if ([shops valueForKey:@"shop"] != NULL) {
         self.shopList = [[shops valueForKey:@"shop"] mutableCopy];
-        [self.mainViewTableView reloadData];
+        if (self.shopList.count) {
+            [self.mainViewTableView reloadData];
+            [self.tableCoverView removeFromSuperview];
+            self.tableCoverView = nil;
+        } else {
+            //self.mainViewTableView = nil;
+            self.tableCoverView = [[UIView alloc]initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 64)];
+            self.tableCoverView.backgroundColor = [UIColor whiteColor];
+            UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
+            label.center = self.tableCoverView.center;
+            label.text = @"No shop nearby.";
+            label.textAlignment = NSTextAlignmentCenter;
+            [self.tableCoverView addSubview:label];
+            [self.view addSubview:self.tableCoverView];
+        }
+        
     }else{
         NSLog(@"shop list = null");
     }

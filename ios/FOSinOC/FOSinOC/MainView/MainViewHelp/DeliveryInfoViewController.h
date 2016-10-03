@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Order.h"
 
 @interface DeliveryInfoViewController : UIViewController
-
+@property (copy, nonatomic)NSString *orderStatus;
+@property (strong, nonatomic) Order *order;
 @end

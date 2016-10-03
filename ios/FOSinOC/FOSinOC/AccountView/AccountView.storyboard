@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jtd-0L-DVe">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jtd-0L-DVe">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -69,7 +69,7 @@
                                         <variation key="widthClass=compact" constant="64"/>
                                     </constraint>
                                     <constraint firstItem="Upk-rm-jT8" firstAttribute="leading" secondItem="hry-Q7-Ah1" secondAttribute="leading" constant="10" id="vKr-mo-QdM">
-                                        <variation key="widthClass=compact" constant="15"/>
+                                        <variation key="widthClass=compact" constant="10"/>
                                     </constraint>
                                     <constraint firstAttribute="bottom" secondItem="y3Q-aq-gnh" secondAttribute="bottom" id="wzV-ZH-0RS"/>
                                 </constraints>
@@ -264,6 +264,7 @@
                         <outlet property="avatar" destination="ZYC-EA-9il" id="u6N-9n-woX"/>
                         <outlet property="email" destination="49r-GJ-ESp" id="DOl-s9-su8"/>
                         <outlet property="name" destination="hBS-Tw-eHk" id="RFJ-aB-r49"/>
+                        <outlet property="topLabel" destination="y3Q-aq-gnh" id="ijS-7K-9hK"/>
                         <outlet property="topView" destination="hry-Q7-Ah1" id="N0L-Oh-L1E"/>
                         <segue destination="Uch-s4-AXk" kind="presentation" identifier="photo" id="kYB-95-aFd"/>
                     </connections>
