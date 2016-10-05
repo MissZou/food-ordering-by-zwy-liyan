@@ -1,0 +1,267 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title Document
+    script(src='/javascripts/jszip.min.js')
+    script(src='/javascripts/FileSaver.js')
+    script(src='/javascripts/jquery-2.2.3.min.js')
+    link(rel='stylesheet', href='/stylesheets/normalize.css')
+    link(rel='stylesheet', href='/stylesheets/header.css')
+    style.
+      #result {
+      visibility: hidden;
+      height: 0;
+      }
+      .dishPreview {
+      text-align: center;
+      line-height: 60px;
+      font-size: 16px;
+      }
+      .lTitle {
+      line-height: 30px;
+      }
+      .dishPreview ul {
+      width: 800px;
+      margin: 10px auto;
+      }
+      .dishPreview li {
+      box-sizing: border-box;
+      border: 10px solid transparent;
+      display: -webkit-flex;
+      display: flex;
+      padding-bottom: 9px;
+      border-bottom: 1px solid #ccc;
+      }
+      li > * {
+      -webkit-flex-basis: 200px;
+      flex-basis: 200px;
+      width: 100px;
+      margin-right: 10px;
+      }
+      .lTitle {
+      height: 51px;
+      font-weight: bold;
+      color: blue;
+      }
+      .dishImg {
+      -webkit-flex-basis: 60px;
+      flex-basis: 60px;
+      }
+      .dishPreview li img {
+      display: block;
+      }
+      .dishImg {
+      width: 60px;
+      height: 60px;
+      }
+      .commit {
+      width: 204px;
+      height: 62px;
+      text-align: center;
+      line-height: 62px;
+      color: #6583ff;
+      font-size: 20px;
+      border: 2px solid #6583ff;
+      border-radius: 36px;
+      margin: 5px auto;
+      cursor: pointer;
+      transition: background ease-in-out .15s, color ease-in-out .15s;
+      }
+      .commit:hover {
+      background: #3E60EA;
+      color: #fff;
+      }
+      #file {
+      display: none;
+      }
+      #post {
+      display: none;
+      }
+  body
+    include header-seller.jade
+    input#file(type='file', name='file', accept='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    .commit.uploadPicBtn Upload XLSX file
+    #result
+    .dishPreview
+      ul.xls
+    #post.commit Submit
+  script.
+    (function() {
+    if (!window.FileReader || !window.ArrayBuffer) {
+    $("#error_block").removeClass("hidden").addClass("show");
+    return;
+    }
+    var $result = $("#result");
+    $(".uploadPicBtn").on("click", function() {
+    $("#file").click();
+    })
+    $("#file").on("change", function(evt) {
+    if ($("#file")[0].files[0].type != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+    alert("Please upload an xlsx file!")
+    return;
+    }
+    // remove content
+    $result.html("");
+    var xlsData;
+    // be sure to show the results
+    $("#result_block").removeClass("hidden").addClass("show");
+    var formXlsData = new FormData();
+    formXlsData.append('file', $("#file")[0].files[0]);
+    $.ajax({
+    url: '/shop/createXlsData/',
+    data: formXlsData,
+    type: 'POST',
+    contentType: false, //must
+    processData: false, //must
+    success: function(data, status) {
+    if (data.success) {
+    console.log(data.data)
+    xlsData = data.data;
+    }
+    },
+    error: function(data, status) {}
+    });
+    // Closure to capture the file information.
+    function handleFile(f) {
+    var $title = $("<h4>", {
+    text: f.name
+    });
+    var $fileContent = $("<ul class='list'>");
+    $result.append($title);
+    $result.append($fileContent);
+    var dateBefore = new Date();
+    JSZip.loadAsync(f)
+    .then(function(zip) {
+    var dateAfter = new Date();
+    $title.append($("<span>", {
+    text: " (loaded in " + (dateAfter - dateBefore) + "ms)"
+    }));
+    zip.forEach(function(relativePath, zipEntry) {
+    $fileContent.append($("<li>", {
+    text: zipEntry.name
+    }));
+    });
+    if (JSZip.support.blob) {
+    function downloadWithBlob() {
+    zip.generateAsync({
+    type: "blob"
+    }).then(function(blob) {
+    //sent to server
+    var formData = new FormData();
+    formData.append('blob', blob);
+    $.ajax({
+    url: '/shop/createXlsImage/',
+    data: formData,
+    type: 'POST',
+    contentType: false, //must
+    processData: false, //must
+    success: function(data, status) {
+    if (data.success) {
+    $(".xls").append($('<li class="lTitle"><div class="dishImg">Image</div><div class="dishNameTitle">Dish Name</div><div class="price">Dish Price</div><div class="category">Category</div></li>'))
+    for (var i = 0; i < $(".list").find("li").length; i++) {
+    if ($(".list").find("li").eq(i).text().split(".")[1] == "jpeg") {
+    var imgUrl = "/resources/" + $(".list").find("li").eq(i).text();
+    var $img = $("<li><img src=" + imgUrl + " width='100' height='80' class='dishImg'><div class='dishName'></div><div class='dishPrice price'></div><div class='type category'></div></li>");
+    $(".xls").append($img);
+    }
+    }
+    //console.log(xlsData[0].data)
+    xlsData[0].data.forEach(function(v, i) {
+    $(".dishName").eq(i).text(v[0]);
+    $(".dishPrice").eq(i).text(v[2]);
+    $(".type").eq(i).text(v[1]);
+    })
+    $("#post").show();
+    $(".uploadPicBtn").hide();
+    }
+    },
+    error: function(data, status) {}
+    });
+    }, function(err) {
+    console.log(err);
+    });
+    //return false;
+    }
+    downloadWithBlob();
+    } else {
+    blobLink.innerHTML += " (not supported on this browser)";
+    }
+    }, function(e) {
+    $fileContent = $("<div>", {
+    "class": "alert alert-danger",
+    text: "Error reading " + f.name + " : " + e.message
+    });
+    }).then(function() {});
+    }
+    var files = evt.target.files;
+    for (var i = 0, f; f = files[i]; i++) {
+    handleFile(f);
+    }
+    });
+    $("#post").on("click", function() {
+    var dish = []
+    var num = $(".dishName").length;
+    for (var index = 0; index < num; index++) {
+    dish[index] = {}
+    dish[index].dishName = $(".dishName").eq(index).text();
+    dish[index].price = $(".dishPrice").eq(index).text();
+    dish[index].category = $(".type").eq(index).text();
+    dish[index].index = index;
+    }
+    //console.log(dish)
+    $.ajax({
+    url: '/shop/account/dish',
+    data: {
+    "dish": dish
+    },
+    type: 'PUT',
+    success: function(data, status) {
+    if (data.code == 200) {
+    //alert("上传成功dish");
+    console.log(data.dishes);
+    var originalDishes = data.dishes;
+    var newDishes = [];
+    for (var i = 0; i < originalDishes.length; i++) {
+    if (!originalDishes[i].dishPic) {
+    newDishes.push(originalDishes[i]._id);
+    }
+    }
+    console.log("newDishes", newDishes)
+    var datao = {};
+    for (var i = 0, len = dish.length; i < len; i++) {
+    datao['dishNames' + i] = dish[i].dishName;
+    datao['dishId' + i] = newDishes[newDishes.length - len + i];
+    }
+    datao.len = dish.length;
+    console.log(datao)
+    $.ajax({
+    url: '/shop/account/createDishPicFromXls',
+    data: {
+    "datao": JSON.stringify(datao)
+    },
+    type: 'POST',
+    success: function(data, status) {
+    if (data.code == 200) {
+    // alert("上传成功tupian");
+    //跳转页面
+    } else {
+    console.log(data)
+    }
+    },
+    error: function(data, status) {
+    if (data.code != 200) {
+    alert("upload fail");
+    }
+    }
+    });
+    }
+    },
+    error: function(data, status) {
+    if (data.code != 200) {
+    alert("upload fail");
+    }
+    }
+    });
+    })
+    })();

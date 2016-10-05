@@ -277,7 +277,15 @@ var changeDishInfo = function(shopId, dish, callback){
     })
 }
 
+var deleteDish = function(shopId, dish, callback) {
+ Shop.update({_id:shopId}, {$pull: {dish:{"_id":dish._id}}},{upsert:true},
+      function (err) {
+        console.log(err)
+        callback(err);
+    });
 
+
+}
 
 var addDishPic = function(shopId, key,url, callback) {
   Shop.findOne({ _id:shopId},
@@ -481,6 +489,7 @@ var deleteShop = function(shopId,callback){
     deleteShop:deleteShop,//test api
     addOrder:addOrder,
     findOrderByShopId:findOrderByShopId,
-    addComment:addComment
+    addComment:addComment,
+    deleteDish:deleteDish
   }
 }

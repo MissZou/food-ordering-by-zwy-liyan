@@ -241,18 +241,13 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
     });
 
     router.route('/login/web/m')
-
     .get(function(req, res) {
-
         res.render('login-m');
-
     });
+
     router.route('/account/web/index/m')
-
     .get(function(req, res) {
-
         res.render('search-shop-m.jade');
-
     });
 
     router.route('/account/web/logout')
@@ -260,9 +255,6 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
             req.session.destroy();
             res.redirect(req.protocol + '://' + req.get('host') + "/user/register");
         })
-
-
-
 
     router.route('/login')
     .post(function(req, res) {
@@ -643,6 +635,28 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
             })
         })
 
+router.route('/account/web/rate/:shopId/m')
+        .get(function(req, res) {
+            Shop.findOrderByShopId(req.params.shopId, 1, 99999, function(doc) {
+                if (doc != null) {
+                    Shop.findShopById(req.params.shopId, function(shopdoc) {
+                        var newMark = [];
+                        var newDoc2 = [];
+                        var newName = [];
+
+                        doc.map(function(v) {
+                            if (v.order.shop == req.params.shopId && v.order.comment) {
+                                newMark.push(v.order);
+                            }
+                        });
+                        res.render('rate-m', {
+                            doc: newMark,
+                            shopName: shopdoc.shopName
+                        });
+                    })
+                }
+            })
+        })
 
     router.route('/account/web/cart/:shopId/m')
 
@@ -1174,9 +1188,13 @@ router.route('/account/web/wholeOrderData/m')
         })
 
     router.route('/account/web/myfav')
-
     .get(function(req, res) {
         res.render('myfav.jade');
+    });
+
+    router.route('/account/web/myfav/m')
+    .get(function(req, res) {
+        res.render('myfav-m.jade');
     });
 
     router.route('/account/favoriteshop')
@@ -1232,6 +1250,30 @@ router.route('/account/web/wholeOrderData/m')
             })
         })
     });
+
+
+router.route('/account/favoriteshop/m')
+
+    .get(function(req, res) {
+        var accountId = req.decoded._id;
+        var index = req.headers["index"];
+        var count = req.headers["count"];
+        //console.log(index);
+        if (index == null || index == 0) {
+            index = 1;
+        }
+        if (count == null || count == 0) {
+            count = 1;
+        }
+        Account.findFavoriteShop(accountId, index, count, function(doc) {
+            res.json({
+                success: true,
+                favoriteshop: doc
+            });
+        })
+    })
+
+
 
     router.route('/account/favoriteitem')
         .get(function(req, res) {

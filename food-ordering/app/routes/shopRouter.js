@@ -231,7 +231,8 @@ var routeShop = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
 
     router.route('/register')
         .get(function(req, res) {
-            res.sendfile(path.join(__dirname, '../../views', 'restaurant-post.html'));
+            //res.sendfile(path.join(__dirname, '../../views', 'restaurant-post.html'));
+            res.render('restaurant-post.jade');
         })
         .post(function(req, res) {
             var email = req.param('email', null);
@@ -332,10 +333,6 @@ var routeShop = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
     });
 
     router.route('/login')
-        .get(function(req, res) {
-            //res.sendfile(path.join(__dirname, './views', 'restaurant-post.html'));
-            res.sendfile(path.join(__dirname, '../../views', 'shop-login.html'));
-        })
         .post(function(req, res) {
             var email = req.param('email', null);
             var password = req.param('password', null);
@@ -564,8 +561,7 @@ var routeShop = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
 
     router.route('/account/web/dish')
         .get(function(req, res) {
-            //res.sendfile(path.join(__dirname, './views', 'restaurant-post.html'));
-            res.sendfile(path.join(__dirname, '../../views', 'post-dish.html'));
+            res.render('post-dish.jade')
         })
 
     router.route('/account/web/menu')
@@ -595,8 +591,7 @@ var routeShop = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
 
     router.route('/account/web/xls')
         .get(function(req, res) {
-            //res.sendfile(path.join(__dirname, './views', 'restaurant-post.html'));
-            res.sendfile(path.join(__dirname, '../../views', 'index.html'));
+            res.render('xlsx-upload.jade')
         })
 
 
@@ -630,7 +625,18 @@ var routeShop = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
             Shop.changeDishInfo(shopId, dish, function(err, doc) {
 
                 res.json({
-                    code: 200,
+                    code: 200
+                });
+            })
+        })
+        .delete(function(req,res){
+            var shopId = req.decoded._id;
+            var dish = req.param('dish', null);
+
+            Shop.deleteDish(shopId, dish, function(err, doc) {
+
+                res.json({
+                    code: 200
                 });
             })
         })

@@ -49,7 +49,7 @@ $(function() {
                         $("#search-result").html($.tmpl("shopTemplate", shopData));
 
                     } else {
-                        alert("附近没有商家！");
+                        alert("There is no restaurant nearby!");
                     }
                 }
             });

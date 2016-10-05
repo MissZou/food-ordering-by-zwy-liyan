@@ -78,7 +78,7 @@ function login(e) {
                     localStorage.setItem('accountId', data.accountId);
                     window.location = "/user/account/index";
                 } else if (data.code == 400) {
-                    alert("登录失败");
+                    alert("Login fail");
                 }
             }
         });
@@ -130,14 +130,14 @@ function addUser(e) {
             $(this).removeClass("error");
             $(this).next().hide();
       })
-                    alert("注册成功、。。。")
+                   // alert("注册成功、。。。")
                     $("#loginForm").click();
                 }else{
-                    alert("您已使用过此邮箱！")
+                    alert("You already register with this email!")
                 }
             },
             error: function(data, err) {
-                alert("注册失败")
+                alert("Register fail!")
             }
         })
 
