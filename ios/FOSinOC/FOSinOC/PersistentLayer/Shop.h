@@ -7,6 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <YYModel/YYModel.h>
+#import "Item.h"
+
 @class Shop;
 @protocol ShopDelegate
 @optional
@@ -23,6 +26,7 @@
 @property(copy,nonatomic) NSString* shopAddress;
 
 @property(strong,nonatomic) NSMutableArray *shopCatagory;
+@property(strong,nonatomic) NSArray *dishs;
 @property(strong,nonatomic) NSDictionary *shopItems;
 @property(copy,nonatomic) NSString* startPrice;
 @property(strong,nonatomic) NSNumber *shopMark;
@@ -36,4 +40,5 @@
 +(Shop *) sharedManager;
 -(void)searchShopByLocation:(NSArray *)location withdistance:(NSNumber *)distance;
 -(void)fetchShopData:(NSString *)shopId;
+-(void)fetchShopDataModelingByYYKit:(NSString *)shopId;
 @end

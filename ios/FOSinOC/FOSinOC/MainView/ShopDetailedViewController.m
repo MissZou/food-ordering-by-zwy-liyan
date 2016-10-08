@@ -18,6 +18,7 @@
 #import "UINavigationBar+Awesome.h"
 #import "FoodViewController.h"
 #import "PlaceOrderViewController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 #import "Shop.h"
 @interface ShopDetailedViewController ()<UIScrollViewDelegate,UIGestureRecognizerDelegate,SlideMultiViewControllerDelegate,DetailedChildFoodViewDelegate,ShopDelegate>
@@ -101,6 +102,7 @@
     self.myShop = [Shop sharedManager];
     self.myShop.delegate = self;
     [self.myShop fetchShopData:self.shopID];
+    //[self.myShop fetchShopDataModelingByYYKit:self.shopID];
 }
 
 -(void)initNavigationBar{
@@ -124,13 +126,13 @@
     
     self.naviRightViewFull = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 60, 30)];
     //self.naviRightViewFull.backgroundColor = [UIColor blackColor];
-    self.naviShareButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 60, 30)];
-    [self.naviShareButton setTitle:@"share" forState:UIControlStateNormal];
-    [self.naviShareButton addTarget:self action:@selector(naviShareButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-    [self.naviShareButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    
-    [self.naviRightViewFull addSubview:self.naviShareButton];
-    [self.naviRightViewFull addSubview:self.naviMenuButton];
+//    self.naviShareButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 60, 30)];
+//    [self.naviShareButton setTitle:@"share" forState:UIControlStateNormal];
+//    [self.naviShareButton addTarget:self action:@selector(naviShareButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+//    [self.naviShareButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+//    
+//    [self.naviRightViewFull addSubview:self.naviShareButton];
+//    [self.naviRightViewFull addSubview:self.naviMenuButton];
     
     self.rightBarItemFull = [[UIBarButtonItem alloc]initWithCustomView:self.naviRightViewFull];
     self.navigationItem.rightBarButtonItem = self.rightBarItemFull;
@@ -160,8 +162,10 @@
     self.foodView.shopID = self.shopID;
     
     
-    NSArray *title = @[@"Food", @"Comment", @"Shop"];
-    NSArray *viewArray = @[self.foodView, self.commentView, self.shopView];
+    //NSArray *title = @[@"Food", @"Comment", @"Shop"];
+    NSArray *title = @[@"Food", @"Shop"];
+    //NSArray *viewArray = @[self.foodView, self.commentView, self.shopView];
+    NSArray *viewArray = @[self.foodView, self.shopView];
     self.slideMultiViewController = [[SlideMultiViewController alloc]init];
     self.slideMultiViewController.view.frame =CGRectMake(0, sdNavigationBarHeight + sdSegmentViewHeight, self.view.frame.size.width, self.view.frame.size.height);
     self.slideMultiViewController.delegate = self;
@@ -422,7 +426,9 @@
     shopImageView.contentMode = UIViewContentModeScaleAspectFill;
     
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.myShop.shopImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.myShop.shopPicUrl]]];
+            NSString *url = [NSString stringWithFormat:@"http://localhost:8080/%@",self.myShop.shopPicUrl];
+            self.myShop.shopImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]]];
+            
             shopImageView.image = self.myShop.shopImage;
     
         });

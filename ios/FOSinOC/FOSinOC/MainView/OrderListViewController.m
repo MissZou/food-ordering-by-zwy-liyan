@@ -88,7 +88,8 @@
     if ([cell.contentView subviews].count == 0) {
         
         UIImageView *icon = [[UIImageView alloc]initWithFrame:CGRectMake(10, 5, 40, 40)];
-        [icon sd_setImageWithURL:[[self.myAccount.order[indexPath.row] valueForKey:@"shop"] valueForKey:@"shopPicUrl"] placeholderImage:[UIImage imageNamed:@"favoriteGreen.png"]];
+        NSString *url = [NSString stringWithFormat:@"http://localhost:8080/%@",[[self.myAccount.order[indexPath.row] valueForKey:@"shop"] valueForKey:@"shopPicUrl"]];
+        [icon sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"favoriteGreen.png"]];
         icon.layer.cornerRadius = 20;
         icon.layer.masksToBounds = YES;
         icon.layer.shouldRasterize = YES;
@@ -131,7 +132,8 @@
     }
     else{
         UIImageView *icon = [cell.contentView viewWithTag:tableCellTag + 1];
-        [icon sd_setImageWithURL:[[self.myAccount.order[indexPath.row] valueForKey:@"shop"] valueForKey:@"shopPicUrl"] placeholderImage:[UIImage imageNamed:@"favoriteGreen.png"]];
+        NSString *url = [NSString stringWithFormat:@"http://localhost:8080/%@",[[self.myAccount.order[indexPath.row] valueForKey:@"shop"] valueForKey:@"shopPicUrl"]];
+        [icon sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"favoriteGreen.png"]];
         UILabel *shopName = [cell.contentView viewWithTag:tableCellTag + 2];
         shopName.text = [[self.myAccount.order[indexPath.row] valueForKey:@"shop"] valueForKey:@"shopName"];
         NSArray *items = [self.myAccount.order[indexPath.row] valueForKey:@"items"];

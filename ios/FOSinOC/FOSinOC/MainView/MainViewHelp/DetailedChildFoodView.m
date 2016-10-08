@@ -267,7 +267,7 @@
         cell.textLabel.text = self.catagory[indexPath.row];
         cell.contentView.backgroundColor = myCategoryColor;
         cell.textLabel.backgroundColor = myCategoryColor;
-        cell.textLabel.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:15];
+        cell.textLabel.font =[UIFont fontWithName:@"HelveticaNeue-Light" size:13];
         cell.textLabel.textColor = [UIColor colorWithRed:120/255.0 green:120/255.0 blue:120/255.0 alpha:1.0];
         
         //UIImageView *separateLine = [[UIImageView alloc]initWithFrame:CGRectMake(0, categoryCellHeight, self.catagoryTable.frame.size.width, 0.1)];

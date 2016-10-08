@@ -93,7 +93,7 @@
     
     self.priceLabel = [[UILabel alloc]init];
     //self.priceLabel.numberOfLines = 0;
-    self.priceLabel.text = @"Total Price: $0";
+    self.priceLabel.text = [NSString stringWithFormat:@"Total Price $%@",[[NSNumber numberWithUnsignedInteger:self.totalPrice] stringValue]];
     self.priceLabel.textColor = [UIColor whiteColor];
     self.priceLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
     self.priceLabel.frame = CGRectMake(80, 10, 100, 30);
@@ -273,6 +273,7 @@
                 UILabel *priceLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 100, 5, 100, 24)];
                 priceLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
                 priceLabel.text = [NSString stringWithFormat:@"All $%@",[[NSNumber numberWithUnsignedInteger:self.totalPrice] stringValue]];
+                self.priceLabel.text = [NSString stringWithFormat:@"Total Price $%@",[[NSNumber numberWithUnsignedInteger:self.totalPrice] stringValue]];
                 [cell.contentView addSubview:priceLabel];
             }else if(indexPath.row == 1){
                 self.messageLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 100, 5, 100, 24)];

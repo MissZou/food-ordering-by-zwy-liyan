@@ -93,7 +93,7 @@ static Shop *sharedManager = nil;
     [manager GET:[url absoluteString] parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
-            //NSLog(@"%@", responseObject);
+            NSLog(@"%@", responseObject);
             if ([[responseObject valueForKey:@"success"] boolValue] == YES) {
                     [self.delegate finishSearchShops:responseObject];
             }else{
@@ -135,4 +135,40 @@ static Shop *sharedManager = nil;
     }];
 }
 
++ (NSDictionary *)modelCustomPropertyMapper {
+    return @{@"shopCatagory" : @"shopType"
+             };
+}
++ (NSDictionary *)modelContainerPropertyGenericClass {
+    // value should be Class or Class name.
+    return @{@"dishs" : [Item class]
+             };
+}
+
+-(void)fetchShopDataModelingByYYKit:(NSString *)shopId {
+    NSURL *url = [NSURL URLWithString:@"findshopbyid" relativeToURL:self.baseUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager.requestSerializer setValue:shopId  forHTTPHeaderField:@"shopid"];
+    
+    [manager GET:[url absoluteString] parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            //NSLog(@"shop data: %@",responseObject);
+            if ([[responseObject valueForKey:@"success"] boolValue] == YES) {
+                //[self loadData:responseObject];
+                [Shop yy_modelWithJSON:responseObject];
+                
+                [self.delegate shopFinishFetchData];
+            }else{
+                NSLog(@"%@", responseObject);
+            }
+            
+        } else {
+            NSLog(@"%@", responseObject);
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"%@", error);
+    }];
+}
 @end

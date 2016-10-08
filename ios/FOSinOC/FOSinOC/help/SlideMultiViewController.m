@@ -70,7 +70,7 @@
 //        [self.contentScrollView setContentSize:CGSizeMake(self.view.frame.size.width * self.viewControllerArray.count,0)];
 //        [self.contentScrollView setContentOffset:CGPointMake(0, 0)];
 //    }
-    NSLog(@"did appear slide view content offset %f",self.contentScrollView.contentOffset.y);
+    
 }
 
 

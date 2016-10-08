@@ -449,7 +449,8 @@
         
         if ([self.shopList[indexPath.row] valueForKey:@"shopPicUrl"] != nil) {
             
-            [imageView sd_setImageWithURL:[NSURL URLWithString:[self.shopList[indexPath.row] valueForKey:@"shopPicUrl"]] placeholderImage:[UIImage imageNamed:@"favoriteGreen.png"]];
+            NSString *imgUrl = [NSString stringWithFormat:@"http://localhost:8080/%@",[self.shopList[indexPath.row] valueForKey:@"shopPicUrl"]];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:[UIImage imageNamed:@"favoriteGreen.png"]];
             
             //imageView.contentMode = UIViewContentModeScaleAspectFit;
             
@@ -463,16 +464,16 @@
         [cell.contentView addSubview:catagory];
         [cell.contentView addSubview:price];
         [cell.contentView addSubview:distance];
-        [cell.contentView addSubview:heat];
+        //[cell.contentView addSubview:heat];
         [cell.contentView addSubview:imageView];
         return cell;
     }
     else{
         UILabel *name = (UILabel *)[cell.contentView viewWithTag: tableCellTag+1];
-        UILabel *catagroy = (UILabel *)[cell.contentView viewWithTag: tableCellTag+2];
-        UILabel *price = (UILabel *)[cell.contentView viewWithTag: tableCellTag+3];
-        UILabel *distance = (UILabel *)[cell.contentView viewWithTag: tableCellTag+4];
-        UIImageView *heat = (UIImageView *)[cell.contentView viewWithTag: tableCellTag+5];
+        //UILabel *catagroy = (UILabel *)[cell.contentView viewWithTag: tableCellTag+2];
+        //UILabel *price = (UILabel *)[cell.contentView viewWithTag: tableCellTag+3];
+        //UILabel *distance = (UILabel *)[cell.contentView viewWithTag: tableCellTag+4];
+        //UIImageView *heat = (UIImageView *)[cell.contentView viewWithTag: tableCellTag+5];
         UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag: tableCellTag+6];
         if ([self.shopList[indexPath.row] valueForKey:@"shopName"]) {
             name.text = [self.shopList[indexPath.row] valueForKey:@"shopName"];
@@ -483,7 +484,8 @@
 //            imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[self.shopList[indexPath.row] valueForKey:@"shopPicUrl"]]]];
 //
 //            });
-            [imageView sd_setImageWithURL:[NSURL URLWithString:[self.shopList[indexPath.row] valueForKey:@"shopPicUrl"]] placeholderImage:[UIImage imageNamed:@"favoriteGreen.png"]];
+            NSString *imgUrl = [NSString stringWithFormat:@"http://localhost:8080/%@",[self.shopList[indexPath.row] valueForKey:@"shopPicUrl"]];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:[UIImage imageNamed:@"favoriteGreen.png"]];
         }
         
     }

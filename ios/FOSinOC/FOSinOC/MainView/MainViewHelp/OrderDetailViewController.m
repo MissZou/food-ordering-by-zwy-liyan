@@ -79,7 +79,8 @@ static const CGFloat sdNavigationBarHeight = 64;
             if ([self.orderStatus isEqualToString:@"created"]) {
                 imageView.image = self.shopImage;
             }else {
-                [imageView sd_setImageWithURL:[[self.order valueForKey:@"shop"] valueForKey:@"shopPicUrl"] placeholderImage:[UIImage imageNamed:@"favoriteGreen.png"]];
+                NSString *url = [NSString stringWithFormat:@"http://localhost:8080/%@",[[self.order valueForKey:@"shop"] valueForKey:@"shopPicUrl"]];
+                [imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"favoriteGreen.png"]];
             }
             imageView.layer.cornerRadius = 20;
             imageView.layer.masksToBounds = YES;
