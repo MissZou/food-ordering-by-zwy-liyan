@@ -9,35 +9,36 @@ html
     link(rel='stylesheet', href='/stylesheets/updateAddress-m.css')
   body
     include header-m.jade
-    +header-m("http://www.baidu.com","添加新地址")
+    +header-m("Add new address")
     .addressdialog-content
       .addressform
         div#updateAddress
           .addressformfield
-            label 姓名
-            input#username(placeholder='请输入您的姓名')
+            label Name
+            input#username(placeholder='Input your name')
             .addressformfield-hint
-              span.icon-dot-error 请输入收外卖人的姓名
+              span.icon-dot-error Input your name
           .addressformfield
-            label 电话类型
-            input#type(placeholder='电话类型（公司、个人等）')
+            label Type
+            input#type(placeholder='Input your phone type')
             .addressformfield-hint
-              span.icon-dot-error 请输入电话类型
+              span.icon-dot-error Input your phone type
           .addressformfield
-            label 详细地址
-            input#address(placeholder='单元、门牌号')
+            label Address
+            input#address(placeholder='Input your address')
             .addressformfield-hint
-              span.icon-dot-error 请输入详细地址
+              span.icon-dot-error Input your address
           .addressformfield.phonefield
-            label 手机号
-            input#phone(placeholder='请输入您的手机号',type='number')
+            label Phone number
+            input#phone(placeholder='Input your phone number',type='number')
             .addressformfield-hint
-              span.icon-dot-error 请输入您的手机号
+              span.icon-dot-error Input your phone number
           input#addr_id(type="hidden")
           input#index(type="hidden")
         .addressform-buttons
-          button#save 保存
+          button#save Save
           //- button#updateBtn 保存修改
           //- button 取消
   script(src='/javascripts/jquery-1.7.1.min.js')
   script(src='/javascripts/addAddress.js')
+  script(src='/javascripts/header.js')

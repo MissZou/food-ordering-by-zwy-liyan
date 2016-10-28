@@ -205,37 +205,42 @@ html
     }
   body
     include header-m.jade
-    +header-m("http://www.baidu.com","Confirm Order")
+    +header-m("Confirm Order")
     .wrp
       .address.section
         .addr-content
-          p zouweiyun / 1862281710
-          p 上海什么时候没什么
         span.icon-arrow-right
           | >
       .payment.section
         .cdish
-          .cdish-way 支付方式
-        .payonline-item 货到付款
-        .payonline-item pay online
+          .cdish-way Way of payment
+        .payonline-item Cash on delivery
+        .payonline-item Pay online
     ul.ui-block
     footer.cart-footer
       p.cart-summary
         span
-        |  份美食 
+        |  dish(es)
         span.total-cost
       button.ui-btn.btn-confirm
-        span 去结算
+        span Pay
   script(src='/javascripts/jquery-2.2.3.min.js')
   script(src='/javascripts/jquery.tmpl.min.js')
   script.
     $(function() {
+    if(localStorage.getItem("currentAddress")){
+      var currentAddress=JSON.parse(localStorage.getItem("currentAddress"))
+      $(".addr-content").append("<p>"+currentAddress.name+" / "+currentAddress.phone+"</p>");
+      $(".addr-content").append("<p>"+currentAddress.address +"</p>");
+    }else{
+      $(".addr-content").append("<p>Add new address</p>")
+    }
     if (localStorage.getItem('menuOrder')) {
     var orderList = localStorage.getItem('menuOrder');
     console.log(JSON.parse(orderList))
     var orderListArr = JSON.parse(orderList)
     var markup = '<li class="cart-dish ng-scope"> \
-    <div class="cdish-detail"><span class="cdish-name">${dishName}</span><span class="ui-multiple cdish-quantity">${num}</span><span class="ui-rmb cdish-cost">${price}</span></div></li>'
+    <div class="cdish-detail"><span class="cdish-name">${dishName}</span><span class="ui-multiple cdish-quantity">${num}</span><span class="ui-rmb cdish-cost">${price}</span><input type="hidden" value=${dishId}></div></li>'
     $.template("orderTemplate", markup);
     $.tmpl("orderTemplate", orderListArr)
     .appendTo(".ui-block");
@@ -246,4 +251,41 @@ html
     $(this).addClass("selected");
     $(this).siblings().removeClass("selected");
     })
+    $(".address").on("click",function(){
+    location.href="/user/account/web/addressManage/m";
     })
+    $(".btn-confirm").on("click",function(){
+    var currentAddress=JSON.parse(localStorage.getItem("currentAddress"))
+         var address={};
+        address.name=currentAddress.name;
+        address.addr=currentAddress.address;
+        address.phone=currentAddress.phone;
+        var dishs=[];
+        var orderList = localStorage.getItem('menuOrder'),
+    dishli=JSON.parse(orderList);
+        for(var i=0;i<dishli.length;i++){
+            var dishObj={};
+            dishObj.itemId=dishli[i].dishId;
+            dishObj.amount=+dishli[i].num;
+            dishs.push(dishObj);
+        }
+  
+        $.ajax({
+            url: '/user/account/order',
+            type: 'PUT',
+            data: {"shopId":localStorage.getItem('shopId'),
+                    "dishs":dishs,
+                    "price":+$(".total-cost").text(),
+                    "address":address,
+                    "message":"liuyan"},
+            success: function(data, status) {
+             if(data.success){
+             location.href="/user/account/web/result/m";
+             }
+            }
+        });
+
+        
+    })
+    })
+  script(src='/javascripts/header.js')

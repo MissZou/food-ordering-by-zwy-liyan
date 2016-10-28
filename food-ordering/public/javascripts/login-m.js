@@ -11,7 +11,7 @@ $(function(){
     });
 
     if (errorCount !== 0) {
-        alert("把空格填完")
+        alert("Please fill in all the blanks!")
         return false;
     } else {
 
@@ -27,11 +27,10 @@ $(function(){
             data: data,
             success: function(data, status) {
                 if (data.code == 200) {
-                    alert("登录成功");
                     localStorage.setItem('accountId', data.accountId);
                     window.location = "/user/account/web/index/m";
                 } else if (data.code == 400) {
-                    alert("登录失败");
+                    alert("Login failure");
                 }
             }
         });

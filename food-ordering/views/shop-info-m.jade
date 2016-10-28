@@ -1,0 +1,65 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title my order
+    meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=no')
+    link(rel='stylesheet', href='/stylesheets/common.css')
+    link(rel='stylesheet', href='/stylesheets/header-m.css')
+    link(rel='stylesheet', href='/stylesheets/menu-m.css')
+    script(src='/javascripts/jquery-2.2.3.min.js')
+    style.
+      body{
+      background:#fff;
+      }
+      .wrp{
+      width:80%;
+      margin:0 auto;
+      background:#fff;
+      }
+      .order-div{
+      font-weight:bolder;
+      font-size:18px;
+      }
+      .order-div span{
+      font-weight:normal;
+      }
+      #l-map{
+      width:100%;
+      height:320px;
+      }
+    script(src='http://api.map.baidu.com/api?v=2.0&ak=G9z0gp8jpzYSv9WNpqboiWgmB3ZpkUv4')
+  body
+    - var values= doc 
+
+    include header-m.jade
+    +header-m(values.shopName)
+    input#shopName(type="hidden",value= values.shopName)
+    ul.restaurant-tabs.clearfix
+      li.restaurant-tab.menuTab Menu
+      li.restaurant-tab.commentTab Comment
+      li.restaurant-tab.active Info  
+    .wrp
+      .order-div Address:
+        span.header-rst-name= values.address
+      #l-map
+      input(type="hidden" value=values.location id="location")
+    script.
+      var map = new BMap.Map("l-map");
+      var locationza=$("#location").val().split(",")
+      var point = new BMap.Point(locationza[0],locationza[1]); //hong kong
+      map.centerAndZoom(point, 20);
+      var marker = new BMap.Marker(point);// 创建标注
+      map.addOverlay(marker);             // 将标注添加到地图中
+      marker.enableDragging();
+      map.enableScrollWheelZoom();   //启用滚轮放大缩小，默认禁用
+      map.enableContinuousZoom();    //启用地图惯性拖拽，默认禁用
+      $(".commentTab").on("click",function(){
+        var shopId=location.href.split("/")[7];
+        window.location="/user/account/web/rate/"+shopId+"/m";
+      });
+      $(".menuTab").on("click",function(){
+        var shopId=location.href.split("/")[7];
+        window.location="/user/account/web/cart/"+shopId+"/m";
+      });
+    script(src='/javascripts/header.js')

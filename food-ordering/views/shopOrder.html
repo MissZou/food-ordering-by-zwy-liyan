@@ -62,19 +62,15 @@ $(function() {
                 //console.log(top3Dish)
                 $('#container').highcharts({
                     title: {
-                        text: 'Monthly Average Temperature',
+                        text: 'Monthly Revenue',
                         x: -20 //center
-                    },
-                    subtitle: {
-                        text: 'Source: WorldClimate.com',
-                        x: -20
                     },
                     xAxis: {
                         categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
                     },
                     yAxis: {
                         title: {
-                            text: 'Temperature (°C)'
+                            text: 'Monthly Revenue (Yuan)'
                         },
                         plotLines: [{
                             value: 0,
@@ -83,7 +79,7 @@ $(function() {
                         }]
                     },
                     tooltip: {
-                        valueSuffix: 'yuan'
+                        valueSuffix: 'Yuan'
                     },
                     legend: {
                         layout: 'vertical',
@@ -92,7 +88,7 @@ $(function() {
                         borderWidth: 0
                     },
                     series: [{
-                        name: 'Monthly sales',
+                        name: 'Monthly revenue',
                         data: series
                     }]
                 });
@@ -102,7 +98,7 @@ $(function() {
                         type: 'column'
                     },
                     title: {
-                        text: 'Stacked column chart'
+                        text: 'Monthly Sale'
                     },
                     xAxis: {
                         categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
@@ -112,7 +108,7 @@ $(function() {
                     yAxis: {
                         min: 0,
                         title: {
-                            text: 'Total fruit consumption'
+                            text: 'Number of dish sold'
                         },
                         stackLabels: {
                             enabled: true,

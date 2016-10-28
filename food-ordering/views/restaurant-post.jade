@@ -51,11 +51,11 @@ html
           a.close X
           h1 Log In To Your Account
           form#loginUser(method='post')
-              input#user_loginemail.loginEle(autocomplete='off', name='user_email', placeholder='Email', size='30', type=      'email')
-              p.error 请填写邮箱地址
+              input#user_loginemail.loginEle(autocomplete='off', name='user_email', placeholder='Email', size='30', type='email')
+              p.error Please input email address.
               br
               input#user_loginpassword.strong-password.loginEle(autocomplete='off', name='user_password', placeholder='Password', size='30', type='password')
-              p.error 请填空
+              p.error Please fill in the blanks
               br
               input#login_button.signup_button-btn(, name='commit', type='submit', value='Log in')
       .mask
@@ -79,6 +79,6 @@ html
         #uploadCover.commit.uploadCover upload cover
         input.coverPic(type='file', accept='image/*', name='files')
         .preview-coverPic
-        #articlePostBtn.commit Submit
+        #articlePostBtn.commit.submit Submit
   script(src='/javascripts/jquery-1.7.1.min.js')
   script(src='/javascripts/post.js')

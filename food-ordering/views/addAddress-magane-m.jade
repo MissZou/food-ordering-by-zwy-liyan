@@ -2,9 +2,10 @@ doctype html
 html
 	head
 		meta(charset='UTF-8')   
-		title Address management   
+		title Address management
+		meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=no')
 		link(rel='stylesheet', href='/stylesheets/normalize.css')
-		link(rel='stylesheet', href='/stylesheets/header.css')
+		link(rel='stylesheet', href='/stylesheets/header-m.css')
 		link(rel='stylesheet', href='/stylesheets/updateAddress.css')
 		style.
 			.desktop-addresslist {
@@ -13,16 +14,17 @@ html
 				width:80%;
 				margin:0 auto;
 				}
+			.desktop-addressblock{
+			display:block;
+			width:100%;
+			}
 	body
-		include header.jade
-		include addAddress.jade
+		include header-m.jade
+		+header-m("Address management")
 		if (items)
 			.desktop-addresslist.clearfix
 				each val in items
-					.desktop-addressblock
-						.desktop-addressblock-buttons
-							button.desktop-addressblock-button.update Update
-							button.desktop-addressblock-button.delete Delete
+					.desktop-addressblock.addressItem
 						.desktop-addressblock-name= val.name
 						.desktop-addressblock-address= val.addr
 						.desktop-addressblock-mobile= val.phone
@@ -49,4 +51,18 @@ html
 			button submit
 
 	script(src='/javascripts/jquery-1.7.1.min.js')
-	script(src='/javascripts/updateInfo.js')
+	script.
+		$(".desktop-addressblock-addblock").on("click",function(){
+		location.href="/user/account/web/address/m";
+		})
+		$(".addressItem").on("click",function(){
+		var currentAddress={};
+		currentAddress.name=$(this).find(".desktop-addressblock-name").text();
+		currentAddress.address=$(this).find(".desktop-addressblock-address").text();
+		currentAddress.phone=$(this).find(".desktop-addressblock-mobile").text();
+		localStorage.setItem("currentAddress",JSON.stringify(currentAddress))
+		location.href="/user/account/web/confirm/m";
+		})
+	script(src='/javascripts/header.js')
+
+

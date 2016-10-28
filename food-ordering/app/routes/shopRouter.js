@@ -43,28 +43,6 @@ var routeShop = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
 
     app.use(bodyParser.json());
 
-    // app.use(bodyParser({
-    //     uploadDir: './public/upload'
-    // }));
-
-    // app.use(session({
-    //     secret: 'secret',
-    //     cookie: {
-    //         path: '/',
-    //         maxAge: 1000 * 60 * 30
-    //     }
-    // }));
-    // app.use(function(req, res, next) {
-    //     res.locals.user = req.session.user; // 从session 获取 user对象
-    //     var err = req.session.error; //获取错误信息
-    //     delete req.session.error;
-    //     res.locals.message = ""; // 展示的信息 message
-    //     if (err) {
-    //         res.locals.message = '<div class="alert alert-danger" style="margin-bottom:20px;color:red;">' + err + '</div>';
-    //     }
-    //     next(); //中间件传递
-    // });
-    //routers
     var sessionShop = "";
 
     router.route('/findshops')
@@ -594,6 +572,7 @@ var routeShop = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
             res.render('xlsx-upload.jade')
         })
 
+    
 
     router.route('/account/dish')
 
@@ -629,7 +608,7 @@ var routeShop = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
                 });
             })
         })
-        .delete(function(req,res){
+        .delete(function(req, res) {
             var shopId = req.decoded._id;
             var dish = req.param('dish', null);
 
@@ -785,7 +764,70 @@ var routeShop = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
             res.sendfile(path.join(__dirname, '../../views', 'shopOrder.html'));
         })
 
+    router.route('/account/web/ordermanage')
+        .get(function(req, res) {
+            res.render("shopOrderManage.jade")
+        })
 
+
+    router.route('/account/ordermanage')
+        .get(function(req, res) {
+            var shopId = req.decoded._id;
+            var index = req.headers["index"];
+            var count = req.headers["count"];
+            if (index == null) {
+                index = 1;
+            }
+            if (count == null) {
+                count = 1;
+            }
+            Shop.findOrderByShopId(shopId, index, count, function(doc) {
+                if (doc != null) {
+                    var orderLen = doc.length;
+                    var dishObj = {};
+                    var amount = {};
+                    var num = 0;
+                    for (var i = 0; i < orderLen; i++) {
+                        dishObj[i] = [];
+                        amount[i] = [];
+                    }
+
+                    for (var i = 0; i < orderLen; i++) {
+                        for (var j = 0; j < doc[i].order.dishs.length; j++) {
+                            (function(i, j) {
+                                var shopId = doc[i].order.shop;
+                                var itemId = doc[i].order.dishs[j].itemId;
+                                Shop.findShopById(shopId, function(shopdoc) {
+                                    var shopName = shopdoc.shopName;
+                                    if (itemId != null && shopId != null) {
+                                        Shop.findItemById(shopId, itemId, function(newDoc) {
+                                            //  console.log("newDoc", newDoc)
+                                            dishObj[i].push(newDoc);
+                                            amount[i].push(doc[i].order.dishs[j].amount);
+                                            var dishLength = doc[i].order.dishs.length;
+                                            if ((i == orderLen - 1) && (j == dishLength - 1)) {
+                                                res.json({
+                                                    order: doc,
+                                                    dishObj: dishObj,
+                                                    amount: amount,
+                                                    success: true
+                                                })
+                                            }
+                                        });
+                                    } else {
+                                        res.json({
+                                            error: "err",
+                                            success: false
+                                        })
+                                    }
+                                })
+
+                            })(i, j)
+                        }
+                    }
+                }
+            })
+        })
     router.route('/account/order')
         .get(function(req, res) {
             var shopId = req.decoded._id;
@@ -841,8 +883,8 @@ var routeShop = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
                     success: true
                 })
             })
-        })
-    router.route('/account/testAddDish')
+        });
+     router.route('/account/testAddDish')
         .post(function(req, res) {
             var shopId = req.decoded._id;
             //var dish = req.param('dish', null);

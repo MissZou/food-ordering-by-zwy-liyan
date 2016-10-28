@@ -248,4 +248,6 @@ li > *{
 #articlePostBtn{
   display: none;
 }
-
+#post .commit{
+  display: block;
+}

@@ -1,4 +1,5 @@
 $(function() {
+    $(".search").addClass("focus");
     var winHeight=$(window).height();
     $("#r-result").height(winHeight-60 +"px")
     var marker = null;
@@ -81,7 +82,7 @@ $(function() {
 
                         $("#search-result").html('<div class="empty-section"><div class="list-wrap"> \
 <img src="/images/no-shop.png" alt=""> \
-<p class="msg">抱歉，没有找到相关商户</p> \
+<p class="msg">Sorry, there are no restaurants nearby T-T.</p> \
 </div></div>');
                     }else{
                          var markup = '<a href="/user/account/web/cart/${_id}" target="_blank" class="rstblock"> \
@@ -89,11 +90,8 @@ $(function() {
             <img src=${shopPicUrl} alt=${shopName} class="rstblock-logo-icon"></div> \
             <div class="rstblock-content"> \
                 <div class="rstblock-title">${shopName}</div> \
-                <div class="star-rating" progress-meter="5"> \
-                    <div class="star-meter" progress-fill="4.2" style="width: 84%;"> \
-                </div> \
+                <div class="rstblock-cost">Address:${address}</div> \
               </div> \
-                <div class="rstblock-cost">类型：${shopType}</div> \
             </div> \
         </a>';
                     $.template("shopTemplate", markup);

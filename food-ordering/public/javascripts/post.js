@@ -104,7 +104,7 @@ var ac = new BMap.Autocomplete( //建立一个自动完成的对象
         $(".coverPic").click();
     })
     $("#loginForm").on("click", loginForm);
-    $("#articlePostBtn").on("click", function() {
+    $(".submit").on("click", function() {
         if(!isEmail($("#email").val().trim())){
             alert("Please input email with correct format!")
             return false;
@@ -112,7 +112,7 @@ var ac = new BMap.Autocomplete( //建立一个自动完成的对象
         }
 
         var noEmpty=false;
-        $("input").each(function(index, val) {
+        $("#post").find("input").each(function(index, val) {
         if ($(this).val() == "") {
             noEmpty=true;
         }
@@ -150,7 +150,7 @@ var ac = new BMap.Autocomplete( //建立一个自动完成的对象
                         processData: false, //must
                         success: function(data, status) {
                             if (data.code == 200) {
-                                window.location="/shop/login";
+                                window.location="/shop/register";
                             }
                         },
                         error: function(data, status) {

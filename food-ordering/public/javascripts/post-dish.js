@@ -27,7 +27,7 @@ $(function() {
                     continue;
                 }
                 
-                var list = $('<li><div class="dishImg"><img alt="" ></div> \
+                var list = $('<li class="lContent"><div class="dishImg"><img alt="" ></div> \
                         <input type="text" class="dishName"> \
                         <input type="number" class="price"> \
                         <input type="text" class="category"> \
@@ -62,12 +62,10 @@ $(function() {
     $(document).on("click", "#articlePostBtn", function() {
         var dish = []
         var num = $(".dishPreview li").length;
-        for (var index = 0; index < num; index++) {
+        for (var index = 1; index < num; index++) {
             dish[index] = {}
             dish[index].dishName = $(".dishName").eq(index).val();
-            dish[index].tags = ["tag"];
             dish[index].price = $(".price").eq(index).val();
-            dish[index].intro = "intro";
             dish[index].category = $(".category").eq(index).val();
             dish[index].index = index;
         }
@@ -95,16 +93,14 @@ $(function() {
                     console.log("newDishes",newDishes)
                     var data = new FormData();
                     $.each($(".uploadPic")[0].files, function(i, file) {
-                        data.append(i, file);
+                        data.append(i+1, file);
                         //console.log('photo['+i+']', file)
                     })
                     data.append('shopName', $("#shopName").val());
-                    for (var i = 0,len=dish.length; i <len ; i++) {
+                    for (var i = 1,len=dish.length; i <len ; i++) {
                         data.append('dishNames' + i, dish[i].dishName);
                         data.append('dishId' + i, newDishes[newDishes.length-len+i]);
                     }
-
-                    console.log(dish)
                     $.ajax({
                         url: '/shop/account/createDishPic/',
                         data: data,
@@ -113,7 +109,7 @@ $(function() {
                         processData: false,
                         success: function(data, status) {
                             if (data.code == 200) {
-                              //  alert("上传成功tupian");
+                              alert("上传成功tupian");
                                 //跳转到menu
 
                             } else {

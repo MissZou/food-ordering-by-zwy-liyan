@@ -6,14 +6,14 @@ html
     link(rel='stylesheet', href='/stylesheets/header.css')
     link(rel='stylesheet', href='/stylesheets/search-result.css')
     script(type='text/javascript', src='http://api.map.baidu.com/api?v=2.0&ak=G9z0gp8jpzYSv9WNpqboiWgmB3ZpkUv4')
-    title 关键字输入提示词条
+    title Search address
   body
     include header.jade
     #l-map
     #r-result
       .nav-section
-        input#suggestId(type='text', placeholder='你希望运送的位置')
-        #confirm 确定
+        input#suggestId(type='text', placeholder='Input an address please')
+        #confirm Confirm
     #searchResultPanel(style='border:1px solid #C0C0C0;width:150px;height:auto; display:none;')
     #search-result.clearfix.wrp
     script(src='/javascripts/jquery-2.2.3.min.js')

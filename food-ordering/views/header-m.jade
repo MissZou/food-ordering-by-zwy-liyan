@@ -1,6 +1,10 @@
-mixin header-m(url,name)
+mixin header-m(name)
 	header.eleme-header
-		a.header-back(href=url)
-			span.icon-arrow-left &lt;
 		.header-title.flex
 			span.header-rst-name= name
+		.expand
+		.list
+			a(href="/user/account/web/myfav/m") My favorite
+			a(href="/user/account/web/addressManage/m") My address
+			a(href="/user/account/web/index/m") Search
+			a(href='/user/account/web/logout/m') Logout

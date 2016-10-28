@@ -5,7 +5,6 @@ $(function() {
     geoFindMe();
     function geoFindMe() {
         if (!navigator.geolocation) {
-            alert("can't")
             return;
         }
         function markerPos(lng, lat) {
@@ -22,7 +21,6 @@ $(function() {
                     if (data.code == 200) {
                         console.log(data)
                         var shopData = data.shop;
-                        alert( window.location.host)
                         var markup ='<li class="item" data-src="/user/account/web/cart/${_id}/m"> \
             <div class="item-wrap"> \
                 <div class="left-wrap"> \
@@ -33,14 +31,8 @@ $(function() {
                         <h3 class="shop-name">${shopName}</h3> \
                     </section> \
                    <section class="line"> \
-                        <div class="rate-wrap"> \
-                            <div class="star-rating" progress-meter="5"> \
-                    <div class="star-meter" progress-fill="4.2" style="width: 84%;"> \
-                </div> \
-                        </div> \
-                         <span class="rate">4.2</span> \
+                   <div class="shop-address">Address:${address}</div> \
                     </section> \
-                    <section class="line"></section> \
                 </div> \
             </div> \
         </li>'
@@ -144,15 +136,7 @@ $("#confirm").click();
                         <h3 class="shop-name">${shopName}</h3> \
                     </section> \
                     <section class="line"> \
-                        <div class="rate-wrap"> \
-                            <div class="star-rating" progress-meter="5"> \
-                    <div class="star-meter" progress-fill="4.2" style="width: 84%;"> \
-                </div> \
-                        </div> \
-                         <span class="rate">4.2</span> \
-                    </section> \
-                    <section class="line"> \
-                     ${shopType} \
+                     Address:${address} \
                     </section> \
                 </div> \
             </div> \
@@ -161,7 +145,7 @@ $("#confirm").click();
                         $.template("shopTemplate", markup);
                         $("#search-result").html($.tmpl("shopTemplate", shopData));
                 } else {
-                    alert("附近没有商家！");
+                    alert("There are no restaurants nearby.");
                 }
             }
         });

@@ -418,7 +418,7 @@ var findOrderByUserId = function(accountId,index,count,callback){
                 console.log(err);
                 callback(err);
               }
-              console.log(doc);
+            //  console.log(doc);
                 var array = [];
                 for(var i=limit - count;i<doc.orders.length;i++){
                     if(doc.orders[i].order!=null){

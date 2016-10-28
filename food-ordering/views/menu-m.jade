@@ -7,6 +7,13 @@ html
     link(rel='stylesheet', href='/stylesheets/header-m.css')
     link(rel='stylesheet', href='/stylesheets/common.css')
     link(rel='stylesheet', href='/stylesheets/menu-m.css')
+    link(rel='stylesheet', href='/stylesheets/shop-detail.css')
+    style.
+      .restaurant-food-price:before{
+      content: "\00a5";
+      margin-right: 3px;
+      font-size: 12px;
+      }  
   body
     - if (!Array.prototype.includes) {
     -   Array.prototype.includes = function(searchElement /*, fromIndex*/ ) {
@@ -46,19 +53,29 @@ html
     -     arr.push(values[i].category);
     - }
     -}
+
+
+    - Array.prototype.avg=function(key){
+    - if(this.length==0){
+    - return 0;
+    - }
+    - var sum=0;
+    - var num=this.length;
+    - this.forEach(function(cur,ind){
+    -   sum+=cur[key];
+    - })
+    - return sum/num;
+    - }
+
     include header-m.jade
     +header-m("http://www.baidu.com","")
     input#shopName(type="hidden",value= shopName)
     ul.restaurant-tabs.clearfix
-      li.restaurant-tab.active 菜单
-      li.restaurant-tab 评价
-      li.restaurant-tab 商家
+      li.restaurant-tab.active Menu
+      li.restaurant-tab.comment Comment
+      li.restaurant-tab.infoTab Info
     .restaurant-content
       .restaurant-menu
-        //- div.restaurant-menu-item.active
-        //-   span 秒杀半价
-        //- div.restaurant-menu-item
-        //-   span 秒杀半价
         div.restaurant-menu-item.active
             span.category= arr[0]
         - for (var j = 1; j < arr.length; j++){
@@ -73,16 +90,16 @@ html
               img(width='70', height='70', style='opacity: 1; transition: opacity 0.5s;' src= values[i].dishPic)
               .restaurant-food-body
                 p.restaurant-food-name= values[i].dishName
-                p.restaurant-food-description= values[i].intro
                 .restaurant-food-content
                   .restaurant-food-info
                     p.restaurant-food-about
-                      rating
-                      span.restaurant-food-comment 0评价
-                      span.restaurant-food-sales 月售57份
+                      .star-rating(progress-meter='5')
+                        .star-meter(progress-fill=values[i].comment.avg('mark'), style='width:'+values[i].comment.avg('mark')/5.0*100+'%;')
+                      span.color-mute= '('+values[i].comment.length+')'
                     .restaurant-food-footer
                       span.restaurant-food-price= values[i].price
                       .mdish-cartcontrol +
+                    input(type="hidden" value=values[i]._id class="dishId")
           - }
           - }
           
@@ -90,7 +107,8 @@ html
       .mcart-summary
         span.ui-quantity 0
         span.mcart-price 0
-      .mcart-checkout 确认美食
+      .mcart-checkout Confirm
   script(src='/javascripts/jquery-2.2.3.min.js')
   script(src='/javascripts/jquery.tmpl.min.js')
   script(src='/javascripts/menu-m.js')
+  script(src='/javascripts/header.js')

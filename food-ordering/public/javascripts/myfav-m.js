@@ -21,15 +21,7 @@ $(function() {
                         <h3 class="shop-name">${shopId.shopName}</h3> \
                     </section> \
                    <section class="line"> \
-                        <div class="rate-wrap"> \
-                            <div class="star-rating" progress-meter="5"> \
-                    <div class="star-meter" progress-fill="4.2" style="width: 84%;"> \
-                </div> \
-                        </div> \
-                         <span class="rate">4.2</span> \
-                    </section> \
-                    <section class="line"> \
-                     ${shopId.shopType} \
+                   <div class="shop-address">Address:${shopId.address}</div> \
                     </section> \
                 </div> \
             </div> \
