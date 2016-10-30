@@ -219,6 +219,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             // To do update cartBadge text here
             amountLable.text = [amountOjb stringValue];
+            [self.tableView reloadData];
         });
     }else if(amount == 1){
         
@@ -228,13 +229,15 @@
             deleteButton.frame = CGRectMake(self.frame.size.width - 30, 15, 20, 20 );
             amountLable.frame = CGRectMake(self.frame.size.width - 30, 15, 20, 20 );
         }completion:^(BOOL finished){
-            
+        [self.myAccount cart:DELETE withShopId:self.myShop.shopID  itemId:[self.myAccount.cartDetail[indexPath.row] valueForKey:@"_id"] amount:nil  cartId:[self.myAccount.cartDetail[indexPath.row] valueForKey:@"cartId"] index:0 count:0];
             [self.cartDetail removeObjectAtIndex:indexPath.row];
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
                              withRowAnimation:UITableViewRowAnimationFade];
             
-            [self.myAccount cart:DELETE withShopId:self.myShop.shopID  itemId:[self.myAccount.cartDetail[indexPath.row] valueForKey:@"_id"] amount:nil  cartId:[self.myAccount.cartDetail[indexPath.row] valueForKey:@"cartId"] index:0 count:0];
-            self.tableHeight = cellHeight * (self.cartDetail.count) + headerViewHeight;
+  
+    
+            //self.tableHeight = cellHeight * (self.cartDetail.count) + headerViewHeight;
+            self.tableHeight = cellHeight * (self.cartDetail.count);
             CGRect frame = self.tableView.frame;
             [UIView animateWithDuration:0.5 animations:^{
                 self.tableView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, self.tableHeight);

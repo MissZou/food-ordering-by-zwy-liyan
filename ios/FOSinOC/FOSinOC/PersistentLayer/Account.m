@@ -145,6 +145,11 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     }
 }
 
+- (void)updateAccountwithYYModel: (NSDictionary *)json {
+    Account *account = [Account sharedManager];    
+    account = [Account yy_modelWithJSON:json];
+}
+
 - (void)createAccount:(Account *)model {
     NSURL *url = [NSURL URLWithString:@"register" relativeToURL:self.baseUrl];
     NSDictionary *parameters = @{@"email": model.email, @"password": model.password,@"name":model.name, @"phone":model.phone};
@@ -188,6 +193,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
         
        if ([responseObject isKindOfClass:[NSDictionary class]]) {
            NSDictionary *responseDict = responseObject;
+           [self updateAccountwithYYModel:responseObject];
            [self.delegate finishFetchAccountData:responseDict withAccount:Account.sharedManager];
        } else {
            NSLog(@"%@", responseObject);

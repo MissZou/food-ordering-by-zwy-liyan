@@ -25,7 +25,6 @@
 @property (copy, nonatomic) NSString *_id;
 @property (copy, nonatomic) NSString *status;
 @property (copy, nonatomic) NSString *message;
-//@property (strong, nonatomic) Item *item;
 @property (strong ,nonatomic) NSMutableArray *items;
 @property (strong, nonatomic) Shop *shop;
 @property (strong, nonatomic) Address *address;

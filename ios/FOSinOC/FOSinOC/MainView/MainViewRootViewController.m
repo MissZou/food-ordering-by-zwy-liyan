@@ -39,16 +39,16 @@
     self.swipLeftGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(closeMenu)];
     self.swipLeftGesture.direction = UISwipeGestureRecognizerDirectionLeft;
     [self.view addGestureRecognizer:self.swipLeftGesture];
-    self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToCloseMenu)];
+
+    
     self.panGesture = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureDo:)];
     self.panGesture.delegate = self;
     self.panGesture.edges = UIRectEdgeLeft;
-
     [self.view addGestureRecognizer:self.panGesture];
+    
+    self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToCloseMenu)];
     self.blurEffet = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     self.blurEffectView = [[UIVisualEffectView alloc] initWithEffect:self.blurEffet];
-
-
     self.blurEffectView.frame = CGRectMake(self.mainView.frame.origin.x, self.mainView.frame.origin.y, self.mainView.frame.size.width, self.mainView.frame.size.height);
     [self.blurEffectView addGestureRecognizer:self.tapGesture];
     
@@ -166,18 +166,13 @@
 }
 
 -(void)panGestureDo:(UIScreenEdgePanGestureRecognizer *)sender{
-   // NSLog(@"%ld",(long)sender.state);
-    
-    
     if(sender.state == UIGestureRecognizerStateBegan){
         self.startLocation = [sender locationInView:self.view];
     }
     
     self.currentLocation = [sender locationInView:self.view];
     CGFloat distance = self.startLocation.x - self.currentLocation.x;
-    
-    //NSLog(@"start %f, current %f",self.startLocation.x,self.currentLocation.x);
-    
+
     if(distance < 0){
         [self.mainView addSubview:self.blurEffectView];
         [self.blurEffectView addGestureRecognizer:self.tapGesture];
@@ -203,25 +198,7 @@
             }
             
         }
-//        if(sender.state == UIGestureRecognizerStateCancelled){
-//            NSLog(@"UIGestureRecognizerStateCancelled");
-//        }
-//        if(sender.state == UIGestureRecognizerStateFailed){
-//            NSLog(@"UIGestureRecognizerStateFailed");
-//        }
-//        if(sender.state == UIGestureRecognizerStatePossible){
-//            NSLog(@"UIGestureRecognizerStatePossible");
-//        }
-//        if(sender.state == UIGestureRecognizerStateChanged){
-//            NSLog(@"UIGestureRecognizerStateChanged");
-//        }
-//        if(sender.state == UIGestureRecognizerStateBegan){
-//            NSLog(@"UIGestureRecognizerStateBegan");
-//        }
-//        if(sender.state == UIGestureRecognizerStateRecognized){
-//            NSLog(@"UIGestureRecognizerStateRecognized");
-//        }
-        
+
     }
 }
 

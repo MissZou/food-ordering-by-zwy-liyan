@@ -80,7 +80,6 @@
     self.contentScrollView.delegate = self;
     self.contentScrollView.bounces = NO;
     self.contentScrollView.contentSize = CGSizeMake(self.view.frame.size.width * self.viewControllerArray.count, self.view.frame.size.height - titleViewHeight);
-    //self.contentScrollView.contentSize = CGSizeMake(self.view.frame.size.width * self.viewControllerArray.count, 0);
     self.contentScrollView.showsVerticalScrollIndicator = NO;
     self.contentScrollView.showsHorizontalScrollIndicator = NO;
     self.contentScrollView.pagingEnabled = YES;
@@ -92,19 +91,14 @@
 -(void)initTitleScrollView{
     UIView *buttonTitleView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, titleViewHeight)];
     buttonTitleView.backgroundColor = [UIColor whiteColor];
-    
     CGFloat buttonWidth = self.view.frame.size.width/self.buttonTitle.count;
     for (int i=0; i<self.buttonTitle.count; i++) {
-    
         CGFloat btnX = 0;
         btnX = (self.view.frame.size.width/self.buttonTitle.count) *i;
-        
         UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(btnX ,0,buttonWidth,titleViewHeight)];
         
         btn.titleLabel.adjustsFontSizeToFitWidth = NO;
         btn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
-        
-        //btn.titleLabel.textColor = [UIColor redColor];
         
         [btn setTitleColor:[UIColor colorWithRed:76/255.0 green:76/255.0 blue:76/255.0 alpha:1] forState:UIControlStateNormal];
         
@@ -122,7 +116,6 @@
     }
     self.buttonTitleView = buttonTitleView;
     [self.view addSubview:self.buttonTitleView];
-    //[self.mainScrollView addSubview:self.buttonTitleView];
 }
 -(void)titleClicked:(UIButton *)sender{
     
@@ -175,10 +168,6 @@
     
     lastBtn = (UIButton *)[self.view viewWithTag:i +buttonDefaultTag];
     self.buttonMarkView.frame = CGRectMake(self.contentScrollView.contentOffset.x/self.buttonTitle.count , lastBtn.frame.size.height + lastBtn.frame.origin.y - 3, lastBtn.frame.size.width, 3);
-//    if (self.isVerticalEnable == false) {
-//        NSLog(@"isVerticalEnable == false");
-//        self.contentScrollView.contentSize = CGSizeMake(self.view.frame.size.width * self.viewControllerArray.count, 0);
-//    }
 }
 
 - (void)addChildView:(NSInteger)index{

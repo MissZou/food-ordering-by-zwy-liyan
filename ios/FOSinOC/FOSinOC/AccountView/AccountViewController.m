@@ -29,6 +29,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.myAccount = [Account sharedManager];
+    
     self.topView.layer.shadowOpacity = 0.5;
     self.topView.backgroundColor = [UIColor colorWithRed:248.0/255.0 green:248.0/255 blue:248.0/255.0 alpha:1];
     self.topLabel.backgroundColor = [UIColor colorWithRed:248.0/255.0 green:248.0/255 blue:248.0/255.0 alpha:1];

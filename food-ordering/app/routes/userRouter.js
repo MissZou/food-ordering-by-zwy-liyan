@@ -543,19 +543,13 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
 
     .put(function(req, res) {
         var accountId = req.decoded._id;
-        //var accountId = req.session.user._id;
         var locationName = req.param("name", null);
         var coordinateString = req.param("location", null);
-        //console.log(coordinateString);
         var coordinate = JSON.stringify(coordinateString);
-        //console.log(typeof coordinate);
-        //console.log(typeof coordinateString);
         coordinate = coordinate.split(',');
         coordinate[0] = coordinate[0].replace(/[^0-9.]/g, '');
         coordinate[1] = coordinate[1].replace(/[^0-9.]/g, '');
         var location = [Number(coordinate[0]), Number(coordinate[1])];
-        //var coordinate = [Number(coordinateString.split(',')[0]),Number(coordinateString.split(',')[1])];
-        //console.log('account/location'+coordinate.split(',')[0]);
         console.log(accountId);
         if (locationName != null && locationName != "") {
             Account.addLocation(accountId, locationName, location, function(err) {

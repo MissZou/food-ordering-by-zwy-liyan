@@ -163,13 +163,12 @@
     
     
     //NSArray *title = @[@"Food", @"Comment", @"Shop"];
-    NSArray *title = @[@"Food", @"Shop"];
     //NSArray *viewArray = @[self.foodView, self.commentView, self.shopView];
+    NSArray *title = @[@"Food", @"Shop"];
     NSArray *viewArray = @[self.foodView, self.shopView];
     self.slideMultiViewController = [[SlideMultiViewController alloc]init];
     self.slideMultiViewController.view.frame =CGRectMake(0, sdNavigationBarHeight + sdSegmentViewHeight, self.view.frame.size.width, self.view.frame.size.height);
     self.slideMultiViewController.delegate = self;
-    
     [self addChildViewController:self.slideMultiViewController];
     [self.slideMultiViewController initSlideMultiView:viewArray withTitle:title];
     [self.view addSubview:self.slideMultiViewController.view];
@@ -353,11 +352,6 @@
         self.gestureStateBegin = true;
         [[NSNotificationCenter defaultCenter]postNotificationName:@"superViewGustureState" object:[NSNumber numberWithBool:true]];
     }
-    
-
-
-
-    
     [self hideSegmentView:self.slideMultiViewController.view.frame.origin.y];
     [self hideTopview:self.slideMultiViewController.view.frame.origin.y];
 //    CGRect frame = self.view.frame;
@@ -392,7 +386,7 @@
     self.segueItem = item;
     self.segueShopId = shopId;
     [self 
-     performSegueWithIdentifier:@"foodDetailSegue" sender:nil];
+    performSegueWithIdentifier:@"foodDetailSegue" sender:nil];
 }
 
 -(void)detailedChildFoodCheckout{
@@ -424,14 +418,13 @@
     UIImageView *shopImageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 5, 90, 90)];
     shopImageView.clipsToBounds = true;
     shopImageView.contentMode = UIViewContentModeScaleAspectFill;
-    
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSString *url = [NSString stringWithFormat:@"http://localhost:8080/%@",self.myShop.shopPicUrl];
-            self.myShop.shopImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]]];
-            
-            shopImageView.image = self.myShop.shopImage;
-    
-        });
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSString *url = [NSString stringWithFormat:@"http://localhost:8080/%@",self.myShop.shopPicUrl];
+        self.myShop.shopImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]]];
+        
+        shopImageView.image = self.myShop.shopImage;
+
+    });
     UILabel *shopName = [[UILabel alloc]initWithFrame:CGRectMake(shopImageView.frame.size.width+shopImageView.frame.origin.x + 10, 5, self.view.frame.size.width - 150, 30)];
     shopName.text = self.myShop.shopName;
     

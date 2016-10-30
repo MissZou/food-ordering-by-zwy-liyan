@@ -32,9 +32,10 @@
 @property(strong,nonatomic) NSNumber *shopMark;
 @property(strong,nonatomic) NSNumber *distance;
 @property(strong,nonatomic) NSMutableArray *shopComments;
-
 @property(strong,nonatomic) UIImage *shopImage;
+
 @property (strong, nonatomic) NSDictionary *imageCache;
+
 @property(weak)id <ShopDelegate> delegate;
 
 +(Shop *) sharedManager;

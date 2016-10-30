@@ -1079,11 +1079,11 @@
                 <viewControllerPlaceholder storyboardName="MainView" id="3td-l7-pAy" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZN7-v0-TXY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2391" y="694"/>
+            <point key="canvasLocation" x="2397" y="596"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="9Zp-wz-tuf"/>
         <segue reference="stH-BL-0lj"/>
-        <segue reference="cCm-lI-jT6"/>
     </inferredMetricsTieBreakers>
 </document>
