@@ -22,7 +22,7 @@
     width: 112px!important;
 }
 .topbar-item {
-    font-size: 16px;
+    font-size: 16px !important;
     position: relative;
     color: #fff;
     width: 104px;

@@ -218,7 +218,7 @@ function login(e) {
                 if (data.code == 200) {
                    
                     localStorage.setItem("socketShop",data.shopId)
-                    window.location="/shop/account/web/dish";
+                    window.location="/shop/account/web/menu";
                 } else if (data.code == 400) {
                     alert("Login fail");
                 }

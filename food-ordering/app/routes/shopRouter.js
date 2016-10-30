@@ -541,7 +541,11 @@ var routeShop = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
         .get(function(req, res) {
             res.render('post-dish.jade')
         })
-
+router.route('/account/web/logout')
+        .get(function(req, res) {
+            req.session.destroy();
+            res.redirect(req.protocol + '://' + req.get('host') + "/shop/register");
+        })
     router.route('/account/web/menu')
         .get(function(req, res) {
             var shopId = req.decoded._id;
@@ -761,7 +765,7 @@ var routeShop = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
 
     router.route('/account/web/order')
         .get(function(req, res) {
-            res.sendfile(path.join(__dirname, '../../views', 'shopOrder.html'));
+            res.render("shopOrder.jade")
         })
 
     router.route('/account/web/ordermanage')
