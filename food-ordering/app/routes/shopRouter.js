@@ -554,11 +554,12 @@ router.route('/account/web/logout')
                     var res = [];
                     var json = {};
                     for (var i = 0; i < this.length; i++) {
-                        if (!json[this[i].dishName]) {
+                        if (!json[this[i].dishName] && this[i].dishName!=undefined) {
                             res.push(this[i]);
                             json[this[i].dishName] = 1;
                         }
                     }
+                    console.log(res)
                     return res;
                 }
 

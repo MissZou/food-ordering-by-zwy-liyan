@@ -110,7 +110,8 @@
     
     .wrapper {
         min-width: 960px;
-        margin-left:10%;
+   /*      margin-left:10%; */
+   margin:0 auto;
     }
     
     .shopmenu-nav {

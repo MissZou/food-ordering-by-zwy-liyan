@@ -6,6 +6,12 @@ html
     link(rel='stylesheet', href='/stylesheets/normalize.css')
     link(rel='stylesheet', href='/stylesheets/header.css')
     link(rel='stylesheet', href='/stylesheets/shop-detail.css')
+    style.
+      .rate{
+      margin-left:20px;
+      color:#1e89e0;
+      cursor:pointer;
+      }
   body
     include header.jade
     - if (!Array.prototype.includes) {
@@ -60,6 +66,7 @@ html
 
     h1.shopName= shopName
     .heart.coreSpriteHeartOpen
+    span.rate See other customers' comments >>
     .wrapper.clearfix
       .left-side
         .shopmenu-nav

@@ -109,9 +109,8 @@ $(function() {
                         processData: false,
                         success: function(data, status) {
                             if (data.code == 200) {
-                              alert("上传成功tupian");
-                                //跳转到menu
-
+                              setTimeout(window.location="/shop/account/web/menu",1000)
+                                
                             } else {
                                 console.log(data)
                             }

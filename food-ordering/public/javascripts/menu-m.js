@@ -220,4 +220,8 @@ $(function() {
         window.location="/user/account/web/info/"+shopId+"/m";
     })
 
+ setTimeout(function(){
+    $(".restaurant-menu-item").eq(0).click()
+ },1000)
+
 })

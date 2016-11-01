@@ -112,6 +112,10 @@ $(function() {
         totalPrice();
     });
 
+    $(".rate").on("click",function(){
+        window.location="/user/account/web/rate/"+location.href.split("/")[7];
+    })
+
     $(document).on("click", ".itemquantity .minus", function() {
         var value = +$(this).siblings("input").attr("value");
         var self = $(this);

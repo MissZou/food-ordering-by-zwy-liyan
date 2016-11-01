@@ -13,13 +13,13 @@ $(document).ready(function() {
             data: { "location": $("#location").val() },
             success: function(data, status) {
                 if (data.success == true) {
-                    alert("上传成功");
+                   
                     console.log(data.location)
                 }
             },
             error: function(data, status) {
                 if (data.code != 200) {
-                    alert("上传shibai");
+                    alert("update failure!");
                 }
             }
         });
@@ -52,7 +52,7 @@ $(document).ready(function() {
             },
             success: function(data, status) {
                 if (data.success == true) {
-                    alert("上传成功");
+                  
                     console.log(data)
                     var newAddr=data.address[data.address.length-1];
                    $('<div class="desktop-addressblock"> \
@@ -70,7 +70,7 @@ $(document).ready(function() {
             },
             error: function(data, status) {
                 if (data.code != 200) {
-                    alert("上传shibai");
+                    alert("upload failure!");
                 }
             }
         });
@@ -97,7 +97,7 @@ $(document).ready(function() {
             },
             error: function(data, status) {
                 if (data.code != 200) {
-                    alert("删除失败");
+                    alert("delete failure");
                 }
             }
         });
@@ -132,7 +132,7 @@ $(document).ready(function() {
             },
             success: function(data, status) {
                 if (data.success == true) {
-                    alert("上传成功hahaha");
+             
                     var currentUpdate=$(".desktop-addressblock").eq(+$("#index").val());
                     currentUpdate.find(".desktop-addressblock-name").text($("#username").val());
                     currentUpdate.find(".desktop-addressblock-mobile").text($("#phone").val());
@@ -147,7 +147,7 @@ $(document).ready(function() {
             },
             error: function(data, status) {
                 if (data.code != 200) {
-                    alert("上传shibai");
+                    alert("upload failure");
                 }
             }
         });
