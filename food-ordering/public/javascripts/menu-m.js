@@ -44,6 +44,8 @@ $(function() {
 
 	$(document).on("click",".mdish-cartcontrol",changeCart);
 	$(document).on("click",".minus-cartcontrol",minusCart);
+
+    $(".mdish-cartcontrol").on("click",changeCart)
 	$(".mcart-checkout").on("click",order);
 	var loadBefore={};
 
@@ -66,7 +68,7 @@ $(function() {
         if(!loadBefore[num]){
         	var currentData = classifyObj[num];
         var markup = '<div class="restaurant-food-container"> \
-        <img width="70" height="70" style="opacity: 1; transition: opacity 0.5s;" src=${dishPic}> \
+        <img width="70" height="70" style="opacity: 1; transition: opacity 0.5s;" src=${dishPic.split("8080")[1]}> \
         <div class="restaurant-food-body"> \
             <p class="restaurant-food-name">${dishName}</p> \
             <div class="restaurant-food-content"> \

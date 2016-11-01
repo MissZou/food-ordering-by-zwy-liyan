@@ -81,7 +81,8 @@
     right: 0;
     top: 44px;
     border:1px solid #ccc;
-        background: #b7d6f7;
+        background: #fff;
+        color: #3199e8;
         display: none;
     }
 .list a{
@@ -91,5 +92,5 @@
     text-align: center;
 }
 .list a:visited{
-    color:black;
+   color: #3199e8;
 }
