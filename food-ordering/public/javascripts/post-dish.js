@@ -16,33 +16,24 @@ $(function() {
     };
 
     var uploadPic = {
-
         add: function(files) {
             var len = files.length > 9 ? 9 : files.length;
+            var lTitle=$('<li class="lTitle"><div class="dishImg">Image</div><div class="dishName">Dish Name</div><div class="price">Dish Price</div><div class="category">Category</div></li>')
+                lTitle.appendTo($(".dishPreview ul"));
             for (var i = 0; i < len; i++) {
                 var file = files[i];
                 var imageType = /^image\//;
                 if (!imageType.test(file.type)) {
                     continue;
                 }
-                var list = $('<li><img alt=""> \
-                        <label>Dish name</label> \
+                
+                var list = $('<li class="lContent"><div class="dishImg"><img alt="" ></div> \
                         <input type="text" class="dishName"> \
-                        <label>Tags</label> \
-                        <input type="text" class="tagInput"> \
-                        <div class="labels"> \
-                            <div class="tag-wrp"> \
-                                <span class="tag">shmhsm</span> \
-                                <span class="delete">×</span> \
-                            </div> \
-                        </div> \
-                        <label>Price</label> \
                         <input type="number" class="price"> \
-                        <label>Category</label> \
                         <input type="text" class="category"> \
-                        <label>Introduction</label> \
-                        <textarea class="intro" cols="30" rows="10"></textarea></li>')
+                        </li>')
                 var img = list.find("img");
+
                 list.appendTo($(".dishPreview ul"));
                 var reader = new FileReader();
                 reader.onload = (function(aImg) {
@@ -52,6 +43,8 @@ $(function() {
                 })(img);
                 reader.readAsDataURL(file);
             }
+            $(".uploadPicBtn").hide();
+            $("#articlePostBtn").show();
         }
     };
 
@@ -66,26 +59,18 @@ $(function() {
         uploadBtn[0].click();
     });
 
-    $(document).on("click", "#post button", function() {
+    $(document).on("click", "#articlePostBtn", function() {
         var dish = []
         var num = $(".dishPreview li").length;
-        for (var index = 0; index < num; index++) {
-            var tags = []
-            for (var i = 0; i < $(".dishPreview li").eq(index).find(".tag-wrp").length; i++) {
-                tags.push($(".dishPreview li").eq(index).find(".tag").eq(i).text())
-            }
+        for (var index = 1; index < num; index++) {
             dish[index] = {}
             dish[index].dishName = $(".dishName").eq(index).val();
-            dish[index].tags = tags;
             dish[index].price = $(".price").eq(index).val();
-            dish[index].intro = $(".intro").eq(index).val();
             dish[index].category = $(".category").eq(index).val();
             dish[index].index = index;
         }
         console.log(dish)
 
-        //data.append('shopDish', dish);
-        //data.append('shopName', $("#shopName").val());
         $.ajax({
             url: '/shop/account/dish',
             data: {
@@ -96,7 +81,7 @@ $(function() {
             //processData: false, 
             success: function(data, status) {
                 if (data.code == 200) {
-                    alert("上传成功dish");
+                   // alert("上传成功dish");
                     console.log(data.dishes);
                     var originalDishes = data.dishes;
                     var newDishes = [];
@@ -108,16 +93,14 @@ $(function() {
                     console.log("newDishes",newDishes)
                     var data = new FormData();
                     $.each($(".uploadPic")[0].files, function(i, file) {
-                        data.append(i, file);
+                        data.append(i+1, file);
                         //console.log('photo['+i+']', file)
                     })
                     data.append('shopName', $("#shopName").val());
-                    for (var i = 0,len=dish.length; i <len ; i++) {
+                    for (var i = 1,len=dish.length; i <len ; i++) {
                         data.append('dishNames' + i, dish[i].dishName);
                         data.append('dishId' + i, newDishes[newDishes.length-len+i]);
                     }
-
-                    console.log(dish)
                     $.ajax({
                         url: '/shop/account/createDishPic/',
                         data: data,
@@ -126,14 +109,15 @@ $(function() {
                         processData: false,
                         success: function(data, status) {
                             if (data.code == 200) {
-                                alert("上传成功tupian");
+                              setTimeout(window.location="/shop/account/web/menu",1000)
+                                
                             } else {
                                 console.log(data)
                             }
                         },
                         error: function(data, status) {
                             if (data.code != 200) {
-                                alert("上传shibai");
+                                alert("upload fail!");
                             }
                         }
                     });

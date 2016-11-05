@@ -1,0 +1,29 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title Result
+    link(rel='stylesheet', href='/stylesheets/normalize.css')
+    link(rel='stylesheet', href='/stylesheets/header.css')
+    style.
+      body{
+      font-family:"Microsoft Yahei";
+      background:#9999b5;
+      }
+      .exp{
+      text-align: center;
+      font-size: 50px;
+      color: red;
+      font-weight: bold;
+          margin-top: 250px;
+
+      }
+      .link{
+      text-align: center;
+      }
+  body
+    include header.jade
+    .exp
+      | Thanks for your payment!:)
+    .link
+      a(href='/user/account/index') Search another restaurant >>

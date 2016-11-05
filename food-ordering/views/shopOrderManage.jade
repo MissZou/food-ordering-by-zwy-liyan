@@ -1,0 +1,171 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title shopOrder
+    link(rel='stylesheet', href='/stylesheets/normalize.css')
+    link(rel='stylesheet', href='/stylesheets/header.css')
+    style.
+      .orders {
+      margin-bottom: 20px;
+      }
+      .order-div ul,
+      .dish ul {
+      margin-bottom: 20px;
+      border-bottom: 1px solid #ccc;
+      }
+      .dishName,
+      .dishPrice,
+      .dishNum {
+      display: inline-block;
+      margin-right: 10px;
+      }
+      ul,
+      li {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-family: "Microsoft Yahei";
+      }
+      ul {
+      overflow: hidden;
+      }
+      .star>li {
+      float: left;
+      font-size: 32px;
+      cursor: pointer
+      }
+      .active {
+      color: #f00
+      }
+      .text {
+      display: inline-block;
+      vertical-align: middle;
+      }
+      .order-div .star {
+      width: 200px;
+      display: inline-block;
+      margin: 0;
+      vertical-align: middle;
+      }
+      .shopId,
+      .orderId {
+      display: none;
+      }
+      .title {
+      font-weight: bold;
+      font-size: 18px;
+      font-style: italic;
+      width: 200px;
+      display: inline-block;
+      color: #1e89e0;
+      }
+      .orderContent {
+      margin: 10px 0;
+      border-bottom: 1px dashed #eee;
+      border-top: 1px dashed #eee;
+      }
+      .confirm,
+      .markBtn,
+      .comment {
+      display: inline-block;
+      padding: 8px 17px;
+      line-height: 1;
+      border: none;
+      border-radius: 2px;
+      outline: 0;
+      cursor: pointer;
+      font-size: 14px;
+      text-align: center;
+      background-color: #f74342;
+      color: #fff;
+      }
+      .dishMark {
+      display: inline-block;
+      margin-right: 10px;
+      }
+      .wrp {
+      width: 80%;
+      margin: 20px auto;
+      }
+      .order-div{
+      width:80%;
+      margin:0 auto;
+      }
+  body
+    include header-seller.jade
+    .order-div
+  script(src='/javascripts/jquery-2.2.3.min.js')
+  script(src='/javascripts/jquery.tmpl.min.js')
+  script#ifelse(type='text/x-jquery-tmpl').
+    <ul>
+    <li><span class="title">Price:</span><span class="price">${order.price}</span></li>
+    <li><span class="title">Order date:</span>${formatDate(order.date)}</li>
+    <li><span class="title">Order status:</span>${order.status}</li>
+    <li class="orderContent"><span class="title">Order content:</span>
+    <div class="dishName"></div>
+    <div class="dishPrice"></div>
+    <div class="dishNum"></div>
+    <div class="dishId"></div>
+    {{if order.status=="created" }}
+    <button class="confirm">Accept</button>
+    {{/if}}
+    </li>
+    <li class="shopId">${order.shop}</li>
+    <li class="orderId">${order._id}</li>
+    </ul>
+  script.
+    function formatDate(date) {
+    var dateF = date.substr(0, 19).split("T")
+    return dateF[0];
+    }
+    $(function() {
+    setInterval(function() {
+    location.reload();
+    }, 120000)
+    $.ajax({
+    url: '/shop/account/ordermanage',
+    type: 'GET',
+    headers: {
+    'index': 1,
+    'count': 9999
+    },
+    success: function(data, status) {
+    if (data.success) {
+    console.log(data.order)
+    $("#ifelse").tmpl(data.order).appendTo('.order-div');
+    for (var i in data.dishObj) {
+    var len = data.dishObj[i].length;
+    for (var j = 0; j < len; j++) {
+    $(".dishName").eq(Number(i)).append("<div class='dish-item'>" + data.dishObj[i][j].dishName + "</div>")
+    $(".dishId").eq(Number(i)).append("<input type='hidden' value='" + data.dishObj[i][j]._id + "'>")
+    $(".dishPrice").eq(Number(i)).append("<div class='dish-price'>" + data.dishObj[i][j].price + "</div>")
+    $(".dishNum").eq(Number(i)).append("<div class='dish-num'>" + data.amount[i][j] + "</div>")
+    }
+    }
+    }
+    }
+    });
+    $(document).on("click", ".confirm", function() {
+    var shopId = $(this).parent().siblings(".shopId").text();
+    var orderId = $(this).parent().siblings(".orderId").text();
+    var self = $(this)
+    $.ajax({
+    url: '/user/account/order',
+    type: 'POST',
+    data: {
+    "shopId": shopId,
+    "orderId": orderId,
+    "type": "shipped"
+    },
+    success: function(data, status) {
+    if (data.success) {
+    //alert("confirm success")
+    self.remove();
+    // location.reload()
+    }
+    }
+    });
+    })
+    })
+

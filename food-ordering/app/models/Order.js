@@ -1,6 +1,5 @@
 module.exports = function(mongoose) {
 	var OrderSchema = new mongoose.Schema({
-		//orderId:{type: String},
       	user:{type: mongoose.Schema.Types.ObjectId, ref:'Account'},
       	shop:{type: mongoose.Schema.Types.ObjectId, ref:'Shop'},
       	date:{type: Date,default: Date.now},
@@ -25,7 +24,6 @@ module.exports = function(mongoose) {
 	        content:{type: String},
 	        mark:{type:Number}
 	      }} 
-	 	
 	});
 
 

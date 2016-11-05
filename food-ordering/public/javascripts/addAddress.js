@@ -27,12 +27,13 @@ $(function() {
             },
             success: function(data, status) {
                 if (data.success == true) {
-                    alert("上传成功");
+                    //alert("上传成功");
+                    location.href="/user/account/web/addressManage/m";
                 }
             },
             error: function(data, status) {
                 if (data.code != 200) {
-                    alert("上传shibai");
+                    alert("error");
                 }
             }
         });

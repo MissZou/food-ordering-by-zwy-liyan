@@ -63,4 +63,34 @@
         text-overflow: ellipsis;
         max-width: 90%;
     }
-    
+
+    .expand{
+        width:44px;
+        height: 44px;
+        background: #2d81c1;
+        position: absolute;
+        right: 0;
+    background-image: url(/images/list.png);
+        background-size: 383px 400px;
+    background-position: -109px -95px;
+    }
+
+.list{
+    position: absolute;
+    width: 100px;
+    right: 0;
+    top: 44px;
+    border:1px solid #ccc;
+        background: #fff;
+        color: #3199e8;
+        display: none;
+    }
+.list a{
+    display: block;
+    height: 44px;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+}
+.list a:visited{
+   color: #3199e8;
+}

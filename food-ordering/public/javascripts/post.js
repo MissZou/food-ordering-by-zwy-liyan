@@ -1,5 +1,9 @@
 $(function() {
     //baidu map
+    var winWidth = $(window).width(),
+        winHeight = $(window).height(),
+        loginFormLeft = (winWidth - 570) / 2,
+        loginFormHeight = (winHeight - $(".loginForm").height()) / 2;
 var map = new BMap.Map("l-map");
     var point = new BMap.Point(114.18,22.5); //hong kong
     map.centerAndZoom(point, 10);
@@ -16,11 +20,19 @@ var map = new BMap.Map("l-map");
 var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/; 
 return reg.test(str); 
 } 
+function loginForm() {
+        $(".mask").show();
+        $(".loginForm").css({ "left": loginFormLeft, "top": loginFormHeight, "position": "fixed" }).show();
+    }
+    $(".loginForm .close").on("click", function() {
+        $(".mask").hide();
+        $(".loginForm").hide();
+    });
     function attribute(){
         var p = marker.getPosition(); //获取marker的位置
         var loc = "[" + p.lng + "," + p.lat + "]";
         $("#location").val(loc);
-        alert(loc)
+        //alert(loc)
     }
 var ac = new BMap.Autocomplete( //建立一个自动完成的对象
         {
@@ -88,23 +100,26 @@ var ac = new BMap.Autocomplete( //建立一个自动完成的对象
     $(".coverPic").on("change", function() {
         uploadPic.addCoverPic(this.files[0]);
     });
-
-    $("#articlePostBtn").on("click", function() {
+    $("#uploadCover").on("click", function() {
+        $(".coverPic").click();
+    })
+    $("#loginForm").on("click", loginForm);
+    $(".submit").on("click", function() {
         if(!isEmail($("#email").val().trim())){
-            alert("请填写正确的email地址")
+            alert("Please input email with correct format!")
             return false;
             
         }
 
         var noEmpty=false;
-        $("input").each(function(index, val) {
+        $("#post").find("input").each(function(index, val) {
         if ($(this).val() == "") {
             noEmpty=true;
         }
     });
 
         if(noEmpty){
-            alert("填完空")
+            alert("Please fill in all the blanks!")
             return false;
         }
         $.ajax({
@@ -117,11 +132,12 @@ var ac = new BMap.Autocomplete( //建立一个自动完成的对象
                 "location": $("#location").val(),
                 "address": $("#address").val(),
                 "open": true, //先这样写
-                "shopType": $(".typeResult").text().trim()
+                //"shopType": $(".typeResult").text().trim()
+                "shopType":"default"
             },
             success: function(data, status) {
                 if (data.success == true) {
-                    alert("上传成功");
+                    //alert("上传成功");
                     var formData = new FormData();
                     formData.append('file', $(".coverPic")[0].files[0]);
                     formData.append('shopName', $("#shopName").val());
@@ -134,7 +150,7 @@ var ac = new BMap.Autocomplete( //建立一个自动完成的对象
                         processData: false, //must
                         success: function(data, status) {
                             if (data.code == 200) {
-                                window.location="/shop/login";
+                                window.location="/shop/register";
                             }
                         },
                         error: function(data, status) {
@@ -148,7 +164,7 @@ var ac = new BMap.Autocomplete( //建立一个自动完成的对象
             },
             error: function(data, status) {
                 if (data.code != 200) {
-                    alert("上传shibai");
+                    alert("fail");
                 }
             }
         });
@@ -163,4 +179,51 @@ var ac = new BMap.Autocomplete( //建立一个自动完成的对象
         }
     });
 
+    $("#login_button").on("click",login)
+
+function login(e) {
+    e.preventDefault();
+    var errorCount = 0;
+
+    $("#loginUser input").each(function(index, val) {
+        if ($(this).val() === "") {
+            errorCount++;
+        }
+    });
+
+    if (errorCount !== 0) {
+        $("#loginUser").find(".loginEle").each(function(){
+        if($(this).val().trim()==""){
+            $(this).addClass("error");
+            $(this).next().show();
+        }else{
+             $(this).removeClass("error");
+            $(this).next().hide();
+        }
+      })
+        return false;
+    } else {
+
+        var loginEmail = $("#user_loginemail").val();
+        var loginpassword = $("#user_loginpassword").val();
+        var data = {
+            "email": loginEmail,
+            "password": loginpassword
+        };
+        $.ajax({
+            url: '/shop/login',
+            type: 'post',
+            data: data,
+            success: function(data, status) {
+                if (data.code == 200) {
+                   
+                    localStorage.setItem("socketShop",data.shopId)
+                    window.location="/shop/account/web/menu";
+                } else if (data.code == 400) {
+                    alert("Login fail");
+                }
+            }
+        });
+    }
+}
 })

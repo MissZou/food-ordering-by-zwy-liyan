@@ -37,6 +37,25 @@ html
       overflow:hidden;
       margin:0;
       }
+      .mask .edit{
+      position:absolute;
+      left:0;
+      top:0;
+      right:0;
+      bottom:50px;
+      }
+      .mask .delete{
+      position:absolute;
+      top:50px;
+      left:0;
+      right:0;
+      bottom:0;
+      }
+      .mask > div {
+      text-align:center;
+      line-height:50px;
+      font-weight:bold;
+      }
   body
     .bodymask(style='position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; opacity: 0.5; z-index: 1000; background: rgb(0, 0, 0);display:none;')
     .addressdialog(style='z-index: 1001;display:none;')
@@ -55,9 +74,9 @@ html
               label Price
               input#price(type='number')
           .addressform-buttons
-            button.save 保存
+            button.save Save
           input.dishId(type="hidden")
-    include header.jade
+    include header-seller.jade
 
     - var values= doc 
 
@@ -73,7 +92,9 @@ html
                   span.shopmenu-food-price= values[i].price
                   div.category= values[i].category
                   input.itemId(type="hidden",value=values[i]._id )
-                  .mask Edit
+                  .mask
+                    .edit Edit
+                    .delete Delete
                   input.file(type="file",accept="image/*")
             - }
 
@@ -81,10 +102,11 @@ html
   script(src='/javascripts/jquery.fly.min.js')
   script.
     $(function(){
+    var winWidth = $(window).width(),
+        winHeight = window.screen.availHeight,
+        loginFormLeft = (winWidth - $(".addressdialog").width()) / 2,
+        loginFormHeight = (winHeight - $(".addressdialog").height()) / 2;
       var item=$(".mask");
-      item.on("click",function(){
-        console.log($(this).siblings(".shopmenu-food-price").text())
-      })
 
       $(".rstblock-logo").on("click",function(){
         $(this).parent().find(".file").click();
@@ -96,18 +118,50 @@ html
         changeDishPic(this.files[0],img,itemId);
        });
 
-       $(".mask").on("click",function(){
-       var category=$(this).siblings(".category").text(),
-           price=$(this).siblings(".shopmenu-food-price").text(),
-           dishName=$(this).siblings(".rstblock-title").text(),
-           itemId=$(this).siblings(".itemId").attr("value");
+       $(".mask").on("click",".edit",function(){
+       var category=$(this).parent().siblings(".category").text(),
+           price=$(this).parent().siblings(".shopmenu-food-price").text(),
+           dishName=$(this).parent().siblings(".rstblock-title").text(),
+           itemId=$(this).parent().siblings(".itemId").attr("value");
            $("#dishName").val(dishName);
            $("#price").val(price);
            $("#category").val(category);
            $(".dishId").val(itemId);
          $(".bodymask").show();
-         $(".addressdialog").show();
+         $(".addressdialog").css({ "left": loginFormLeft, "top": loginFormHeight, "position": "fixed" }).show();
        });
+
+       $(".mask").on("click",".delete",function(){
+       var category=$(this).parent().siblings(".category").text(),
+           price=$(this).parent().siblings(".shopmenu-food-price").text(),
+           dishName=$(this).parent().siblings(".rstblock-title").text(),
+           itemId=$(this).parent().siblings(".itemId").attr("value");
+           $("#dishName").val(dishName);
+           $("#price").val(price);
+           $("#category").val(category);
+           $(".dishId").val(itemId);
+        var dish={
+         _id:$(".dishId").val(),
+         price:$("#price").val(),
+         dishName:$("#dishName").val(),
+         category:$("#category").val()
+       };
+       $.ajax({
+       url: '/shop/account/dish',
+          data: {dish:dish},
+          type: 'DELETE',
+          success: function(data, status) {
+              if (data.code == 200) {
+                  location.reload();
+              }
+          },
+          error: function(data, status) {
+              if (data.code != 200) {
+                  alert("delete fail");
+              }
+          }
+       })
+       })
 
        $(".addressdialog-close").on("click",function(){
        $(".bodymask").hide();
@@ -123,20 +177,21 @@ html
        };
        $.ajax({
        url: '/shop/account/dish',
-                        data: {dish:dish},
-                        type: 'POST',
-                        success: function(data, status) {
-                            if (data.code == 200) {
-                                location.reload();
-                            }
-                        },
-                        error: function(data, status) {
-                            if (data.code != 200) {
-                                alert("...error");
-                            }
-                        }
+        data: {dish:dish},
+        type: 'POST',
+        success: function(data, status) {
+            if (data.code == 200) {
+                location.reload();
+            }
+        },
+        error: function(data, status) {
+            if (data.code != 200) {
+                alert("save fail");
+            }
+        }
        })
        })
+
 
         function changeDishPic (file,img,itemId){
           var imageType = /^image\//;
@@ -171,7 +226,7 @@ html
                         },
                         error: function(data, status) {
                             if (data.code != 200) {
-                                alert("...error");
+                                alert("change fail");
                             }
                         }
                     });

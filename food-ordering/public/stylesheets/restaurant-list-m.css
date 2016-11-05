@@ -66,9 +66,10 @@ h3 {
 
 .left-wrap {
   position: relative;
-  -webkit-flex-basis: 1.315068rem;
-  -ms-flex-preferred-size: 1.315068rem;
-  flex-basis: 1.315068rem;
+  width: 67px;
+  height: 67px;
+float: left;
+  
   margin-right: 0.410959rem;
 }
 
@@ -89,21 +90,11 @@ h3 {
 }
 
 .right-wrap {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
+  
 }
 
 .line {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
+  
 }
 #suggestId{
     display: inline-block;
@@ -132,12 +123,11 @@ margin-left:5%;
       margin-top: 1rem;
 }
 .line + .line {
-     margin-top: 2px;
+     margin-top: 5px;
 }
 
 .shop-name {
   overflow: hidden;
-max-width: 50%;
   color: #333;
   text-overflow: ellipsis;
   white-space: nowrap;

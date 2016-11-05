@@ -2,7 +2,7 @@ doctype html
 html
 	head
 		meta(charset='UTF-8')   
-		title updateInfo   
+		title Address management   
 		link(rel='stylesheet', href='/stylesheets/normalize.css')
 		link(rel='stylesheet', href='/stylesheets/header.css')
 		link(rel='stylesheet', href='/stylesheets/updateAddress.css')
@@ -21,14 +21,14 @@ html
 				each val in items
 					.desktop-addressblock
 						.desktop-addressblock-buttons
-							button.desktop-addressblock-button.update 修改
-							button.desktop-addressblock-button.delete 删除
+							button.desktop-addressblock-button.update Update
+							button.desktop-addressblock-button.delete Delete
 						.desktop-addressblock-name= val.name
 						.desktop-addressblock-address= val.addr
 						.desktop-addressblock-mobile= val.phone
 						.type= val.type
 						input.addr_id(type="hidden",value= val._id )
-				button.desktop-addressblock.desktop-addressblock-addblock 添加新地址
+				button.desktop-addressblock.desktop-addressblock-addblock Add new address
 		else
 			.desktop-addresslist.clearfix
 		div#updateInfo(style="display:none;")

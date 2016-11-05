@@ -1,0 +1,90 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title Register
+    link(rel='stylesheet', href='/stylesheets/normalize.css')
+    link(rel='stylesheet', href='/stylesheets/header.css')
+    link(rel='stylesheet', href='/stylesheets/signup.css')
+    link(rel='stylesheet', href='/stylesheets/post.css')
+    style.
+      #l-map {
+      height: 500px;
+      width: 100%;
+      }
+      label {
+      font-size: 20px;
+      font-weight: bold;
+      color: #3E60EA;
+      }
+      #post input[type="password"] {
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+      transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+      outline: none;
+      padding: 5px;
+      margin-top: 7px;
+      margin-bottom: 7px;
+      width: 100%;
+      }
+      input[type="file"] {
+      visibility: hidden;
+      }
+      #post .uploadCover {
+      margin: 5px 0;
+      border-radius: 0;
+      }
+      h1 {
+      font-size:20px;
+      font-style:italic;
+      }
+      #login_button{
+      margin-bottom:30px;
+      }
+      .container a{
+      display:none;
+      }
+      .container .topbar-homepage{
+      display:block;
+      }
+
+    script(src='http://api.map.baidu.com/api?v=2.0&ak=G9z0gp8jpzYSv9WNpqboiWgmB3ZpkUv4')
+  body
+    include header-seller.jade
+    .wrapper
+      .loginForm
+          a.close X
+          h1 Log In To Your Account
+          form#loginUser(method='post')
+              input#user_loginemail.loginEle(autocomplete='off', name='user_email', placeholder='Email', size='30', type='email')
+              p.error Please input email address.
+              br
+              input#user_loginpassword.strong-password.loginEle(autocomplete='off', name='user_password', placeholder='Password', size='30', type='password')
+              p.error Please fill in the blanks
+              br
+              input#login_button.signup_button-btn(, name='commit', type='submit', value='Log in')
+      .mask
+      h1 Create your own restaurant NOW!
+        span#loginForm Log in
+      form#post(enctype='multipart/form-data')
+        label(for='email') email:
+        input#email(type='text', required='')
+        label(for='password') password:
+        input#password(type='password', required='')
+        label(for='shopName') shop name:
+        input#shopName(type='text', autocomplete='off', placeholder='Write down your shop name here...', name='shopName', required='')
+        label(for='suggestId') location:
+        input#suggestId(type='text', required='')
+        #l-map
+        input#location(type='hidden')
+        label(for='address') address
+        input#address(type='text', name='address', required='')
+        label
+          | Cover Image
+        #uploadCover.commit.uploadCover upload cover
+        input.coverPic(type='file', accept='image/*', name='files')
+        .preview-coverPic
+        #articlePostBtn.commit.submit Submit
+  script(src='/javascripts/jquery-1.7.1.min.js')
+  script(src='/javascripts/post.js')

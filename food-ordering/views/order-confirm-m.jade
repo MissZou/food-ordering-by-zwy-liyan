@@ -157,15 +157,15 @@ html
     link(rel='stylesheet', href='/stylesheets/header-m.css')
   body
     include header-m.jade
-    +header-m("http://www.baidu.com","Food cart")
+    +header-m("Food cart")
     ul.ui-block
     footer.cart-footer
       p.cart-summary
         span
-        |  份美食 
+        | dish(es) 
         span.total-cost
       button.ui-btn.btn-confirm
-        span 去结算
+        span Pay
   script(src='/javascripts/jquery-2.2.3.min.js')
   script(src='/javascripts/jquery.tmpl.min.js')
   script.
@@ -186,3 +186,4 @@ html
     window.location="/user/account/web/confirm/m";
     })
     })
+  script(src='/javascripts/header.js')

@@ -1,6 +1,4 @@
-body, button, input, select, textarea {
-    font: 400 1em/1.5 PingFang SC,Lantinghei SC,Helvetica Neue,Microsoft Yahei,Hiragino Sans GB,Microsoft Sans Serif,WenQuanYi Micro Hei,sans;
-}
+
 body{
     box-sizing:border-box;
 }
@@ -42,7 +40,7 @@ border: 1px solid #0089dc;
     border: 0;
     background: 0 0;
     cursor: pointer;
-    width: 30px;
+    width: 55px;
 }
 button, input {
     line-height: normal;

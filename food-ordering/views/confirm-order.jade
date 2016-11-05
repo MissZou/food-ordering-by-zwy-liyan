@@ -12,53 +12,51 @@ html
     .mask(style='position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; opacity: 0.5; z-index: 1000; background: rgb(0, 0, 0);display:none;')
     .addressdialog(style='z-index: 1001;display:none;')
       .addressdialog-close
-      .addressdialog-header 添加新地址
+      .addressdialog-header Add New Address
       .addressdialog-content
         .addressform
           div
             .addressformfield#validate-error
-              label 姓名
-              input#username(placeholder='请输入您的姓名')
+              label Name
+              input#username(placeholder='Input your name')
               .addressformfield-hint
-                span.icon-dot-error 请输入收外卖人的姓名
+                span.icon-dot-error Input your name
             .addressformfield.addressfield
-              label 类型
-              input#type(placeholder='公司/学校/...')
+              label Type
+              input#type(placeholder='Company/School...')
               .addressformfield-hint
-                span.icon-dot-error 请输入住址类型
+                span.icon-dot-error Input the address type
             .addressformfield
-              label 详细地址
-              input#address(placeholder='请输入详细地址')
+              label Address
+              input#address(placeholder='Input your address')
               .addressformfield-hint
-                span.icon-dot-error 请输入详细地址
+                span.icon-dot-error Input your address
             .addressformfield.phonefield
-              label 手机号
-              input#phone(placeholder='请输入您的手机号',type='number')
+              label Phone number
+              input#phone(placeholder='Input your phone number',type='number')
               .addressformfield-hint
-                span.icon-dot-error 请输入您的手机号
+                span.icon-dot-error Input your phone number
           .addressform-buttons
-            button 保存
-            button 取消
+            button Save
+            button Cancel
     .container.clearfix
       .checkoutcart-container
         .checkoutcart-title
-          h2 订单详情
-          a(href='/shop/721746') < 返回商家修改
+          h2 Order details
         .checkoutcart-tablerow.tablehead
-          .cell.itemname 商品
-          .cell.itemquantity 份数
-          .cell.itemtotal 小计（元）
+          .cell.itemname Food Name
+          .cell.itemquantity Number
+          .cell.itemtotal Price(yuan)
         ul.checkoutcart-group
         .checkoutcart-total.color-stress
           | ¥
           span.num
-        .checkoutcart-totalextra
-          | 共 
+        .checkoutcart-totalextra 
           span
-          |  份商品
+          |  dish(es)
       .checkout-content
         .checkout-select
-          h2 收货地址
+          h2 Address
           if (items)
             .desktop-addresslist.clearfix
               each val in items
@@ -70,20 +68,19 @@ html
                   input.addr_id(type="hidden",value= val._id )
           else
             .desktop-addresslist.clearfix
-          a.checkout-noaddress(href='javascript:') + 添加新地址
+          a.checkout-noaddress(href='javascript:') + Add New Address
         .checkout-select
           h2.checkout-title
-            | 付款方式
-            span.color-tip.checkout-pay-tip 推荐使用在线支付，不用找零
+            | Way of Payment
           ul.clearfix
             li.checkout-pay.active
-              p 在线支付
-              p.color-mute 支持微信、支付宝、QQ钱包及大部分银行卡
+              p Pay online
+              p.color-mute Wechat, Alipay or credit card
             li.checkout-pay
-              p 货到付款
-              p.color-mute 送货上门后再付款
+              p Cash on delivery
+              p.color-mute Pay after the arrival of the food
         div
-          button.btn-stress.btn-lg 确认下单
+          button.btn-stress.btn-lg Pay
   script(src='/javascripts/socket.io.js')
   script(src='/javascripts/jquery-2.2.3.min.js')
   script(src='/javascripts/jquery.tmpl.min.js')

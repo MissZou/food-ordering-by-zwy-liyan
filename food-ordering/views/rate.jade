@@ -6,19 +6,35 @@ html
     link(rel='stylesheet', href='/stylesheets/normalize.css')
     link(rel='stylesheet', href='/stylesheets/header.css')
     link(rel='stylesheet', href='/stylesheets/shop-detail.css')
+    link(rel='stylesheet', href='/stylesheets/search-result.css')
+    style.
+      .userName{
+      display:none;
+      }
+      .comment-item{
+      list-style:none;
+      width: 90%;
+      margin: 10px auto;
+      border-bottom: 1px solid #ccc;
+      font-size:18px;
+      }
+      .date{
+      font-style:italic;
+      }
   body
     include header.jade
     h1.shopName= shopName
-    .heart.coreSpriteHeartOpen
     ul.comment
     - for (var j = 0; j < doc.length; j++){
+    - var str = String(doc[j].date).substr(4,20);
       li.comment-item
         div.userName= doc[j].comment.userId
-        div.mark= doc[j].comment.mark
+        div.date= str
+        div.rate-wrap
+          .star-rating(progress-meter="5")
+            .star-meter(progress-fill=doc[j].comment.mark style="width: "+doc[j].comment.mark/5*100+"%;")
         div.content= doc[j].comment.content
-        div.date= doc[j].date
     -}
     
   script(src='/javascripts/jquery-2.2.3.min.js')
-  script(src='/javascripts/jquery.fly.min.js')
   script(src='/javascripts/rate.js')

@@ -73,7 +73,7 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
 
 
     var sessionUser = "";
-    router.use(ifMobile);
+    //router.use(ifMobile);
     router.route('/upload')
         .get(function(req, res) {
             if (req.session.user) {
@@ -241,19 +241,14 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
     });
 
     router.route('/login/web/m')
+        .get(function(req, res) {
+            res.render('login-m');
+        });
 
-    .get(function(req, res) {
-
-        res.render('login-m');
-
-    });
     router.route('/account/web/index/m')
-
-    .get(function(req, res) {
-
-        res.render('search-shop-m.jade');
-
-    });
+        .get(function(req, res) {
+            res.render('search-shop-m.jade');
+        });
 
     router.route('/account/web/logout')
         .get(function(req, res) {
@@ -261,57 +256,59 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
             res.redirect(req.protocol + '://' + req.get('host') + "/user/register");
         })
 
-
-
+    router.route('/account/web/logout/m')
+        .get(function(req, res) {
+            req.session.destroy();
+            res.redirect(req.protocol + '://' + req.get('host') + "/user/login/web/m");
+        })
 
     router.route('/login')
+        .post(function(req, res) {
+            //console.log('login request');
+            var email = req.param('email', null);
+            var password = req.param('password', null);
+            //console.log(req);
+            //console.log(email, password)
 
-    .post(function(req, res) {
-        //console.log('login request');
-        var email = req.param('email', null);
-        var password = req.param('password', null);
-        //console.log(req);
-        //console.log(email, password)
+            if (null == email || email.length < 1 || null == password || password.length < 1) {
+                res.send(400);
+                return;
+            };
 
-        if (null == email || email.length < 1 || null == password || password.length < 1) {
-            res.send(400);
-            return;
-        };
+            Account.login(email, password, req, function(doc) {
+                if (doc != null) {
+                    var inToken = { "_id": doc._id }
 
-        Account.login(email, password, req, function(doc) {
-            if (doc != null) {
-                var inToken = { "_id": doc._id }
+                    var token = jwt.sign(inToken, app.get('tokenScrete'), {
+                        expiresIn: 1440 * 60 * 7 // expires in 24*7 hours
+                    });
+                    req.session.userToken = token;
 
-                var token = jwt.sign(inToken, app.get('tokenScrete'), {
-                    expiresIn: 1440 * 60 * 7 // expires in 24*7 hours
-                });
-                req.session.userToken = token;
-
-                res.json({
-                    code: 200,
-                    accountId: doc._id,
-                    email: doc.email,
-                    address: doc.address,
-                    name: doc.name,
-                    phone: doc.phone,
-                    location: doc.location,
-                    photoUrl: doc.photoUrl,
-                    favoriteShop: doc.favoriteShop,
-                    favoriteItem: doc.favoriteItem,
-                    cart: doc.cart,
-                    token: token,
-                    success: true
-                });
-                sessionUser = doc._id;
-            } else {
-                res.json({
-                    code: 400,
-                    success: false
-                });
-                // res.send(400);
-            }
+                    res.json({
+                        code: 200,
+                        accountId: doc._id,
+                        email: doc.email,
+                        address: doc.address,
+                        name: doc.name,
+                        phone: doc.phone,
+                        location: doc.location,
+                        photoUrl: doc.photoUrl,
+                        favoriteShop: doc.favoriteShop,
+                        favoriteItem: doc.favoriteItem,
+                        cart: doc.cart,
+                        token: token,
+                        success: true
+                    });
+                    sessionUser = doc._id;
+                } else {
+                    res.json({
+                        code: 400,
+                        success: false
+                    });
+                    // res.send(400);
+                }
+            });
         });
-    });
 
     router.use("/account", function(req, res, next) {
         //console.log(req);
@@ -378,34 +375,57 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
             })
         });
 
-        router.route('/account/web/username')
+    router.route('/account/web/username')
         .get(function(req, res) {
-             var accountId = req.param("userId", null);
+            var accountId = req.param("userId", null);
             Account.findAccountById(accountId, function(doc) {
+                console.log(doc)
                 res.json({
-                        success: true,
-                        username: doc.name
-                    });
+                    success: true,
+                    username: doc.name
+                });
             })
         });
 
+
+    router.route('/account/web/username/m')
+        .get(function(req, res) {
+            var accountId = req.param("userId", null);
+            Account.findAccountById(accountId, function(doc) {
+                console.log(doc)
+                res.json({
+                    success: true,
+                    username: doc.name
+                });
+            })
+        });
+
+
     router.route('/account/web/address')
         .get(function(req, res) {
-            // var accountId = req.param('account', null);
             var accountId = req.decoded._id;
             Account.findAccountById(accountId, function(doc) {
                 res.render('updateInfo.jade', {
+                    items: doc.address,
+                    username: doc.name
+                });
+            })
+        });
+
+    router.route('/account/web/addressManage/m')
+        .get(function(req, res) {
+            var accountId = req.decoded._id;
+            Account.findAccountById(accountId, function(doc) {
+                res.render('addAddress-magane-m.jade', {
                     items: doc.address
                 });
             })
-
         });
 
     router.route('/account/web/address/m')
         .get(function(req, res) {
             res.render('addAddress-m.jade');
         });
-
 
     router.route('/account/address')
         .get(function(req, res) {
@@ -426,112 +446,106 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
 
             })
         })
+        .put(function(req, res) {
+            var accountId = req.decoded._id;
 
+            //var accountId = req.session.user._id;
+            var address = req.param("address", null),
+                name = req.param("name", null),
+                phone = req.param("phone", null),
+                type = req.param("type", null);
 
-    .put(function(req, res) {
-        var accountId = req.decoded._id;
+            var totalAddress = {
+                "address": address,
+                "name": name,
+                "phone": phone,
+                "type": type
+            };
 
-        //var accountId = req.session.user._id;
-        var address = req.param("address", null),
-            name = req.param("name", null),
-            phone = req.param("phone", null),
-            type = req.param("type", null);
-
-        var totalAddress = {
-            "address": address,
-            "name": name,
-            "phone": phone,
-            "type": type
-        };
-
-        // console.log(totalAddress);
-        if (address != null && address != "") {
-            Account.addAddress(accountId, totalAddress, function(doc) {
-                if (doc == null) {
-                    Account.findAccountById(accountId, function(doc) {
+            // console.log(totalAddress);
+            if (address != null && address != "") {
+                Account.addAddress(accountId, totalAddress, function(doc) {
+                    if (doc == null) {
+                        Account.findAccountById(accountId, function(doc) {
+                            res.json({
+                                accountId: doc._id,
+                                address: doc.address,
+                                success: true
+                            });
+                        })
+                    }
+                });
+            }
+        })
+        .post(function(req, res) {
+            var accountId = req.decoded._id;
+            //var accountId = req.session.user._id;
+            var address = req.param("address", null),
+                name = req.param("name", null),
+                phone = req.param("phone", null),
+                type = req.param("type", null),
+                addrId = req.param("addrId", null);
+            var totalAddress = {
+                "address": address,
+                "name": name,
+                "phone": phone,
+                "type": type
+            };
+            //console.log(totalAddress);
+            // console.log(addrId);
+            if (addrId != null && addrId != "") {
+                Account.updateAddress(accountId, totalAddress, addrId, function(doc) {
+                    if (doc == null) {
+                        Account.findAccountById(accountId, function(doc) {
+                            res.json({
+                                accountId: doc._id,
+                                address: doc.address,
+                                success: true
+                            });
+                        })
+                    } else {
                         res.json({
-                            accountId: doc._id,
-                            address: doc.address,
-                            success: true
-                        });
-                    })
-                }
-            });
-        }
-    })
+                            code: 400,
+                            success: false
+                        })
+                    }
+                });
+            } else {
+                res.json({
+                    code: 400,
+                    success: false
+                })
+            }
+        })
+        .delete(function(req, res) {
+            var accountId = req.decoded._id;
+            //var accountId = req.session.user._id;
 
-    .post(function(req, res) {
-        var accountId = req.decoded._id;
-        //var accountId = req.session.user._id;
-        var address = req.param("address", null),
-            name = req.param("name", null),
-            phone = req.param("phone", null),
-            type = req.param("type", null),
-            addrId = req.param("addrId", null);
-        var totalAddress = {
-            "address": address,
-            "name": name,
-            "phone": phone,
-            "type": type
-        };
-        //console.log(totalAddress);
-        // console.log(addrId);
-        if (addrId != null && addrId != "") {
-            Account.updateAddress(accountId, totalAddress, addrId, function(doc) {
-                if (doc == null) {
-                    Account.findAccountById(accountId, function(doc) {
-                        res.json({
-                            accountId: doc._id,
-                            address: doc.address,
-                            success: true
-                        });
-                    })
-                } else {
-                    res.json({
-                        code: 400,
-                        success: false
-                    })
-                }
-            });
-        } else {
-            res.json({
-                code: 400,
-                success: false
-            })
-        }
-    })
+            var address = req.param("address", null),
+                name = req.param("name", null),
+                phone = req.param("phone", null),
+                type = req.param("type", null);
 
-
-    .delete(function(req, res) {
-        var accountId = req.decoded._id;
-        //var accountId = req.session.user._id;
-
-        var address = req.param("address", null),
-            name = req.param("name", null),
-            phone = req.param("phone", null),
-            type = req.param("type", null);
-
-        var totalAddress = {
-            "address": address,
-            "name": name,
-            "phone": phone,
-            "type": type
-        };
-        if (address != null && address != null) {
-            Account.deleteAddress(accountId, totalAddress, function(doc) {
-                if (doc == null) {
-                    Account.findAccountById(accountId, function(doc) {
-                        res.json({
-                            accountId: doc._id,
-                            address: doc.address,
-                            success: true
-                        });
-                    })
-                }
-            });
-        }
-
-    });
+            var totalAddress = {
+                "address": address,
+                "name": name,
+                "phone": phone,
+                "type": type
+            };
+            if (address != null && address != null) {
+                Account.deleteAddress(accountId, totalAddress, function(doc) {
+                    if (doc == null) {
+                        Account.findAccountById(accountId, function(doc) {
+                            res.json({
+                                accountId: doc._id,
+                                address: doc.address,
+                                success: true
+                            });
+                        })
+                    }
+                });
+            }
+        });
 
     router.route('/account/web/location')
         .get(function(req, res) {
@@ -539,6 +553,7 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
             res.render('updateInfo.jade');
 
         });
+
     router.route('/account/location')
 
     .put(function(req, res) {
@@ -597,15 +612,28 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
             });
         }
     });
+
+    router.route('/account/web/info/:shopId/m')
+        .get(function(req, res) {
+            var shopId = req.params.shopId;
+            Shop.findShopById(shopId, function(doc) {
+                console.log(doc)
+                res.render('shop-info-m', {
+                    doc: doc
+                });
+            })
+        })
+
+
     router.route('/account/web/cart/:shopId')
         .get(function(req, res) {
             Shop.findShopById(req.params.shopId, function(doc) {
-                console.log(doc.dish);
+                //console.log(doc.dish);
                 Array.prototype.uniqueFunc = function() {
                     var res = [];
                     var json = {};
                     for (var i = 0; i < this.length; i++) {
-                        if (!json[this[i].dishName]) {
+                        if (!json[this[i].dishName] && this[i].dishName!=undefined) {
                             res.push(this[i]);
                             json[this[i].dishName] = 1;
                         }
@@ -620,52 +648,75 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
                 });
             })
         })
-
-        router.route('/account/web/rate/:shopId')
+    router.route('/account/web/cart/:shopId/m')
+        .get(function(req, res) {
+            Shop.findShopById(req.params.shopId, function(doc) {
+                // console.log(doc.dish);
+                Array.prototype.uniqueFunc = function() {
+                    var res = [];
+                    var json = {};
+                    for (var i = 0; i < this.length; i++) {
+                        if (!json[this[i].dishName] && this[i].dishName!=undefined) {
+                            res.push(this[i]);
+                            json[this[i].dishName] = 1;
+                        }
+                    }
+                    return res;
+                }
+                var dish = doc.dish.uniqueFunc();
+                res.render('menu-m', {
+                    doc: dish,
+                    shopName: doc.shopName
+                });
+            })
+        });
+    router.route('/account/web/rate/:shopId')
         .get(function(req, res) {
             Shop.findOrderByShopId(req.params.shopId, 1, 99999, function(doc) {
                 if (doc != null) {
                     Shop.findShopById(req.params.shopId, function(shopdoc) {
-                        var newMark=[];
-                        var newDoc2=[];
-                        var newName=[];
-                  
-doc.map(function(v){
-                            if(v.order.shop==req.params.shopId && v.order.comment){
+                        var newMark = [];
+                        var newDoc2 = [];
+                        var newName = [];
+
+                        doc.map(function(v) {
+                            if (v.order.shop == req.params.shopId && v.order.comment) {
                                 newMark.push(v.order);
                             }
                         });
-                          res.render('rate', {
-                    doc: newMark,
-                    shopName: shopdoc.shopName
-                });
+                        res.render('rate', {
+                            doc: newMark,
+                            shopName: shopdoc.shopName
+                        });
+                    })
+                }
+            })
+        })
+
+    router.route('/account/web/rate/:shopId/m')
+        .get(function(req, res) {
+            Shop.findOrderByShopId(req.params.shopId, 1, 99999, function(doc) {
+                if (doc != null) {
+                    Shop.findShopById(req.params.shopId, function(shopdoc) {
+                        var newMark = [];
+                        var newDoc2 = [];
+                        var newName = [];
+
+                        doc.map(function(v) {
+                            if (v.order.shop == req.params.shopId && v.order.comment) {
+                                newMark.push(v.order);
+                            }
+                        });
+                        res.render('rate-m', {
+                            doc: newMark,
+                            shopName: shopdoc.shopName
+                        });
                     })
                 }
             })
         })
 
 
-    router.route('/account/web/cart/:shopId/m')
-
-    .get(function(req, res) {
-
-        console.log(req.params.shopId)
-
-        Shop.findShopById(req.params.shopId, function(doc) {
-
-            console.log(doc.dish);
-
-            res.render('menu-m', {
-
-                doc: doc.dish,
-
-                shopName: doc.shopName
-
-            });
-
-        })
-
-    });
     router.route('/account/cart')
 
 
@@ -875,12 +926,23 @@ doc.map(function(v){
         .get(function(req, res) {
             var accountId = req.decoded._id;
             Account.findAccountById(accountId, function(doc) {
-                if(doc){
+                if (doc) {
                     res.render('confirm-order.jade', {
                         items: doc.address
                     });
                 }
             })
+        });
+
+
+    router.route('/account/web/result')
+        .get(function(req, res) {
+            res.render('paySuccess.jade')
+        });
+
+    router.route('/account/web/result/m')
+        .get(function(req, res) {
+            res.render('paySuccess-m.jade')
         });
 
     router.route('/account/web/confirm/m')
@@ -895,7 +957,17 @@ doc.map(function(v){
 
     router.route('/account/web/myorder')
         .get(function(req, res) {
-            res.sendfile(path.join(__dirname, '../../views', 'myorder.html'));
+            var accountId = req.decoded._id;
+            Account.findAccountById(accountId, function(doc) {
+                res.render('myorder.jade', {
+                    username: doc.name
+                });
+            })
+        });
+
+    router.route('/account/web/myorder/m')
+        .get(function(req, res) {
+            res.sendfile(path.join(__dirname, '../../views', 'myorder-m.html'));
         });
 
     router.route('/account/web/orderData')
@@ -912,7 +984,7 @@ doc.map(function(v){
             }
             Account.findOrderByUserId(accountId, index, count, function(doc) {
                 if (doc != null) {
-                    console.log("orderrrr", doc)
+                    // console.log("orderrrr", doc)
                     res.json({
                         order: doc,
                         success: true
@@ -940,7 +1012,78 @@ doc.map(function(v){
             }
             Account.findOrderByUserId(accountId, index, count, function(doc) {
                 if (doc != null) {
-                    console.log("orderrrr", doc)
+                    //  console.log("orderrrr", doc)
+                    console.log(doc)
+                    var orderLen = doc.length;
+                    var dishObj = {};
+                    var amount = {};
+                    var num = 0;
+                    for (var i = 0; i < orderLen; i++) {
+                        dishObj[i] = [];
+                        amount[i] = [];
+                    }
+
+                    for (var i = 0; i < orderLen; i++) {
+                        for (var j = 0; j < doc[i].order.dishs.length; j++) {
+                            (function(i, j) {
+                                console.log(doc[i].order.dishs[j])
+                                var shopId = doc[i].order.shop;
+                                var itemId = doc[i].order.dishs[j].itemId;
+                                Shop.findShopById(shopId, function(shopdoc) {
+                                    var shopName = shopdoc.shopName;
+
+                                    if (itemId != null && shopId != null) {
+                                        Shop.findItemById(shopId, itemId, function(newDoc) {
+                                            // console.log("newDoc", newDoc)
+                                            dishObj[i].push(newDoc);
+                                            amount[i].push(doc[i].order.dishs[j].amount);
+                                            var dishLength = doc[i].order.dishs.length;
+                                            if ((i == orderLen - 1) && (j == dishLength - 1)) {
+                                                res.json({
+                                                    order: doc,
+                                                    dishObj: dishObj,
+                                                    amount: amount,
+                                                    success: true
+                                                })
+                                            }
+                                        });
+                                    } else {
+                                        console.log(doc[i].order.dishs[j])
+                                        res.json({
+                                            error: "err",
+                                            success: false
+                                        })
+                                        //continue;
+                                    }
+                                })
+
+                            })(i, j)
+                        }
+                    }
+                } else {
+                    res.json({
+                        success: false
+                    })
+                }
+            })
+        })
+
+
+    router.route('/account/web/wholeOrderData/m')
+        .get(function(req, res) {
+            var accountId = req.decoded._id;
+            var index = req.headers["index"];
+            var count = req.headers["count"];
+            //console.log(index);
+            if (index == null || index == 0) {
+                index = 1;
+            }
+            if (count == null || count == 0) {
+                count = 1;
+            }
+            Account.findOrderByUserId(accountId, index, count, function(doc) {
+                if (doc != null) {
+                    // console.log("orderrrr", doc)
                     var orderLen = doc.length;
                     var dishObj = {};
                     var amount = {};
@@ -959,18 +1102,18 @@ doc.map(function(v){
                                     var shopName = shopdoc.shopName;
                                     if (itemId != null && shopId != null) {
                                         Shop.findItemById(shopId, itemId, function(newDoc) {
-                                            console.log("newDoc", newDoc)
+                                            //  console.log("newDoc", newDoc)
                                             dishObj[i].push(newDoc);
                                             amount[i].push(doc[i].order.dishs[j].amount);
                                             var dishLength = doc[i].order.dishs.length;
-                                if ((i == orderLen - 1) && (j == dishLength - 1)) {
-                                    res.json({
-                                        order: doc,
-                                        dishObj: dishObj,
-                                        amount: amount,
-                                        success: true
-                                    })
-                                }
+                                            if ((i == orderLen - 1) && (j == dishLength - 1)) {
+                                                res.json({
+                                                    order: doc,
+                                                    dishObj: dishObj,
+                                                    amount: amount,
+                                                    success: true
+                                                })
+                                            }
                                         });
                                     } else {
                                         res.json({
@@ -979,7 +1122,7 @@ doc.map(function(v){
                                         })
                                     }
                                 })
-                                
+
                             })(i, j)
                         }
                     }
@@ -990,9 +1133,7 @@ doc.map(function(v){
                 }
             })
         })
-
-
-    router.route('/account/order')
+ router.route('/account/orderfull')
         .get(function(req, res) {
             var accountId = req.decoded._id;
             var index = req.headers["index"];
@@ -1004,6 +1145,7 @@ doc.map(function(v){
             if (count == null || count == 0) {
                 count = 1;
             }
+
             Account.findOrderIdByUserId(accountId, index, count, function(doc) {
                 console.log(doc);
                 
@@ -1084,7 +1226,6 @@ doc.map(function(v){
                         })    
                     }
                     
-
                 } else {
                     res.json({
                         success: false
@@ -1093,7 +1234,6 @@ doc.map(function(v){
 
             })
         })
-
     .put(function(req, res) {
         var accountId = req.decoded._id;
         var shopId = req.param("shopId", null);
@@ -1137,6 +1277,7 @@ doc.map(function(v){
                                 i = -1;
                                 continue;
                             }
+
                         }
                         //console.log("=================");
                         //console.log(doc.orders[0]);
@@ -1174,12 +1315,133 @@ doc.map(function(v){
                 }
 
             });
+
         }
         // res.json({
         //     doc:true
         // })
 
+
+        })
+        .post(function(req, res) {
+            var shopId = req.param("shopId", null);
+            var orderId = req.param("orderId", null);
+            var type = req.param("type", null);
+            Order.changeOrderStatus(shopId, orderId, type, function(doc) {
+                res.json({
+                    success: true
+                })
+            });
+        })
+    .post(function(req, res) {
+            var shopId = req.param("shopId", null);
+            var orderId = req.param("orderId", null);
+            var type = req.param("type", null);
+            Order.changeOrderStatus(shopId, orderId, type, function(doc) {
+                res.json({
+                    success: true
+                })
+            });
+        })
+
+    .delete(function(req, res) {
+        var accountId = req.decoded._id;
+        var orderId = req.param("orderId", null);
+
+        Account.deleteOrder(accountId, orderId, function(err) {
+            if (err == null) {
+                res.json({
+                    //accountId: doc._id,
+                    //order:doc.orders,
+                    success: true
+                })
+            }
+
+        });
     })
+
+
+    router.route('/account/order')
+        .get(function(req, res) {
+            var accountId = req.decoded._id;
+            var index = req.headers["index"];
+            var count = req.headers["count"];
+            //console.log(index);
+            if (index == null || index == 0) {
+                index = 1;
+            }
+            if (count == null || count == 0) {
+                count = 1;
+            }
+
+            Account.findOrderByUserId(accountId, index, count, function(doc) {
+                if (doc != null) {
+                    // console.log("orderrrr", doc)
+                    res.json({
+                        order: doc,
+                        success: true
+                    })
+                } else {
+                    res.json({
+                        success: false
+                    })
+                }
+
+            })
+        })
+
+    .put(function(req, res) {
+
+            var accountId = req.decoded._id;
+            var shopId = req.param("shopId", null);
+            var dishs = req.param("dishs", null);
+            var price = req.param("price", null);
+            var address = req.param("address", null);
+            var message = req.param("message", null);
+
+            Order.addOrder(accountId, shopId, dishs, address, price, message, function(order) {
+
+
+                if (order._id != null) {
+                    Shop.addOrder(shopId, order._id, function(doc) {
+                        // request(to shop/router)
+                        // shop.notification{
+                        //     res.send()
+                        // }
+                    });
+                    Account.addOrder(accountId, order._id, function(doc) {
+                        // console.log(doc.orders);
+                        for (var i = 0; i < doc.orders.length; i++) {
+                            if (doc.orders[i].order == null) {
+                                doc.orders.splice(i, 1);
+                                i = -1;
+                                continue;
+                            }
+
+                        }
+                        //console.log(doc.orders);
+                        res.json({
+                            accountId: doc._id,
+                            order: doc.orders,
+                            success: true
+                        })
+                    });
+                }
+
+            });
+
+
+        })
+        .post(function(req, res) {
+            var shopId = req.param("shopId", null);
+            var orderId = req.param("orderId", null);
+            var type = req.param("type", null);
+            Order.changeOrderStatus(shopId, orderId, type, function(doc) {
+                res.json({
+                    success: true
+                })
+            });
+        })
 
     .delete(function(req, res) {
         var accountId = req.decoded._id;
@@ -1217,7 +1479,7 @@ doc.map(function(v){
             var dishId = req.param("dishId", null);
             var mark = req.param("mark", null);
             var shopId = req.param("shopId", null);
-            Shop.addComment(shopId,dishId,userId,mark,"content", function() {
+            Shop.addComment(shopId, dishId, userId, mark, "content", function() {
                 res.json({
                     success: true
                 });
@@ -1225,10 +1487,19 @@ doc.map(function(v){
         })
 
     router.route('/account/web/myfav')
+        .get(function(req, res) {
+            var accountId = req.decoded._id;
+            Account.findAccountById(accountId, function(doc) {
+                res.render('myfav.jade', {
+                    username: doc.name
+                });
+            })
+        });
 
-    .get(function(req, res) {
-        res.render('myfav.jade');
-    });
+    router.route('/account/web/myfav/m')
+        .get(function(req, res) {
+            res.render('myfav-m.jade');
+        });
 
     router.route('/account/favoriteshop')
 
@@ -1283,6 +1554,30 @@ doc.map(function(v){
             })
         })
     });
+
+
+    router.route('/account/favoriteshop/m')
+
+    .get(function(req, res) {
+        var accountId = req.decoded._id;
+        var index = req.headers["index"];
+        var count = req.headers["count"];
+        //console.log(index);
+        if (index == null || index == 0) {
+            index = 1;
+        }
+        if (count == null || count == 0) {
+            count = 1;
+        }
+        Account.findFavoriteShop(accountId, index, count, function(doc) {
+            res.json({
+                success: true,
+                favoriteshop: doc
+            });
+        })
+    })
+
+
 
     router.route('/account/favoriteitem')
         .get(function(req, res) {

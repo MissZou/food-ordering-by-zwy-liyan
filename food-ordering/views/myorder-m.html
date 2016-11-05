@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>my order</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=no'>
+    <link rel="stylesheet" href="/stylesheets/header-m.css">
+    <link rel='stylesheet' href='/stylesheets/restaurant-list-m.css'>
+    <style>
+ .wrp{
+ 	background: #fff;
+ }
+    .order-item {
+        margin-bottom: 20px;
+        border-bottom: 1px solid #ccc;
+    }
+    
+    .dishName,
+    .dishPrice,
+    .dishNum {
+        display: inline-block;
+    }
+    ul,li{margin:0;padding: 0;list-style: none}
+   ul{overflow: hidden;}
+   .star>li{float: left;font-size: 32px;cursor: pointer}
+   .active{color: #f00}
+   .text{display:inline-block;    vertical-align: middle;}
+   .order-div .star{
+    width: 200px;display: inline-block;
+    margin: 0;
+        vertical-align: middle;
+   }
+   .shopId,.orderId{
+   	visibility: hidden;
+   	height: 0;
+   }
+   .title-head{
+   	display: inline-block;
+   	font-weight: bold;
+   	color:#3199e8;
+   	width:65px;
+   	margin-right: 5px;
+   }
+    </style>
+    <script src="/javascripts/jquery-2.2.3.min.js"></script>
+    <script src="/javascripts/jquery.tmpl.min.js"></script>
+    <script id="ifelse" type="text/x-jquery-tmpl">
+        <ul class="order-item">
+            <li>
+            <span class="title-head">Price</span>
+            <span class="price">${order.price}</span></li>
+            <li><span class="title-head">Date</span>${order.date.split(".")[0].split("T")[0]} ${order.date.split(".")[0].split("T")[1]}</li>
+            <li><span class="title-head">Contact</span> ${order.address.name} ${order.address.phone} ${order.address.addr}</li>
+            <li><span class="title-head">Status</span>${order.status}</li>
+            <li class="content"><span class="title-head">Content</span>
+                <div class="dishName"></div>
+                <div class="dishPrice"></div>
+                <div class="dishNum"></div>
+                <div class="dishId"></div>
+                <div class="dishMark"></div>
+                
+            </li>
+            <li><span class="title-head">Message</span>${order.message}</li>
+            <li class="shopId">${order.shop}</li>
+            <li class="orderId">${order._id}</li>
+            {{if order.comment }}
+            <li class="mark">${order.comment.mark}</li>
+            <li class="ordercontent">${order.comment.content}</li>
+            {{else}}
+            <li>comment:
+                <input type="text" />
+                <div class="box"><div class="score"><span class="result"></span></div><ul class ="star"><li>★</li><li>★</li><li>★</li><li>★</li><li>★</li></ul><div class="text">0</div></div>
+                <button class="comment">submit comment</button>
+            </li>
+            {{/if}}
+        </ul>
+    </script>
+  <script src="/javascripts/myorder.js"></script>
+</head>
+
+<body>
+	<header class="eleme-header">
+		<a href="" class="header-back"><span class="icon-arrow-left">&lt;</span></a>
+		<div class="header-title flex">
+			<span class="header-rst-name">My Orders</span>
+		</div>
+	</header>
+    <div class="wrp">
+        <div class="order-div">
+        </div>
+    </div>
+</body>
+
+</html>

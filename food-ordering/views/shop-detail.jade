@@ -6,6 +6,12 @@ html
     link(rel='stylesheet', href='/stylesheets/normalize.css')
     link(rel='stylesheet', href='/stylesheets/header.css')
     link(rel='stylesheet', href='/stylesheets/shop-detail.css')
+    style.
+      .rate{
+      margin-left:20px;
+      color:#1e89e0;
+      cursor:pointer;
+      }
   body
     include header.jade
     - if (!Array.prototype.includes) {
@@ -35,8 +41,6 @@ html
     -     return false;
     -   };
     - }
-
-    //- var values = [{'dishName':'dish1','price':23,'dishPic':'gdrgdrg','category':'lalalasil'}, {'dishName':'dish2','price':23,'dishPic':'www.baidu.com','category':'lalalasil'},{'dishName':'dish3','price':23,'dishPic':'www.baidu.com','category':'lalalasil'},{'dishName':'dish4','price':23,'dishPic':'www.baidu.com','category':'lalalasi4324l'}];
     - var values= doc
     - 
 
@@ -62,6 +66,7 @@ html
 
     h1.shopName= shopName
     .heart.coreSpriteHeartOpen
+    span.rate See other customers' comments >>
     .wrapper.clearfix
       .left-side
         .shopmenu-nav
@@ -82,7 +87,7 @@ html
                     .star-meter(progress-fill=values[i].comment.avg('mark'), style='width:'+values[i].comment.avg('mark')/5.0*100+'%;')
                   span.color-mute= '('+values[i].comment.length+')'
                   span.shopmenu-food-price= values[i].price
-                  button.shop-cartbutton 加入购物车
+                  button.shop-cartbutton Add to cart
                   input(type="hidden",value=values[i]._id )
             -   }
             - }
@@ -91,12 +96,12 @@ html
       #shopbasket.shop-cartbasket
         .shop-grouphead.single
           .shop-grouphead-row
-            | 购物车 
-            a(href='javascript:') [清空]
+            | cart 
+            a(href='javascript:') [clean]
       .shop-cartfooter
         span.icon-cart.shop-carticon
         p.shop-cartfooter-text.price
-        button.shop-cartfooter-checkout.disabled 购物车是空的
+        button.shop-cartfooter-checkout.disabled Empty
       .shop-carthelper-opener
       .shop-flyitem
   script(src='/javascripts/jquery-1.7.1.min.js')

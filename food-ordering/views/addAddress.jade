@@ -1,33 +1,33 @@
 .mask(style='position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; opacity: 0.5; z-index: 1000; background: rgb(0, 0, 0);display:none;')
 .addressdialog(style='z-index: 1001;display:none;')
   .addressdialog-close
-  .addressdialog-header 添加新地址
+  .addressdialog-header Add new address
   .addressdialog-content
     .addressform
       div#updateAddress
         .addressformfield
-          label 姓名
-          input#username(placeholder='请输入您的姓名')
+          label Name
+          input#username(placeholder='Input your name please.')
           .addressformfield-hint
-            span.icon-dot-error 请输入收外卖人的姓名
+            span.icon-dot-error Input your name please.'
         .addressformfield
-          label 类型
-          input#type(placeholder='住址类型（公司、个人等）')
+          label Type
+          input#type(placeholder='Please input your address type.')
           .addressformfield-hint
-            span.icon-dot-error 请输入住址类型
+            span.icon-dot-error Please input your address type.
         .addressformfield
-          label 详细地址
-          input#address(placeholder='单元、门牌号')
+          label Address
+          input#address(placeholder='Please input your address type.')
           .addressformfield-hint
-            span.icon-dot-error 请输入详细地址
+            span.icon-dot-error Please input your address.
         .addressformfield.phonefield
-          label 手机号
-          input#phone(placeholder='请输入您的手机号',type="number")
+          label Phone number
+          input#phone(placeholder='Please input your phone number.',type="number")
           .addressformfield-hint
-            span.icon-dot-error 请输入您的手机号
+            span.icon-dot-error Please input your phone number.
         input#addr_id(type="hidden")
         input#index(type="hidden")
       .addressform-buttons
-        button#save 保存
-        button#updateBtn 保存修改
-        button 取消
+        button#save Save
+        button#updateBtn Save
+        button Cancel

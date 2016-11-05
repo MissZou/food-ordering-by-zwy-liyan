@@ -17,9 +17,6 @@ $(function() {
                 </li>';
 
         $.template("orderTemplate", markup);
-
-        // Render the template with the movies data and insert
-        // the rendered HTML under the "movieList" element
         $.tmpl("orderTemplate", orderListArr)
             .appendTo(".checkoutcart-group");
         $(".checkoutcart-total .num").text(localStorage.getItem('totalPrice'));
@@ -161,6 +158,7 @@ $(function() {
         }
         console.log("dishs",dishs);
         console.log("address",address)
+        
         $.ajax({
             url: '/user/account/order',
             type: 'PUT',
@@ -178,5 +176,7 @@ $(function() {
 
         socket.emit('set nickname',userId)
         socket.emit('say to someone', id, "Someone orders!"); //to id
+
+        location.href="/user/account/web/result";
     }
 })

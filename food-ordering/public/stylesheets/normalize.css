@@ -8,6 +8,7 @@
 *{
   margin:0;
   padding:0;
+
 }
 *, :after, :before {
     box-sizing: inherit;
@@ -24,8 +25,8 @@ html {
 
 body {
   margin: 0;
+    font-family: Helvetica Neue,Helvetica,Arial,PingFang SC,Hiragino Sans GB,WenQuanYi Micro Hei,Microsoft Yahei,sans-serif;
 }
-
 /* HTML5 display definitions
    ========================================================================== */
 

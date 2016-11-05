@@ -1,0 +1,24 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title my favourite
+    meta(name='viewport',content='width=device-width, initial-scale=1, user-scalable=no')
+    link(rel='stylesheet', href='/stylesheets/restaurant-list-m.css')
+    link(rel='stylesheet', href='/stylesheets/header-m.css')
+    style.
+      #search-result{
+      background:#fff;
+      }
+      li{
+      list-style:none;
+      }
+  body
+    include header-m.jade
+    +header-m("My favourite")
+    #search-result
+  script(src='/javascripts/jquery-2.2.3.min.js')
+  script(src='/javascripts/jquery.tmpl.min.js')
+  script(src='/javascripts/myfav-m.js')
+  script(src='/javascripts/header.js')
+

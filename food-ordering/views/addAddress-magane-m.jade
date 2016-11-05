@@ -1,0 +1,68 @@
+doctype html
+html
+	head
+		meta(charset='UTF-8')   
+		title Address management
+		meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=no')
+		link(rel='stylesheet', href='/stylesheets/normalize.css')
+		link(rel='stylesheet', href='/stylesheets/header-m.css')
+		link(rel='stylesheet', href='/stylesheets/updateAddress.css')
+		style.
+			.desktop-addresslist {
+				padding-top: 15px;
+				overflow: hidden;
+				width:80%;
+				margin:0 auto;
+				}
+			.desktop-addressblock{
+			display:block;
+			width:100%;
+			}
+	body
+		include header-m.jade
+		+header-m("Address management")
+		if (items)
+			.desktop-addresslist.clearfix
+				each val in items
+					.desktop-addressblock.addressItem
+						.desktop-addressblock-name= val.name
+						.desktop-addressblock-address= val.addr
+						.desktop-addressblock-mobile= val.phone
+						.type= val.type
+						input.addr_id(type="hidden",value= val._id )
+				button.desktop-addressblock.desktop-addressblock-addblock Add new address
+		else
+			.desktop-addresslist.clearfix
+		div#updateInfo(style="display:none;")
+			label(for='location') update location
+			input#location(type='text')
+			button submit
+
+		div#updExistingAddr(style="display:none;")
+			label(for='username') name
+			input#usernamee(type="text")
+			label(for='phone') phone
+			input#phonee(type="text")
+			label(for='type') type
+			input#typee(type="text")
+			label(for='address') address
+			input#addresse(type="text")
+			input#addr_id(type="hidden")
+			button submit
+
+	script(src='/javascripts/jquery-1.7.1.min.js')
+	script.
+		$(".desktop-addressblock-addblock").on("click",function(){
+		location.href="/user/account/web/address/m";
+		})
+		$(".addressItem").on("click",function(){
+		var currentAddress={};
+		currentAddress.name=$(this).find(".desktop-addressblock-name").text();
+		currentAddress.address=$(this).find(".desktop-addressblock-address").text();
+		currentAddress.phone=$(this).find(".desktop-addressblock-mobile").text();
+		localStorage.setItem("currentAddress",JSON.stringify(currentAddress))
+		location.href="/user/account/web/confirm/m";
+		})
+	script(src='/javascripts/header.js')
+
+

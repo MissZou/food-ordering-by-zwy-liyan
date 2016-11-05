@@ -14,7 +14,20 @@ $(function() {
             data: {"shopId":shopId},
             success: function(data, status) {
                 if (data.success) {
-                    trueData=data.dish;
+                    Array.prototype.uniqueFunc = function() {
+                    var res = [];
+                    var json = {};
+                    for (var i = 0; i < this.length; i++) {
+                        if (!json[this[i].dishName]) {
+                            res.push(this[i]);
+                            json[this[i].dishName] = 1;
+                        }
+                    }
+                    return res;
+                }
+                var dish = data.dish.uniqueFunc();
+
+                    trueData=dish;
                     for(var i=0;i<trueData.length;i++){
                     	if(!classifyObj[trueData[i].category]){
                     		classifyObj[trueData[i].category]=[];
@@ -31,31 +44,49 @@ $(function() {
 
 	$(document).on("click",".mdish-cartcontrol",changeCart);
 	$(document).on("click",".minus-cartcontrol",minusCart);
+
+    $(".mdish-cartcontrol").on("click",changeCart)
 	$(".mcart-checkout").on("click",order);
 	var loadBefore={};
+
+      Array.prototype.avg=function(key){
+    if(this.length==0){
+    return 0;
+    }
+    var sum=0;
+    var num=this.length;
+    this.forEach(function(cur,ind){
+      sum+=cur[key];
+    })
+    return sum/num;
+    }
+
     function loadContent() {
         num = $(this).find(".category").text();
         var index=$(this).index();
         $(".restaurant-menu-item").eq(index).addClass("active").siblings().removeClass("active");
         if(!loadBefore[num]){
-        	console.log("no")
         	var currentData = classifyObj[num];
         var markup = '<div class="restaurant-food-container"> \
-        <img width="70" height="70" style="opacity: 1; transition: opacity 0.5s;" src=${dishPic}> \
+        <img width="70" height="70" style="opacity: 1; transition: opacity 0.5s;" src=${dishPic.split("8080")[1]}> \
         <div class="restaurant-food-body"> \
             <p class="restaurant-food-name">${dishName}</p> \
-            <p class="restaurant-food-description">${intro}</p> \
             <div class="restaurant-food-content"> \
                 <div class="restaurant-food-info"> \
                     <p class="restaurant-food-about"> \
-                        <rating></rating> \
-                        <span class="restaurant-food-comment">0评价</span> \
-                        <span class="restaurant-food-sales">月售57份</span> \
+                        <div class="star-rating" progress-meter="5"> \
+                            <div progress-fill=${comment.avg("mark")} style="width:${comment.avg("mark")/5.0*100}%;" class="star-meter"> \
+                            </div> \
+                        </div> \
+                        <span class="color-mute"> \
+                            (${comment.length}) \
+                        </span> \
                     </p> \
                     <div class="restaurant-food-footer"> \
                         <span class="restaurant-food-price">${price}</span> \
                         <div class="mdish-cartcontrol">+</div> \
                     </div> \
+                    <input type="hidden" value=${_id} class="dishId"> \
                 </div> \
             </div> \
         </div> \
@@ -90,11 +121,15 @@ $(function() {
 		$(".mcart-price").text(originalPrice+price);
 		var dishName=$(this).parents(".restaurant-food-content").siblings(".restaurant-food-name").text();
 		var dishPrice=+$(this).siblings(".restaurant-food-price").text();
+        var dishId=$(this).parent().siblings(".dishId").val();
+
+        console.log($(this))
 		var find=false;
 		for(var i=0;i<menuOrder.length;i++){
 			if(menuOrder[i].dishName==dishName){
 				menuOrder[i].num++;
 				menuOrder[i].price+=dishPrice;
+                menuOrder[i].dishId=dishId;
 				find=true;
 				break;
 			}
@@ -104,7 +139,8 @@ $(function() {
 				obj.dishName=dishName;
 				obj.price=dishPrice;
 				obj.num=1;
-				menuOrder.push(obj)
+                obj.dishId=dishId;
+				menuOrder.push(obj);
 	}
     }
     function minusCart(){
@@ -176,4 +212,18 @@ $(function() {
         localStorage.setItem('totalPrice',$(".mcart-price").text());
         window.location="/user/account/web/order/m";
     }
+
+    $(".comment").on("click",function(){
+        var shopId=location.href.split("/")[7];
+        window.location="/user/account/web/rate/"+shopId+"/m";
+    })
+ $(".infoTab").on("click",function(){
+        var shopId=location.href.split("/")[7];
+        window.location="/user/account/web/info/"+shopId+"/m";
+    })
+
+ setTimeout(function(){
+    $(".restaurant-menu-item").eq(0).click()
+ },1000)
+
 })
