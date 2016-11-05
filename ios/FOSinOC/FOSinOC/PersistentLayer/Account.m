@@ -653,7 +653,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     }
     
     
-    NSURL *url = [NSURL URLWithString:@"account/order" relativeToURL:self.baseUrl];
+    NSURL *url = [NSURL URLWithString:@"account/orderfull" relativeToURL:self.baseUrl];
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
@@ -731,7 +731,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
 }
 
 - (void)getOrderAtIndex:(NSInteger)index withCount:(NSInteger)count {
-    NSURL *url = [NSURL URLWithString:@"account/order" relativeToURL:self.baseUrl];
+    NSURL *url = [NSURL URLWithString:@"account/orderfull" relativeToURL:self.baseUrl];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
     [manager.requestSerializer setValue:self.token forHTTPHeaderField:@"token"];
