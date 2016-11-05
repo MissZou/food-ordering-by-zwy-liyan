@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface PlaceOrderViewController : UIViewController
-
+@property (copy,nonatomic) NSString *shopId;
+@property (strong, nonatomic) UIImage *shopImage;
+@property (copy, nonatomic) NSString *shopName;
 @end

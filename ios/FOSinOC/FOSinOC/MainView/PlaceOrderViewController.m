@@ -14,32 +14,34 @@
 #define bottomViewHeight 50
 #define tableCellTag 1760
 
+#define statusCreated @"created"
+#define statusShipped @"shipped"
+#define statusConfirmed @"confirmed"
+
 #import "PlaceOrderViewController.h"
 #import "Account.h"
 #import "Shop.h"
+#import "Order.h"
 
 #import "ShopDetailedViewController.h"
 #import "ChooseAddressViewController.h"
 #import "WriteMessageViewController.h"
+#import "OrderInfoViewController.h"
 
-@interface PlaceOrderViewController ()<UITableViewDelegate,UITableViewDataSource,ChooseAddressViewDelegate,WriteMessageViewDelegate>
+@interface PlaceOrderViewController ()<UITableViewDelegate,UITableViewDataSource,ChooseAddressViewDelegate,WriteMessageViewDelegate, AccountDelegate>
 @property (strong,nonatomic) UIView *bottomView;
 @property (strong,nonatomic) UIButton *payButton;
-
 @property (assign,nonatomic) NSUInteger totalPrice;
 @property (assign,nonatomic) NSUInteger totalItemCount;
-
 @property (strong,nonatomic) UILabel *priceLabel;
 @property (strong,nonatomic) UITableView *tableView;
 @property (strong,nonatomic) Account *myAccount;
 @property (strong,nonatomic) Shop *myShop;
-
 @property (strong,nonatomic) NSMutableArray *shopList;
 @property (copy,nonatomic) NSString* message;
 @property (strong,nonatomic)UILabel *messageLabel;
-
 @property (strong,nonatomic) NSDictionary *address;
-
+@property (strong, nonatomic) Order *order;
 @end
 
 @implementation PlaceOrderViewController
@@ -49,6 +51,7 @@
     [self initTableView];
     [self initBottomView];
     self.myAccount = [Account sharedManager];
+    self.myAccount.delegate = self;
     self.myShop = [Shop sharedManager];
 //    self.navigationController.navigationBar.layer.shadowColor = [[UIColor blackColor] CGColor];
 //    self.navigationController.navigationBar.layer.shadowOffset = CGSizeMake(0.0f, 5.0f);
@@ -62,12 +65,21 @@
     self.navigationItem.titleView = vcName;
     UIBarButtonItem *backBarButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:NULL];
     self.navigationItem.backBarButtonItem = backBarButton;
+    self.message = nil;
+    //[self.myAccount order:GET withShopId:nil items:nil price:0 address:nil message:nil];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self cleanShopData];
-    //NSLog(@"cart detailed %@",self.myAccount.cartDetail);
+    if (self.myAccount.cartDetail.count >0) {
+        [self cleanShopData];
+        [self.tableView reloadData];
+    }else{
+        //No items in cart
+        //NSLog(@"cart detailed %@",self.myAccount.cartDetail);
+    }
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -81,7 +93,7 @@
     
     self.priceLabel = [[UILabel alloc]init];
     //self.priceLabel.numberOfLines = 0;
-    self.priceLabel.text = @"Total Price: $0";
+    self.priceLabel.text = [NSString stringWithFormat:@"Total Price $%@",[[NSNumber numberWithUnsignedInteger:self.totalPrice] stringValue]];
     self.priceLabel.textColor = [UIColor whiteColor];
     self.priceLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
     self.priceLabel.frame = CGRectMake(80, 10, 100, 30);
@@ -110,22 +122,28 @@
 
 -(void)cleanShopData{
     self.shopList = [[NSMutableArray alloc]init];
-    [self.shopList addObject:[self.myAccount.cartDetail[0] valueForKey:@"shopId"]];
-    for (int i =0; i<self.myAccount.cartDetail.count; i++) {
-        BOOL isFindShop = false;
-        for (int j = 0; j<self.shopList.count; j++) {
-            
-            if ([self.shopList[j] isEqualToString:[self.myAccount.cartDetail[i] valueForKey:@"shopId"]]) {
-                isFindShop = true;
-                break;
-            }
-            
-            if (!isFindShop && j==self.shopList.count - 1) {
-                [self.shopList addObject:[self.myAccount.cartDetail[i] valueForKey:@"shopId"]];
-            }
+    for (int i = 0; i<self.myAccount.cartDetail.count; i++) {
+        if ([[self.myAccount.cartDetail[i] valueForKey:@"shopId"] isEqualToString:self.shopId]) {
+            [self.shopList addObject:[self.myAccount.cartDetail[i] valueForKey:@"shopId"]];
+            break;
         }
-        
     }
+    //[self.shopList addObject:[self.myAccount.cartDetail[0] valueForKey:@"shopId"]];
+//    for (int i =0; i<self.myAccount.cartDetail.count; i++) {
+//        BOOL isFindShop = false;
+//        for (int j = 0; j<self.shopList.count; j++) {
+//            
+//            if ([self.shopList[j] isEqualToString:[self.myAccount.cartDetail[i] valueForKey:@"shopId"]]) {
+//                isFindShop = true;
+//                break;
+//            }
+//            
+//            if (!isFindShop && j==self.shopList.count - 1) {
+//                [self.shopList addObject:[self.myAccount.cartDetail[i] valueForKey:@"shopId"]];
+//            }
+//        }
+//        
+//    }
 }
 
 #pragma mark - Tableview delegate and Datasource
@@ -170,12 +188,9 @@
                     address.text = [self.myAccount.deliverAddress[0] valueForKey:@"addr"];
                     phone.text = [self.myAccount.deliverAddress[0] valueForKey:@"phone"];
                 }else{
-                    name.text = @"Click to choose address";
+                    name.text = @"Click to create address";
                     self.address = nil;
                 }
-                
-                
-                
                 [cell.contentView addSubview:name];
                 [cell.contentView addSubview:phone];
                 [cell.contentView addSubview:address];
@@ -216,6 +231,7 @@
                         amount.tag = tableCellTag+7;
                         amount.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
                         amount.text = [NSString stringWithFormat:@"x%@",[[self.myAccount.cartDetail[i] valueForKey:@"amount"] stringValue]];
+                        
                         [cell.contentView addSubview:amount];
                         
                         UILabel *price = [[UILabel alloc]initWithFrame:CGRectMake(250, 5 + itemCount*(5+24), 100, 24)];
@@ -238,6 +254,7 @@
                        totalPrice = totalPrice + [[self.myAccount.cartDetail[i] valueForKey:@"price"] integerValue]*[[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue];
                     }
                 }
+                self.totalPrice = totalPrice;
                 NSString *priceText = [[NSNumber numberWithInteger:totalPrice] stringValue];
                 total.text = [NSString stringWithFormat:@"Total $%@",priceText];
                 [cell.contentView addSubview:total];
@@ -247,15 +264,16 @@
         } if(indexPath.section == 2+self.shopList.count){
             if (indexPath.row == 0) {
                 self.totalItemCount = 0;
-                self.totalPrice = 0;
+                
                 for (int i = 0; i<self.myAccount.cartDetail.count; i++) {
                     self.totalItemCount = self.totalItemCount + [[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue];
                     
-                    self.totalPrice = self.totalPrice + [[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue]*[[self.myAccount.cartDetail[i] valueForKey:@"price"] integerValue];
+//                    self.totalPrice = self.totalPrice + [[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue]*[[self.myAccount.cartDetail[i] valueForKey:@"price"] integerValue];
                 }
                 UILabel *priceLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 100, 5, 100, 24)];
                 priceLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
                 priceLabel.text = [NSString stringWithFormat:@"All $%@",[[NSNumber numberWithUnsignedInteger:self.totalPrice] stringValue]];
+                self.priceLabel.text = [NSString stringWithFormat:@"Total Price $%@",[[NSNumber numberWithUnsignedInteger:self.totalPrice] stringValue]];
                 [cell.contentView addSubview:priceLabel];
             }else if(indexPath.row == 1){
                 self.messageLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 100, 5, 100, 24)];
@@ -295,12 +313,14 @@
                 separateLine.image = [UIImage imageNamed:@"markLineRed.png"];
                 separateLine.clipsToBounds = true;
                 separateLine.tag = tableCellTag + 11;
-                if (self.myAccount.deliverAddress.count>0) {
-                    name.text = [self.myAccount.deliverAddress[0] valueForKey:@"name"];
-                    address.text = [self.myAccount.deliverAddress[0] valueForKey:@"addr"];
-                    phone.text = [self.myAccount.deliverAddress[0] valueForKey:@"phone"];
-                }
-                
+//                if (self.myAccount.deliverAddress.count>0) {
+//                    name.text = [self.myAccount.deliverAddress[0] valueForKey:@"name"];
+//                    address.text = [self.myAccount.deliverAddress[0] valueForKey:@"addr"];
+//                    phone.text = [self.myAccount.deliverAddress[0] valueForKey:@"phone"];
+//                }
+                name.text = [self.address valueForKey:@"name"];
+                address.text = [self.address valueForKey:@"addr"];
+                phone.text = [self.address valueForKey:@"phone"];
                 
                 [cell.contentView addSubview:name];
                 [cell.contentView addSubview:phone];
@@ -374,6 +394,7 @@
                         totalPrice = totalPrice + [[self.myAccount.cartDetail[i] valueForKey:@"price"] integerValue]*[[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue];
                     }
                 }
+                self.totalPrice = totalPrice;
                 NSString *priceText = [[NSNumber numberWithInteger:totalPrice] stringValue];
                 total.text = [NSString stringWithFormat:@"Total $%@",priceText];
                 [cell.contentView addSubview:total];
@@ -382,11 +403,12 @@
         } if(indexPath.section == 2+self.shopList.count){
             if (indexPath.row == 0) {
                 self.totalItemCount = 0;
-                self.totalPrice = 0;
+                
+                NSInteger totalPrice = 0;
                 for (int i = 0; i<self.myAccount.cartDetail.count; i++) {
                     self.totalItemCount = self.totalItemCount + [[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue];
                     
-                    self.totalPrice = self.totalPrice + [[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue]*[[self.myAccount.cartDetail[i] valueForKey:@"price"] integerValue];
+                    totalPrice = totalPrice + [[self.myAccount.cartDetail[i] valueForKey:@"price"] integerValue]*[[self.myAccount.cartDetail[i] valueForKey:@"amount"] integerValue];
                 }
                 UILabel *priceLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 100, 5, 100, 24)];
                 priceLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
@@ -481,13 +503,31 @@
 }
 
 #pragma mark - Button Handle
-
--(void)payButtonHandle{
-    [self.payButton setBackgroundColor:myGreenColor];
-    NSLog(@"payButtonHandle");
-    
-    [self.myAccount placeOrderForallItemsInCartWithaddress:self.address message:self.message];
+- (NSMutableArray *)cleanItemData:(NSMutableArray *)items {
+    NSMutableArray *cleanedItems = [[NSMutableArray alloc]init];
+    for (int i = 0; i<items.count; i++) {
+        NSDictionary *item = @{@"amount":[items[i] valueForKey:@"amount"],@"itemId":[items[i] valueForKey:@"_id"]};
+        [cleanedItems addObject:item];
+    }
+    return cleanedItems;
 }
+
+- (void)payButtonHandle{
+    [self.payButton setBackgroundColor:myGreenColor];
+    NSMutableArray *itemsofThisShop = [[NSMutableArray alloc] init];
+    for (int i = 0; i<self.myAccount.cartDetail.count; i++) {
+        if ([[self.myAccount.cartDetail[i] valueForKey:@"shopId"] isEqualToString:self.shopId]) {
+            [itemsofThisShop addObject:self.myAccount.cartDetail[i]];
+        }
+    }
+    
+    [self.myAccount order:PUT withShopId:self.shopId items:[self cleanItemData:itemsofThisShop] price:self.totalPrice address:self.address message:self.message];
+    
+    [self performSegueWithIdentifier:@"paysuccess" sender:nil];
+    
+}
+
+
 
 -(void)payButtonHighlight{
     [self.payButton setBackgroundColor:myGreenColorHighlight];
@@ -514,6 +554,21 @@
         WriteMessageViewController *destinationVC = segue.destinationViewController;
         destinationVC.delegate = self;
         destinationVC.message = self.message;
+    } else if ([segue.identifier isEqualToString:@"paysuccess"]) {
+        NSMutableArray *itemsofThisShop = [[NSMutableArray alloc] init];
+        for (int i = 0; i<self.myAccount.cartDetail.count; i++) {
+            if ([[self.myAccount.cartDetail[i] valueForKey:@"shopId"] isEqualToString:self.shopId]) {
+                [itemsofThisShop addObject:self.myAccount.cartDetail[i]];
+                
+            }
+        }
+        OrderInfoViewController *destinationVC = segue.destinationViewController;
+        destinationVC.itemList = [itemsofThisShop copy];
+        destinationVC.shopName = self.shopName;
+        destinationVC.shopImage = self.shopImage;
+        destinationVC.address = self.address;
+        destinationVC.orderStatus = statusCreated;
+        destinationVC.totalPrice = (long *)self.totalPrice;
     }
 }
 

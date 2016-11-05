@@ -15,17 +15,17 @@
 
 @implementation LeftViewTableController
 
--(id)init{
-    if (self = [super init]) {
-        self.menuOptions = @[@"Account",@"Schedule",@"Favorite",@"Log out"];
-        self.myAccount = [Account sharedManager];
-    }
-    return self;
-}
+//-(id)init{
+//    if (self = [super init]) {
+//        self.menuOptions = @[@"Account",@"Order",@"Favorite",@"Log out"];
+//        self.myAccount = [Account sharedManager];
+//    }
+//    return self;
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.menuOptions = @[@"Account",@"Schedule",@"Favorite",@"Log out"];
+    self.menuOptions = @[@"Account",@"Favorite",@"Log out"];
     self.myAccount = [Account sharedManager];
 
 }
@@ -82,10 +82,9 @@
             [self performSegueWithIdentifier:@"accountView" sender:nil];
             break;
         case 1:
+            //[self performSegueWithIdentifier:@"orderListView" sender:nil];
             break;
         case 2:
-            break;
-        case 3:
             [self logout];
             break;
         default:

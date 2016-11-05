@@ -18,7 +18,7 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
     var session = require('express-session');
     var gm = require('gm');
     var imageMagick = gm.subClass({ imageMagick: true });
-
+    var eventEmitter = require('events').EventEmitter;  
     app.set('view engine', 'jade');
     var tokenConfig = {
         'secret': 'wochengrenwokanbudongzhegetokenshiTMzmlaide',
@@ -558,19 +558,13 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
 
     .put(function(req, res) {
         var accountId = req.decoded._id;
-        //var accountId = req.session.user._id;
         var locationName = req.param("name", null);
         var coordinateString = req.param("location", null);
-        //console.log(coordinateString);
         var coordinate = JSON.stringify(coordinateString);
-        //console.log(typeof coordinate);
-        //console.log(typeof coordinateString);
         coordinate = coordinate.split(',');
         coordinate[0] = coordinate[0].replace(/[^0-9.]/g, '');
         coordinate[1] = coordinate[1].replace(/[^0-9.]/g, '');
         var location = [Number(coordinate[0]), Number(coordinate[1])];
-        //var coordinate = [Number(coordinateString.split(',')[0]),Number(coordinateString.split(',')[1])];
-        //console.log('account/location'+coordinate.split(',')[0]);
         console.log(accountId);
         if (locationName != null && locationName != "") {
             Account.addLocation(accountId, locationName, location, function(err) {
@@ -1139,9 +1133,7 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
                 }
             })
         })
-
-
-    router.route('/account/order')
+ router.route('/account/orderfull')
         .get(function(req, res) {
             var accountId = req.decoded._id;
             var index = req.headers["index"];
@@ -1153,13 +1145,87 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
             if (count == null || count == 0) {
                 count = 1;
             }
-            Account.findOrderByUserId(accountId, index, count, function(doc) {
-                if (doc != null) {
-                    // console.log("orderrrr", doc)
-                    res.json({
-                        order: doc,
-                        success: true
-                    })
+
+            Account.findOrderIdByUserId(accountId, index, count, function(doc) {
+                console.log(doc);
+                
+                if (doc.length != 0) {
+                    var myEventEmitter = new eventEmitter;
+                    myEventEmitter.on('next',addResult);
+                    var orderArray = [];
+                    var itemArray = [];
+                    var itemAmount = [];
+                    var orderObj;
+                    var itemObj;
+                    var docCount = 0;
+                    function addResult(){
+                        
+                        var shopOjb = orderObj.shop;
+                        //orderObj.shop = undefined;
+                        orderObj.shop.email = undefined;
+                        orderObj.shop.password = undefined;
+                        orderObj.shop.address = undefined;
+                        orderObj.shop.location = undefined;
+                        orderObj.shop.open = undefined;
+                        orderObj.shop.shopType = undefined;
+                        orderObj.shop.orders = undefined;
+                        orderObj.shop.dish = undefined;
+                        //orderObj.shop = shopOjb.shopName;
+
+                        for(var i = 0; i < itemArray.length; i++) {
+                            var item = new Object();
+                            item.amount = itemAmount[i];
+                            item.dishName = itemArray[i].dishName;
+                            item.price = itemArray[i].price;
+                            item.intro = itemArray[i].intro;
+                            item.category = itemArray[i].category;
+                            item._id = itemArray[i]._id;
+                            item.dishPic = itemArray[i].dishPic;
+                            
+                            
+                            //item = itemArray[i];
+                            console.log("orderObj.dishs[i] = itemArray[i];");
+                            console.log(item);
+                            //orderObj.dishs[i] = itemArray[i];
+                            orderObj.dishs[i] = item;
+                            //orderObj.dishs[i].amount = itemAmount[i];
+                        }
+                        itemArray = [];
+                        orderArray.push(orderObj)
+                        console.log(doc);
+                        docCount++;
+
+                        //console.log(orderObj);
+                        if (docCount == doc.length) {
+                            res.json({
+                            order: orderArray,
+                            success: true
+                            })
+                        }
+                   }   
+                    //orderArray.push(doc);
+                    for (var k = 0; k < doc.length; k++) {
+                            Order.findById(doc[k],function(doc,err){
+                             console.log(doc.dishs);
+                            for(var i = 0; i < doc.shop.dish.length; i++) {
+                                for (var j = 0; j < doc.dishs.length; j++){
+                                 if (String(doc.shop.dish[i]._id).valueOf() == String(doc.dishs[j].itemId).valueOf()){
+                                        //console.log("!!!!!!!!!!!!full dish");
+                                        console.log("!!!!!!!!!!!!AMOUNT");
+                                        console.log(doc.dishs[j].amount);
+                                        doc.shop.dish[i].amount = doc.dishs[j].amount;
+                                        console.log(doc.shop.dish[i]);
+                                        itemArray.push(doc.shop.dish[i]);
+                                        itemAmount.push(doc.dishs[j].amount);              
+                                    }
+                                }
+                            }
+                            orderObj = doc;
+                            
+                            myEventEmitter.emit("next");
+                        })    
+                    }
+                    
                 } else {
                     res.json({
                         success: false
@@ -1167,18 +1233,34 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
                 }
 
             })
-
         })
-
     .put(function(req, res) {
-            var accountId = req.decoded._id;
-            var shopId = req.param("shopId", null);
-            var dishs = req.param("dishs", null);
-            var price = req.param("price", null);
-            var address = req.param("address", null);
-            var message = req.param("message", null);
+        var accountId = req.decoded._id;
+        var shopId = req.param("shopId", null);
+        var dishs = req.param("dishs", null);
+        var price = req.param("price", null);
+        var address = req.param("address", null);
+        var message = req.param("message", null);
 
-            Order.addOrder(accountId, shopId, dishs, address, price, message, function(order) {
+        console.log(shopId);
+        console.log(dishs);
+        console.log(price);
+        console.log(address);
+        console.log(message);
+        //clean incoming data
+        if (dishs.length == 1 && typeof(dishs[0].itemId) == "object") {
+            console.log("dishs object");
+            var items = [];
+            for(var p in dishs[0].itemId) {
+                var obj = {};
+                console.log(dishs[0].itemId[p]);
+                console.log(dishs[0].amount[p]);
+                obj.itemId = dishs[0].itemId[p];
+                obj.amount = dishs[0].amount[p];
+                items.push(obj);
+            }
+            console.log(items);
+            Order.addOrder(accountId, shopId, items, address, price, message, function(order) {
 
                 if (order._id != null) {
                     Shop.addOrder(shopId, order._id, function(doc) {
@@ -1195,6 +1277,147 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
                                 i = -1;
                                 continue;
                             }
+
+                        }
+                        //console.log("=================");
+                        //console.log(doc.orders[0]);
+                        res.json({
+                            accountId: doc._id,
+                            order: doc.orders[0].order,
+                            success: true
+                        })
+                    });
+                }
+
+            });
+        }
+        else {
+                Order.addOrder(accountId, shopId, dishs, address, price, message, function(order) {
+                if (order._id != null) {
+                    Shop.addOrder(shopId, order._id, function(doc) {
+                    });
+                    Account.addOrder(accountId, order._id, function(doc) {
+                        for (var i = 0; i < doc.orders.length; i++) {
+                            if (doc.orders[i].order == null) {
+                                doc.orders.splice(i, 1);
+                                i = -1;
+                                continue;
+                            }
+                        }
+                        //console.log("=================");
+                        //console.log(doc.orders[0].order);
+                        res.json({
+                            accountId: doc._id,
+                            order: doc.orders[0].order,
+                            success: true
+                        })
+                    });
+                }
+
+            });
+
+        }
+        // res.json({
+        //     doc:true
+        // })
+
+
+        })
+        .post(function(req, res) {
+            var shopId = req.param("shopId", null);
+            var orderId = req.param("orderId", null);
+            var type = req.param("type", null);
+            Order.changeOrderStatus(shopId, orderId, type, function(doc) {
+                res.json({
+                    success: true
+                })
+            });
+        })
+    .post(function(req, res) {
+            var shopId = req.param("shopId", null);
+            var orderId = req.param("orderId", null);
+            var type = req.param("type", null);
+            Order.changeOrderStatus(shopId, orderId, type, function(doc) {
+                res.json({
+                    success: true
+                })
+            });
+        })
+
+    .delete(function(req, res) {
+        var accountId = req.decoded._id;
+        var orderId = req.param("orderId", null);
+
+        Account.deleteOrder(accountId, orderId, function(err) {
+            if (err == null) {
+                res.json({
+                    //accountId: doc._id,
+                    //order:doc.orders,
+                    success: true
+                })
+            }
+
+        });
+    })
+
+
+    router.route('/account/order')
+        .get(function(req, res) {
+            var accountId = req.decoded._id;
+            var index = req.headers["index"];
+            var count = req.headers["count"];
+            //console.log(index);
+            if (index == null || index == 0) {
+                index = 1;
+            }
+            if (count == null || count == 0) {
+                count = 1;
+            }
+
+            Account.findOrderByUserId(accountId, index, count, function(doc) {
+                if (doc != null) {
+                    // console.log("orderrrr", doc)
+                    res.json({
+                        order: doc,
+                        success: true
+                    })
+                } else {
+                    res.json({
+                        success: false
+                    })
+                }
+
+            })
+        })
+
+    .put(function(req, res) {
+
+            var accountId = req.decoded._id;
+            var shopId = req.param("shopId", null);
+            var dishs = req.param("dishs", null);
+            var price = req.param("price", null);
+            var address = req.param("address", null);
+            var message = req.param("message", null);
+
+            Order.addOrder(accountId, shopId, dishs, address, price, message, function(order) {
+
+
+                if (order._id != null) {
+                    Shop.addOrder(shopId, order._id, function(doc) {
+                        // request(to shop/router)
+                        // shop.notification{
+                        //     res.send()
+                        // }
+                    });
+                    Account.addOrder(accountId, order._id, function(doc) {
+                        // console.log(doc.orders);
+                        for (var i = 0; i < doc.orders.length; i++) {
+                            if (doc.orders[i].order == null) {
+                                doc.orders.splice(i, 1);
+                                i = -1;
+                                continue;
+                            }
+
                         }
                         //console.log(doc.orders);
                         res.json({
@@ -1206,6 +1429,7 @@ var routeUser = function(app, io, mongoose, Account, Shop, Order, onlineUser) {
                 }
 
             });
+
 
         })
         .post(function(req, res) {

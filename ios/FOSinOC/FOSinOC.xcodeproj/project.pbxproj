@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		969AAEBAB7253D1B47EF2EAE /* Pods_FOSinOC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CEF418D564E6E43DD0D03E0 /* Pods_FOSinOC.framework */; };
+		4D1C3C73B7B1E139504956C7 /* libPods-FOSinOCUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4F0E31417FC9642F0FE4705 /* libPods-FOSinOCUITests.a */; };
+		7D446DAE1980AE7D318FC036 /* libPods-FOSinOCTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F50EA7BEEA18C28AFD0C098D /* libPods-FOSinOCTests.a */; };
+		B11125469337524D706ACE37 /* libPods-FOSinOC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C49075808D3A0781065A7A8 /* libPods-FOSinOC.a */; };
 		BA174A411CBE496E00419E3B /* account.png in Resources */ = {isa = PBXBuildFile; fileRef = BA174A3A1CBE496E00419E3B /* account.png */; };
 		BA174A421CBE496E00419E3B /* addGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = BA174A3B1CBE496E00419E3B /* addGreen.png */; };
 		BA174A441CBE496E00419E3B /* favoriteGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = BA174A3D1CBE496E00419E3B /* favoriteGreen.png */; };
@@ -50,6 +52,8 @@
 		BA3C9B261D23AF8A003F484D /* shopIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = BA3C9B251D23AF8A003F484D /* shopIcon.png */; };
 		BA3C9B291D23F279003F484D /* ChooseAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3C9B281D23F279003F484D /* ChooseAddressViewController.m */; };
 		BA3C9B2C1D255093003F484D /* WriteMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3C9B2B1D255093003F484D /* WriteMessageViewController.m */; };
+		BA56B1A31D810F7500A0FF14 /* OrderInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA56B1A21D810F7500A0FF14 /* OrderInfoViewController.m */; };
+		BA56B1A61D810FFF00A0FF14 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = BA56B1A51D810FFF00A0FF14 /* Order.m */; };
 		BA6046D01CB8D70400A8FD34 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046CF1CB8D70400A8FD34 /* LoginViewController.m */; };
 		BA6046D61CB8E5CF00A8FD34 /* Account.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046D51CB8E5CF00A8FD34 /* Account.m */; };
 		BA6046D91CBB8B1200A8FD34 /* CreateAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6046D81CBB8B1200A8FD34 /* CreateAccountViewController.m */; };
@@ -64,10 +68,15 @@
 		BA771B7E1CCF913000755613 /* DetailedChildShopView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA771B7D1CCF913000755613 /* DetailedChildShopView.m */; };
 		BA771B811CD0580100755613 /* SlideMultiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA771B801CD0580100755613 /* SlideMultiViewController.m */; };
 		BA771B841CD2FEE600755613 /* Shop.m in Sources */ = {isa = PBXBuildFile; fileRef = BA771B831CD2FEE600755613 /* Shop.m */; };
-		BA771B871CD3033E00755613 /* Food.m in Sources */ = {isa = PBXBuildFile; fileRef = BA771B861CD3033E00755613 /* Food.m */; };
+		BA7C7E931D9A19A400E0B2E1 /* OrderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA7C7E921D9A19A400E0B2E1 /* OrderListViewController.m */; };
 		BA81F6421CB668CB007A8832 /* introductionPic1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BA81F63F1CB668CB007A8832 /* introductionPic1.jpg */; };
 		BA81F6431CB668CB007A8832 /* introductionPic2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BA81F6401CB668CB007A8832 /* introductionPic2.jpg */; };
 		BA81F6441CB668CB007A8832 /* introductionPic3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BA81F6411CB668CB007A8832 /* introductionPic3.jpg */; };
+		BA93690E1D81933000DBE295 /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = BA93690D1D81933000DBE295 /* Item.m */; };
+		BA9369111D819BA700DBE295 /* Commnet.m in Sources */ = {isa = PBXBuildFile; fileRef = BA9369101D819BA700DBE295 /* Commnet.m */; };
+		BA9369141D825EBB00DBE295 /* Address.m in Sources */ = {isa = PBXBuildFile; fileRef = BA9369131D825EBB00DBE295 /* Address.m */; };
+		BA9369171D829FA700DBE295 /* DeliveryInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA9369161D829FA700DBE295 /* DeliveryInfoViewController.m */; };
+		BA93691D1D82A01E00DBE295 /* OrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA93691C1D82A01E00DBE295 /* OrderDetailViewController.m */; };
 		BAD808361CC200DC00A79DE2 /* AddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD808351CC200DC00A79DE2 /* AddressCell.m */; };
 		BAD8083B1CC200E500A79DE2 /* AccountAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD808381CC200E500A79DE2 /* AccountAddressViewController.m */; };
 		BAD8083F1CC201C000A79DE2 /* EditAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD8083E1CC201C000A79DE2 /* EditAddressViewController.m */; };
@@ -100,8 +109,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		6997A6CFAE129C37A239B0B7 /* Pods-FOSinOC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FOSinOC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FOSinOC/Pods-FOSinOC.debug.xcconfig"; sourceTree = "<group>"; };
-		6CEF418D564E6E43DD0D03E0 /* Pods_FOSinOC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FOSinOC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F222DED3375E23797A919EC /* Pods-FOSinOC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FOSinOC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FOSinOC/Pods-FOSinOC.debug.xcconfig"; sourceTree = "<group>"; };
+		4C49075808D3A0781065A7A8 /* libPods-FOSinOC.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FOSinOC.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4E405EB4B0732FD62EAB3E3B /* Pods-FOSinOCUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FOSinOCUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FOSinOCUITests/Pods-FOSinOCUITests.release.xcconfig"; sourceTree = "<group>"; };
+		7F58352F2AF540429CBAA5BD /* Pods-FOSinOC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FOSinOC.release.xcconfig"; path = "Pods/Target Support Files/Pods-FOSinOC/Pods-FOSinOC.release.xcconfig"; sourceTree = "<group>"; };
+		A4FDEDFB3DA55892728F2AE1 /* Pods-FOSinOCTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FOSinOCTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FOSinOCTests/Pods-FOSinOCTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A50D5658351AD856ADE09834 /* Pods-FOSinOCUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FOSinOCUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FOSinOCUITests/Pods-FOSinOCUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		A900B549F3A24F12D850B762 /* Pods-FOSinOCTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FOSinOCTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FOSinOCTests/Pods-FOSinOCTests.release.xcconfig"; sourceTree = "<group>"; };
 		BA174A3A1CBE496E00419E3B /* account.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = account.png; sourceTree = "<group>"; };
 		BA174A3B1CBE496E00419E3B /* addGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addGreen.png; sourceTree = "<group>"; };
 		BA174A3D1CBE496E00419E3B /* favoriteGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favoriteGreen.png; sourceTree = "<group>"; };
@@ -169,6 +183,10 @@
 		BA3C9B281D23F279003F484D /* ChooseAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseAddressViewController.m; sourceTree = "<group>"; };
 		BA3C9B2A1D255093003F484D /* WriteMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WriteMessageViewController.h; sourceTree = "<group>"; };
 		BA3C9B2B1D255093003F484D /* WriteMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WriteMessageViewController.m; sourceTree = "<group>"; };
+		BA56B1A11D810F7500A0FF14 /* OrderInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderInfoViewController.h; sourceTree = "<group>"; };
+		BA56B1A21D810F7500A0FF14 /* OrderInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderInfoViewController.m; sourceTree = "<group>"; };
+		BA56B1A41D810FFF00A0FF14 /* Order.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Order.h; sourceTree = "<group>"; };
+		BA56B1A51D810FFF00A0FF14 /* Order.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Order.m; sourceTree = "<group>"; };
 		BA6046CE1CB8D70400A8FD34 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		BA6046CF1CB8D70400A8FD34 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		BA6046D41CB8E5CF00A8FD34 /* Account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Account.h; sourceTree = "<group>"; };
@@ -197,11 +215,21 @@
 		BA771B801CD0580100755613 /* SlideMultiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideMultiViewController.m; sourceTree = "<group>"; };
 		BA771B821CD2FEE600755613 /* Shop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shop.h; sourceTree = "<group>"; };
 		BA771B831CD2FEE600755613 /* Shop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Shop.m; sourceTree = "<group>"; };
-		BA771B851CD3033E00755613 /* Food.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Food.h; sourceTree = "<group>"; };
-		BA771B861CD3033E00755613 /* Food.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Food.m; sourceTree = "<group>"; };
+		BA7C7E911D9A19A400E0B2E1 /* OrderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderListViewController.h; sourceTree = "<group>"; };
+		BA7C7E921D9A19A400E0B2E1 /* OrderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderListViewController.m; sourceTree = "<group>"; };
 		BA81F63F1CB668CB007A8832 /* introductionPic1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = introductionPic1.jpg; sourceTree = "<group>"; };
 		BA81F6401CB668CB007A8832 /* introductionPic2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = introductionPic2.jpg; sourceTree = "<group>"; };
 		BA81F6411CB668CB007A8832 /* introductionPic3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = introductionPic3.jpg; sourceTree = "<group>"; };
+		BA93690C1D81933000DBE295 /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
+		BA93690D1D81933000DBE295 /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; };
+		BA93690F1D819BA700DBE295 /* Commnet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Commnet.h; sourceTree = "<group>"; };
+		BA9369101D819BA700DBE295 /* Commnet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Commnet.m; sourceTree = "<group>"; };
+		BA9369121D825EBB00DBE295 /* Address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Address.h; sourceTree = "<group>"; };
+		BA9369131D825EBB00DBE295 /* Address.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Address.m; sourceTree = "<group>"; };
+		BA9369151D829FA700DBE295 /* DeliveryInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeliveryInfoViewController.h; sourceTree = "<group>"; };
+		BA9369161D829FA700DBE295 /* DeliveryInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeliveryInfoViewController.m; sourceTree = "<group>"; };
+		BA93691B1D82A01E00DBE295 /* OrderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderDetailViewController.h; sourceTree = "<group>"; };
+		BA93691C1D82A01E00DBE295 /* OrderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderDetailViewController.m; sourceTree = "<group>"; };
 		BAD808341CC200DC00A79DE2 /* AddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddressCell.h; path = FOSinOC/AccountView/AddressCell.h; sourceTree = SOURCE_ROOT; };
 		BAD808351CC200DC00A79DE2 /* AddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddressCell.m; path = FOSinOC/AccountView/AddressCell.m; sourceTree = SOURCE_ROOT; };
 		BAD808371CC200E500A79DE2 /* AccountAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AccountAddressViewController.h; path = FOSinOC/AccountView/AccountAddressViewController.h; sourceTree = SOURCE_ROOT; };
@@ -224,7 +252,8 @@
 		BAD808651CCA15D600A79DE2 /* CatagoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CatagoryView.m; sourceTree = "<group>"; };
 		BAD8086A1CCB598700A79DE2 /* SortView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SortView.h; sourceTree = "<group>"; };
 		BAD8086B1CCB598700A79DE2 /* SortView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SortView.m; sourceTree = "<group>"; };
-		EFB03458865CE718FD0ADEBA /* Pods-FOSinOC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FOSinOC.release.xcconfig"; path = "Pods/Target Support Files/Pods-FOSinOC/Pods-FOSinOC.release.xcconfig"; sourceTree = "<group>"; };
+		E4F0E31417FC9642F0FE4705 /* libPods-FOSinOCUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FOSinOCUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F50EA7BEEA18C28AFD0C098D /* libPods-FOSinOCTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FOSinOCTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,7 +261,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				969AAEBAB7253D1B47EF2EAE /* Pods_FOSinOC.framework in Frameworks */,
+				B11125469337524D706ACE37 /* libPods-FOSinOC.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +269,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D446DAE1980AE7D318FC036 /* libPods-FOSinOCTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,12 +277,36 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D1C3C73B7B1E139504956C7 /* libPods-FOSinOCUITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		261DB816BE1A0F022EC8B4FB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3F222DED3375E23797A919EC /* Pods-FOSinOC.debug.xcconfig */,
+				7F58352F2AF540429CBAA5BD /* Pods-FOSinOC.release.xcconfig */,
+				A4FDEDFB3DA55892728F2AE1 /* Pods-FOSinOCTests.debug.xcconfig */,
+				A900B549F3A24F12D850B762 /* Pods-FOSinOCTests.release.xcconfig */,
+				A50D5658351AD856ADE09834 /* Pods-FOSinOCUITests.debug.xcconfig */,
+				4E405EB4B0732FD62EAB3E3B /* Pods-FOSinOCUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		7B6A7E3CADD183A8CC2EB0AF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4C49075808D3A0781065A7A8 /* libPods-FOSinOC.a */,
+				F50EA7BEEA18C28AFD0C098D /* libPods-FOSinOCTests.a */,
+				E4F0E31417FC9642F0FE4705 /* libPods-FOSinOCUITests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		BA174A391CBE496E00419E3B /* icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -312,9 +366,9 @@
 				BA1DAE5A1CB657BE00CDD6E0 /* FOSinOCTests */,
 				BA1DAE651CB657BE00CDD6E0 /* FOSinOCUITests */,
 				BA1DAE3F1CB657BE00CDD6E0 /* Products */,
-				E09568489B5C114E379ECD42 /* Pods */,
-				F90D1A6D1FC0F819AE42EC70 /* Frameworks */,
 				BA81F63D1CB668CB007A8832 /* Resources */,
+				261DB816BE1A0F022EC8B4FB /* Pods */,
+				7B6A7E3CADD183A8CC2EB0AF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -412,7 +466,7 @@
 			path = FOSinOC/help;
 			sourceTree = "<group>";
 		};
-		BA3C9B0D1D1F7F2F003F484D /* DetailedViewController */ = {
+		BA3C9B0D1D1F7F2F003F484D /* ShopDetailedViewController */ = {
 			isa = PBXGroup;
 			children = (
 				BA771B761CCF90F700755613 /* DetailedChildFoodView.h */,
@@ -426,7 +480,7 @@
 				BA3C9B141D1F8206003F484D /* CartTableView.h */,
 				BA3C9B151D1F8206003F484D /* CartTableView.m */,
 			);
-			name = DetailedViewController;
+			name = ShopDetailedViewController;
 			sourceTree = "<group>";
 		};
 		BA3C9B1D1D2263BC003F484D /* SlideLeftMenu */ = {
@@ -459,8 +513,14 @@
 				BA6046D51CB8E5CF00A8FD34 /* Account.m */,
 				BA771B821CD2FEE600755613 /* Shop.h */,
 				BA771B831CD2FEE600755613 /* Shop.m */,
-				BA771B851CD3033E00755613 /* Food.h */,
-				BA771B861CD3033E00755613 /* Food.m */,
+				BA56B1A41D810FFF00A0FF14 /* Order.h */,
+				BA56B1A51D810FFF00A0FF14 /* Order.m */,
+				BA93690C1D81933000DBE295 /* Item.h */,
+				BA93690D1D81933000DBE295 /* Item.m */,
+				BA93690F1D819BA700DBE295 /* Commnet.h */,
+				BA9369101D819BA700DBE295 /* Commnet.m */,
+				BA9369121D825EBB00DBE295 /* Address.h */,
+				BA9369131D825EBB00DBE295 /* Address.m */,
 			);
 			name = PersistentLayer;
 			path = FOSinOC/PersistentLayer;
@@ -506,9 +566,13 @@
 				BA771B741CCF49A900755613 /* ShopDetailedViewController.m */,
 				BA3C9B1E1D226611003F484D /* PlaceOrderViewController.h */,
 				BA3C9B1F1D226611003F484D /* PlaceOrderViewController.m */,
+				BA56B1A11D810F7500A0FF14 /* OrderInfoViewController.h */,
+				BA56B1A21D810F7500A0FF14 /* OrderInfoViewController.m */,
+				BA7C7E911D9A19A400E0B2E1 /* OrderListViewController.h */,
+				BA7C7E921D9A19A400E0B2E1 /* OrderListViewController.m */,
 				BA3C9B1D1D2263BC003F484D /* SlideLeftMenu */,
 				BAD808631CCA154B00A79DE2 /* MainViewHelp */,
-				BA3C9B0D1D1F7F2F003F484D /* DetailedViewController */,
+				BA3C9B0D1D1F7F2F003F484D /* ShopDetailedViewController */,
 			);
 			name = MainView;
 			path = FOSinOC/MainView;
@@ -531,25 +595,12 @@
 				BA3C9B281D23F279003F484D /* ChooseAddressViewController.m */,
 				BA3C9B2A1D255093003F484D /* WriteMessageViewController.h */,
 				BA3C9B2B1D255093003F484D /* WriteMessageViewController.m */,
+				BA9369151D829FA700DBE295 /* DeliveryInfoViewController.h */,
+				BA9369161D829FA700DBE295 /* DeliveryInfoViewController.m */,
+				BA93691B1D82A01E00DBE295 /* OrderDetailViewController.h */,
+				BA93691C1D82A01E00DBE295 /* OrderDetailViewController.m */,
 			);
 			path = MainViewHelp;
-			sourceTree = "<group>";
-		};
-		E09568489B5C114E379ECD42 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				6997A6CFAE129C37A239B0B7 /* Pods-FOSinOC.debug.xcconfig */,
-				EFB03458865CE718FD0ADEBA /* Pods-FOSinOC.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		F90D1A6D1FC0F819AE42EC70 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				6CEF418D564E6E43DD0D03E0 /* Pods_FOSinOC.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -559,12 +610,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BA1DAE6B1CB657BE00CDD6E0 /* Build configuration list for PBXNativeTarget "FOSinOC" */;
 			buildPhases = (
-				227A26F49AE466A4D05D40A9 /* Check Pods Manifest.lock */,
+				6DE01DEBE41E4DBF211B2DC5 /* [CP] Check Pods Manifest.lock */,
 				BA1DAE3A1CB657BE00CDD6E0 /* Sources */,
 				BA1DAE3B1CB657BE00CDD6E0 /* Frameworks */,
 				BA1DAE3C1CB657BE00CDD6E0 /* Resources */,
-				60C191E6C5943F0E21DDAB0D /* Embed Pods Frameworks */,
-				59C95BE5995F18CF837B55D3 /* Copy Pods Resources */,
+				CE1975A7678147706DDB93A6 /* [CP] Embed Pods Frameworks */,
+				21CDB63273914D396B3B81EF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -579,9 +630,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BA1DAE6E1CB657BE00CDD6E0 /* Build configuration list for PBXNativeTarget "FOSinOCTests" */;
 			buildPhases = (
+				6441675AE61EAD8C46E25F7C /* [CP] Check Pods Manifest.lock */,
 				BA1DAE531CB657BE00CDD6E0 /* Sources */,
 				BA1DAE541CB657BE00CDD6E0 /* Frameworks */,
 				BA1DAE551CB657BE00CDD6E0 /* Resources */,
+				C029F1F2E460740E8201E0B6 /* [CP] Embed Pods Frameworks */,
+				12B7EA625D01F35DDDC5017B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -597,9 +651,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BA1DAE711CB657BE00CDD6E0 /* Build configuration list for PBXNativeTarget "FOSinOCUITests" */;
 			buildPhases = (
+				A9904CA55DB0D5C7777404A1 /* [CP] Check Pods Manifest.lock */,
 				BA1DAE5E1CB657BE00CDD6E0 /* Sources */,
 				BA1DAE5F1CB657BE00CDD6E0 /* Frameworks */,
 				BA1DAE601CB657BE00CDD6E0 /* Resources */,
+				12B7686E1468FDC813126CD3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -706,29 +762,44 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		227A26F49AE466A4D05D40A9 /* Check Pods Manifest.lock */ = {
+		12B7686E1468FDC813126CD3 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FOSinOCUITests/Pods-FOSinOCUITests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		59C95BE5995F18CF837B55D3 /* Copy Pods Resources */ = {
+		12B7EA625D01F35DDDC5017B /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FOSinOCTests/Pods-FOSinOCTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		21CDB63273914D396B3B81EF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -736,14 +807,74 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FOSinOC/Pods-FOSinOC-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		60C191E6C5943F0E21DDAB0D /* Embed Pods Frameworks */ = {
+		6441675AE61EAD8C46E25F7C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		6DE01DEBE41E4DBF211B2DC5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A9904CA55DB0D5C7777404A1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		C029F1F2E460740E8201E0B6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FOSinOCTests/Pods-FOSinOCTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CE1975A7678147706DDB93A6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -765,19 +896,24 @@
 				BA771B721CCF478500755613 /* UINavigationBar+Awesome.m in Sources */,
 				BA3C9AFE1D1B8692003F484D /* ThrowLineTool.m in Sources */,
 				BA771B841CD2FEE600755613 /* Shop.m in Sources */,
+				BA9369111D819BA700DBE295 /* Commnet.m in Sources */,
 				BA771B7B1CCF911E00755613 /* DetailedChildCommentView.m in Sources */,
 				BA771B261CCCF04300755613 /* MainViewController.m in Sources */,
 				BA2EF38B1D10EF8200944B7D /* AssetGridViewController.m in Sources */,
+				BA56B1A61D810FFF00A0FF14 /* Order.m in Sources */,
+				BA93691D1D82A01E00DBE295 /* OrderDetailViewController.m in Sources */,
 				BAD8086C1CCB598700A79DE2 /* SortView.m in Sources */,
 				BA771B7E1CCF913000755613 /* DetailedChildShopView.m in Sources */,
+				BA7C7E931D9A19A400E0B2E1 /* OrderListViewController.m in Sources */,
 				BA771B6E1CCF38A700755613 /* SearchShopViewController.m in Sources */,
 				BA771B781CCF90F700755613 /* DetailedChildFoodView.m in Sources */,
 				BAD808361CC200DC00A79DE2 /* AddressCell.m in Sources */,
 				BA6046F71CBDE44500A8FD34 /* DropDownView.m in Sources */,
+				BA9369171D829FA700DBE295 /* DeliveryInfoViewController.m in Sources */,
+				BA9369141D825EBB00DBE295 /* Address.m in Sources */,
 				BA174A4A1CBE7B7B00419E3B /* SearchViewHelpController.m in Sources */,
 				BAD8083B1CC200E500A79DE2 /* AccountAddressViewController.m in Sources */,
 				BA174A501CBF7B8D00419E3B /* AccountViewController.m in Sources */,
-				BA771B871CD3033E00755613 /* Food.m in Sources */,
 				BAD808611CCA151400A79DE2 /* MainViewRootViewController.m in Sources */,
 				BA771B751CCF49A900755613 /* ShopDetailedViewController.m in Sources */,
 				BA6046D61CB8E5CF00A8FD34 /* Account.m in Sources */,
@@ -785,7 +921,9 @@
 				BA1DAE7F1CB6635500CDD6E0 /* TutorialPageViewController.m in Sources */,
 				BA1DAE791CB65CF100CDD6E0 /* LaunchScreenViewController.m in Sources */,
 				BA3C9B291D23F279003F484D /* ChooseAddressViewController.m in Sources */,
+				BA93690E1D81933000DBE295 /* Item.m in Sources */,
 				BA21783D1CB67830003402E1 /* CustomizationButton.m in Sources */,
+				BA56B1A31D810F7500A0FF14 /* OrderInfoViewController.m in Sources */,
 				BA3C9B161D1F8206003F484D /* CartTableView.m in Sources */,
 				BAD808661CCA15D600A79DE2 /* CatagoryView.m in Sources */,
 				BA6046D01CB8D70400A8FD34 /* LoginViewController.m in Sources */,
@@ -935,7 +1073,7 @@
 		};
 		BA1DAE6C1CB657BE00CDD6E0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6997A6CFAE129C37A239B0B7 /* Pods-FOSinOC.debug.xcconfig */;
+			baseConfigurationReference = 3F222DED3375E23797A919EC /* Pods-FOSinOC.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -948,7 +1086,7 @@
 		};
 		BA1DAE6D1CB657BE00CDD6E0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EFB03458865CE718FD0ADEBA /* Pods-FOSinOC.release.xcconfig */;
+			baseConfigurationReference = 7F58352F2AF540429CBAA5BD /* Pods-FOSinOC.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = FOSinOC/Info.plist;
@@ -960,6 +1098,7 @@
 		};
 		BA1DAE6F1CB657BE00CDD6E0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A4FDEDFB3DA55892728F2AE1 /* Pods-FOSinOCTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = FOSinOCTests/Info.plist;
@@ -972,6 +1111,7 @@
 		};
 		BA1DAE701CB657BE00CDD6E0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A900B549F3A24F12D850B762 /* Pods-FOSinOCTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = FOSinOCTests/Info.plist;
@@ -984,6 +1124,7 @@
 		};
 		BA1DAE721CB657BE00CDD6E0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A50D5658351AD856ADE09834 /* Pods-FOSinOCUITests.debug.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = FOSinOCUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -995,6 +1136,7 @@
 		};
 		BA1DAE731CB657BE00CDD6E0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4E405EB4B0732FD62EAB3E3B /* Pods-FOSinOCUITests.release.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = FOSinOCUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

@@ -53,15 +53,12 @@
     self.btnRegister.layer.borderWidth = 1.0;
     self.btnRegister.layer.borderColor = [[UIColor colorWithRed:76/255.0 green:76/255.0 blue:76/255.0 alpha:1]CGColor];
     self.btnRegister.layer.cornerRadius = 4.0;
-    
 }
 
 - (IBAction)dismissButtonClicked:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (IBAction)loginButtonClicked:(id)sender {
-    // test
-    //[self performSegueWithIdentifier:@"mainview" sender:nil];
     if(![self.userName.text  isEqual: @""] && ![self.password.text  isEqual: @""]){
         self.myAccount.email = self.userName.text;
         self.myAccount.password = self.password.text;
@@ -74,13 +71,6 @@
         [alert addAction:defaultAction];
         [self presentViewController:alert animated:YES completion:nil];
     }
-
-//    NSString *password = [SSKeychain passwordForService:self.myAccount.serviceName account:self.userName.text];
-//    NSArray *userName = [SSKeychain accountsForService:self.myAccount.serviceName];
-    //NSLog(@"userName=",@"%@",@"/npassword",@"%",password);
-//    NSDictionary *dict = [userName objectAtIndex:0];
-//    NSString *userName = [dict valueForKey:"acct"];
-    //NSLog(@"password = %@", [dict valueForKey:@"acct"]);
 }
 
 -(void)dismissKeyboard{
@@ -94,10 +84,6 @@
 }
 
 -(BOOL)finishFetchAccountData:(NSDictionary *)result withAccount:(Account *)myAccount{
-   
-    //BOOL success = [result valueForKey:@"success"];
-    //NSLog([[[result valueForKey:@"success"] class] description]);
-    
     if ([[result valueForKey:@"success"]boolValue] == YES) {
         
         [SSKeychain setPassword:self.password.text forService:self.myAccount.serviceName account:self.myAccount.servicePassword];

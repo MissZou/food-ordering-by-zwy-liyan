@@ -71,31 +71,20 @@
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     NSDictionary *parameters = @{@"location": searchText};
     NSString *URLString = @"http://localhost:8080/search/findlocation";
-    //NSString *baseUrlString = @"http://localhost:8080/search/";
-    
     [[AFHTTPRequestSerializer serializer] requestWithMethod:@"POST" URLString:URLString parameters:parameters error:nil];
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
     
     NSURLRequest *request =  [[AFHTTPRequestSerializer serializer] requestWithMethod:@"POST" URLString:URLString parameters:parameters error:nil];
-    
-    
     NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
         if (error) {
             NSLog(@"Error: %@", error);
         } else {
-            //NSLog(@"%@",responseObject);
             self.suggestedLocations =[responseObject valueForKey:@"res"];
-//            for(NSDictionary *loc in self.suggestedLocations){
-//                NSLog(@"%@",[loc valueForKey:@"name"]);
-//                NSLog(@"%@",[loc valueForKey:@"location"]);
-//                
-//            }
             [self.delegate finishSearchLocationWithResult:self.suggestedLocations];
         }
     }];
     [dataTask resume];
-    
 }
 
 

@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *email;
 @property (weak, nonatomic) IBOutlet UIView *topView;
 @property (weak, nonatomic) IBOutlet UIButton *addressButton;
+@property (weak, nonatomic) IBOutlet UILabel *topLabel;
 
 
 @property (strong,nonatomic) Account *myAccount;
@@ -28,7 +29,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.myAccount = [Account sharedManager];
-    self.topView.layer.shadowOpacity = 0.3;
+    
+    self.topView.layer.shadowOpacity = 0.5;
+    self.topView.backgroundColor = [UIColor colorWithRed:248.0/255.0 green:248.0/255 blue:248.0/255.0 alpha:1];
+    self.topLabel.backgroundColor = [UIColor colorWithRed:248.0/255.0 green:248.0/255 blue:248.0/255.0 alpha:1];
     self.avatar.layer.masksToBounds = true;
     self.avatar.layer.cornerRadius = 10.0;
     

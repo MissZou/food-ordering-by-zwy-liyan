@@ -19,7 +19,7 @@
 @property(assign,nonatomic)NSInteger lastSelected;
 @property(strong,nonatomic)UIView *buttonMarkView;
 @property(weak,nonatomic)UIView *buttonTitleView;
-@property(strong,nonatomic)UIScrollView *contentScrollView;
+
 @property(strong,nonatomic)UIScrollView *mainScrollView;
 
 @property(assign,nonatomic)BOOL isAdvancedLoading;
@@ -54,21 +54,25 @@
     [self initTitleScrollView];
     //[self initMainScrollView];
     [self markButtonSelected:0];
+    self.isVerticalEnable = true;
     //NSLog(@"slidemenu.m  %f",self.view.frame.size.height);
 }
 
-//-(void)initMainScrollView{
-//    self.mainScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-//    self.mainScrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height+100);
-//    self.mainScrollView.contentOffset = CGPointMake(0, -100);
-//    UIView *segmentView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 100)];
-//    segmentView.backgroundColor = [UIColor orangeColor];
-//    [self.mainScrollView addSubview:segmentView];
-//    self.contentScrollView.scrollEnabled = false;
-//    [self.view addSubview:self.mainScrollView];
-//    [self initContentScrollView];
-//    [self initTitleScrollView];
-//}
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear: animated];
+//    if (self.isVerticalEnable == false) {
+//        NSLog(@"isVerticalEnable == false");
+//        [self.contentScrollView setContentSize:CGSizeMake(self.view.frame.size.width * self.viewControllerArray.count,0)];
+//        [self.contentScrollView setContentOffset:CGPointMake(0, 0)];
+//    }
+    
+}
+
 
 -(void)initContentScrollView{
     self.contentScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, titleViewHeight, self.view.frame.size.width, self.view.frame.size.height - titleViewHeight)];
@@ -80,26 +84,21 @@
     self.contentScrollView.showsHorizontalScrollIndicator = NO;
     self.contentScrollView.pagingEnabled = YES;
     [self.view addSubview:self.contentScrollView];
-    //[self.mainScrollView addSubview:self.contentScrollView];
+    [self.contentScrollView setContentOffset:CGPointZero];
     
 }
 
 -(void)initTitleScrollView{
     UIView *buttonTitleView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, titleViewHeight)];
     buttonTitleView.backgroundColor = [UIColor whiteColor];
-    
     CGFloat buttonWidth = self.view.frame.size.width/self.buttonTitle.count;
     for (int i=0; i<self.buttonTitle.count; i++) {
-    
         CGFloat btnX = 0;
-        btnX = (self.view.frame.size.width/3) *i;
-        
+        btnX = (self.view.frame.size.width/self.buttonTitle.count) *i;
         UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(btnX ,0,buttonWidth,titleViewHeight)];
         
         btn.titleLabel.adjustsFontSizeToFitWidth = NO;
         btn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
-        
-        //btn.titleLabel.textColor = [UIColor redColor];
         
         [btn setTitleColor:[UIColor colorWithRed:76/255.0 green:76/255.0 blue:76/255.0 alpha:1] forState:UIControlStateNormal];
         
@@ -117,7 +116,6 @@
     }
     self.buttonTitleView = buttonTitleView;
     [self.view addSubview:self.buttonTitleView];
-    //[self.mainScrollView addSubview:self.buttonTitleView];
 }
 -(void)titleClicked:(UIButton *)sender{
     
@@ -155,7 +153,6 @@
 {
     NSInteger i  = self.contentScrollView.contentOffset.x / self.view.superview.frame.size.width;
     [self markButtonSelected:i];
-    
     [self.delegate slideButtionClicked:self.buttonTitle[i]];
 }
 
@@ -170,7 +167,7 @@
     }
     
     lastBtn = (UIButton *)[self.view viewWithTag:i +buttonDefaultTag];
-    self.buttonMarkView.frame = CGRectMake(self.contentScrollView.contentOffset.x/3 , lastBtn.frame.size.height + lastBtn.frame.origin.y - 3, lastBtn.frame.size.width, 3);
+    self.buttonMarkView.frame = CGRectMake(self.contentScrollView.contentOffset.x/self.buttonTitle.count , lastBtn.frame.size.height + lastBtn.frame.origin.y - 3, lastBtn.frame.size.width, 3);
 }
 
 - (void)addChildView:(NSInteger)index{
@@ -182,7 +179,6 @@
     vc.view.frame = frame;
     [self.contentScrollView addSubview:vc.view];
 }
-
 
 
 @end

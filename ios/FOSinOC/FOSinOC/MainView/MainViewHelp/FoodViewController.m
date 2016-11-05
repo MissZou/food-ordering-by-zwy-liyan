@@ -11,7 +11,7 @@
 #import "Account.h"
 #import "ThrowLineTool.h"
 
-#define topImageHeight 150
+#define topImageHeight 200
 #define segmentViewHeight 80
 #define cartViewHeight 50
 #define naviBarChangePoint 50
@@ -23,7 +23,7 @@
 #define myBlackColor [UIColor colorWithRed:61/255.0 green:61/255.0 blue:61/255.0 alpha:1]
 #define myRedColor [UIColor colorWithRed:213/255.0 green:64/255.0 blue:58/255.0 alpha:1]
 
-@interface FoodViewController()<UITableViewDelegate,UITableViewDataSource,ThrowLineToolDelegate>
+@interface FoodViewController()<UITableViewDelegate,UITableViewDataSource>
 @property(strong,nonatomic) UILabel* itemName;
 @property(strong,nonatomic) UITableView *tableView;
 @property(strong,nonatomic) UIImageView *topView;
@@ -59,9 +59,16 @@
 //    [self.view addSubview:imageView];
 }
 
+
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     self.itemName.alpha = 0;
+    [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor clearColor]];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor clearColor]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -78,8 +85,6 @@
     self.tableView.dataSource = self;
     [self.tableView registerClass:[UITableViewCell self] forCellReuseIdentifier:@"cell"];
     
-    
-    
     self.topView = [[UIImageView alloc]init];
     self.topView.frame = CGRectMake(0, 0, self.view.frame.size.width, topImageHeight);
     self.topView.image = self.itemImage;
@@ -88,8 +93,20 @@
 
     //[self.tableView insertSubview:self.topView atIndex:0];
     UIView *buttonView = [[UIView alloc]init];
-    buttonView.frame = CGRectMake(0, 0, self.view.frame.size.width, 80);
-    buttonView.backgroundColor = [UIColor blueColor];
+    buttonView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - topImageHeight + 100);
+    buttonView.backgroundColor = [UIColor whiteColor];
+    UILabel *itemName = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, 300, 30)];
+    NSString *itemNameString = [NSString stringWithFormat:@"Item Name: %@",[_item valueForKey:@"dishName"]];
+    itemName.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
+    itemName.text = itemNameString;
+    [buttonView addSubview:itemName];
+    
+    UILabel *priceLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 50, 100, 30)];
+    priceLabel.text = [NSString stringWithFormat:@"%@ HKD",[_item valueForKey:@"price"]];
+    priceLabel.textColor = [UIColor redColor];
+    priceLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+    [buttonView addSubview:priceLabel];
+    
     [self.tableView addSubview:self.topView];
     [self.tableView addSubview:buttonView];
     self.tableView.contentInset = UIEdgeInsetsMake(topImageHeight , 0, 0, 0);
@@ -117,7 +134,7 @@
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     CGPoint point = scrollView.contentOffset;
-    NSLog(@"off set y %f",point.y);
+    
     if (point.y <= -topImageHeight-64) {
         //CGRect rect = [self.tableView viewWithTag:101].frame;
         CGRect rect = self.topView.frame;
@@ -141,14 +158,14 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0) {
-        return 1;
+        return 0;
     }else{
         return 10;
     }
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 4;
+    return 1;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{

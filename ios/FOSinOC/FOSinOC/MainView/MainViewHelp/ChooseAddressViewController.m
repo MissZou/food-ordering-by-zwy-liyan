@@ -46,7 +46,7 @@
 }
 
 -(void)initViewController{
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 1, self.view.frame.size.width, self.view.frame.size.height)];
     [self.tableView registerClass:[UITableViewCell self] forCellReuseIdentifier:@"cell"];
     
     self.tableView.delegate = self;

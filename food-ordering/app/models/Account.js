@@ -410,17 +410,20 @@ var findOrderByUserId = function(accountId,index,count,callback){
   
   Account.findOne({_id:accountId}).populate({
     path:'orders.order',
+    //populate:{path:'order.order.shop'},
     options:{
-      skip:limit - count
+      sort:{"date":-1}
     }
-  }).slice('orders',limit).exec(function (err, doc) {
+  }).exec(function (err, doc) {
               if (err) {
                 console.log(err);
                 callback(err);
               }
+
             //  console.log(doc);
+
                 var array = [];
-                for(var i=limit - count;i<doc.orders.length;i++){
+                for(var i=limit - count;i<doc.orders.length && i<limit ;i++){
                     if(doc.orders[i].order!=null){
                         array.push(doc.orders[i]);            
                     }
@@ -428,9 +431,45 @@ var findOrderByUserId = function(accountId,index,count,callback){
                       continue;
                     } 
                 }
+              for(var i = 0; i < array.length; i++){
+
+              }
               callback(array);
           })
 }
+
+var findOrderIdByUserId = function(accountId,index,count,callback){
+  var limit = index*count;
+  
+  Account.findOne({_id:accountId}).populate({
+    path:'orders.order',
+    //populate:{path:'order.order.shop'},
+    options:{
+      sort:{"date":-1}
+    }
+  }).exec(function (err, doc) {
+              if (err) {
+                console.log(err);
+                callback(err);
+              }
+              //console.log('-------===========----------');
+              //console.log(doc);
+                var array = [];
+                for(var i=limit - count;i<doc.orders.length && i<limit ;i++){
+                    if(doc.orders[i].order!=null){
+                        array.push(doc.orders[i].order._id);            
+                    }
+                    else{
+                      continue;
+                    } 
+                }
+              for(var i = 0; i < array.length; i++){
+
+              }
+              callback(array);
+          })
+}
+
 
 var addFavoriteShop = function(accountId,shopId,callback){
     Account.findOne({_id:accountId,"favoriteShop.shopId":shopId},function(err,doc){
@@ -697,11 +736,13 @@ var deleteFavoriteItem = function(accountId,shopId,itemId,callback){
     addOrder:addOrder,
     deleteOrder:deleteOrder,
     findOrderByUserId:findOrderByUserId,
+    findOrderIdByUserId:findOrderIdByUserId,
     addFavoriteShop:addFavoriteShop,
     findFavoriteShop:findFavoriteShop,
     deleteFavoriteShop:deleteFavoriteShop,
     addFavoriteItem:addFavoriteItem,
     findFavoriteItem:findFavoriteItem,
     deleteFavoriteItem:deleteFavoriteItem
+    
   }
 }

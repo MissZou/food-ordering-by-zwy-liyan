@@ -14,11 +14,13 @@
 @protocol AccountDelegate
 
 @optional
--(void)finishCreateAccount:(NSDictionary *)result withAccount:(Account *)myAccount;
--(BOOL)finishFetchAccountData:(NSDictionary *)result withAccount:(Account *)myAccount;
--(void)finishRefreshAccountData;
--(void)networkFailed;
--(void)accountFinishUpdateCart;
+- (void)finishCreateAccount:(NSDictionary *)result withAccount:(Account *)myAccount;
+- (BOOL)finishFetchAccountData:(NSDictionary *)result withAccount:(Account *)myAccount;
+- (void)finishRefreshAccountData;
+- (void)networkFailed;
+- (void)accountFinishUpdateCart;
+
+
 @end
 
 @interface Account : NSObject
@@ -52,14 +54,15 @@ typedef NS_ENUM(NSUInteger, httpMethod){
 };
 
 +(Account *) sharedManager;
--(void) reloadAccount;
--(void) login:(Account *)model;
--(void)createAccount:(Account *)model;
--(void) checkLogin;
--(void) location:(enum httpMethod)httpMethod withLocation:(NSDictionary *)location;
--(void)address:(httpMethod)httpMethod withAddress:(NSDictionary *)address;
--(void)changeAvatar:(NSURL *)filePath;
--(void)cart:(httpMethod)httpMethod withShopId:(NSString *)shopId itemId:(NSString *)itemId amount:(NSNumber *) amount cartId:(NSString *)cartId index:(NSInteger)index count:(NSInteger)count;
--(void)order:(httpMethod)httpMethod withShopId:(NSString *)shopId items:(NSArray *)items;
--(void)placeOrderForallItemsInCartWithaddress:(NSDictionary *)address message:(NSString *)message;
+- (void)reloadAccount;
+- (void)login:(Account *)model;
+- (void)createAccount:(Account *)model;
+- (void)checkLogin;
+- (void)location:(enum httpMethod)httpMethod withLocation:(NSDictionary *)location;
+- (void)address:(httpMethod)httpMethod withAddress:(NSDictionary *)address;
+- (void)changeAvatar:(NSURL *)filePath;
+- (void)cart:(httpMethod)httpMethod withShopId:(NSString *)shopId itemId:(NSString *)itemId amount:(NSNumber *) amount cartId:(NSString *)cartId index:(NSInteger)index count:(NSInteger)count;
+- (void)order:(httpMethod)httpMethod withShopId:(NSString *)shopId items:(NSArray *)items price:(NSUInteger) price address:(NSDictionary *)address message:(NSString *)message;
+- (void)placeOrderForallItemsInCartWithaddress:(NSDictionary *)address message:(NSString *)message;
+- (void)getOrderAtIndex:(NSInteger)index withCount:(NSInteger)count;
 @end

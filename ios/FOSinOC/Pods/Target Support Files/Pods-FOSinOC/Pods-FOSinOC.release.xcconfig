@@ -1,6 +1,8 @@
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
-OTHER_CFLAGS = $(inherited) -iquote "$CONFIGURATION_BUILD_DIR/AFNetworking.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/SDWebImage.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/SSKeychain.framework/Headers"
-OTHER_LDFLAGS = $(inherited) -framework "AFNetworking" -framework "SDWebImage" -framework "SSKeychain"
-PODS_FRAMEWORK_BUILD_PATH = $(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Pods-FOSinOC
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/AFNetworking" "${PODS_ROOT}/Headers/Public/Masonry" "${PODS_ROOT}/Headers/Public/SDWebImage" "${PODS_ROOT}/Headers/Public/SSKeychain" "${PODS_ROOT}/Headers/Public/YYModel"
+LIBRARY_SEARCH_PATHS = $(inherited) "$PODS_CONFIGURATION_BUILD_DIR/AFNetworking-iOS8.0" "$PODS_CONFIGURATION_BUILD_DIR/Masonry-iOS8.0" "$PODS_CONFIGURATION_BUILD_DIR/SDWebImage-iOS8.0" "$PODS_CONFIGURATION_BUILD_DIR/SSKeychain-iOS8.0" "$PODS_CONFIGURATION_BUILD_DIR/YYModel-iOS8.0"
+OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/AFNetworking" -isystem "${PODS_ROOT}/Headers/Public/Masonry" -isystem "${PODS_ROOT}/Headers/Public/SDWebImage" -isystem "${PODS_ROOT}/Headers/Public/SSKeychain" -isystem "${PODS_ROOT}/Headers/Public/YYModel"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"AFNetworking-iOS8.0" -l"Masonry-iOS8.0" -l"SDWebImage-iOS8.0" -l"SSKeychain-iOS8.0" -l"YYModel-iOS8.0" -framework "CoreFoundation" -framework "CoreGraphics" -framework "Foundation" -framework "ImageIO" -framework "MobileCoreServices" -framework "Security" -framework "SystemConfiguration" -framework "UIKit"
+PODS_BUILD_DIR = $BUILD_DIR
+PODS_CONFIGURATION_BUILD_DIR = $PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_ROOT = ${SRCROOT}/Pods

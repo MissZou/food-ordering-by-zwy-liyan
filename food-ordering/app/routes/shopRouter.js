@@ -888,6 +888,7 @@ router.route('/account/web/logout')
                     success: true
                 })
             })
+
         });
      router.route('/account/testAddDish')
         .post(function(req, res) {

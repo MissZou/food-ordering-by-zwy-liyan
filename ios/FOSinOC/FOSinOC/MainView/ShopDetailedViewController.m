@@ -17,6 +17,8 @@
 #import "DetailedChildCommentView.h"
 #import "UINavigationBar+Awesome.h"
 #import "FoodViewController.h"
+#import "PlaceOrderViewController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 #import "Shop.h"
 @interface ShopDetailedViewController ()<UIScrollViewDelegate,UIGestureRecognizerDelegate,SlideMultiViewControllerDelegate,DetailedChildFoodViewDelegate,ShopDelegate>
@@ -85,7 +87,7 @@
     self.superViewHeight = self.view.frame.size.height;
     [self initDetailedChildFoodView];
     
-    NSLog(@"shop id %@",self.shopID);
+    //NSLog(@"shop id %@",self.shopID);
     
     [self initNavigationBar];
     self.currentTitle = @"Food";
@@ -100,6 +102,7 @@
     self.myShop = [Shop sharedManager];
     self.myShop.delegate = self;
     [self.myShop fetchShopData:self.shopID];
+    //[self.myShop fetchShopDataModelingByYYKit:self.shopID];
 }
 
 -(void)initNavigationBar{
@@ -123,13 +126,13 @@
     
     self.naviRightViewFull = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 60, 30)];
     //self.naviRightViewFull.backgroundColor = [UIColor blackColor];
-    self.naviShareButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 60, 30)];
-    [self.naviShareButton setTitle:@"share" forState:UIControlStateNormal];
-    [self.naviShareButton addTarget:self action:@selector(naviShareButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-    [self.naviShareButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    
-    [self.naviRightViewFull addSubview:self.naviShareButton];
-    [self.naviRightViewFull addSubview:self.naviMenuButton];
+//    self.naviShareButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 60, 30)];
+//    [self.naviShareButton setTitle:@"share" forState:UIControlStateNormal];
+//    [self.naviShareButton addTarget:self action:@selector(naviShareButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+//    [self.naviShareButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+//    
+//    [self.naviRightViewFull addSubview:self.naviShareButton];
+//    [self.naviRightViewFull addSubview:self.naviMenuButton];
     
     self.rightBarItemFull = [[UIBarButtonItem alloc]initWithCustomView:self.naviRightViewFull];
     self.navigationItem.rightBarButtonItem = self.rightBarItemFull;
@@ -159,12 +162,13 @@
     self.foodView.shopID = self.shopID;
     
     
-    NSArray *title = @[@"Food", @"Comment", @"Shop"];
-    NSArray *viewArray = @[self.foodView, self.commentView, self.shopView];
+    //NSArray *title = @[@"Food", @"Comment", @"Shop"];
+    //NSArray *viewArray = @[self.foodView, self.commentView, self.shopView];
+    NSArray *title = @[@"Food", @"Shop"];
+    NSArray *viewArray = @[self.foodView, self.shopView];
     self.slideMultiViewController = [[SlideMultiViewController alloc]init];
     self.slideMultiViewController.view.frame =CGRectMake(0, sdNavigationBarHeight + sdSegmentViewHeight, self.view.frame.size.width, self.view.frame.size.height);
     self.slideMultiViewController.delegate = self;
-    
     [self addChildViewController:self.slideMultiViewController];
     [self.slideMultiViewController initSlideMultiView:viewArray withTitle:title];
     [self.view addSubview:self.slideMultiViewController.view];
@@ -235,13 +239,11 @@
         //[self adjustCartViewFrameY:-self.slideMultiViewController.view.frame.origin.y + self.slideMenuFrameInitY];
         if(self.slideMultiViewController.view.frame.origin.y > sdNavigationBarHeight+sdSegmentViewHeight && self.isChildViewGustureStateBegin == false)
         {
-
             [UIView animateWithDuration:0.25 animations:^{
                 self.slideMultiViewController.view.frame = CGRectMake(0, sdNavigationBarHeight+sdSegmentViewHeight, self.view.frame.size.width, self.view.frame.size.height - sdNavigationBarHeight-sdSegmentViewHeight);
                 [self hideSegmentView:sdNavigationBarHeight+sdSegmentViewHeight];
                 
             }];
-
         }
         
         //NSLog(@"continu to scroll y: %f",self.slideMultiViewController.view.frame.origin.y);
@@ -350,11 +352,6 @@
         self.gestureStateBegin = true;
         [[NSNotificationCenter defaultCenter]postNotificationName:@"superViewGustureState" object:[NSNumber numberWithBool:true]];
     }
-    
-
-
-
-    
     [self hideSegmentView:self.slideMultiViewController.view.frame.origin.y];
     [self hideTopview:self.slideMultiViewController.view.frame.origin.y];
 //    CGRect frame = self.view.frame;
@@ -388,7 +385,8 @@
     self.segueImage = image;
     self.segueItem = item;
     self.segueShopId = shopId;
-    [self performSegueWithIdentifier:@"foodDetailSegue" sender:nil];
+    [self 
+    performSegueWithIdentifier:@"foodDetailSegue" sender:nil];
 }
 
 -(void)detailedChildFoodCheckout{
@@ -402,7 +400,10 @@
         foodViewController.item = self.segueItem;
         foodViewController.shopId = self.segueShopId;
     }else if([segue.identifier isEqualToString:@"checkout"]){
-        
+        PlaceOrderViewController *placeOrderVC = segue.destinationViewController;
+        placeOrderVC.shopId = self.shopID;
+        placeOrderVC.shopImage = self.myShop.shopImage;
+        placeOrderVC.shopName = self.myShop.shopName;
     }
     
 }
@@ -417,11 +418,13 @@
     UIImageView *shopImageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 5, 90, 90)];
     shopImageView.clipsToBounds = true;
     shopImageView.contentMode = UIViewContentModeScaleAspectFill;
-    
-        dispatch_async(dispatch_get_main_queue(), ^{
-        shopImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.myShop.shopPicUrl]]];
-    
-        });
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSString *url = [NSString stringWithFormat:@"http://localhost:8080/%@",self.myShop.shopPicUrl];
+        self.myShop.shopImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]]];
+        
+        shopImageView.image = self.myShop.shopImage;
+
+    });
     UILabel *shopName = [[UILabel alloc]initWithFrame:CGRectMake(shopImageView.frame.size.width+shopImageView.frame.origin.x + 10, 5, self.view.frame.size.width - 150, 30)];
     shopName.text = self.myShop.shopName;
     
@@ -436,7 +439,7 @@
 -(void)shopFinishFetchData{
 
     [self updateUIandLoadShopData];
-    NSLog(@"shop delegate in shop detailed");
+//    NSLog(@"shop delegate in shop detailed");
 
     [[NSNotificationCenter defaultCenter]postNotificationName:@"shopFinishFetchData" object:[NSNumber numberWithBool:false]];
     //[NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(loadFinished) userInfo:nil repeats:NO];
@@ -454,6 +457,5 @@
     if ([self.currentTitle isEqualToString:@"Comment"]) {
         // fetch comment
     }
-    
 }
 @end

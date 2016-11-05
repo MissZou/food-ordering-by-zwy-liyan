@@ -1,4 +1,5 @@
 module.exports = function(config, mongoose, nodemailer) {
+
     var crypto = require('crypto');
     var ShopSchema = new mongoose.Schema({
         email: { type: String, unique: true },
@@ -320,6 +321,7 @@ module.exports = function(config, mongoose, nodemailer) {
             }
             callback(doc);
         });
+
     };
 
     var findNearShops = function(loc, distance, index, count, callback) {
@@ -363,6 +365,7 @@ module.exports = function(config, mongoose, nodemailer) {
             if (err) {
                 console.log(err);
             } else {
+
 
                 for (var i = doc.dish.length - 1; i >= 0; i--) {
                     if (doc.dish[i]._id == dishId) {

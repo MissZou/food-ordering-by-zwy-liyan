@@ -33,6 +33,7 @@
 
 
 - (IBAction)greenButtonClicked:(id)sender {
+    [self performSegueWithIdentifier:@"orderListView" sender:nil];
 }
 
 -(BOOL)prefersStatusBarHidden{

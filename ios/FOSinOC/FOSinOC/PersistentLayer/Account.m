@@ -9,8 +9,9 @@
 #import "Account.h"
 #import "SSKeychain/SSKeychain.h"
 #import "AFNetworking/AFNetworking.h"
-
-
+#import "YYModel.h"
+#import "Order.h"
+//#import "Address.h"
 
 static NSString *baseUrlString = @"http://localhost:8080/user/";
 
@@ -33,7 +34,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     return sharedManager;
 }
 
--(void)reloadAccount{
+- (void)reloadAccount{
     self.email = nil;
     self.name = nil;
     self.phone = nil;
@@ -44,14 +45,12 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     self.accountId = nil;
     self.favoriteShop = nil;
     self.favoriteItem = nil;
-    
     self.cartDetail = nil;
     self.order = nil;
     self.token = nil;
-    
 }
 
--(id) init {
+- (id)init {
     if(self = [super init]){
         self.baseUrl = [NSURL URLWithString:baseUrlString];
         self.serviceName = @"com.HKU.FoodOrderingSystem";
@@ -63,15 +62,13 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     return self;
 }
 
--(void)updateAccount:(NSDictionary *)result{
+- (void)updateAccount:(NSDictionary *)result{
 //    NSLog([[[result valueForKey:@"token"] class] description]);
 //    NSLog([[[result valueForKey:@"email"] class] description]);
 //    NSLog([[[result valueForKey:@"name"] class] description]);
 //    NSLog([[[result valueForKey:@"phone"] class] description]);
 //    NSLog([[[result valueForKey:@"accountId"] class] description]);
 //    NSLog([[[result valueForKey:@"photoUrl"] class] description]);
-    
-    
     if([result valueForKey:@"token"] != nil){
         self.token = [result valueForKey:@"token"];
     }
@@ -109,37 +106,51 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
                     //isFoundDefault = true;
                     break;
                 }
-                
             }
-            
         }
         //NSLog(@"%d",count);
         if (isFoundDefault) {
             [self.deliverAddress insertObject:self.deliverAddress[count] atIndex:0];
             [self.deliverAddress removeObjectAtIndex:count+1];
         }
-        
-   
     }
     if([result valueForKey:@"location"]!=nil){
         self.location = [result valueForKey:@"location"];
     }
-    
     if ([result valueForKey:@"favoriteItem"] != nil) {
         self.favoriteItem = [result valueForKey:@"favoriteItem"];
     }
-    
     if ([result valueForKey:@"favoriteShop"] != nil) {
         self.favoriteItem = [result valueForKey:@"favoriteShop"];
     }
-    
     if ([result valueForKey:@"cartDetail"] != nil) {
         self.cartDetail = [[result valueForKey:@"cartDetail"] mutableCopy];
     }
     [self.delegate finishRefreshAccountData];
 }
 
--(void)createAccount:(Account *)model {
+- (void)updateOrderArray:(NSDictionary *)data {
+    NSArray *array = [data valueForKey:@"order"];
+    self.order = [[NSMutableArray alloc]init];
+    
+    for (int i = 0; i<array.count; i++) {
+        Order *newOrder = [Order yy_modelWithJSON:array[i]];
+        newOrder.items = [[NSMutableArray alloc]init];
+        NSArray *items = [array[i] valueForKey:@"dishs"];
+        for (int j = 0; j<items.count; j++) {
+            Item *item = [Item yy_modelWithJSON:items[j]];
+            [newOrder.items addObject:item];
+        }
+        [self.order addObject:newOrder];
+    }
+}
+
+- (void)updateAccountwithYYModel: (NSDictionary *)json {
+    Account *account = [Account sharedManager];    
+    account = [Account yy_modelWithJSON:json];
+}
+
+- (void)createAccount:(Account *)model {
     NSURL *url = [NSURL URLWithString:@"register" relativeToURL:self.baseUrl];
     NSDictionary *parameters = @{@"email": model.email, @"password": model.password,@"name":model.name, @"phone":model.phone};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -172,7 +183,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
 
 }
 
--(void) login:(Account *)model{
+- (void)login:(Account *)model{
     NSURL *url = [NSURL URLWithString:@"login" relativeToURL:self.baseUrl];
     NSDictionary *parameters = @{@"email": model.email, @"password": model.password};
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -182,6 +193,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
         
        if ([responseObject isKindOfClass:[NSDictionary class]]) {
            NSDictionary *responseDict = responseObject;
+           [self updateAccountwithYYModel:responseObject];
            [self.delegate finishFetchAccountData:responseDict withAccount:Account.sharedManager];
        } else {
            NSLog(@"%@", responseObject);
@@ -192,7 +204,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     }];
 }
 
--(void) checkLogin{
+- (void)checkLogin{
     NSURL *url = [NSURL URLWithString:@"account" relativeToURL:self.baseUrl];
     if (self.token != nil){
         NSDictionary *parameters = @{@"token": self.token};
@@ -245,7 +257,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
 
 }
 
--(void) location:(httpMethod)httpMethod withLocation:(NSDictionary *)location{
+- (void)location:(httpMethod)httpMethod withLocation:(NSDictionary *)location {
     
         NSString *token = self.token;
         NSDictionary *parameters;
@@ -303,7 +315,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     }
 }
 
--(void)address:(httpMethod)httpMethod withAddress:(NSDictionary *)address{
+- (void)address:(httpMethod)httpMethod withAddress:(NSDictionary *)address{
     NSString *token = self.token;
     NSDictionary *parameters;
     if (httpMethod == POST) {
@@ -384,7 +396,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     }
 }
 
--(void)changeAvatar:(NSURL *)filePath{
+- (void)changeAvatar:(NSURL *)filePath {
     NSURL *url = [NSURL URLWithString:@"account/avatar" relativeToURL:self.baseUrl];
     NSString *urlString = [baseUrlString stringByAppendingString:@"account/avatar"];
     
@@ -452,7 +464,7 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
 
    }
 
--(NSData *)createBodyWithParameters:(NSURL *)filePath withBoundary:(NSString *)boundary{
+- (NSData *)createBodyWithParameters:(NSURL *)filePath withBoundary:(NSString *)boundary {
     NSMutableData *body = [NSMutableData alloc];
     NSString *filePathString = [filePath absoluteString];
     NSString *fileName = [filePath lastPathComponent];
@@ -618,10 +630,22 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     
     
     if (httpMethod == PUT) {
-
+        if (message == nil) {
+            message = @"";
+        }
+        
+        parameters = @{@"token":token, @"shopId":shopId, @"dishs":items, @"price":[NSNumber numberWithInteger:price], @"address":address, @"message":message};
+        NSLog(@"order parameter");
+//        NSLog(shopId);
+//        NSLog([items description]);
+//        NSLog([[NSNumber numberWithInteger:price] description]);
+//        NSLog([address description]);
+//        NSLog([message description]);
+        //NSLog(@"=============parameter");
+        //NSLog([parameters description]);
     }else if(httpMethod == GET){
         
-       // parameters = nil;
+        parameters = nil;
     }else if(httpMethod == DELETE){
         //parameters = @{@"token": token, @"_id": cartId,@"index":@1,@"count":@99};
     }else if(httpMethod == POST){
@@ -629,17 +653,24 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     }
     
     
-    NSURL *url = [NSURL URLWithString:@"account/cart" relativeToURL:self.baseUrl];
+    NSURL *url = [NSURL URLWithString:@"account/orderfull" relativeToURL:self.baseUrl];
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
     if (httpMethod == PUT) {
+        //if (0) {
         [manager PUT:[url absoluteString] parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject){
             if ([responseObject isKindOfClass:[NSDictionary class]]) {
                 
-                [self updateAccount:responseObject];
+                //[self updateAccount:responseObject];
+                if ([[responseObject valueForKey:@"success"] boolValue]) {
+                    NSLog(@"PUT Order success=================");
+                    //[self.delegate accountFinishGetOrder];
+                }
                 
+                //NSLog(@"%@", responseObject);
             } else {
+                NSLog(@"error=================");
                 NSLog(@"%@", responseObject);
             }
             
@@ -684,8 +715,10 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
         [manager GET:[url absoluteString] parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             
             if ([responseObject isKindOfClass:[NSDictionary class]]) {
-                //NSLog(@"%@",responseObject);
+                NSLog(@"get cart=================");
+                NSLog(@"%@",responseObject);
                 [self updateAccount:responseObject];
+                
                 
             } else {
                 NSLog(@"%@", responseObject);
@@ -697,5 +730,28 @@ static NSString *baseUrlString = @"http://localhost:8080/user/";
     }
 }
 
+- (void)getOrderAtIndex:(NSInteger)index withCount:(NSInteger)count {
+    NSURL *url = [NSURL URLWithString:@"account/orderfull" relativeToURL:self.baseUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
+    [manager.requestSerializer setValue:self.token forHTTPHeaderField:@"token"];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"%ld",(long)index] forHTTPHeaderField:@"index"];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"%ld",(long)count] forHTTPHeaderField:@"count"];
+    [manager GET:[url absoluteString] parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            NSLog(@"get cart=================");
+            NSLog(@"%@",responseObject);
+            //[self updateAccount:responseObject];
+            [self updateOrderArray:responseObject];
+            [self.delegate finishRefreshAccountData];
+        } else {
+            NSLog(@"%@", responseObject);
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"%@", error);
+    }];
+}
 
 @end
